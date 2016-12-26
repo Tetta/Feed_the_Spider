@@ -14,6 +14,7 @@ Shader "Unlit/Premultiplied Colored"
 			"Queue" = "Transparent"
 			"IgnoreProjector" = "True"
 			"RenderType" = "Transparent"
+			"DisableBatching" = "True"
 		}
 
 		Pass
@@ -24,7 +25,7 @@ Shader "Unlit/Premultiplied Colored"
 			AlphaTest Off
 			Fog { Mode Off }
 			Offset -1, -1
-			ColorMask RGB
+			//ColorMask RGB
 			Blend One OneMinusSrcAlpha
 		
 			CGPROGRAM
@@ -76,6 +77,7 @@ Shader "Unlit/Premultiplied Colored"
 			"Queue" = "Transparent"
 			"IgnoreProjector" = "True"
 			"RenderType" = "Transparent"
+			"DisableBatching" = "True"
 		}
 		
 		Pass
@@ -86,7 +88,7 @@ Shader "Unlit/Premultiplied Colored"
 			AlphaTest Off
 			Fog { Mode Off }
 			Offset -1, -1
-			ColorMask RGB
+			//ColorMask RGB
 			Blend One OneMinusSrcAlpha 
 			ColorMaterial AmbientAndDiffuse
 			

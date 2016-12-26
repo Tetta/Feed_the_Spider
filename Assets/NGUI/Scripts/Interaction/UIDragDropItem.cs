@@ -175,7 +175,7 @@ public class UIDragDropItem : MonoBehaviour
 			if (cloneOnDrag)
 			{
 				mPressed = false;
-				GameObject clone = NGUITools.AddChild(transform.parent.gameObject, gameObject);
+				GameObject clone = transform.parent.gameObject.AddChild(gameObject);
 				clone.transform.localPosition = transform.localPosition;
 				clone.transform.localRotation = transform.localRotation;
 				clone.transform.localScale = transform.localScale;
@@ -308,7 +308,7 @@ public class UIDragDropItem : MonoBehaviour
 
 	protected virtual void OnDragDropMove (Vector2 delta)
 	{
-		mTrans.localPosition += (Vector3)delta;
+		mTrans.localPosition += mTrans.InverseTransformDirection((Vector3)delta);
 	}
 
 	/// <summary>
@@ -319,6 +319,10 @@ public class UIDragDropItem : MonoBehaviour
 	{
 		if (!cloneOnDrag)
 		{
+			// Clear the reference to the scroll view since it might be in another scroll view now
+			var drags = GetComponentsInChildren<UIDragScrollView>();
+			foreach (var d in drags) d.scrollView = null;
+
 			// Re-enable the collider
 			if (mButton != null) mButton.isEnabled = true;
 			else if (mCollider != null) mCollider.enabled = true;

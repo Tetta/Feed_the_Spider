@@ -14,6 +14,7 @@ Shader "Hidden/Unlit/Premultiplied Colored 1"
 			"Queue" = "Transparent"
 			"IgnoreProjector" = "True"
 			"RenderType" = "Transparent"
+			"DisableBatching" = "True"
 		}
 		
 		Pass
@@ -24,7 +25,7 @@ Shader "Hidden/Unlit/Premultiplied Colored 1"
 			AlphaTest Off
 			Fog { Mode Off }
 			Offset -1, -1
-			ColorMask RGB
+			//ColorMask RGB
 			Blend One OneMinusSrcAlpha
 
 			CGPROGRAM

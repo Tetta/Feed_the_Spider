@@ -63,7 +63,11 @@ public class gSluggishClass : MonoBehaviour {
 
     void collisionEnter2D() {
 		berry.GetComponent<Rigidbody2D>().isKinematic = true;
-		berry.transform.parent = transform;
+        berry.GetComponent<Rigidbody2D>().simulated = false;
+        berry.GetComponent<Rigidbody2D>().inertia = 0;
+        berry.GetComponent<Rigidbody2D>().angularVelocity = 0;
+        berry.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+        berry.transform.parent = transform;
 		berry.transform.localRotation = Quaternion.identity;
 		//berry.transform.localPosition = new Vector3(0, - 165, 10);
 		berry.transform.localPosition = new Vector3(0, 0, 10);
@@ -136,12 +140,13 @@ public class gSluggishClass : MonoBehaviour {
 			GetComponent<Rigidbody2D> ().drag = 2;
 
 			berry.GetComponent<Rigidbody2D> ().isKinematic = false;
+            berry.GetComponent<Rigidbody2D>().simulated = true;
 
-			//было: вектор между mousePos и parentPos
-			//Vector3 diff = transform.parent.position - mousePosition;
+            //было: вектор между mousePos и parentPos
+            //Vector3 diff = transform.parent.position - mousePosition;
 
-			//стало: вектор между pos и parentPos
-			Vector3 diff = transform.parent.position - transform.position;
+            //стало: вектор между pos и parentPos
+            Vector3 diff = transform.parent.position - transform.position;
 			float pointBDiffC = Mathf.Sqrt (diff.x * diff.x + diff.y * diff.y);
 			float maxDiffC = 180;
 

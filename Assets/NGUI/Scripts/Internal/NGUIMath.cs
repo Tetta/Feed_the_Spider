@@ -430,7 +430,6 @@ static public class NGUIMath
 
 	static public Bounds CalculateRelativeWidgetBounds (Transform relativeTo, Transform content, bool considerInactive, bool considerChildren = true)
 	{
-		/* my changing
 		if (content != null && relativeTo != null)
 		{
 			bool isSet = false;
@@ -446,7 +445,6 @@ static public class NGUIMath
 				return b;
 			}
 		}
-		*/
 		return new Bounds(Vector3.zero, Vector3.zero);
 	}
 

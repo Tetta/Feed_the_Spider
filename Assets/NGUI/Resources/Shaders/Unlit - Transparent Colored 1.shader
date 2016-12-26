@@ -14,6 +14,7 @@ Shader "Hidden/Unlit/Transparent Colored 1"
 			"Queue" = "Transparent"
 			"IgnoreProjector" = "True"
 			"RenderType" = "Transparent"
+			"DisableBatching" = "True"
 		}
 		
 		Pass
@@ -23,7 +24,7 @@ Shader "Hidden/Unlit/Transparent Colored 1"
 			ZWrite Off
 			Offset -1, -1
 			Fog { Mode Off }
-			ColorMask RGB
+			//ColorMask RGB
 			Blend SrcAlpha OneMinusSrcAlpha
 
 			CGPROGRAM
@@ -85,6 +86,7 @@ Shader "Hidden/Unlit/Transparent Colored 1"
 			"Queue" = "Transparent"
 			"IgnoreProjector" = "True"
 			"RenderType" = "Transparent"
+			"DisableBatching" = "True"
 		}
 		
 		Pass
@@ -93,7 +95,7 @@ Shader "Hidden/Unlit/Transparent Colored 1"
 			Lighting Off
 			ZWrite Off
 			Fog { Mode Off }
-			ColorMask RGB
+			//ColorMask RGB
 			Blend SrcAlpha OneMinusSrcAlpha
 			ColorMaterial AmbientAndDiffuse
 			

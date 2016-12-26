@@ -15,6 +15,7 @@ Shader "Unlit/Transparent Masked"
 			"Queue" = "Transparent"
 			"IgnoreProjector" = "True"
 			"RenderType" = "Transparent"
+			"DisableBatching" = "True"
 		}
 		
 		Pass
@@ -81,6 +82,7 @@ Shader "Unlit/Transparent Masked"
 			"Queue" = "Transparent"
 			"IgnoreProjector" = "True"
 			"RenderType" = "Transparent"
+			"DisableBatching" = "True"
 		}
 		
 		Pass
@@ -90,7 +92,7 @@ Shader "Unlit/Transparent Masked"
 			ZWrite Off
 			Fog { Mode Off }
 			Offset -1, -1
-			ColorMask RGB
+			//ColorMask RGB
 			Blend SrcAlpha OneMinusSrcAlpha
 			ColorMaterial AmbientAndDiffuse
 			
