@@ -63,7 +63,7 @@ public class gSluggishClass : MonoBehaviour {
 
     void collisionEnter2D() {
 		berry.GetComponent<Rigidbody2D>().isKinematic = true;
-        berry.GetComponent<Rigidbody2D>().simulated = false;
+        //berry.GetComponent<Rigidbody2D>().simulated = false;
         berry.GetComponent<Rigidbody2D>().inertia = 0;
         berry.GetComponent<Rigidbody2D>().angularVelocity = 0;
         berry.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
@@ -140,7 +140,7 @@ public class gSluggishClass : MonoBehaviour {
 			GetComponent<Rigidbody2D> ().drag = 2;
 
 			berry.GetComponent<Rigidbody2D> ().isKinematic = false;
-            berry.GetComponent<Rigidbody2D>().simulated = true;
+            //berry.GetComponent<Rigidbody2D>().simulated = true;
 
             //было: вектор между mousePos и parentPos
             //Vector3 diff = transform.parent.position - mousePosition;

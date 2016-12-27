@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
-using Analytics;
+//using Analytics;
 
 public class ctrStatsClass : MonoBehaviour {
 
@@ -14,12 +14,14 @@ public class ctrStatsClass : MonoBehaviour {
 
 	public static void logEvent(string category, string action, string label, int counter) {
 		if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent (category, action, label, counter);
-		Flurry.Instance.LogEvent(category, new Dictionary<string, string>
+        /*
+        Flurry.Instance.LogEvent(category, new Dictionary<string, string>
 			{
 				{ action, "1" },
 				{ label, "1" },
 				{ "counter", counter.ToString() }
 			});
+            */
 	}
 
 
@@ -28,10 +30,11 @@ public class ctrStatsClass : MonoBehaviour {
 
 
 
-	/// <summary>
-	/// Create Flurry singleton instance and log single event.
-	/// </summary>
-	private void Awake()
+    /// <summary>
+    /// Create Flurry singleton instance and log single event.
+    /// </summary>
+/*
+    private void Awake()
 	{
 		IAnalytics serviceFlurry = Flurry.Instance;
 
@@ -49,7 +52,7 @@ public class ctrStatsClass : MonoBehaviour {
 				{ "UnityVersion", Application.unityVersion }
 			});
 	}
-
+*/
 
 	#region [Assert Methods]
     [Conditional("UNITY_EDITOR")]
