@@ -130,14 +130,17 @@ public class iClickClass : MonoBehaviour {
 
 			Time.timeScale = 0;
 
-			//проверяем энергию при запуске уровня и списываем ее
-			if (name == "restart" || name == "button play" || name == "button play 0" || name == "button play 1" || name == "level") {
+            //проверяем энергию при запуске уровня и списываем ее
+            //раскомментить при publish game
+
+            /*
+            if (name == "restart" || name == "button play" || name == "button play 0" || name == "button play 1" || name == "level") {
 				if (!lsEnergyClass.checkLoadLevelEnergy ()) {
 					yield return StartCoroutine (staticClass.waitForRealTime (100F));
 				}
 			}
-
-			Application.backgroundLoadingPriority = ThreadPriority.High;
+            */
+            Application.backgroundLoadingPriority = ThreadPriority.High;
 			AsyncOperation async = new AsyncOperation ();
 			staticClass.scenePrev = SceneManager.GetActiveScene ().name;
 			staticClass.sceneLoading = true;
