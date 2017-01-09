@@ -21,15 +21,7 @@ public class gDestroyerClass : MonoBehaviour {
 	void Start () {
 		
 		enterPoint = transform.position;
-		//enterPoint = new Vector2(0, 0);
-		//terrainsGO = GameObject.FindGameObjectsWithTag("terrain");
-		//foreach (GameObject terrain in terrainsGO) {
-			//Ferr2DT_PathTerrain pathTerrain = terrain.GetComponent<Ferr2DT_PathTerrain>();
-			//pathTerrain.Build();
-			//pathTerrain.RecreateCollider();	
 
-
-		//}
 		//twigs
 		if (GameObject.Find("/root/twigs") != null) twigs = GameObject.Find("/root/twigs").transform;
 
@@ -71,8 +63,8 @@ public class gDestroyerClass : MonoBehaviour {
 			GetComponent<Rigidbody2D>().isKinematic = false;
 
 			Vector3 mousePosition = gHintClass.checkHint(gameObject, true);
-
-			Vector3 diff = mousePosition - transform.position;
+            
+            Vector3 diff = mousePosition - transform.position;
 			float pointBDiffC = Mathf.Sqrt(diff.x * diff.x + diff.y * diff.y);
 			float maxDiffC = 500;
 			float diffX = maxDiffC / pointBDiffC * diff.x;
@@ -99,7 +91,8 @@ public class gDestroyerClass : MonoBehaviour {
             //transform.rotation = Quaternion.Euler(0, 0, 90);
 			//transform.Rotate (0, 0, 270 - angle);
             transform.GetChild(0).rotation = Quaternion.Euler(0, 0, -90 - angle);
-	
+            if (transform.localScale.x < 0) transform.GetChild(0).rotation = Quaternion.Euler(0, 0, 90 + angle);
+
             //start helper collider
             createHelperTerrains(mousePosition);
 		}
