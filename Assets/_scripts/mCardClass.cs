@@ -49,10 +49,13 @@ public class mCardClass : MonoBehaviour {
         }
 
 
-        //если выбран текущий скин или шапка или ягода
-        if (ctrProgressClass.progress[name] == 2) {
+        //если выбран текущий скин или шапка или ягода berryCurrent
+
+        if (ctrProgressClass.progress[name.Substring(0, name.Length - 1) + "Current"] == int.Parse( name.Substring(name.Length - 1, 1)))
+        {
             pressCard(false);
         }
+        transform.GetChild(0).GetChild(3).GetChild(3).GetChild(0).GetComponent<UILabel>().text = ctrProgressClass.progress[name].ToString();
     }
 
     void pressCard(bool isPressed) {
@@ -103,7 +106,17 @@ public class mCardClass : MonoBehaviour {
             }
 			//включаем описание скина или шапки
 			for (int i = 0; i < 5; i++) {
-				if ("label " + name == previewObj.GetChild (i + 5).name) previewObj.GetChild (i + 5).gameObject.SetActive (true);
+			    if ("label " + name == previewObj.GetChild(i + 5).name)
+			    {
+			        previewObj.GetChild (i + 5).gameObject.SetActive (true);
+                    //меняем количество бонусов в описании
+			        if (i != 0 && ctrProgressClass.progress[name] != 0)
+			        {
+			            if (name.Substring(0, 3) == "hat") previewObj.GetChild(i + 5).GetChild(1).GetComponent<UILabel>().text = "+" + int.Parse(previewObj.GetChild(i + 5).GetChild(2).GetComponent<UILabel>().text) * ctrProgressClass.progress[name] + "%";
+                        else previewObj.GetChild(i + 5).GetChild(1).GetComponent<UILabel>().text = "+" + int.Parse( previewObj.GetChild(i + 5).GetChild(2).GetComponent<UILabel>().text) * ctrProgressClass.progress[name];
+			        }
+
+			    }
 				else previewObj.GetChild (i + 5).gameObject.SetActive (false);
 
 			}
@@ -117,21 +130,20 @@ public class mCardClass : MonoBehaviour {
 
                 // = 1 и запись в static
                 if (name.Substring(0, 4) == "skin") {
-                    ctrProgressClass.progress[staticClass.currentSkin] = 1;
+                    ctrProgressClass.progress["skinCurrent"] = int.Parse(name.Substring(4, 1));
                     staticClass.currentSkin = name;
                     staticClass.changeSkin();
                 }
                 else if (name.Substring(0, 3) == "hat") {
-                    ctrProgressClass.progress[staticClass.currentHat] = 1;
+                    ctrProgressClass.progress["hatCurrent"] = int.Parse(name.Substring(3, 1));
                     staticClass.currentHat = name;
                     staticClass.changeHat();
                 }
                 else if (name.Substring(0, 5) == "berry") {
-                    ctrProgressClass.progress[staticClass.currentBerry] = 1;
+                    ctrProgressClass.progress["berryCurrent"] = int.Parse( name.Substring(5, 1));
                     staticClass.currentBerry = name;
                     staticClass.changeBerry();
                 }
-                ctrProgressClass.progress[name] = 2;
                 ctrProgressClass.saveProgress();
 
 				//выключаем get booster

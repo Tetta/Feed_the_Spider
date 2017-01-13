@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEngine.Advertisements;
 using System.Collections.Generic;
+using GoogleMobileAds.Api;
+
 
 public class ctrAdClass: MonoBehaviour {
 	//public GameObject adDontReadyMenu;
@@ -13,57 +15,45 @@ public class ctrAdClass: MonoBehaviour {
 
 	private string adCategory = "";
 	private int showAdLevelCounter = 0;
+    public InterstitialAd interstitialAdMob;
 
-	//AdMob
-	private bool IsInterstisialsAdReady = false;
+    void Start () {
+        
 
-	void Start () {
-		if(instance!=null){
+        if (instance!=null){
 			Destroy(gameObject);
 			return;
 		}
 		instance = this;
 		DontDestroyOnLoad (gameObject);
-		initializeEventHandlers ();
 
-		//AdMob Interstitial
-		if(AndroidAdMobController.instance.IsInited) {
-			if(!AndroidAdMobController.instance.InterstisialUnitId.Equals("ca-app-pub-3014392707261195/1802093466")) {
-				AndroidAdMobController.instance.SetInterstisialsUnitID("ca-app-pub-3014392707261195/1802093466");
-			} 
-		} else {
-			AndroidAdMobController.instance.Init("ca-app-pub-3014392707261195/1802093466");
-		}
-		AndroidAdMobController.instance.LoadInterstitialAd ();
-		AndroidAdMob.Client.OnInterstitialLoaded += OnInterstisialsLoaded; 
-		AndroidAdMob.Client.OnInterstitialOpened += OnInterstisialsOpen;
+        //admob
+        RequestInterstitial();
 
 	}
 
 	public void ShowRewardedAd()
 	{
 		if (isAdReady ()) {
-			if (adCategory == "Ad") {
+			if (adCategory == "Ad Unity") {
 				var options = new ShowOptions { resultCallback = HandleShowResult };
 				Advertisement.Show ("rewardedVideo", options);
-			} else if (adCategory == "Ad Vungle") {
-				Dictionary<string, object> options = new Dictionary<string, object> ();
-				options ["incentivized"] = true;
-				Vungle.playAdWithOptions (options);
-				//ad dont ready Unity Ads
-				if (adStarted == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad", "dont ready", "energy", 1);
-				if (adStarted == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad", "dont ready", "coins", 1);
-				if (adStarted == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad", "dont ready", "telek", 1);
+			} else if (adCategory == "Ad Admob") {
+                interstitialAdMob.Show();
+                //ad dont ready Unity Ads
+                if (adStarted == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "energy", 1);
+				if (adStarted == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "coins", 1);
+				if (adStarted == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "telek", 1);
 			}
 
 			if (adStarted == "button ad energy") GoogleAnalyticsV4.instance.LogEvent(adCategory, "start", "energy", 1);
 			if (adStarted == "button ad coins") GoogleAnalyticsV4.instance.LogEvent(adCategory, "start", "coins", 1);
 			if (adStarted == "button ad telek") GoogleAnalyticsV4.instance.LogEvent(adCategory, "start", "telek", 1);
 		} else {
- 			//ad dont ready Vungle
-			if (adStarted == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "dont ready", "energy", 1);
-			if (adStarted == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "dont ready", "coins", 1);
-			if (adStarted == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "dont ready", "telek", 1);
+            //ad dont ready Admob
+            if (adStarted == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "energy", 1);
+			if (adStarted == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "coins", 1);
+			if (adStarted == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "telek", 1);
 
 			//adDontReadyMenu
 			if (adStarted != "button ad telek")  GameObject.Find("root/static").transform.GetChild(7).gameObject.SetActive(true);
@@ -89,26 +79,13 @@ public class ctrAdClass: MonoBehaviour {
 
 	#endif
 
-	void initializeEventHandlers() {
-		Debug.Log ("initializeEventHandlers");
-		//Event is triggered when a Vungle ad finished and provides the entire information about this event
-		//These can be used to determine how much of the video the user viewed, if they skipped the ad early, etc.
-		Vungle.onAdFinishedEvent += (args) => {
-			Debug.Log ("Ad finished - watched time:" + args.TimeWatched + ", total duration:" + args.TotalDuration 
-				+ ", was call to action clicked:" + args.WasCallToActionClicked +  ", is completed view:" 
-				+ args.IsCompletedView);
-
-			if (args.IsCompletedView) {
-				setReward();
-			}
-		};
-	}
+	//on admob rewarded finish
 
 	void setReward() {
 
 		if (adStarted == "button ad energy") {
 			GoogleAnalyticsV4.instance.LogEvent (adCategory, "finish", "energy", 1);
-			ctrProgressClass.progress ["energyTime"] -= 5 * lsEnergyClass.costEnergy;
+			ctrProgressClass.progress ["energyTime"] -= 1 * lsEnergyClass.costEnergy;
 			//energyGO
 			GameObject.Find ("root/static/energy").SendMessage ("OnApplicationPause", false);
 		} else if (adStarted == "button ad coins") {
@@ -139,13 +116,13 @@ public class ctrAdClass: MonoBehaviour {
 
 	bool isAdReady() {
 		if (Advertisement.IsReady ("video") && adStarted == "level") {
-			adCategory = "Ad";
+			adCategory = "Ad Unity";
 			return true;
 		} else if (Advertisement.IsReady ("rewardedVideo") && adStarted != "level") {
-			adCategory = "Ad";
+			adCategory = "Ad Unity";
 			return true;
-		} else if (Vungle.isAdvertAvailable ()) {
-			adCategory = "Ad Vungle";
+		} else if (interstitialAdMob.IsLoaded()) {
+			adCategory = "Ad Admob";
 			return true;
 		}
 		return false;
@@ -160,21 +137,20 @@ public class ctrAdClass: MonoBehaviour {
 			if (showAdLevelCounter == 5 || showAdLevelCounter == 10 || showAdLevelCounter == 15) {
 				ctrAdClass.adStarted = "level";
 
-				if (IsInterstisialsAdReady && showAdLevelCounter != 15) {
-					AndroidAdMobController.instance.ShowInterstitialAd();
-					GameObject.Find("default level/gui/pause").SendMessage("OnPress", false);
+				if (interstitialAdMob.IsLoaded() && showAdLevelCounter != 15) {
+                    interstitialAdMob.Show();
+
+                    GameObject.Find("default level/gui/pause").SendMessage("OnPress", false);
 
 				} else if (isAdReady()) {
 					
-					if (adCategory == "Ad") {
+					if (adCategory == "Ad Unity") {
 						var options = new ShowOptions { resultCallback = HandleShowResult };
 						Advertisement.Show ("video", options);
-					} else if (adCategory == "Ad Vungle") {
-						Dictionary<string, object> options = new Dictionary<string, object> ();
-						options ["incentivized"] = false;
-						Vungle.playAdWithOptions (options);
+					} else if (adCategory == "Ad Admob") {
+						interstitialAdMob.Show();
 						//ad dont ready Unity Ads
-						if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent("Ad", "dont ready", "level", 1);
+						if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "level", 1);
 					}
 					if (showAdLevelCounter >= 15) showAdLevelCounter = 0;
 					//pause
@@ -183,15 +159,15 @@ public class ctrAdClass: MonoBehaviour {
 					if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent(adCategory, "start", "level", 1);
 
 				} else {
-					if (IsInterstisialsAdReady) {
-						AndroidAdMobController.instance.ShowInterstitialAd();
-						GameObject.Find("default level/gui/pause").SendMessage("OnPress", false);
+					if (interstitialAdMob.IsLoaded()) {
+                        interstitialAdMob.Show();
+                        GameObject.Find("default level/gui/pause").SendMessage("OnPress", false);
 						if (showAdLevelCounter >= 15) showAdLevelCounter = 0;
 
 					} else {
 
-						//dont ready Vungle
-						if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "dont ready", "level", 1);
+                        //dont ready Admob
+                        if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "level", 1);
 
 						showAdLevelCounter = 14;
 					}
@@ -205,14 +181,32 @@ public class ctrAdClass: MonoBehaviour {
 	}
 
 	//AdMob
-	private void OnInterstisialsLoaded() {
-		IsInterstisialsAdReady = true;
-	}
-
-	private void OnInterstisialsOpen() {
-		IsInterstisialsAdReady = false;
-		AndroidAdMobController.instance.LoadInterstitialAd ();
+	private void OnAdOpening() {
+        Debug.Log("AdMob OnAdOpening");
+        RequestInterstitial();
 
 	}
+
+
+    //admob
+    public void RequestInterstitial()
+    {
+#if UNITY_ANDROID
+        string adUnitId = "ca-app-pub-3014392707261195/1802093466";
+#elif UNITY_IPHONE
+        string adUnitId = "INSERT_IOS_INTERSTITIAL_AD_UNIT_ID_HERE";
+#else
+        string adUnitId = "unexpected_platform";
+#endif
+
+        // Initialize an InterstitialAd.
+        InterstitialAd interstitial = new InterstitialAd(adUnitId);
+        // Create an empty ad request.
+        AdRequest request = new AdRequest.Builder().Build();
+        // Load the interstitial with the request.
+        interstitial.LoadAd(request);
+        interstitialAdMob = interstitial;
+    }
+
 }
 

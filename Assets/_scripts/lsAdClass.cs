@@ -11,7 +11,7 @@ public class lsAdClass : MonoBehaviour {
 
 
 	void Start () {
-		initializeEventHandlers ();
+
 	}
 		
 	void OnClick () {
@@ -25,32 +25,30 @@ public class lsAdClass : MonoBehaviour {
 
 		if (Advertisement.IsReady ("rewardedVideo")) {
 			//Unity Ads start
-			if (name == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad", "start", "energy", 1);
-			if (name == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad", "start", "coins", 1);
-			if (name == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad", "start", "telek", 1);
+			if (name == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "start", "energy", 1);
+			if (name == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "start", "coins", 1);
+			if (name == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "start", "telek", 1);
 			var options = new ShowOptions { resultCallback = HandleShowResult };
 			Advertisement.Show ("rewardedVideo", options);
 
-		} else if (Vungle.isAdvertAvailable()) {
-			Dictionary<string, object> options = new Dictionary<string, object> ();
-			options ["incentivized"] = true;
-			Vungle.playAdWithOptions (options);
+		} else if (ctrAdClass.instance.interstitialAdMob.IsLoaded()) {
+            ctrAdClass.instance.interstitialAdMob.Show();
 
-			//Vungle start
-			if (name == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "start", "energy", 1);
-			if (name == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "start", "coins", 1);
-			if (name == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "start", "telek", 1);
+            //Admob start
+            if (name == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "start", "energy", 1);
+			if (name == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "start", "coins", 1);
+			if (name == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "start", "telek", 1);
 
 			//ad dont ready Unity Ads
-			if (name == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad", "dont ready", "energy", 1);
-			if (name == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad", "dont ready", "coins", 1);
-			if (name == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad", "dont ready", "telek", 1);
+			if (name == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "energy", 1);
+			if (name == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "coins", 1);
+			if (name == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "telek", 1);
 		} 
 		else {
-			//ad dont ready Vungle
-			if (name == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "dont ready", "energy", 1);
-			if (name == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "dont ready", "coins", 1);
-			if (name == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "dont ready", "telek", 1);
+            //ad dont ready Admob
+            if (name == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "energy", 1);
+			if (name == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "coins", 1);
+			if (name == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "telek", 1);
 
 			if (name != "button ad telek")  adDontReadyMenu.SetActive (true);
 		}
@@ -95,17 +93,18 @@ public class lsAdClass : MonoBehaviour {
 
 	#endif
 
+    //on finish Admob rewarded переделать
 	void initializeEventHandlers() {
 		Debug.Log ("initializeEventHandlers");
 		//Event is triggered when a Vungle ad finished and provides the entire information about this event
 		//These can be used to determine how much of the video the user viewed, if they skipped the ad early, etc.
-		Vungle.onAdFinishedEvent += (args) => {
-			Debug.Log ("Ad finished - watched time:" + args.TimeWatched + ", total duration:" + args.TotalDuration 
-				+ ", was call to action clicked:" + args.WasCallToActionClicked +  ", is completed view:" 
-				+ args.IsCompletedView);
+		//onAdFinishedEvent += (args) => {
+			//Debug.Log ("Ad finished - watched time:" + args.TimeWatched + ", total duration:" + args.TotalDuration 
+			//	+ ", was call to action clicked:" + args.WasCallToActionClicked +  ", is completed view:" 
+			//	+ args.IsCompletedView);
 
-			if (args.IsCompletedView) {
-				Debug.Log ("args.IsCompletedView: " + args.IsCompletedView);
+			//if (args.IsCompletedView) {
+				//Debug.Log ("args.IsCompletedView: " + args.IsCompletedView);
 				if (name == "button ad energy") {
 					GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "finish", "energy", 1);
 					ctrProgressClass.progress ["energyTime"] -= 5 * lsEnergyClass.costEnergy;
@@ -141,8 +140,8 @@ public class lsAdClass : MonoBehaviour {
 				ctrProgressClass.saveProgress ();
 				Debug.Log ("666");
 
-			}
-		};
+			//}
+		//};
 	}
 
 

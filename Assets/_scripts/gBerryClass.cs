@@ -480,6 +480,10 @@ public class gBerryClass : MonoBehaviour {
 
         completeMenu.SetActive(true);
 
+
+        //списание энергии
+	    if (!lsEnergyClass.energyTake) lsEnergyClass.checkEnergy(false);
+
         //вызов complete menu, передача полученныx очков (float timeLevel, bool gem, int starsCount, int lvlNumber)
         completeMenu.GetComponent<lsLevelMenuClass>().completeMenuEnable(Time.timeSinceLevelLoad, flagGemGetting, starsCounter, lvlNumber);
 		if (GoogleAnalyticsV4.instance != null) {

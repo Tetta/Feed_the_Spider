@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class mBoosterClass : MonoBehaviour {
 
@@ -12,15 +13,19 @@ public class mBoosterClass : MonoBehaviour {
     public Transform exitOpenBoosterMenu;
     public GameObject buttonOpenBooster;
 
-	//private SpriteRenderer[] backCard = new SpriteRenderer[5];
-	//private SpriteRenderer[] circleLight = new SpriteRenderer[5];
-	//private SpriteRenderer[] light = new SpriteRenderer[5];
-	//private ParticleSystem[] psIdle = new ParticleSystem[5];
-	//private ParticleSystem[] psOpen = new ParticleSystem[5];
-	//private GameObject[] infoCard = new GameObject[5];
-	//private UILabel[] nameLabel = new UILabel[5];
-	//private UILabel[] countLabel = new UILabel[5];
-	// Use this for initialization
+    private string currentBoosterColor;
+    private List <KeyValuePair<string, int>> openingCards = new List<KeyValuePair<string, int>>();
+
+
+    //private SpriteRenderer[] backCard = new SpriteRenderer[5];
+    //private SpriteRenderer[] circleLight = new SpriteRenderer[5];
+    //private SpriteRenderer[] light = new SpriteRenderer[5];
+    //private ParticleSystem[] psIdle = new ParticleSystem[5];
+    //private ParticleSystem[] psOpen = new ParticleSystem[5];
+    //private GameObject[] infoCard = new GameObject[5];
+    //private UILabel[] nameLabel = new UILabel[5];
+    //private UILabel[] countLabel = new UILabel[5];
+    // Use this for initialization
     void Start() {
 		/*
 		for (int i = 0; i < 5; i++) {
@@ -65,8 +70,14 @@ public class mBoosterClass : MonoBehaviour {
         GetComponent<BoxCollider>().enabled = true;
 		transform.GetChild (1).gameObject.GetComponent<ctrParticleSystem> ().enabled = false;
 
-
-
+        for (int i = 0; i < 4; i++)
+        {
+            Debug.Log(transform.GetChild(0).GetChild(0).GetChild(i).gameObject.name);
+            Debug.Log(transform.GetChild(0).GetChild(0).GetChild(i).gameObject.activeSelf);
+            if (transform.GetChild(0).GetChild(0).GetChild(i).gameObject.activeSelf)
+                currentBoosterColor = transform.GetChild(0).GetChild(0).GetChild(i).gameObject.name;
+        }
+        Debug.Log(currentBoosterColor);
     }
 
     void OnPress(bool isPressed) {
@@ -90,112 +101,136 @@ public class mBoosterClass : MonoBehaviour {
         //bonusesTemp.transform.parent = giftMenu.transform.GetChild(0).GetChild(2);
         //bonusesTemp.transform.localScale = new Vector3(1, 1, 1);
         //шансы на картах
-        Dictionary<string, int> portions = new Dictionary<string, int>();
-		Dictionary<string, int> portions2 = new Dictionary<string, int>();
-
-		portions["hints_1"] = 190; portions["hints_2"] = 380; portions["hints_3"] = 570;
-		portions["webs_1"] = 50; portions["webs_2"] = 100; portions["webs_3"] = 150;
-		portions["teleports_1"] = 50; portions["teleports_2"] = 100; portions["teleports_3"] = 150;
-		portions["collectors_1"] = 100; portions["collectors_2"] = 200; portions["collectors_3"] = 300;
-		portions["coins_50"] = 50; portions["coins_100"] = 100; portions["coins_250"] = 250;
-		portions["energy_5"] = 85; portions["energy_10"] = 170; portions ["energy_15"] = 255;
-		portions["skin2_0"] = 4000; portions["skin3_0"] = 5000; portions["skin4_0"] = 6000; portions ["skin5_0"] = 7000;
-		portions["berry2_0"] = 1000; portions["berry3_0"] = 2000; portions["berry4_0"] = 3000; portions ["berry5_0"] = 5000;
-		portions["hat2_0"] = 2000; portions["hat3_0"] = 3000; portions["hat4_0"] = 4000; portions ["hat5_0"] = 5000;
-
-		int portionsSum = 0;
-		int portionsSum2 = 0;
 
 
-		foreach (var e in portions) {
-			portionsSum += e.Value;
-		}
-		foreach (var e in portions) {
-
-			portions2[e.Key] =  portionsSum / e.Value;
-			portionsSum2 += portions2 [e.Key];
-		}
-
-		for (int i = 0; i < 5; i++) {
-            //cards[i].SetActive(true);
-            int counter = 0;
-			int counterArr = 0;
-			int bonusRand = Mathf.CeilToInt(UnityEngine.Random.Range(0, portionsSum2));
+        Dictionary<string, int> portionsWhite = new Dictionary<string, int>();
+        Dictionary<string, int> portionsCountWhite = new Dictionary<string, int>();
+        Dictionary<string, int> portionsGreen = new Dictionary<string, int>();
+        Dictionary<string, int> portionsCountGreen = new Dictionary<string, int>();
+        Dictionary<string, int> portionsBlue = new Dictionary<string, int>();
+        Dictionary<string, int> portionsPurple = new Dictionary<string, int>();
 
 
 
-            foreach (var portion in portions2 ) {
-                if (bonusRand >= counter && bonusRand < counter + portion.Value) {
-					//название карты и количество
-					string bonusName = portion.Key.Split(new Char[] { '_' })[0];
-					int bonusCount = int.Parse(portion.Key.Split(new Char[] { '_' })[1]);
+        portionsWhite["webs"] = 40; portionsWhite["teleports"] = 30;
+        portionsWhite["collectors"] = 20; portionsWhite["hints"] = 10;
+        portionsCountWhite["webs"] = 1; portionsCountWhite["teleports"] = 1;
+        portionsCountWhite["collectors"] = 1; portionsCountWhite["hints"] = 1;
 
-					//убираем дубликаты карт
-					if (bonusCount == 0)
-					if (ctrProgressClass.progress [bonusName] > 0) {
-						i--;
-						break;
-					}
-						
-					//копируем карту
-					card = Instantiate(cardsAll.GetChild(counterArr).gameObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-					card.transform.parent = transform.GetChild(2) ;
-					card.transform.localScale = new Vector2(1, 1);
-					card.name = "card" + (i + 1);
-					card.SetActive (true);
-					card.transform.GetChild(0).gameObject.SetActive (false);
-					card.transform.GetChild(1).gameObject.SetActive (true);
-					//поворот карты
-					if (i == 0) card.transform.rotation = Quaternion.Euler(0, 0, 4); else if (i == 2) card.transform.rotation = Quaternion.Euler(0, 0, -5); else if (i == 3) card.transform.rotation = Quaternion.Euler(0, 0, -12); else if (i == 4) card.transform.rotation = Quaternion.Euler(0, 0, 13);
+        portionsGreen["webs"] = 30; portionsGreen["teleports"] = 26;
+        portionsGreen["collectors"] = 24; portionsGreen["hints"] = 20;
+        portionsCountGreen["webs"] = 2; portionsCountGreen["teleports"] = 2;
+        portionsCountGreen["collectors"] = 2; portionsCountGreen["hints"] = 1;
 
-					/*
-					//иконка
-                    icon = Instantiate(icons.FindChild(bonusName).gameObject, icons.FindChild(bonusName).transform.position + cards[i].transform.position, Quaternion.identity) as GameObject;
-					icon.transform.parent = cardIcons[i];
-                    icon.transform.localScale = new Vector2(1, 1);
-                    icon.transform.localPosition = new Vector3(icon.transform.localPosition.x, icon.transform.localPosition.y, 0);
-                    icon.SetActive(true);
-                    */
-					//сохранение результата
-                    if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins") ctrProgressClass.progress[bonusName] += bonusCount;
-                    else if (bonusName == "energy") {
-                        ctrProgressClass.progress["energyTime"] -= bonusCount * lsEnergyClass.costEnergy;
-                        ctrProgressClass.progress["energy"] += bonusCount;
-						//если находимся на карте, то перекрашиваем полоску энергии
 
-						if (GameObject.Find ("root/static/energy/energy line") != null) {
-							GameObject.Find ("root/static/energy/energy line").GetComponent<UISprite>().fillAmount = 1 - (float)ctrProgressClass.progress ["energy"] / lsEnergyClass.maxEnergy;
-							if (lsEnergyClass.energyInfinity)
-								GameObject.Find ("root/static/energy/energy line").GetComponent<UISprite>().fillAmount = 1;
-						}
+        if (currentBoosterColor == "boostersWhite")
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("berry");
+                else setOpeningCardCommon(ref portionsWhite, portionsCountWhite);
 
-                    }
-                    else {
-                        if (ctrProgressClass.progress[bonusName] == 0) ctrProgressClass.progress[bonusName] = 1;
-
-                    }
-					if (initLevelMenuClass.instance != null) {
-						if (initLevelMenuClass.instance.coinsLabel != null)
-							initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress ["coins"].ToString ();
-						if (initLevelMenuClass.instance.energyLabel != null)
-							initLevelMenuClass.instance.energyLabel.text = ctrProgressClass.progress ["energy"].ToString ();
-					}
-					break;
-                }
-				counterArr ++;
-                counter += portion.Value;
             }
+        }
 
+        if (currentBoosterColor == "boostersGreen")
+        {
+            setOpeningCardUncommon("berry");
+            for (int i = 1; i < 5; i++)
+            {
+                if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("hat");
+                else setOpeningCardCommon(ref portionsGreen, portionsCountGreen);
 
+            }
+        }
+        if (currentBoosterColor == "boostersBlue")
+        {
+            setOpeningCardUncommon("berry");
+            setOpeningCardUncommon("hat");
+            for (int i = 2; i < 5; i++)
+            {
+                if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("skin");
+                else setOpeningCardCommon(ref portionsGreen, portionsCountGreen);
 
+            }
+        }
+        if (currentBoosterColor == "boostersPurple")
+        {
+            setOpeningCardUncommon("berry");
+            setOpeningCardUncommon("hat");
+            setOpeningCardUncommon("skin");
+            for (int i = 3; i < 5; i++)
+            {
+                if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("skin");
+                else setOpeningCardCommon(ref portionsGreen, portionsCountGreen);
 
+            }
+        }
+
+        for (int i = 0; i < 5; i++) {
+            //название карты и количество
+			string bonusName = openingCards[i].Key;
+			int bonusCount = openingCards[i].Value;
+            Debug.Log(bonusName + " " + bonusCount);
+            Debug.Log(bonusName + " " + bonusCount);
+
+            //копируем карту
+            if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins")
+                card = Instantiate(cardsAll.FindChild(bonusName + "_" + bonusCount).gameObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            else
+                card = Instantiate(cardsAll.FindChild(bonusName).gameObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+
+            card.transform.parent = transform.GetChild(2) ;
+			card.transform.localScale = new Vector2(1, 1);
+			card.name = "card" + (i + 1);
+			card.SetActive (true);
+			card.transform.GetChild(0).gameObject.SetActive (false);
+			card.transform.GetChild(1).gameObject.SetActive (true);
+			//поворот карты
+			if (i == 0) card.transform.rotation = Quaternion.Euler(0, 0, 4); else if (i == 2) card.transform.rotation = Quaternion.Euler(0, 0, -5); else if (i == 3) card.transform.rotation = Quaternion.Euler(0, 0, -12); else if (i == 4) card.transform.rotation = Quaternion.Euler(0, 0, 13);
+
+			/*
+			//иконка
+            icon = Instantiate(icons.FindChild(bonusName).gameObject, icons.FindChild(bonusName).transform.position + cards[i].transform.position, Quaternion.identity) as GameObject;
+			icon.transform.parent = cardIcons[i];
+            icon.transform.localScale = new Vector2(1, 1);
+            icon.transform.localPosition = new Vector3(icon.transform.localPosition.x, icon.transform.localPosition.y, 0);
+            icon.SetActive(true);
+            */
+			//сохранение результата
+            //if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins") ctrProgressClass.progress[bonusName] += bonusCount;
+            if (bonusName == "energy") {
+                ctrProgressClass.progress["energyTime"] -= bonusCount * lsEnergyClass.costEnergy;
+                ctrProgressClass.progress["energy"] += bonusCount;
+				//если находимся на карте, то перекрашиваем полоску энергии
+
+				if (GameObject.Find ("root/static/energy/energy line") != null) {
+					GameObject.Find ("root/static/energy/energy line").GetComponent<UISprite>().fillAmount = 1 - (float)ctrProgressClass.progress ["energy"] / lsEnergyClass.maxEnergy;
+					if (lsEnergyClass.energyInfinity)
+						GameObject.Find ("root/static/energy/energy line").GetComponent<UISprite>().fillAmount = 1;
+				}
+
+            }
+            else {
+                ctrProgressClass.progress[bonusName] += bonusCount;
+                //if (ctrProgressClass.progress[bonusName] == 0) ctrProgressClass.progress[bonusName] = 1;
+
+            }
+			if (initLevelMenuClass.instance != null) {
+				if (initLevelMenuClass.instance.coinsLabel != null)
+					initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress ["coins"].ToString ();
+				if (initLevelMenuClass.instance.energyLabel != null)
+					initLevelMenuClass.instance.energyLabel.text = ctrProgressClass.progress ["energy"].ToString ();
+			}
+			
+ 
         }
 		GetComponent<Animator> ().Rebind ();
 		GetComponent<Animator>().Play("card enable");
 
-        ctrProgressClass.progress["boosters"]--;
-        buttonOpenBooster.transform.GetChild(1).GetComponent<UILabel>().text = ctrProgressClass.progress["boosters"].ToString();
-        marketClass.instance.boostersLabel.text = ctrProgressClass.progress["boosters"].ToString();
+        ctrProgressClass.progress[currentBoosterColor]--;
+        buttonOpenBooster.transform.GetChild(1).GetComponent<UILabel>().text = ctrProgressClass.progress[currentBoosterColor].ToString();
+        marketClass.instance.boostersLabel.text = ctrProgressClass.progress[currentBoosterColor].ToString();
         ctrProgressClass.saveProgress();
         //убираем бустер
         transform.GetChild(0).gameObject.SetActive(false);
@@ -204,5 +239,46 @@ public class mBoosterClass : MonoBehaviour {
 
     }
 
+    private void setOpeningCardCommon(ref Dictionary<string, int> portions, Dictionary<string, int> portionsCount)
+    {
+        int bonusRand = UnityEngine.Random.Range(0, portions.Values.Sum()); //min [inclusive] and max [exclusive] 
+        int counter = 0;
+        string nameBonus = "";
+        int countBonus = 0;
+        foreach (var portion in portions)
+        {
+            if (bonusRand >= counter && bonusRand < counter + portion.Value)
+            {
+                //название карты 
+                nameBonus = portion.Key;
+                break;
+            }
+            counter += portion.Value;
+        }
+        portions[nameBonus] = Mathf.RoundToInt(portions[nameBonus]/1.5F);
+        bonusRand = UnityEngine.Random.Range(0, 100);
+        float part = 100/(((2 + portionsCount[nameBonus] - 1)/2) * portionsCount[nameBonus]);
+        countBonus = 1 + portionsCount[nameBonus] - Mathf.CeilToInt(bonusRand/part);
+        openingCards.Add(new KeyValuePair<string, int>(nameBonus, countBonus));
 
+        Debug.Log(nameBonus + " " + countBonus);
+    }
+
+    private void setOpeningCardUncommon( string itemName)
+    {
+        int number = UnityEngine.Random.Range(2, 5);
+        if (number == ctrProgressClass.progress[itemName + "Rare"]) number = UnityEngine.Random.Range(2, 5);
+        if (number == ctrProgressClass.progress[itemName + "Rare"]) ctrProgressClass.progress[itemName + "Rare"] = 0;
+        int i = 1;
+        for (i = 1; i <= 5; i++)
+        {
+            if (ctrProgressClass.progress[itemName + i] == 0 && i != ctrProgressClass.progress[itemName + "Rare"]) break;
+        }
+        if (i == 6) ctrProgressClass.progress[itemName + "Rare"] = 0;
+
+        Debug.Log(itemName + number + " " + 1);
+
+        openingCards.Add(new KeyValuePair<string, int>(itemName + number, 1));
+
+    }
 }
