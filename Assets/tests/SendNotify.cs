@@ -19,11 +19,11 @@ public class SendNotify : MonoBehaviour
 
     public void PutVariable()
     {
-        vkExtensions.PutVariable(1, 113, b => { Debug.Log("Putted"); });
+       // vkExtensions.PutVariable(1, 113, b => { Debug.Log("Putted"); });
     }
     public void GetVariable()
     {
-        vkExtensions.GetVariable(1, value => { Debug.Log("Getted" + value); });
+     //   vkExtensions.GetVariable(1, value => { Debug.Log("Getted" + value); });
     }
 
 }
