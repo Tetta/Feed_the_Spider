@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using Facebook.Unity;
 using UnityEngine.Advertisements;
 using UnityEngine.SceneManagement;
 
@@ -23,7 +24,7 @@ public class lsEnergyClass : MonoBehaviour {
     public static string energyMenuState = "";
 
 	public static int costEnergy = 60 * 15;
-	public static int maxEnergy = 30;
+	public static int maxEnergy = 4;
 	public static bool energyInfinity = false;
 
     public static bool energyTake = false;
@@ -31,15 +32,12 @@ public class lsEnergyClass : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        costEnergy = 60 * 15;
+        maxEnergy = 4;
 
-        //увеличение максимума энергии за счет карт
-        //int addEnergy = 0;
-        //for (int e = 2; e <= 5; e++)	if (ctrProgressClass.progress["skin" + e] >= 1) addEnergy += (e * 5 - 5) * ctrProgressClass.progress["skin" + e];
-        //maxEnergy = 30 + addEnergy;
         bool flag = true;
         for (int e = 2; e <= 5; e++)	if (ctrProgressClass.progress["berry" + e] < 1) flag = false;
         if (flag) maxEnergy ++;
-
         //уменьшение времени восстановления энергии за счет карт
         if (ctrProgressClass.progress["skin2"] >= 1) costEnergy -= 30;
         if (ctrProgressClass.progress["skin3"] >= 1) costEnergy -= 45;
@@ -52,12 +50,15 @@ public class lsEnergyClass : MonoBehaviour {
 		OnApplicationPause(false);
 		if (energyMenuState == "energy") OnClick();
 
-		//init complect, work only with scene "menu"
-		//GameObject complect = GameObject.Instantiate(marketClass.instance.specialMenu.transform.GetChild(0).GetChild(0).gameObject);
-		//complect.transform.parent = energyMenu.transform.GetChild(0).GetChild(0);
-		//complect.transform.localPosition = new Vector3(-98, -776, -0.01F);
-		//complect.transform.localScale = new Vector3(1F, 1F, 0);
-		//
+        //если бесконечная энергия на день
+        energyInfinityCheck();
+
+        //init complect, work only with scene "menu"
+        //GameObject complect = GameObject.Instantiate(marketClass.instance.specialMenu.transform.GetChild(0).GetChild(0).gameObject);
+        //complect.transform.parent = energyMenu.transform.GetChild(0).GetChild(0);
+        //complect.transform.localPosition = new Vector3(-98, -776, -0.01F);
+        //complect.transform.localScale = new Vector3(1F, 1F, 0);
+        //
 
         StartCoroutine(updateTimeEnergyCoroutine());
     }
@@ -71,6 +72,17 @@ public class lsEnergyClass : MonoBehaviour {
         int modSec = (costEnergy - mod) % 60;
         if (modSec < 10) seconds2.text = "0" + modSec.ToString();
         else seconds2.text = modSec.ToString();
+
+        //если бесконечная энергия на день
+        energyInfinityCheck();
+
+        //выключаем labels таймеров, если max energy
+        if (ctrProgressClass.progress["energy"] >= maxEnergy)
+        {
+            transform.GetChild(8).gameObject.SetActive(false);
+            energyMenu.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+            energyMenu.transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
+        }
 
         // остановка выполнения функции
         yield return StartCoroutine(staticClass.waitForRealTime(1));
@@ -162,7 +174,8 @@ public class lsEnergyClass : MonoBehaviour {
 		else seconds.text = modSec.ToString();
 
         //стоимость восстановления
-        int cost = costEnergy - mod;
+        int cost = costEnergyForCoins*(maxEnergy - ctrProgressClass.progress["energy"]) -(int) (((float) mod/costEnergy)*costEnergyForCoins);
+        //int cost = costEnergy - mod;
         if (maxEnergy > ctrProgressClass.progress["energy"])
         {
             buttonRestoreEnergy.transform.GetChild(2).GetComponent<UILabel>().text = cost.ToString();
@@ -171,8 +184,7 @@ public class lsEnergyClass : MonoBehaviour {
         {
             buttonRestoreEnergy.transform.GetChild(4).gameObject.SetActive(true);
             buttonAdEnergy.transform.GetChild(5).gameObject.SetActive(true);
-            //buttonByeEnergy.transform.GetChild(3).gameObject.SetActive(true);
-
+       
         }
 
         if (cost > ctrProgressClass.progress["coins"]) buttonRestoreEnergy.transform.GetChild(4).gameObject.SetActive(true);
@@ -222,12 +234,53 @@ public class lsEnergyClass : MonoBehaviour {
     }
     public void buyEnergy()
     {
-        //запрос на покупку в маркет
+        //добавить запрос на покупку в маркет
         energyLabel.text = maxEnergy.ToString();
         ctrProgressClass.progress["energyTime"] = 0;
         ctrProgressClass.progress["energy"] = maxEnergy;
+        ctrProgressClass.progress["energyInfinity"] = (int) DateTime.Now.AddDays(1).TotalSeconds();
+        //for test
+        //ctrProgressClass.progress["energyInfinity"] = (int)DateTime.Now.AddSeconds(15).TotalSeconds();
+        energyInfinityCheck();
         buttonRestoreEnergy.transform.GetChild(2).GetComponent<UILabel>().text = "0";
         StartCoroutine("CoroutineEnergyMenu");
 
+    }
+
+    void energyInfinityCheck()
+    {
+        DateTime startDate = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+        //если бесконечная энергия на день
+        if (startDate.AddSeconds(ctrProgressClass.progress["energyInfinity"]) > DateTime.Now)
+        {
+            energyInfinity = true;
+            infinity.SetActive(true);
+            energyLabel.gameObject.SetActive(false);
+            //включаем таймер
+            var timeDiff = startDate.AddSeconds(ctrProgressClass.progress["energyInfinity"]) - DateTime.Now;
+
+            buttonBuyEnergy.transform.GetChild(0).gameObject.SetActive(false);
+            buttonBuyEnergy.transform.GetChild(1).gameObject.SetActive(true);
+            string str = "";
+            str = timeDiff.Hours.ToString();
+            if (timeDiff.Hours < 10) str = "0" + timeDiff.Hours;
+            buttonBuyEnergy.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<UILabel>().text = str;
+            str = timeDiff.Minutes.ToString();
+            if (timeDiff.Minutes < 10) str = "0" + timeDiff.Minutes;
+            buttonBuyEnergy.transform.GetChild(1).GetChild(0).GetChild(1).GetComponent<UILabel>().text = str;
+            str = timeDiff.Seconds.ToString();
+            if (timeDiff.Seconds < 10) str = "0" + timeDiff.Seconds;
+            buttonBuyEnergy.transform.GetChild(1).GetChild(0).GetChild(2).GetComponent<UILabel>().text = str;
+
+
+        }
+        else
+        {
+            energyInfinity = false;
+            infinity.SetActive(false);
+            energyLabel.gameObject.SetActive(true);
+            buttonBuyEnergy.transform.GetChild(0).gameObject.SetActive(true);
+            buttonBuyEnergy.transform.GetChild(1).gameObject.SetActive(false);
+        }
     }
 }
