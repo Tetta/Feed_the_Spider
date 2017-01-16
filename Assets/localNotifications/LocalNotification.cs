@@ -18,7 +18,7 @@ class LocalNotification
     }
 
     private static string fullClassName = "net.agasper.unitynotification.UnityNotificationManager";
-    private static string mainActivityClassName = "com.unity3d.player.UnityPlayerNativeActivity";
+    private static string mainActivityClassName = "com.localytics.android.unity.LocalyticsUnityPlayerActivity";
 
     public static void SendNotification(int id, TimeSpan delay, string title, string message)
     {
