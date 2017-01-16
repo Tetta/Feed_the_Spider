@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using Facebook.Unity;
 
 public class ctrProgressClass {
 	static public Dictionary<string, int> progress = new Dictionary<string, int>();
@@ -41,8 +42,8 @@ public class ctrProgressClass {
 
 
 	static private Dictionary<string, int> progressDefault = new Dictionary<string, int>{
-		{"googlePlay",0}, {"lastLevel",0}, {"currentLevel",1},{"coins",0},{"gems",0},{"energyTime",0},{"energy",30},
-		{"hints",0},{"webs",0},{"collectors",0},{"teleports",0},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
+		{"googlePlay",0}, {"lastLevel",0}, {"currentLevel",1},{"coins",0},{"gems",0},{"energyTime",0},{"energy",10},{"energyInfinity",0},
+        {"hints",0},{"webs",0},{"collectors",0},{"teleports",0},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
 		{"tutorialBuy",0},{"everyplay",1},{"firstPurchase",0},{"fb",0},
         {"boostersWhite",0 }, {"boostersGreen",0 }, {"boostersBlue",0 }, {"boostersPurple",0 },
         {"berryRare", UnityEngine.Random.Range(2, 6)}, {"hatRare", UnityEngine.Random.Range(2, 6)},{"skinRare", UnityEngine.Random.Range(2, 6)}, 
@@ -91,8 +92,8 @@ public class ctrProgressClass {
 
 	};
 	static private Dictionary<string, int> progressCheat = new Dictionary<string, int>{
-		{"googlePlay",0}, {"lastLevel",99}, {"currentLevel",1},{"coins",1000},{"gems",0},{"energyTime",0},{"energy",30},
-		{"boosters",100},{"hints",99},{"webs",99},{"collectors",99},{"teleports",99},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
+		{"googlePlay",0}, {"lastLevel",99}, {"currentLevel",1},{"coins",1000},{"gems",0},{"energyTime", (int)(DateTime.UtcNow - new DateTime(2015, 1, 1)).TotalSeconds},{"energy",10}, {"energyInfinity",0},
+        {"hints",99},{"webs",99},{"collectors",99},{"teleports",99},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
 		{"tutorialBuy",0},{"everyplay",1},{"firstPurchase",0},{"fb",0},
 
         {"boostersWhite",110 }, {"boostersGreen",220 }, {"boostersBlue",330 }, {"boostersPurple",110 },

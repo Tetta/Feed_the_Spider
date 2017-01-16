@@ -449,25 +449,26 @@ public class iClickClass : MonoBehaviour {
 			//Time.timeScale = 1;
 
 		} else if (name == "exit energy menu") {
-			GameObject.Find ("energy menu").transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
+            menu = GameObject.Find("energy menu");
+            GameObject.Find ("energy menu").transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
 			yield return new WaitForSeconds (0.2F);
 			GameObject.Find ("energy").SendMessage ("stopCoroutineEnergyMenu");
-
-		/*
-		} else if (name == "exit thanks menu") {
-			menu = GameObject.Find ("root/Camera/UI Root/thanks menu");
-			if (menu != null) {
-				menu.transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
-				yield return new WaitForSeconds (0.2F);
-				Destroy (menu);
-			} else {
-				menu = marketClass.instance.thanksMenu;
-				menu.transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
-				yield return new WaitForSeconds (0.2F);
-				menu.SetActive (false);
-			}
-		*/
-		} else if (name == "button settings exit") {
+            menu.SetActive(false);
+            /*
+            } else if (name == "exit thanks menu") {
+                menu = GameObject.Find ("root/Camera/UI Root/thanks menu");
+                if (menu != null) {
+                    menu.transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
+                    yield return new WaitForSeconds (0.2F);
+                    Destroy (menu);
+                } else {
+                    menu = marketClass.instance.thanksMenu;
+                    menu.transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
+                    yield return new WaitForSeconds (0.2F);
+                    menu.SetActive (false);
+                }
+            */
+        } else if (name == "button settings exit") {
 			menu = transform.parent.parent.gameObject;
 			menu.transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
 			yield return new WaitForSeconds (0.2F);
@@ -551,4 +552,14 @@ public class iClickClass : MonoBehaviour {
 		ctrAdClass.adStarted = name;
 		ctrAdClass.instance.ShowRewardedAd ();
 	}
+
+    void restoreEnergy()
+    {
+        GameObject.Find("energy").GetComponent<lsEnergyClass>().restoreEnergy();
+    }
+
+    void buyEnergy()
+    {
+        GameObject.Find("energy").GetComponent<lsEnergyClass>().buyEnergy();
+    }
 }

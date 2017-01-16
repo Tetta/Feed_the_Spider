@@ -36,7 +36,7 @@ public class marketClass : MonoBehaviour {
 			return;
         
 		if (instance != null) {
-			marketClass.instance.boostersLabel.text = ctrProgressClass.progress["boosters"].ToString();
+			//marketClass.instance.boostersLabel.text = ctrProgressClass.progress["boosters"].ToString();
 			Destroy(gameObject);
             return;
         }

@@ -16,29 +16,38 @@ public class lsEnergyClass : MonoBehaviour {
 	public GameObject infinity;
 	public GameObject plus;
 
-	public static string energyMenuState = "";
+    public GameObject buttonRestoreEnergy;
+    public GameObject buttonAdEnergy;
+    public GameObject buttonBuyEnergy;
+
+    public static string energyMenuState = "";
 
 	public static int costEnergy = 60 * 15;
 	public static int maxEnergy = 30;
 	public static bool energyInfinity = false;
 
     public static bool energyTake = false;
+    public static int costEnergyForCoins = 200;
 
     // Use this for initialization
     void Start () {
 
-		//увеличение максимума энергии за счет карт
-		int addEnergy = 0;
-		for (int e = 2; e <= 5; e++)	if (ctrProgressClass.progress["skin" + e] >= 1) addEnergy += (e * 5 - 5) * ctrProgressClass.progress["skin" + e];
-		maxEnergy = 30 + addEnergy;
+        //увеличение максимума энергии за счет карт
+        //int addEnergy = 0;
+        //for (int e = 2; e <= 5; e++)	if (ctrProgressClass.progress["skin" + e] >= 1) addEnergy += (e * 5 - 5) * ctrProgressClass.progress["skin" + e];
+        //maxEnergy = 30 + addEnergy;
+        bool flag = true;
+        for (int e = 2; e <= 5; e++)	if (ctrProgressClass.progress["berry" + e] < 1) flag = false;
+        if (flag) maxEnergy ++;
 
-		//если собраны все скины
-		if (addEnergy == 50) {
-			energyInfinity = true;
-			infinity.SetActive (true);
-			energyLabel.gameObject.SetActive (false);
-		}
-
+        //уменьшение времени восстановления энергии за счет карт
+        if (ctrProgressClass.progress["skin2"] >= 1) costEnergy -= 30;
+        if (ctrProgressClass.progress["skin3"] >= 1) costEnergy -= 45;
+        if (ctrProgressClass.progress["skin4"] >= 1) costEnergy -= 60;
+        if (ctrProgressClass.progress["skin5"] >= 1) costEnergy -= 90;
+        flag = true;
+        for (int e = 2; e <= 5; e++) if (ctrProgressClass.progress["skin" + e] < 1) flag = false;
+        if (flag) costEnergy -= 120;
 
 		OnApplicationPause(false);
 		if (energyMenuState == "energy") OnClick();
@@ -132,15 +141,17 @@ public class lsEnergyClass : MonoBehaviour {
 	}
 
 	void OnClick() {
-		if (ctrProgressClass.progress["energy"] < maxEnergy){
+		//if (ctrProgressClass.progress["energy"] < maxEnergy){
 			energyMenuState = "";
 			energyMenu.SetActive(true);
 			StartCoroutine("CoroutineEnergyMenu");
-		}
+        //}
+        
 
-	}
 
-	public IEnumerator CoroutineEnergyMenu(){
+    }
+
+    public IEnumerator CoroutineEnergyMenu(){
 		int mod = checkEnergy(true);
         int modMin = Mathf.CeilToInt((costEnergy - mod) / 60);
         if (modMin < 10) minutes.text = "0" + modMin.ToString();
@@ -150,15 +161,32 @@ public class lsEnergyClass : MonoBehaviour {
 		if (modSec < 10) seconds.text = "0" + modSec.ToString();
 		else seconds.text = modSec.ToString();
 
-		// остановка выполнения функции
-		yield return StartCoroutine(staticClass.waitForRealTime(1));
+        //стоимость восстановления
+        int cost = costEnergy - mod;
+        if (maxEnergy > ctrProgressClass.progress["energy"])
+        {
+            buttonRestoreEnergy.transform.GetChild(2).GetComponent<UILabel>().text = cost.ToString();
+        }
+        else
+        {
+            buttonRestoreEnergy.transform.GetChild(4).gameObject.SetActive(true);
+            buttonAdEnergy.transform.GetChild(5).gameObject.SetActive(true);
+            //buttonByeEnergy.transform.GetChild(3).gameObject.SetActive(true);
+
+        }
+
+        if (cost > ctrProgressClass.progress["coins"]) buttonRestoreEnergy.transform.GetChild(4).gameObject.SetActive(true);
+
+
+        // остановка выполнения функции
+        yield return StartCoroutine(staticClass.waitForRealTime(1));
 
 		// запускаем корутину снова
 		StartCoroutine("CoroutineEnergyMenu");
 	}
 
 	void stopCoroutineEnergyMenu () {
-		energyMenu.SetActive(false);
+		//energyMenu.SetActive(false);
 		StopCoroutine("CoroutineEnergyMenu");
 	}
 
@@ -167,9 +195,9 @@ public class lsEnergyClass : MonoBehaviour {
 	public static bool checkLoadLevelEnergy () {
 		//energy, если нет комплекта
 		if (ctrProgressClass.progress["complect"] == 0) {
-			int energyCount = lsEnergyClass.checkEnergy(true);
+			lsEnergyClass.checkEnergy(true);
 			
-            if (energyCount == 0 && !lsEnergyClass.energyInfinity) {
+            if (ctrProgressClass.progress["energy"] == 0 && !lsEnergyClass.energyInfinity) {
 				//нотифер, поправить с новым плагином
 				//AndroidNotificationManager.instance.ScheduleLocalNotification(Localization.Get("notiferTitleEnergy"), Localization.Get("notiferMessageEnergy"), lsEnergyClass.costEnergy * lsEnergyClass.maxEnergy);
 				lsEnergyClass.energyMenuState = "energy";
@@ -184,6 +212,22 @@ public class lsEnergyClass : MonoBehaviour {
 	}
 
 
+    public void restoreEnergy()
+    {
+        energyLabel.text = maxEnergy.ToString();
+        ctrProgressClass.progress["energyTime"] = 0;
+        ctrProgressClass.progress["energy"] = maxEnergy;
+        buttonRestoreEnergy.transform.GetChild(2).GetComponent<UILabel>().text = "0";
+        StartCoroutine("CoroutineEnergyMenu");
+    }
+    public void buyEnergy()
+    {
+        //запрос на покупку в маркет
+        energyLabel.text = maxEnergy.ToString();
+        ctrProgressClass.progress["energyTime"] = 0;
+        ctrProgressClass.progress["energy"] = maxEnergy;
+        buttonRestoreEnergy.transform.GetChild(2).GetComponent<UILabel>().text = "0";
+        StartCoroutine("CoroutineEnergyMenu");
 
-
+    }
 }
