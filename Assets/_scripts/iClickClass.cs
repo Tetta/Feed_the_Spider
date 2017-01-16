@@ -132,14 +132,14 @@ public class iClickClass : MonoBehaviour {
 
             //проверяем энергию при запуске уровня и списываем ее
             //раскомментить при publish game
-
-            /*
-            if (name == "restart" || name == "button play" || name == "button play 0" || name == "button play 1" || name == "level") {
+            Debug.Log(name);
+            
+            if (name == "button play" || name == "button play 0" || name == "button play 1" || name == "level") {
 				if (!lsEnergyClass.checkLoadLevelEnergy ()) {
 					yield return StartCoroutine (staticClass.waitForRealTime (100F));
 				}
 			}
-            */
+            
             Application.backgroundLoadingPriority = ThreadPriority.High;
 			AsyncOperation async = new AsyncOperation ();
 			staticClass.scenePrev = SceneManager.GetActiveScene ().name;
@@ -206,7 +206,12 @@ public class iClickClass : MonoBehaviour {
 				if (ctrProgressClass.progress ["lastLevel"] >= Convert.ToInt32 (name.Substring (5)) - 1)
 					async = SceneManager.LoadSceneAsync ("level" + Convert.ToInt32 (name.Substring (5)));
 			}
-			async.allowSceneActivation = false;
+            Debug.Log(name + "1111");
+
+            //сбрасываем энергию
+            if (staticClass.scenePrev == "level menu") lsEnergyClass.energyTake = false;
+
+            async.allowSceneActivation = false;
 			yield return StartCoroutine (staticClass.waitForRealTime (0.5F));
 			async.allowSceneActivation = true;
 			yield return async;
@@ -327,29 +332,7 @@ public class iClickClass : MonoBehaviour {
 		}
 	}
 
-    void showAchievements() {
-        GooglePlayManager.instance.ShowAchievementsUI();
-    }
 
-    void showLeaderboards() {
-        GooglePlayManager.instance.ShowLeaderBoardsUI();
-    }
-	/*
-    void connectGooglePlay() {
-        try {
-            if (ctrProgressClass.progress["googlePlay"] == 0) {
-                GooglePlayConnection.instance.connect();
-            }
-            else {
-                GooglePlayConnection.instance.disconnect();
-            }
-
-        }
-        //catch (System.Exception ex) {
-            //D/ebug.Log(ex.StackTrace);
-        //}
-    }
-	*/
     void resetProgress() {
 		ctrProgressClass.resetProgress (name);
 		SceneManager.LoadScene(0);
@@ -397,11 +380,22 @@ public class iClickClass : MonoBehaviour {
 			GameObject.Find ("energyLabel").SendMessage ("stopCoroutineEnergyMenu");
 		else if (name == "button settings")
 			GameObject.Find ("settings folder").transform.GetChild (0).gameObject.SetActive (true);
-		else if (name == "open booster") {
-			if (ctrProgressClass.progress ["boosters"] > 0) {
-				marketClass.instance.openBoosterMenu.SetActive (true);
-				marketClass.instance.boosterMenu.SetActive (false);
-				if (Everyplay.IsRecordingSupported () && !Everyplay.IsRecording() && ctrProgressClass.progress["everyplay"] == 1)
+		else if (transform.parent.gameObject.name == "open booster") {
+
+            if (ctrProgressClass.progress [name] > 0) {
+
+                //отключаем все спрайты бустера
+                for (int i = 0; i < 4; i++)
+			    {
+			        marketClass.instance.openBoosterMenu.transform.GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(false);
+			    }
+                //включаем , какой открываем
+                marketClass.instance.openBoosterMenu.transform.GetChild(1).GetChild(1).GetChild(0).GetChild(0).FindChild(name).gameObject.SetActive(true);
+
+                marketClass.instance.openBoosterMenu.SetActive(true);
+                marketClass.instance.boosterMenu.SetActive(false);
+
+                if (Everyplay.IsRecordingSupported () && !Everyplay.IsRecording() && ctrProgressClass.progress["everyplay"] == 1)
 					Everyplay.StartRecording ();
 
 			}
@@ -455,25 +449,26 @@ public class iClickClass : MonoBehaviour {
 			//Time.timeScale = 1;
 
 		} else if (name == "exit energy menu") {
-			GameObject.Find ("energy menu").transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
+            menu = GameObject.Find("energy menu");
+            GameObject.Find ("energy menu").transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
 			yield return new WaitForSeconds (0.2F);
 			GameObject.Find ("energy").SendMessage ("stopCoroutineEnergyMenu");
-
-		/*
-		} else if (name == "exit thanks menu") {
-			menu = GameObject.Find ("root/Camera/UI Root/thanks menu");
-			if (menu != null) {
-				menu.transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
-				yield return new WaitForSeconds (0.2F);
-				Destroy (menu);
-			} else {
-				menu = marketClass.instance.thanksMenu;
-				menu.transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
-				yield return new WaitForSeconds (0.2F);
-				menu.SetActive (false);
-			}
-		*/
-		} else if (name == "button settings exit") {
+            menu.SetActive(false);
+            /*
+            } else if (name == "exit thanks menu") {
+                menu = GameObject.Find ("root/Camera/UI Root/thanks menu");
+                if (menu != null) {
+                    menu.transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
+                    yield return new WaitForSeconds (0.2F);
+                    Destroy (menu);
+                } else {
+                    menu = marketClass.instance.thanksMenu;
+                    menu.transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
+                    yield return new WaitForSeconds (0.2F);
+                    menu.SetActive (false);
+                }
+            */
+        } else if (name == "button settings exit") {
 			menu = transform.parent.parent.gameObject;
 			menu.transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
 			yield return new WaitForSeconds (0.2F);
@@ -557,4 +552,14 @@ public class iClickClass : MonoBehaviour {
 		ctrAdClass.adStarted = name;
 		ctrAdClass.instance.ShowRewardedAd ();
 	}
+
+    void restoreEnergy()
+    {
+        GameObject.Find("energy").GetComponent<lsEnergyClass>().restoreEnergy();
+    }
+
+    void buyEnergy()
+    {
+        GameObject.Find("energy").GetComponent<lsEnergyClass>().buyEnergy();
+    }
 }

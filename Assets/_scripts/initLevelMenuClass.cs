@@ -34,7 +34,7 @@ public class initLevelMenuClass : MonoBehaviour {
 		energyLabel.text = ctrProgressClass.progress["energy"].ToString();
 		staticClass.sceneLoading = false;
 		instance = this;
-		GoogleAnalyticsV4.instance.LogScreen("level menu");
+		if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogScreen("level menu");
 
 	}
 	

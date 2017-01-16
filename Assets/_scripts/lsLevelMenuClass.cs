@@ -183,7 +183,7 @@ public class lsLevelMenuClass: MonoBehaviour {
             scoreAll.GetChild(2).gameObject.SetActive(true);
             //добавление процента от карт
 			int percent = 100;
-			for (int e = 2; e <= 5; e++)	if (ctrProgressClass.progress["hat" + e] >= 1) percent += e * 5;
+			for (int e = 2; e <= 5; e++)	if (ctrProgressClass.progress["hat" + e] >= 1) percent += e * 5 * ctrProgressClass.progress["hat" + e];
 			if (percent == 170) percent = 200;
 			//D/ebug.Log ("percent: " + percent);
 			//D/ebug.Log ("scoreFinal: " + scoreFinal);
@@ -192,7 +192,7 @@ public class lsLevelMenuClass: MonoBehaviour {
 			scoreAll.GetChild(2).GetChild(1).GetComponent<UILabel>().text = coinsAdd.ToString();
 			ctrProgressClass.progress["coins"] += coinsAdd;
 			ctrStatsClass.logEvent ("coins", "free", "level" + lvlNumber, coinsAdd);
-			if (Advertisement.IsReady ("rewardedVideo") || Vungle.isAdvertAvailable()) {
+			if (Advertisement.IsReady ("rewardedVideo") || ctrAdClass.instance.interstitialAdMob.IsLoaded()) {
 				//включаем telek
 				transform.GetChild (0).GetChild (5).gameObject.SetActive (true);
 				//coins ad reward label меняем цифру

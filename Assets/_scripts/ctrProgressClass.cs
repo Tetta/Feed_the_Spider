@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using Facebook.Unity;
 
 public class ctrProgressClass {
 	static public Dictionary<string, int> progress = new Dictionary<string, int>();
@@ -27,19 +28,10 @@ public class ctrProgressClass {
 			else if (strProgress.Substring(i, 1) == ";") {
 				flag = true;
 				progress[strKey] = int.Parse(strValue);
-				//скины и шапки. запись в статик переменную
-				if (strKey.Length >= 4 && strKey.Length <= 6) {
-					if (strKey.Substring (0, 4) == "skin")
-					if (progress [strKey] == 2)
-						staticClass.currentSkin = strKey;
-					if (strKey.Substring (0, 3) == "hat")
-					if (progress [strKey] == 2)
-						staticClass.currentHat = strKey;
-					if (strKey.Length == 6)
-					if (strKey.Substring (0, 5) == "berry")
-					if (progress [strKey] == 2)
-						staticClass.currentBerry = strKey;
-				}
+                //скины и шапки. запись в статик переменную
+			    if (strKey == "skinCurrent") staticClass.currentSkin = "skin" + strValue;
+                if (strKey == "berryCurrent") staticClass.currentBerry = "berry" + strValue;
+                if (strKey == "hatCurrent") staticClass.currentHat = "hat" + strValue;
 				strKey = "";
 				strValue = "";
 			} else if (flag) strKey += strProgress.Substring(i, 1);
@@ -50,15 +42,20 @@ public class ctrProgressClass {
 
 
 	static private Dictionary<string, int> progressDefault = new Dictionary<string, int>{
-		{"googlePlay",0}, {"lastLevel",0}, {"currentLevel",1},{"coins",0},{"gems",0},{"energyTime",0},{"energy",30},
-		{"boosters",0},{"hints",0},{"webs",0},{"collectors",0},{"teleports",0},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
+		{"googlePlay",0}, {"lastLevel",0}, {"currentLevel",1},{"coins",0},{"gems",0},{"energyTime",0},{"energy",10},{"energyInfinity",0},
+        {"hints",0},{"webs",0},{"collectors",0},{"teleports",0},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
 		{"tutorialBuy",0},{"everyplay",1},{"firstPurchase",0},{"fb",0},
+        {"boostersWhite",0 }, {"boostersGreen",0 }, {"boostersBlue",0 }, {"boostersPurple",0 },
+        {"berryRare", UnityEngine.Random.Range(2, 6)}, {"hatRare", UnityEngine.Random.Range(2, 6)},{"skinRare", UnityEngine.Random.Range(2, 6)}, 
 
-		{"berry1",2},{"berry2",0},{"berry3",0},{"berry4",0},{"berry5",0},
-		{"hat1",2},{"hat2",0},{"hat3",0},{"hat4",0},{"hat5",0},
-		{"skin1",2},{"skin2",0},{"skin3",0},{"skin4",0},{"skin5",0},
 
-		{"level1",0},{"level2",0},{"level3",0},{"level4",0},{"level5",0},{"level6",0},{"level7",0},{"level8",0},{"level9",0},{"level10",0},
+        {"berry1",1},{"berry2",0},{"berry3",0},{"berry4",0},{"berry5",0},
+		{"hat1",1},{"hat2",0},{"hat3",0},{"hat4",0},{"hat5",0},
+		{"skin1",1},{"skin2",0},{"skin3",0},{"skin4",0},{"skin5",0},
+        {"berryCurrent", 1}, {"hatCurrent", 1}, {"skinCurrent", 1},
+
+
+        {"level1",0},{"level2",0},{"level3",0},{"level4",0},{"level5",0},{"level6",0},{"level7",0},{"level8",0},{"level9",0},{"level10",0},
 		{"level11",0},{"level12",0},{"level13",0},{"level14",0},{"level15",0},{"level16",0},{"level17",0},{"level18",0},{"level19",0},{"level20",0},
 		{"level21",0},{"level22",0},{"level23",0},{"level24",0},{"level25",0},{"level26",0},{"level27",0},{"level28",0},{"level29",0},{"level30",0},
 		{"level31",0},{"level32",0},{"level33",0},{"level34",0},{"level35",0},{"level36",0},{"level37",0},{"level38",0},{"level39",0},{"level40",0},
@@ -95,15 +92,20 @@ public class ctrProgressClass {
 
 	};
 	static private Dictionary<string, int> progressCheat = new Dictionary<string, int>{
-		{"googlePlay",0}, {"lastLevel",99}, {"currentLevel",1},{"coins",1000},{"gems",0},{"energyTime",0},{"energy",30},
-		{"boosters",100},{"hints",99},{"webs",99},{"collectors",99},{"teleports",99},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
+		{"googlePlay",0}, {"lastLevel",99}, {"currentLevel",1},{"coins",1000},{"gems",0},{"energyTime", (int)(DateTime.UtcNow - new DateTime(2015, 1, 1)).TotalSeconds},{"energy",10}, {"energyInfinity",0},
+        {"hints",99},{"webs",99},{"collectors",99},{"teleports",99},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
 		{"tutorialBuy",0},{"everyplay",1},{"firstPurchase",0},{"fb",0},
 
-		{"berry1",2},{"berry2",1},{"berry3",1},{"berry4",1},{"berry5",1},
-		{"hat1",2},{"hat2",1},{"hat3",1},{"hat4",1},{"hat5",1},
-		{"skin1",2},{"skin2",1},{"skin3",1},{"skin4",1},{"skin5",1},
+        {"boostersWhite",110 }, {"boostersGreen",220 }, {"boostersBlue",330 }, {"boostersPurple",110 },
+        {"berryRare", 2 }, {"hatRare",2},{"skinRare", 4},
 
-		{"level1",0},{"level2",0},{"level3",0},{"level4",0},{"level5",0},{"level6",0},{"level7",0},{"level8",0},{"level9",0},{"level10",0},
+
+        {"berry1",1},{"berry2",2},{"berry3",1},{"berry4",5},{"berry5",1},
+        {"hat1",1},{"hat2",1},{"hat3",1},{"hat4",4},{"hat5",0},
+        {"skin1",1},{"skin2",50},{"skin3",2},{"skin4",12},{"skin5",1},
+        {"berryCurrent", 1}, {"hatCurrent", 1}, {"skinCurrent", 1},
+
+        {"level1",0},{"level2",0},{"level3",0},{"level4",0},{"level5",0},{"level6",0},{"level7",0},{"level8",0},{"level9",0},{"level10",0},
 		{"level11",0},{"level12",0},{"level13",0},{"level14",0},{"level15",0},{"level16",0},{"level17",0},{"level18",0},{"level19",0},{"level20",0},
 		{"level21",0},{"level22",0},{"level23",0},{"level24",0},{"level25",0},{"level26",0},{"level27",0},{"level28",0},{"level29",0},{"level30",0},
 		{"level31",0},{"level32",0},{"level33",0},{"level34",0},{"level35",0},{"level36",0},{"level37",0},{"level38",0},{"level39",0},{"level40",0},

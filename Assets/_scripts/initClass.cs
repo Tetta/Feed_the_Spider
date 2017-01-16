@@ -85,10 +85,10 @@ public class initClass : MonoBehaviour {
 
 
 			GameObject.Find("settings folder").transform.GetChild(0).gameObject.SetActive(false);
-			//
-			//push
-			// bug GameThrive.Init("0e3f3ad6-c7ee-11e4-9aca-47e056863935", "660292827653", HandleNotification);
-			/*
+            //
+            //push
+            // bug GameThrive.Init("0e3f3ad6-c7ee-11e4-9aca-47e056863935", "660292827653", HandleNotification);
+            /*
 			GoogleCloudMessageService.instance.InitPushNotifications ();
 			//AndroidNotificationManager.instance.ScheduleLocalNotification(Localization.Get("notiferTitleDay"), "notiferTitleDay", 600);
 			//AndroidNotificationManager.instance.OnNotificationIdLoaded += OnNotificationIdLoaded;
@@ -109,20 +109,16 @@ public class initClass : MonoBehaviour {
 				}
 			}
 */
-			//bug!!!
-			//if (!flagNotifer) AndroidNotificationManager.instance.ScheduleLocalNotification(Localization.Get("notiferTitleDay"), Localization.Get("notiferMesssageDay"), 60 * 60 * 24);
-
-			//
-			//Vungle
-			Vungle.init ("57833fb1d34920b24f000046", "57833fb1d34920b24f000046", "57833fb1d34920b24f000046");
+            //bug!!!
+            //if (!flagNotifer) AndroidNotificationManager.instance.ScheduleLocalNotification(Localization.Get("notiferTitleDay"), Localization.Get("notiferMesssageDay"), 60 * 60 * 24);
 
 
 		}
 
 
 
-		//включаем текущий скин и выключаем все остальные
-		staticClass.changeSkin ();
+        //включаем текущий скин и выключаем все остальные
+        staticClass.changeSkin ();
 		staticClass.changeHat ();
 		staticClass.changeBerry ();
 
@@ -204,11 +200,7 @@ public class initClass : MonoBehaviour {
 	*/
 
 	private void OnDestroy() {
-		if(!GooglePlayConnection.IsDestroyed) {
-			//off (new plugin)
-			//GooglePlayConnection.instance.removeEventListener (GooglePlayConnection.PLAYER_CONNECTED, OnPlayerConnected);
-			//GooglePlayConnection.instance.removeEventListener (GooglePlayConnection.PLAYER_DISCONNECTED, OnPlayerDisconnected);
-		}
+
 	}
 
 	static public void setSound(bool flag) {

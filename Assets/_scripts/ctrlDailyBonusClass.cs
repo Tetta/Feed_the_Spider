@@ -35,10 +35,10 @@ public class ctrlDailyBonusClass : MonoBehaviour {
 					dailyBonusMenuOpen();
 
 					//добавить бонусы за карты ягод
-					if (ctrProgressClass.progress["berry2"] >= 1) ctrProgressClass.progress["webs"] ++;
-					if (ctrProgressClass.progress["berry3"] >= 1) ctrProgressClass.progress["collectors"] ++;
-					if (ctrProgressClass.progress["berry4"] >= 1) ctrProgressClass.progress["teleports"] ++;
-					if (ctrProgressClass.progress["berry5"] >= 1) ctrProgressClass.progress["hints"] ++;
+				    ctrProgressClass.progress["webs"] += ctrProgressClass.progress["berry2"];
+                    ctrProgressClass.progress["collectors"] += ctrProgressClass.progress["berry3"];
+                    ctrProgressClass.progress["teleports"] += ctrProgressClass.progress["berry4"];
+                    ctrProgressClass.progress["hints"] += ctrProgressClass.progress["berry5"];
 					if (ctrProgressClass.progress["berry2"] >= 1 && ctrProgressClass.progress["berry3"] >= 1 && ctrProgressClass.progress["berry4"] >= 1 && ctrProgressClass.progress["berry5"] >= 1) ctrProgressClass.progress["hints"] ++;
 					ctrProgressClass.saveProgress();
 				}
