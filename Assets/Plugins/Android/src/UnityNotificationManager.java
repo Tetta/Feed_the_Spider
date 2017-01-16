@@ -1,5 +1,5 @@
 package net.agasper.unitynotification;
-
+import 	android.content.pm.PackageManager;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -16,13 +16,13 @@ import android.os.Build;
 import android.util.Log;
 
 import com.unity3d.player.UnityPlayer;
-//import com.unity3d.player.UnityPlayerNativeActivity;
+import com.unity3d.player.UnityPlayerNativeActivity;
 
 public class UnityNotificationManager extends BroadcastReceiver
 {
 	
     public static void SetNotification(int id, long delayMs, String title, String message, String ticker, int sound, int vibrate, 
-            int lights, String largeIconResource, String smallIconResource, int bgColor, int executeMode, String unityClass, String tracking_parameter)
+            int lights, String largeIconResource, String smallIconResource, int bgColor, int executeMode, String unityClass)
     {
         Activity currentActivity = UnityPlayer.currentActivity;
         AlarmManager am = (AlarmManager)currentActivity.getSystemService(Context.ALARM_SERVICE);
@@ -38,8 +38,6 @@ public class UnityNotificationManager extends BroadcastReceiver
         intent.putExtra("l_icon", largeIconResource);
         intent.putExtra("s_icon", smallIconResource);
         intent.putExtra("activity", unityClass);
-        intent.putExtra("tracking_parameter", tracking_parameter);
-        
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
         	if (executeMode == 2)
@@ -52,11 +50,9 @@ public class UnityNotificationManager extends BroadcastReceiver
         else
         	am.set(0, System.currentTimeMillis() + delayMs, PendingIntent.getBroadcast(currentActivity, id, intent, 0));
     }
-    
-    
+     
     public void onReceive(Context context, Intent intent)
     {
-        Log.v("notify", "alarm received");
     	NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         String ticker = intent.getStringExtra("ticker");
@@ -69,8 +65,6 @@ public class UnityNotificationManager extends BroadcastReceiver
         Boolean sound = intent.getBooleanExtra("sound", false);
         Boolean vibrate = intent.getBooleanExtra("vibrate", false);
         Boolean lights = intent.getBooleanExtra("lights", false);
-        String trackingParameter = intent.getStringExtra("tracking_parameter");
-
         int id = intent.getIntExtra("id", 0);
 
         Resources res = context.getResources();
@@ -85,7 +79,9 @@ public class UnityNotificationManager extends BroadcastReceiver
 		}
 
         Intent notificationIntent = new Intent(context, unityClassActivity);
-        notificationIntent.putExtra("tracking_parameter", trackingParameter);
+        //PackageManager pm = context.getPackageManager();
+        //Intent launchIntent = pm.getLaunchIntentForPackage("com.evogames.feedthespider");
+
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Notification.Builder builder = new Notification.Builder(context);
         
@@ -93,8 +89,7 @@ public class UnityNotificationManager extends BroadcastReceiver
         	.setWhen(System.currentTimeMillis())
         	.setAutoCancel(true)
         	.setContentTitle(title)
-        	.setContentText(message)
-            .setPriority(Notification.PRIORITY_DEFAULT);
+        	.setContentText(message);
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         	builder.setColor(color);
@@ -111,19 +106,16 @@ public class UnityNotificationManager extends BroadcastReceiver
         if(sound)
             builder.setSound(RingtoneManager.getDefaultUri(2));
 
-        if(vibrate) {
-            builder
-                .setDefaults(Notification.DEFAULT_VIBRATE)
-                .setVibrate(new long[] {250L, 500L});
-        }
+        if(vibrate)
+            builder.setVibrate(new long[] {
+                    1000L, 1000L
+            });
 
         if(lights)
             builder.setLights(Color.GREEN, 3000, 3000);
         
-        Notification notification = builder.build();        
-     
+        Notification notification = builder.build();
         notificationManager.notify(id, notification);
-
     }
 
     public static void CancelNotification(int id)
@@ -131,8 +123,12 @@ public class UnityNotificationManager extends BroadcastReceiver
         Activity currentActivity = UnityPlayer.currentActivity;
         AlarmManager am = (AlarmManager)currentActivity.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(currentActivity, UnityNotificationManager.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(currentActivity, id, intent, 0);
-        am.cancel(pendingIntent);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(currentActivity, id, intent, PendingIntent.FLAG_NO_CREATE);
+        if (pendingIntent != null)
+        {
+            am.cancel(pendingIntent);
+            pendingIntent.cancel();
+        }
     }
 
     public static void CancelAll(){

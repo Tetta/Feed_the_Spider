@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using System;
-using UnityEditor;
+
 
 class LocalNotification
 {
@@ -19,15 +17,13 @@ class LocalNotification
         ExactAndAllowWhileIdle = 2
     }
 
-#if UNITY_ANDROID && !UNITY_EDITOR
     private static string fullClassName = "net.agasper.unitynotification.UnityNotificationManager";
-    private static string mainActivityClassName = "net.FeederUnityPlayerNativeActivity";
-#endif
+    private static string mainActivityClassName = "com.unity3d.player.UnityPlayerNativeActivity";
 
-    public static void SendNotification(int id, TimeSpan delay, string title, string message, string track)
+    public static void SendNotification(int id, TimeSpan delay, string title, string message)
     {
 #if UNITY_ANDROID
-        SendNotification(id, (int)delay.TotalSeconds, title, message, Color.white, track);
+        SendNotification(id, (int)delay.TotalSeconds, title, message, Color.white);
 #elif UNITY_IOS
         var k = new UnityEngine.iOS.LocalNotification
         {
@@ -39,7 +35,7 @@ class LocalNotification
 #endif
     }
 
-    public static void SendNotification(int id, long delay, string title, string message, Color32 bgColor, string track, bool sound = true, bool vibrate = true, bool lights = true, string bigIcon = "", NotificationExecuteMode executeMode = NotificationExecuteMode.Inexact)
+    public static void SendNotification(int id, long delay, string title, string message, Color32 bgColor,   bool sound = true, bool vibrate = true, bool lights = true, string bigIcon = "", NotificationExecuteMode executeMode = NotificationExecuteMode.Inexact)
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
         AndroidJavaClass pluginClass = new AndroidJavaClass(fullClassName);
@@ -51,7 +47,7 @@ class LocalNotification
                     title, message, message, sound ? 1 : 0, 
                     vibrate ? 1 : 0, lights ? 1 : 0, bigIcon, 
                     "notify_icon_small", bgColor.r * 65536 + bgColor.g * 256 + bgColor.b, 
-                    (int)executeMode, mainActivityClassName, track);
+                    (int)executeMode, mainActivityClassName);
         }
 #endif
     }
@@ -64,18 +60,7 @@ class LocalNotification
             pluginClass.CallStatic("CancelNotification", id);
         }
 #endif
-    }
-    public static string GetTrackedParameter()
-    {
-#if UNITY_ANDROID && !UNITY_EDITOR
-        AndroidJavaClass pluginClass = new AndroidJavaClass(mainActivityClassName);
-        if (pluginClass != null) {
-           return  pluginClass.CallStatic<string>("getTrack");
-        }
-#endif
-
-        return "";
-    }
+    } 
 
     public static void CancelAllNotifications()
     {

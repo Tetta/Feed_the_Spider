@@ -6,7 +6,7 @@ using UnityEngine;
 public class SendNotify : MonoBehaviour {
 
     public void Send()
-    {
-        LocalNotification.SendNotification(1,TimeSpan.FromSeconds(0), "Title","message","traaack");
+    { 
+        LocalNotification.SendNotification(1,TimeSpan.FromSeconds(5), "Title","message");
     }
 }
