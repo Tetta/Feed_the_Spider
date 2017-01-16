@@ -43,11 +43,11 @@ public static class EveryplayPostprocessor
     [PostProcessBuild(1080)]
     public static void OnPostProcessBuild(BuildTarget target, string path)
     {
-        EveryplaySettings settings = EveryplaySettingsEditor.LoadEveryplaySettings();
+        var settings = EveryplaySettingsEditor.LoadEveryplaySettings();
 
         if (settings != null)
         {
-            if (settings.IsBuildTargetEnabled)
+           // if (settings.IsBuildTargetEnabled)
             {
                 if (settings.IsValid)
                 {

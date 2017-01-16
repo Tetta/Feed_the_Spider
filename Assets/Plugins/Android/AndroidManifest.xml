@@ -1,7 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.your.application.package.name" android:versionCode="1" android:versionName="1.0">
-  <supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:xlargeScreens="true" android:anyDensity="true" />
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.evogames.feedthespider" android:versionCode="1" android:versionName="1.0">
   <uses-sdk android:targetSdkVersion="23" android:minSdkVersion="15" />
+  <supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:xlargeScreens="true" android:anyDensity="true" />
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.VIBRATE" />
@@ -10,22 +10,19 @@
   <uses-permission android:name="android.permission.WAKE_LOCK" />
   <uses-permission android:name="android.permission.READ_PHONE_STATE" />
   <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-  <uses-permission android:name="com.example.your.application.package.name.permission.C2D_MESSAGE" />
-  <permission android:name="com.example.your.application.package.name.permission.C2D_MESSAGE" android:protectionLevel="signature" />
-  <application android:icon="@drawable/app_icon" android:label="@string/app_name" android:debuggable="true">
-    <activity android:name="com.unity3d.player.UnityPlayerProxyActivity" android:launchMode="singleTask" android:label="@string/app_name" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:screenOrientation="portrait">
+  <uses-permission android:name="com.evogames.feedthespider.permission.C2D_MESSAGE" />
+  <permission android:name="com.evogames.feedthespider.permission.C2D_MESSAGE"  android:protectionLevel="signature" />
+  <application  android:name="com.localytics.android.unity.LocalyticsApplication" android:icon="@drawable/app_icon" android:label="@string/app_name" android:debuggable="true">
+
+    <receiver android:name="net.agasper.unitynotification.UnityNotificationManager"></receiver>
+    <meta-data android:name="LOCALYTICS_APP_KEY" android:value="d7719bff8aea0356413c0cc-2df61516-a7d1-11e5-142c-008b20abc1fa"/>
+    <meta-data android:name="LOCALYTICS_PUSH_PROJECT_ID" android:value="\ YOUR_PUSH_PROJECT_ID"/>
+
+    <activity android:name="com.localytics.android.unity.LocalyticsUnityPlayerActivity" android:label="@string/app_name" android:launchMode="singleTask" android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
-      <intent-filter>
-        <action android:name="PACKAGE_NAME.MESSAGE" />
-        <category android:name="android.intent.category.DEFAULT" />
-      </intent-filter>
-    </activity>
-    <activity android:name="com.unity3d.player.UnityPlayerActivity" android:launchMode="singleTask" android:label="@string/app_name" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:screenOrientation="portrait">
-    </activity>
-    <activity android:name="com.unity3d.player.UnityPlayerNativeActivity" android:launchMode="singleTask" android:label="@string/app_name" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:screenOrientation="portrait">
       <meta-data android:name="android.app.lib_name" android:value="unity" />
       <meta-data android:name="unityplayer.ForwardNativeEventsToDalvik" android:value="false" />
     </activity>
@@ -34,7 +31,25 @@
     <receiver android:name="com.kii.cloud.unity.GCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
       <intent-filter>
         <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-        <category android:name="com.example.your.application.package.name" />
+        <category android:name="com.evogames.feedthespider" />
+      </intent-filter>
+    </receiver>
+    <receiver
+    android:name="com.localytics.android.PushReceiver"
+    android:permission="com.google.android.c2dm.permission.SEND" >
+      <intent-filter>
+        <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+        <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+        <category android:name="YOUR.PACKAGE.NAME" />
+      </intent-filter>
+    </receiver>
+
+    <activity android:name="com.localytics.android.PushTrackingActivity"/>
+
+    <!-- Localytics Acquisition Tracking -->
+    <receiver android:name="com.localytics.android.ReferralReceiver" android:exported="true">
+      <intent-filter>
+        <action android:name="com.android.vending.INSTALL_REFERRER" />
       </intent-filter>
     </receiver>
     <service android:name="com.kii.cloud.unity.GcmIntentService" />
@@ -48,5 +63,6 @@
     <activity android:name="com.facebook.unity.AppInviteDialogActivity" />
     <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="fb247277362322080" />
     <provider android:name="com.facebook.FacebookContentProvider" android:authorities="com.facebook.app.FacebookContentProvider247277362322080" android:exported="true" />
+
   </application>
 </manifest>

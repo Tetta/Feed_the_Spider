@@ -9,6 +9,8 @@ Temp
 Assets/Ferr2DTerrainMeshes
 
 Assets/_prefabs/Meshes
+Assets/Plugins/Android/src/com*
+Assets/Plugins/Android/src/net*
 
 
 /[Ll]ibrary/
