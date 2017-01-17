@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-using UnityEngine.Advertisements;
-using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class gBerryClass : MonoBehaviour {
@@ -150,10 +148,28 @@ public class gBerryClass : MonoBehaviour {
 			GameObject.Find ("tween").transform.localPosition = new Vector3 (880, 0, 0);
 		}
 
-		//Vungle event finished
-		//initializeEventHandlers ();
+        //Vungle event finished
+        //initializeEventHandlers ();
 
+        //dream
+        var p = ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"];
+        if (staticClass.scenePrev == SceneManager.GetActiveScene().name)
+	    {
+	        staticClass.levelRestartedCount++;
+	        if (staticClass.levelRestartedCount >= 2) GameObject.Find("/default level/gui/dream").SetActive(true);
+	    }
+	    else if
+            //если уже есть подсказка
+            ((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 ||
+             (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1)
+        {
+            var dream = GameObject.Find("/default level/gui/dream");
+            dream.SetActive(true);
+            dream.transform.GetChild(0).gameObject.SetActive(false);
+            dream.transform.GetChild(1).gameObject.SetActive(true);
 
+        }
+        else staticClass.levelRestartedCount = 0;
 	}
 
 

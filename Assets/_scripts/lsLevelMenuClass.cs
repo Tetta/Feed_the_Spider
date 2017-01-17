@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+#if (UNITY_ANDROID || UNITY_IOS) && UNITY_UNITYADS_API && ENABLE_UNITYADS_RUNTIME && !UNITY_EDITOR
 using UnityEngine.Advertisements;
+#endif
 
 public class lsLevelMenuClass: MonoBehaviour {
 	public GameObject levelMenu;
@@ -192,9 +194,10 @@ public class lsLevelMenuClass: MonoBehaviour {
 			scoreAll.GetChild(2).GetChild(1).GetComponent<UILabel>().text = coinsAdd.ToString();
 			ctrProgressClass.progress["coins"] += coinsAdd;
 			ctrStatsClass.logEvent ("coins", "free", "level" + lvlNumber, coinsAdd);
+#if (UNITY_ANDROID || UNITY_IOS) && UNITY_UNITYADS_API && ENABLE_UNITYADS_RUNTIME && !UNITY_EDITOR
 			if (Advertisement.IsReady ("rewardedVideo") || ctrAdClass.instance.interstitialAdMob.IsLoaded()) {
-				//включаем telek
-				transform.GetChild (0).GetChild (5).gameObject.SetActive (true);
+            //включаем telek
+            transform.GetChild (0).GetChild (5).gameObject.SetActive (true);
 				//coins ad reward label меняем цифру
 				transform.GetChild (0).GetChild (6).GetChild (0).GetComponent<UILabel> ().text = "+" + coinsAdd.ToString ();
 			} else {
@@ -202,6 +205,7 @@ public class lsLevelMenuClass: MonoBehaviour {
 				else GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "dont ready", "telek", 1);
 
 			}
+#endif
 			//сохранение очков в Kii
 			ctrFbKiiClass.updateUserScore("level" + lvlNumber.ToString(), scoreFinal, ctrProgressClass.progress["lastLevel"]);
 

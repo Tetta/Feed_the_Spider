@@ -2,7 +2,6 @@
 using System.Collections;
 using System;
 using Facebook.Unity;
-using UnityEngine.Advertisements;
 using UnityEngine.SceneManagement;
 
 public class lsEnergyClass : MonoBehaviour {

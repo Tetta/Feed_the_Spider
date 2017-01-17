@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+#if (UNITY_ANDROID || UNITY_IOS) && UNITY_UNITYADS_API && ENABLE_UNITYADS_RUNTIME && !UNITY_EDITOR
 using UnityEngine.Advertisements;
+#endif
 using System.Collections.Generic;
 using GoogleMobileAds.Api;
 
@@ -34,6 +36,7 @@ public class ctrAdClass: MonoBehaviour {
 
 	public void ShowRewardedAd()
 	{
+#if (UNITY_ANDROID || UNITY_IOS) && UNITY_UNITYADS_API && ENABLE_UNITYADS_RUNTIME && !UNITY_EDITOR
 		if (isAdReady ()) {
 			if (adCategory == "Ad Unity") {
 				var options = new ShowOptions { resultCallback = HandleShowResult };
@@ -61,9 +64,10 @@ public class ctrAdClass: MonoBehaviour {
 			//#if UNITY_ANDROID || UNITY_IOS
 			//#endif
 		}
+#endif
 	}
 
-	#if UNITY_ANDROID || UNITY_IOS
+#if (UNITY_ANDROID || UNITY_IOS) && UNITY_UNITYADS_API && ENABLE_UNITYADS_RUNTIME && !UNITY_EDITOR
 	//Unity Ads event
 	private void HandleShowResult(ShowResult result)
 	{
@@ -77,11 +81,11 @@ public class ctrAdClass: MonoBehaviour {
 		
 	}
 
-	#endif
+#endif
 
-	//on admob rewarded finish
+    //on admob rewarded finish
 
-	void setReward() {
+    void setReward() {
 
 		if (adStarted == "button ad energy") {
 			GoogleAnalyticsV4.instance.LogEvent (adCategory, "finish", "energy", 1);
@@ -115,6 +119,7 @@ public class ctrAdClass: MonoBehaviour {
 	}
 
 	bool isAdReady() {
+#if (UNITY_ANDROID || UNITY_IOS) && UNITY_UNITYADS_API && ENABLE_UNITYADS_RUNTIME && !UNITY_EDITOR
 		if (Advertisement.IsReady ("video") && adStarted == "level") {
 			adCategory = "Ad Unity";
 			return true;
@@ -125,12 +130,13 @@ public class ctrAdClass: MonoBehaviour {
 			adCategory = "Ad Admob";
 			return true;
 		}
-		return false;
+#endif
+        return false;
 
 	}
 
 	public void ShowLevelAd() {
-		#if UNITY_ANDROID || UNITY_IOS
+#if (UNITY_ANDROID || UNITY_IOS) && UNITY_UNITYADS_API && ENABLE_UNITYADS_RUNTIME && !UNITY_EDITOR
 		if (ctrProgressClass.progress["complect"] == 0 && ctrProgressClass.progress["currentLevel"] >= 5) {
 			showAdLevelCounter ++;
 
@@ -176,12 +182,12 @@ public class ctrAdClass: MonoBehaviour {
 
 			} 
 		}
-		#endif
+#endif
 
-	}
+    }
 
-	//AdMob
-	private void OnAdOpening() {
+    //AdMob
+    private void OnAdOpening() {
         Debug.Log("AdMob OnAdOpening");
         RequestInterstitial();
 

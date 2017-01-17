@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+#if (UNITY_ANDROID || UNITY_IOS) && UNITY_UNITYADS_API && ENABLE_UNITYADS_RUNTIME && !UNITY_EDITOR
 using UnityEngine.Advertisements;
+#endif
 using System.Collections.Generic;
 
 public class lsAdClass : MonoBehaviour {
@@ -20,10 +22,10 @@ public class lsAdClass : MonoBehaviour {
 
 	public void ShowRewardedAd()
 	{
-		#if UNITY_ANDROID || UNITY_IOS
+#if (UNITY_ANDROID || UNITY_IOS) && UNITY_UNITYADS_API && ENABLE_UNITYADS_RUNTIME && !UNITY_EDITOR
 
 
-		if (Advertisement.IsReady ("rewardedVideo")) {
+        if (Advertisement.IsReady ("rewardedVideo")) {
 			//Unity Ads start
 			if (name == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "start", "energy", 1);
 			if (name == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "start", "coins", 1);
@@ -52,11 +54,11 @@ public class lsAdClass : MonoBehaviour {
 
 			if (name != "button ad telek")  adDontReadyMenu.SetActive (true);
 		}
-		#endif
+#endif
 	
 	}
 
-	#if UNITY_ANDROID || UNITY_IOS
+#if (UNITY_ANDROID || UNITY_IOS) && UNITY_UNITYADS_API && ENABLE_UNITYADS_RUNTIME && !UNITY_EDITOR
 
 	private void HandleShowResult(ShowResult result)
 	{
@@ -91,10 +93,10 @@ public class lsAdClass : MonoBehaviour {
 		
 	}
 
-	#endif
+#endif
 
     //on finish Admob rewarded переделать
-	void initializeEventHandlers() {
+    void initializeEventHandlers() {
 		Debug.Log ("initializeEventHandlers");
 		//Event is triggered when a Vungle ad finished and provides the entire information about this event
 		//These can be used to determine how much of the video the user viewed, if they skipped the ad early, etc.
