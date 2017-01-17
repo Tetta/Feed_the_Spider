@@ -18,6 +18,7 @@ public class PbxModifier
             proj.ReadFromString(File.ReadAllText(projPath));
 
             string target = proj.TargetGuidByName("Unity-iPhone"); 
+			proj.SetBuildProperty (target, "ENABLE_BITCODE", "false");
             string file = proj.FindFileGuidByProjectPath("Libraries/Plugins/iOS/KiiIOSSocialNetworkConnector.mm"); 
             var flags = proj.GetCompileFlagsForFile(target, file);
             flags.Add("-fno-objc-arc");
