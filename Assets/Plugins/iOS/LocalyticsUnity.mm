@@ -377,7 +377,7 @@ extern "C"
     
     void _addProfileAttributesToSet(const char* attribute, const char* values, int scope)
     {
-        [Localytics addValues:LLLLMakeNSArray(values) toSetForProfileAttribute:LLCreateNSString(attribute) withScope:(LLProfileScope)scope];
+        [Localytics addValues:LLMakeNSArray(values) toSetForProfileAttribute:LLCreateNSString(attribute) withScope:(LLProfileScope)scope];
     }
     
     void _closeSession()
