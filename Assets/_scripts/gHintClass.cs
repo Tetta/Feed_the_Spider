@@ -111,6 +111,8 @@ public class gHintClass : MonoBehaviour {
 		}
 	}
 
+
+
 	public static Vector3 checkHint(GameObject obj, bool flag = false) {
 		if (hintState == "pause") { 
 

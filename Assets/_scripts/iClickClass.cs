@@ -562,4 +562,23 @@ public class iClickClass : MonoBehaviour {
     {
         GameObject.Find("energy").GetComponent<lsEnergyClass>().buyEnergy();
     }
+
+    void dreamClick()
+    {
+        Debug.Log("dream click");
+        Debug.Log(SceneManager.GetActiveScene().name);
+        var p = ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"];
+
+        //если уже есть подсказка
+        if ((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 ||
+            (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1)
+        {
+
+        }
+        //если нет, то смотрим сначала видео
+        else
+        {
+            
+        }
+    }
 }

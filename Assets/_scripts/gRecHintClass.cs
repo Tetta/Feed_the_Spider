@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class gRecHintClass : MonoBehaviour {
 
-	static public float recHintState = -1;
+	static public float recHintState = 0;
 	static public string rec = "";
 	static public int counter = 0;
 	// Use this for initialization
@@ -36,7 +36,7 @@ public class gRecHintClass : MonoBehaviour {
 			//recHintState += Time.unscaledTime - recHintState;
 			recHintState += gBerryClass.fixedCounter - recHintState;
 			counter++;
-			//Debug.Log (rec);
+			Debug.Log (rec);
 		}
 	}
 }
