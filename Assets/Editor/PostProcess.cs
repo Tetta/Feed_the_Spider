@@ -22,6 +22,7 @@ public class PbxModifier
             string file = proj.FindFileGuidByProjectPath("Libraries/Plugins/iOS/KiiIOSSocialNetworkConnector.mm"); 
             var flags = proj.GetCompileFlagsForFile(target, file);
             flags.Add("-fno-objc-arc");
+			proj.AddFrameworkToProject (target, "CoreData.framework", false);
             proj.SetCompileFlagsForFile(target, file, flags);
 
             File.WriteAllText(projPath, proj.WriteToString());
