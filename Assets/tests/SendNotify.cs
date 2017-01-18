@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using com.playGenesis.VkUnityPlugin;
+using Facebook.Unity;
 using UnityEngine;
 using UnityEngine.Advertisements;
 using UnityEngine.UI;
@@ -28,6 +29,14 @@ public class SendNotify : MonoBehaviour
     {
         Advertisement.Show();
     }
+    public void FbLogin()
+    {
+        FB.Init(() =>
+        {
+            var perms = new List<string>() { "public_profile", "email", "user_friends" };
+            FB.LogInWithReadPermissions(perms, a => { });
+        });
+           
+    }
     
-
 }
