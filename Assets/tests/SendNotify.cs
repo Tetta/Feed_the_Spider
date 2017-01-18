@@ -8,6 +8,11 @@ using UnityEngine.UI;
 
 public class SendNotify : MonoBehaviour
 {
+    void Start()
+    {
+        Advertisement.Initialize("1271127");
+    }
+
     public Text Text;
     public void Update()
     {
