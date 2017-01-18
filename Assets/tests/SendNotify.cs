@@ -3,27 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using com.playGenesis.VkUnityPlugin;
 using UnityEngine;
+using UnityEngine.Advertisements;
+using UnityEngine.UI;
 
 public class SendNotify : MonoBehaviour
 {
+    public Text Text;
+    public void Update()
+    {
+        Text.text =string.Format("ads ready: {0}",  Advertisement.IsReady());
+    }
 
     public void Send()
     {
         LocalNotification.SendNotification(1, TimeSpan.FromSeconds(5), "Title", "message");
     }
 
-    public void Login()
+    public void ShowAd()
     {
-        VkApi.VkApiInstance.Login();
+        Advertisement.Show();
     }
-
-    public void PutVariable()
-    {
-       // vkExtensions.PutVariable(1, 113, b => { Debug.Log("Putted"); });
-    }
-    public void GetVariable()
-    {
-     //   vkExtensions.GetVariable(1, value => { Debug.Log("Getted" + value); });
-    }
+    
 
 }
