@@ -8,7 +8,10 @@ public class gRecHintClass : MonoBehaviour {
 	static public string rec = "";
 	static public int counter = 0;
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
+        Debug.Log("start gRecHintClass");
+        recHintState = 0;
 	}
 	
 	// Update is called once per frame

@@ -170,11 +170,17 @@ public class gBerryClass : MonoBehaviour {
 
         }
         else staticClass.levelRestartedCount = 0;
-	}
+
+        //off if publish
+	    gRecHintClass.rec = "";
+        gRecHintClass.counter = 0;
+        gRecHintClass.recHintState = 0;
+
+    }
 
 
 
-	void FixedUpdate () {
+    void FixedUpdate () {
 
 
 

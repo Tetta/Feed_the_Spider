@@ -127,7 +127,7 @@ public class lsEnergyClass : MonoBehaviour {
 		}
 		if (flag) {
 			ctrProgressClass.saveProgress();
-			if (maxEnergy <= ctrProgressClass.progress["energy"]) GameObject.Find("energy").SendMessage("stopCoroutineEnergyMenu");
+			if (maxEnergy <= ctrProgressClass.progress["energy"] && GameObject.Find("energy") != null) GameObject.Find("energy").SendMessage("stopCoroutineEnergyMenu");
 			return mod;
 		} else {
 			if (ctrProgressClass.progress["energy"] > 0) {
