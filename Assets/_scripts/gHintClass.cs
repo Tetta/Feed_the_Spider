@@ -10,8 +10,9 @@ public class gHintClass : MonoBehaviour {
 	public static action[] actions;
 	public static float time;
 	public static string hintState = "";
+    public static bool isDream = false;
 
-	public static GameObject hint;
+    public static GameObject hint;
 	public static bool flagTransform = false;
 	public static  Vector3 hintStartPos = new Vector3 (-4, 0, 0);
 	public static  Vector3 hintEndPos = new Vector3 (-4, 0, 0);
@@ -29,22 +30,29 @@ public class gHintClass : MonoBehaviour {
 		transform.GetChild(0).GetComponent<UILabel>().text = ctrProgressClass.progress["hints"].ToString();
 		Time.maximumDeltaTime = 0.9F;
 
-		if (hintState == "enable bonus picture") {
-			//для тел, которые работают по-умолчанию с 30fps (поему-то не работает на iPad)
-			//Application.targetFrameRate = 60;
+	    if (hintState == "enable bonus picture")
+	    {
+	        //для тел, которые работают по-умолчанию с 30fps (поему-то не работает на iPad)
+	        //Application.targetFrameRate = 60;
 
-			Time.maximumDeltaTime = 0.02F;
+	        Time.maximumDeltaTime = 0.02F;
 
-			Time.timeScale = 0;
-			GameObject.Find("bonuses pictures").transform.GetChild(0).gameObject.SetActive(true);
-			GameObject.Find("bonuses pictures").transform.GetChild(1).gameObject.SetActive(true);
-			StartCoroutine(coroutineBonusPictureEnable());
+	        Time.timeScale = 0;
+	        GameObject.Find("bonuses pictures").transform.GetChild(0).gameObject.SetActive(true);
+	        GameObject.Find("bonuses pictures").transform.GetChild(1).gameObject.SetActive(true);
+	        StartCoroutine(coroutineBonusPictureEnable());
 
-		} else hintState = "";
+	    }
+	    else
+	    {
+	        hintState = "";
+            isDream = false;
+
+        }
 
 
 
-		fixedFrameCount = 0;
+        fixedFrameCount = 0;
 		fixedFrameCountLast = 0;
 		flagTransform = false;
 		hintStartPos = new Vector3 (-4, 0, 0);
@@ -83,6 +91,21 @@ public class gHintClass : MonoBehaviour {
 				hint.transform.GetChild (0).GetComponent<Animator> ().speed = 1;
 				//fixedFrameCountLast = fixedFrameCount;
 				fixedFrameCountLast = gBerryClass.fixedCounter;
+
+                Debug.Log("isDream: " + isDream);
+                if (isDream)
+			    {
+                    RaycastHit2D hit = Physics2D.Raycast(actions[counter].id, -Vector2.up);
+                    Debug.Log(hit.collider.name);
+			        if (hit.collider != null)
+			        {
+			            Debug.Log(hit.collider.name);
+			            var nameObj = hit.collider.name;
+
+                        if (nameObj == "destroyer" || nameObj == "groot" || nameObj == "sluggish physics") hit.collider.gameObject.SendMessage("OnPress", true);
+                        else hit.collider.gameObject.SendMessage("OnClick");  
+                    }
+                }
 			}
 
 
@@ -165,6 +188,8 @@ public class gHintClass : MonoBehaviour {
 		return Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
 	}
 
+
+
 	IEnumerator coroutineBonusPictureEnable() {
 
 		yield return StartCoroutine(staticClass.waitForRealTime(0.5F));
@@ -200,7 +225,8 @@ public class gHintClass : MonoBehaviour {
 		public float frame;
 	}
 
-	void level1_0 () {
+
+    void level1_0 () {
 		actions = new action[2];
 		actions[0].id = new Vector3(-0.009765625F, -0.5292969F, 0F); //web
 		actions[0].frame = 50;

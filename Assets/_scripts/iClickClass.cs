@@ -574,6 +574,15 @@ public class iClickClass : MonoBehaviour {
             (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1)
         {
 
+            GetComponent<AudioSource>().Play();
+            ctrProgressClass.saveProgress();
+            gHintClass.hintState = "enable bonus picture";
+            Time.timeScale = 1;
+            gHintClass.counter = 0;
+            gHintClass.isDream = true;
+            staticClass.scenePrev = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            GameObject.Find("default level/gui/bonuses/tween/hints").SendMessage(SceneManager.GetActiveScene().name + "_" + initLevelMenuClass.levelDemands);
         }
         //если нет, то смотрим сначала видео
         else
