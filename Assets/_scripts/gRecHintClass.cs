@@ -10,8 +10,7 @@ public class gRecHintClass : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-        Debug.Log("start gRecHintClass");
-        recHintState = 0;
+
 	}
 	
 	// Update is called once per frame

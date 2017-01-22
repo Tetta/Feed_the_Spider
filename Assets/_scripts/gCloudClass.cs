@@ -30,7 +30,7 @@ public class gCloudClass : MonoBehaviour {
 		if (!isPressed && flagHintUse) {
 			if (cloudState == "") {
 				//tutorial
-				if (ctrProgressClass.progress["currentLevel"] == 28 && gHandClass.handState == "text1") 
+				if (ctrProgressClass.progress["currentLevel"] == 16 && gHandClass.handState == "text1") 
 					if (transform.parent.name  == "cloud 3") GameObject.Find("default level/gui/tutorial").GetComponent<gHandClass>().delHand (2, 1F);
 
 				gRecHintClass.recHint (transform);
@@ -41,7 +41,7 @@ public class gCloudClass : MonoBehaviour {
 				audioBack.Play ();
 			} else {
 				//tutorial
-				if (ctrProgressClass.progress["currentLevel"] == 28 && gHandClass.handState == "text2") 
+				if (ctrProgressClass.progress["currentLevel"] == 16 && gHandClass.handState == "text2") 
 				if (transform.parent.name  == "cloud 3") GameObject.Find("default level/gui/tutorial").GetComponent<gHandClass>().delHand (-1, 0);
 				
 				gRecHintClass.recHint (transform);
