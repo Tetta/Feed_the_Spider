@@ -25,7 +25,7 @@ namespace UnityEditor.VKEditor
 					UnityEngine.Debug.Log("ProjMod File: "+file);
 					project.ApplyMod( file );
 				}
-				
+
 				project.Save();
 				
 				FixupFiles.FixSimulator(path);
