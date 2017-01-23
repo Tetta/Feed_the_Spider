@@ -42,7 +42,7 @@ public class ctrProgressClass {
 
 
 	static private Dictionary<string, int> progressDefault = new Dictionary<string, int>{
-		{"googlePlay",0}, {"lastLevel",0}, {"currentLevel",1},{"coins",0},{"gems",0},{"energyTime",0},{"energy",10},{"energyInfinity",0},
+		{"googlePlay",0}, {"lastLevel",0}, {"currentLevel",1},{"coins",0},{"gems",0},{"energyTime",0},{"energy",4},{"energyInfinity",0},
         {"hints",0},{"webs",0},{"collectors",0},{"teleports",0},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
 		{"tutorialBuy",0},{"everyplay",1},{"firstPurchase",0},{"fb",0},
         {"boostersWhite",0 }, {"boostersGreen",0 }, {"boostersBlue",0 }, {"boostersPurple",0 },
@@ -88,11 +88,23 @@ public class ctrProgressClass {
 		{"score96_1",0},{"score96_2",0},{"score97_1",0},{"score97_2",0},{"score98_1",0},{"score98_2",0},{"score99_1",0},{"score99_2",0},{"score100_1",0},{"score100_2",0},
 
 		{"gift7",0},{"gift8",0},{"gift11",0},{"gift19",0},{"gift21",0},{"gift31",0},{"gift32",0},{"gift40",0},{"gift47",0},
-		{"gift53",0},{"gift56",0},{"gift63",0},{"gift69",0},{"gift71",0},{"gift73",0},{"gift84",0},{"gift87",0},{"gift94",0},{"gift95",0}
+		{"gift53",0},{"gift56",0},{"gift63",0},{"gift69",0},{"gift71",0},{"gift73",0},{"gift84",0},{"gift87",0},{"gift94",0},{"gift95",0},
 
-	};
+        //0 нет, 1 первый, 2 второй, 3 оба
+        { "level1_dream",0},{"level2_dream",0},{"level3_dream",0},{"level4_dream",0},{"level5_dream",0},{"level6_dream",0},{"level7_dream",0},{"level8_dream",0},{"level9_dream",0},{"level10_dream",0},
+        {"level11_dream",0},{"level12_dream",0},{"level13_dream",0},{"level14_dream",0},{"level15_dream",0},{"level16_dream",0},{"level17_dream",0},{"level18_dream",0},{"level19_dream",0},{"level20_dream",0},
+        {"level21_dream",0},{"level22_dream",0},{"level23_dream",0},{"level24_dream",0},{"level25_dream",0},{"level26_dream",0},{"level27_dream",0},{"level28_dream",0},{"level29_dream",0},{"level30_dream",0},
+        {"level31_dream",0},{"level32_dream",0},{"level33_dream",0},{"level34_dream",0},{"level35_dream",0},{"level36_dream",0},{"level37_dream",0},{"level38_dream",0},{"level39_dream",0},{"level40_dream",0},
+        {"level41_dream",0},{"level42_dream",0},{"level43_dream",0},{"level44_dream",0},{"level45_dream",0},{"level46_dream",0},{"level47_dream",0},{"level48_dream",0},{"level49_dream",0},{"level50_dream",0},
+        {"level51_dream",0},{"level52_dream",0},{"level53_dream",0},{"level54_dream",0},{"level55_dream",0},{"level56_dream",0},{"level57_dream",0},{"level58_dream",0},{"level59_dream",0},{"level60_dream",0},
+        {"level61_dream",0},{"level62_dream",0},{"level63_dream",0},{"level64_dream",0},{"level65_dream",0},{"level66_dream",0},{"level67_dream",0},{"level68_dream",0},{"level69_dream",0},{"level70_dream",0},
+        {"level71_dream",0},{"level72_dream",0},{"level73_dream",0},{"level74_dream",0},{"level75_dream",0},{"level76_dream",0},{"level77_dream",0},{"level78_dream",0},{"level79_dream",0},{"level80_dream",0},
+        {"level81_dream",0},{"level82_dream",0},{"level83_dream",0},{"level84_dream",0},{"level85_dream",0},{"level86_dream",0},{"level87_dream",0},{"level88_dream",0},{"level89_dream",0},{"level90_dream",0},
+        {"level91_dream",0},{"level92_dream",0},{"level93_dream",0},{"level94_dream",0},{"level95_dream",0},{"level96_dream",0},{"level97_dream",0},{"level98_dream",0},{"level99_dream",0},{"level100_dream",0}
+
+    };
 	static private Dictionary<string, int> progressCheat = new Dictionary<string, int>{
-		{"googlePlay",0}, {"lastLevel",99}, {"currentLevel",1},{"coins",1000},{"gems",0},{"energyTime", (int)(DateTime.UtcNow - new DateTime(2015, 1, 1)).TotalSeconds},{"energy",10}, {"energyInfinity",0},
+		{"googlePlay",0}, {"lastLevel",99}, {"currentLevel",1},{"coins",1000},{"gems",0},{"energyTime", 0},{"energy",4}, {"energyInfinity",(int) DateTime.Now.AddDays(1).TotalSeconds()},
         {"hints",99},{"webs",99},{"collectors",99},{"teleports",99},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
 		{"tutorialBuy",0},{"everyplay",1},{"firstPurchase",0},{"fb",0},
 
@@ -105,16 +117,16 @@ public class ctrProgressClass {
         {"skin1",1},{"skin2",50},{"skin3",2},{"skin4",12},{"skin5",1},
         {"berryCurrent", 1}, {"hatCurrent", 1}, {"skinCurrent", 1},
 
-        {"level1",0},{"level2",0},{"level3",0},{"level4",0},{"level5",0},{"level6",0},{"level7",0},{"level8",0},{"level9",0},{"level10",0},
-		{"level11",0},{"level12",0},{"level13",0},{"level14",0},{"level15",0},{"level16",0},{"level17",0},{"level18",0},{"level19",0},{"level20",0},
-		{"level21",0},{"level22",0},{"level23",0},{"level24",0},{"level25",0},{"level26",0},{"level27",0},{"level28",0},{"level29",0},{"level30",0},
-		{"level31",0},{"level32",0},{"level33",0},{"level34",0},{"level35",0},{"level36",0},{"level37",0},{"level38",0},{"level39",0},{"level40",0},
-		{"level41",0},{"level42",0},{"level43",0},{"level44",0},{"level45",0},{"level46",0},{"level47",0},{"level48",0},{"level49",0},{"level50",0},
-		{"level51",0},{"level52",0},{"level53",0},{"level54",0},{"level55",0},{"level56",0},{"level57",0},{"level58",0},{"level59",0},{"level60",0},
-		{"level61",0},{"level62",0},{"level63",0},{"level64",0},{"level65",0},{"level66",0},{"level67",0},{"level68",0},{"level69",0},{"level70",0},
-		{"level71",0},{"level72",0},{"level73",0},{"level74",0},{"level75",0},{"level76",0},{"level77",0},{"level78",0},{"level79",0},{"level80",0},
-		{"level81",0},{"level82",0},{"level83",0},{"level84",0},{"level85",0},{"level86",0},{"level87",0},{"level88",0},{"level89",0},{"level90",0},
-		{"level91",0},{"level92",0},{"level93",0},{"level94",0},{"level95",0},{"level96",0},{"level97",0},{"level98",0},{"level99",0},{"level100",0},
+        {"level1",3},{"level2",3},{"level3",3},{"level4",3},{"level5",3},{"level6",3},{"level7",3},{"level8",3},{"level9",3},{"level10",3},
+		{"level11",3},{"level12",3},{"level13",3},{"level14",3},{"level15",3},{"level16",3},{"level17",3},{"level18",3},{"level19",3},{"level20",3},
+		{"level21",3},{"level22",3},{"level23",3},{"level24",3},{"level25",3},{"level26",3},{"level27",3},{"level28",3},{"level29",3},{"level30",3},
+		{"level31",3},{"level32",3},{"level33",3},{"level34",3},{"level35",3},{"level36",3},{"level37",3},{"level38",3},{"level39",3},{"level40",3},
+		{"level41",3},{"level42",3},{"level43",3},{"level44",3},{"level45",3},{"level46",3},{"level47",3},{"level48",3},{"level49",3},{"level50",3},
+		{"level51",3},{"level52",3},{"level53",3},{"level54",3},{"level55",3},{"level56",3},{"level57",3},{"level58",3},{"level59",3},{"level60",3},
+		{"level61",3},{"level62",3},{"level63",3},{"level64",3},{"level65",3},{"level66",3},{"level67",3},{"level68",3},{"level69",3},{"level70",3},
+		{"level71",3},{"level72",3},{"level73",3},{"level74",3},{"level75",3},{"level76",3},{"level77",3},{"level78",3},{"level79",3},{"level80",3},
+		{"level81",3},{"level82",3},{"level83",3},{"level84",3},{"level85",3},{"level86",3},{"level87",3},{"level88",3},{"level89",3},{"level90",3},
+		{"level91",3},{"level92",3},{"level93",3},{"level94",3},{"level95",3},{"level96",3},{"level97",3},{"level98",3},{"level99",3},{"level100",3},
 
 		{"score1_1",0},{"score1_2",0},{"score2_1",0},{"score2_2",0},{"score3_1",0},{"score3_2",0},{"score4_1",0},{"score4_2",0},{"score5_1",0},{"score5_2",0},
 		{"score6_1",0},{"score6_2",0},{"score7_1",0},{"score7_2",0},{"score8_1",0},{"score8_2",0},{"score9_1",0},{"score9_2",0},{"score10_1",0},{"score10_2",0},
@@ -138,9 +150,20 @@ public class ctrProgressClass {
 		{"score96_1",0},{"score96_2",0},{"score97_1",0},{"score97_2",0},{"score98_1",0},{"score98_2",0},{"score99_1",0},{"score99_2",0},{"score100_1",0},{"score100_2",0},
 
 		{"gift7",0},{"gift8",0},{"gift11",0},{"gift19",0},{"gift21",0},{"gift31",0},{"gift32",0},{"gift40",0},{"gift47",0},
-		{"gift53",0},{"gift56",0},{"gift63",0},{"gift69",0},{"gift71",0},{"gift73",0},{"gift84",0},{"gift87",0},{"gift94",0},{"gift95",0}
-
-	};
+		{"gift53",0},{"gift56",0},{"gift63",0},{"gift69",0},{"gift71",0},{"gift73",0},{"gift84",0},{"gift87",0},{"gift94",0},{"gift95",0},
+                
+        //0 нет, 1 первый, 2 второй, 3 оба
+        { "level1_dream",0},{"level2_dream",0},{"level3_dream",0},{"level4_dream",0},{"level5_dream",0},{"level6_dream",0},{"level7_dream",0},{"level8_dream",0},{"level9_dream",0},{"level10_dream",0},
+        {"level11_dream",0},{"level12_dream",0},{"level13_dream",1},{"level14_dream",0},{"level15_dream",0},{"level16_dream",0},{"level17_dream",0},{"level18_dream",0},{"level19_dream",0},{"level20_dream",0},
+        {"level21_dream",0},{"level22_dream",0},{"level23_dream",0},{"level24_dream",0},{"level25_dream",0},{"level26_dream",0},{"level27_dream",0},{"level28_dream",0},{"level29_dream",0},{"level30_dream",0},
+        {"level31_dream",0},{"level32_dream",0},{"level33_dream",0},{"level34_dream",0},{"level35_dream",0},{"level36_dream",0},{"level37_dream",0},{"level38_dream",0},{"level39_dream",0},{"level40_dream",0},
+        {"level41_dream",0},{"level42_dream",0},{"level43_dream",0},{"level44_dream",0},{"level45_dream",0},{"level46_dream",0},{"level47_dream",0},{"level48_dream",0},{"level49_dream",0},{"level50_dream",0},
+        {"level51_dream",0},{"level52_dream",0},{"level53_dream",0},{"level54_dream",0},{"level55_dream",0},{"level56_dream",0},{"level57_dream",0},{"level58_dream",0},{"level59_dream",0},{"level60_dream",0},
+        {"level61_dream",0},{"level62_dream",0},{"level63_dream",0},{"level64_dream",0},{"level65_dream",0},{"level66_dream",0},{"level67_dream",0},{"level68_dream",0},{"level69_dream",0},{"level70_dream",0},
+        {"level71_dream",0},{"level72_dream",0},{"level73_dream",0},{"level74_dream",0},{"level75_dream",0},{"level76_dream",0},{"level77_dream",0},{"level78_dream",0},{"level79_dream",0},{"level80_dream",0},
+        {"level81_dream",0},{"level82_dream",0},{"level83_dream",0},{"level84_dream",0},{"level85_dream",0},{"level86_dream",0},{"level87_dream",0},{"level88_dream",0},{"level89_dream",0},{"level90_dream",0},
+        {"level91_dream",0},{"level92_dream",0},{"level93_dream",0},{"level94_dream",0},{"level95_dream",0},{"level96_dream",0},{"level97_dream",0},{"level98_dream",0},{"level99_dream",0},{"level100_dream",0}
+    };
 	static public void resetProgress(string nameButton) {
 		//сброс прогресса
 		progress = new Dictionary<string, int> (progressDefault);

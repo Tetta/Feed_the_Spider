@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-using UnityEngine.Advertisements;
-using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class gBerryClass : MonoBehaviour {
@@ -24,8 +22,7 @@ public class gBerryClass : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
-		staticClass.sceneLoading = false;
+        staticClass.sceneLoading = false;
 		staticClass.initLevels ();
 
 		//notifer
@@ -150,19 +147,45 @@ public class gBerryClass : MonoBehaviour {
 			GameObject.Find ("tween").transform.localPosition = new Vector3 (880, 0, 0);
 		}
 
-		//Vungle event finished
-		//initializeEventHandlers ();
+        //Vungle event finished
+        //initializeEventHandlers ();
+
+        //dream
+        var p = ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"];
+        if (staticClass.scenePrev == SceneManager.GetActiveScene().name && !((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 || (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1))
+	    {
+	        staticClass.levelRestartedCount++;
+	        if (staticClass.levelRestartedCount >= 2)
+	        {
+                var dream = GameObject.Find("/default level/gui/dream");
+                dream.transform.GetChild(0).gameObject.SetActive(true);
+                dream.transform.GetChild(1).gameObject.SetActive(false);
+            }
+	    }
+	    else if
+            //если уже есть подсказка
+            ((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 ||
+             (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1)
+        {
+            var dream = GameObject.Find("/default level/gui/dream");
+            dream.transform.GetChild(0).gameObject.SetActive(false);
+            dream.transform.GetChild(1).gameObject.SetActive(true);
+
+        }
+        else staticClass.levelRestartedCount = 0;
+
+        //off if publish
+	    gRecHintClass.rec = "";
+        gRecHintClass.counter = 0;
+        gRecHintClass.recHintState = 0;
+
+    }
 
 
-	}
 
+    void FixedUpdate () {
 
-
-	void FixedUpdate () {
-
-
-
-			if (gHintClass.hintState == "start" && gHintClass.counter <= gHintClass.actions.Length - 1) {
+        if (gHintClass.hintState == "start" && gHintClass.counter <= gHintClass.actions.Length - 1) {
 				if (fixedCounter - gHintClass.fixedFrameCountLast == gHintClass.actions [gHintClass.counter].frame) { 
 					Time.timeScale = 0;
 					gHintClass.hint.GetComponent<AudioSource> ().Play ();
@@ -284,11 +307,10 @@ public class gBerryClass : MonoBehaviour {
 	void OnCollisionEnter2D (Collision2D collisionObject) {
 		if (collisionObject.gameObject.name == "spider") {
 			berryState = "start finish";
+            gHintClass.hintState = "";
 
-			gHintClass.hintState = "";
-
-			//cut ropes
-			GameObject[] webs = GameObject.FindGameObjectsWithTag("web");
+            //cut ropes
+            GameObject[] webs = GameObject.FindGameObjectsWithTag("web");
 			foreach (var web in webs) {
 				if (web.GetComponent<gWebClass> ().webStateCollisionBerry) {
 					staticClass.useWeb--;
@@ -316,8 +338,12 @@ public class gBerryClass : MonoBehaviour {
 			if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
 			GetComponent<Rigidbody2D>().isKinematic = true;
 			GetComponent<Collider2D>().enabled = false;
-			collisionObject.rigidbody.isKinematic = true;
-			StartCoroutine(coroutineEat(collisionObject));
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            collisionObject.rigidbody.isKinematic = true;
+            collisionObject.rigidbody.angularVelocity = 0;
+            collisionObject.rigidbody.velocity = new Vector2(0, 0);
+
+            StartCoroutine(coroutineEat(collisionObject));
 		}
 
 	}
@@ -363,11 +389,15 @@ public class gBerryClass : MonoBehaviour {
 		if (Everyplay.IsRecording ()) 
 			buttonEveryplayScript.takeScreenshot ();
 
+        //restart scene, if dream show
+        if (GameObject.Find("/default level/gui/dream/ui").activeSelf) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
 		// остановка выполнения функции на costEnergy секунд
 		yield return new WaitForSeconds(1.0F);
-		//для записи подсказки (потом удалить)
-		gRecHintClass.recHintState = 0;
+		Debug.Log(gHintClass.hintState);
+        gHintClass.hintState = "";
+        //для записи подсказки (потом удалить)
+        gRecHintClass.recHintState = 0;
 		//D/ebug.Log ("rec: ");
 		//D/ebug.Log (gRecHintClass.rec);
 		gRecHintClass.counter = 0;

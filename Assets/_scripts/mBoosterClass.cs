@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Random = System.Random;
 
 public class mBoosterClass : MonoBehaviour {
 
@@ -108,7 +109,9 @@ public class mBoosterClass : MonoBehaviour {
         Dictionary<string, int> portionsGreen = new Dictionary<string, int>();
         Dictionary<string, int> portionsCountGreen = new Dictionary<string, int>();
         Dictionary<string, int> portionsBlue = new Dictionary<string, int>();
+        Dictionary<string, int> portionsCountBlue = new Dictionary<string, int>();
         Dictionary<string, int> portionsPurple = new Dictionary<string, int>();
+        Dictionary<string, int> portionsCountPurple = new Dictionary<string, int>();
 
 
 
@@ -122,49 +125,66 @@ public class mBoosterClass : MonoBehaviour {
         portionsCountGreen["webs"] = 2; portionsCountGreen["teleports"] = 2;
         portionsCountGreen["collectors"] = 2; portionsCountGreen["hints"] = 1;
 
+        portionsBlue["webs"] = 20; portionsBlue["teleports"] = 24;
+        portionsBlue["collectors"] = 26; portionsBlue["hints"] = 30;
+        portionsCountBlue["webs"] = 3; portionsCountBlue["teleports"] = 3;
+        portionsCountBlue["collectors"] = 2; portionsCountBlue["hints"] = 2;
+
+        portionsPurple["webs"] = 10; portionsPurple["teleports"] = 20;
+        portionsPurple["collectors"] = 30; portionsPurple["hints"] = 40;
+        portionsCountPurple["webs"] = 4; portionsCountPurple["teleports"] = 4;
+        portionsCountPurple["collectors"] = 3; portionsCountPurple["hints"] = 3;
 
         if (currentBoosterColor == "boostersWhite")
         {
-            for (int i = 0; i < 5; i++)
+            openingCards.Add(new KeyValuePair<string, int>("coins", 50));
+            for (int i = 1; i < 5; i++)
             {
                 if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("berry");
                 else setOpeningCardCommon(ref portionsWhite, portionsCountWhite);
-
             }
+            Shuffle(openingCards);
         }
 
         if (currentBoosterColor == "boostersGreen")
         {
             setOpeningCardUncommon("berry");
-            for (int i = 1; i < 5; i++)
+            openingCards.Add(new KeyValuePair<string, int>("coins", 100));
+            for (int i = 2; i < 5; i++)
             {
                 if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("hat");
                 else setOpeningCardCommon(ref portionsGreen, portionsCountGreen);
 
             }
+            Shuffle(openingCards);
+
         }
         if (currentBoosterColor == "boostersBlue")
         {
             setOpeningCardUncommon("berry");
             setOpeningCardUncommon("hat");
-            for (int i = 2; i < 5; i++)
-            {
-                if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("skin");
-                else setOpeningCardCommon(ref portionsGreen, portionsCountGreen);
-
-            }
-        }
-        if (currentBoosterColor == "boostersPurple")
-        {
-            setOpeningCardUncommon("berry");
-            setOpeningCardUncommon("hat");
-            setOpeningCardUncommon("skin");
+            openingCards.Add(new KeyValuePair<string, int>("coins", 150));
             for (int i = 3; i < 5; i++)
             {
                 if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("skin");
                 else setOpeningCardCommon(ref portionsGreen, portionsCountGreen);
 
             }
+            Shuffle(openingCards);
+        }
+        if (currentBoosterColor == "boostersPurple")
+        {
+            setOpeningCardUncommon("berry");
+            setOpeningCardUncommon("hat");
+            setOpeningCardUncommon("skin");
+            openingCards.Add(new KeyValuePair<string, int>("coins", 200));
+            for (int i = 4; i < 5; i++)
+            {
+                if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("skin");
+                else setOpeningCardCommon(ref portionsGreen, portionsCountGreen);
+
+            }
+            Shuffle(openingCards);
         }
 
         for (int i = 0; i < 5; i++) {
@@ -281,4 +301,19 @@ public class mBoosterClass : MonoBehaviour {
         openingCards.Add(new KeyValuePair<string, int>(itemName + number, 1));
 
     }
+
+    private  static void Shuffle<T>(IList<T> list)
+    {
+        Random random = new Random();
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = random.Next(n + 1);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
+    }
+
 }

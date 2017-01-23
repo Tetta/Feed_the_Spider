@@ -159,12 +159,15 @@ public class iClickClass : MonoBehaviour {
 
 
 			if (name == "restart") {
-				//закомментить = 0, сделано для теста
-				//initLevelMenuClass.levelDemands = 0;
 				async = SceneManager.LoadSceneAsync (SceneManager.GetActiveScene ().name);
-			
+
 			}
-			if (name == "restart 2") {
+            else if (name == "restart 1")
+            {
+                initLevelMenuClass.levelDemands = 0;
+                async = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+
+            } else if (name == "restart 2") {
 				initLevelMenuClass.levelDemands = 1;
 				async = SceneManager.LoadSceneAsync (SceneManager.GetActiveScene ().name);
 
@@ -206,8 +209,7 @@ public class iClickClass : MonoBehaviour {
 				if (ctrProgressClass.progress ["lastLevel"] >= Convert.ToInt32 (name.Substring (5)) - 1)
 					async = SceneManager.LoadSceneAsync ("level" + Convert.ToInt32 (name.Substring (5)));
 			}
-            Debug.Log(name + "1111");
-
+            
             //сбрасываем энергию
             if (staticClass.scenePrev == "level menu") lsEnergyClass.energyTake = false;
 
@@ -550,7 +552,7 @@ public class iClickClass : MonoBehaviour {
 
 	void ShowRewardedAd() {
 		ctrAdClass.adStarted = name;
-		ctrAdClass.instance.ShowRewardedAd ();
+		if (ctrAdClass.instance != null) ctrAdClass.instance.ShowRewardedAd ();
 	}
 
     void restoreEnergy()
@@ -562,4 +564,29 @@ public class iClickClass : MonoBehaviour {
     {
         GameObject.Find("energy").GetComponent<lsEnergyClass>().buyEnergy();
     }
+
+    void dreamClick()
+    {
+        Debug.Log("dream click");
+        Debug.Log(SceneManager.GetActiveScene().name);
+        var p = ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"];
+        GetComponent<AudioSource>().Play();
+
+        //если уже есть подсказка
+        if ((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 ||
+            (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1)
+        {
+
+            gHintClass.initDream();
+        }
+        //если нет, то смотрим сначала видео
+        else
+        {
+            //for publish ShowRewardedAd
+            //ShowRewardedAd();
+            gHintClass.initDream();
+        }
+    }
+
+
 }

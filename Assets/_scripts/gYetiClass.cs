@@ -48,8 +48,8 @@ public class gYetiClass : MonoBehaviour {
 				yetiState = "active";
 				berry.GetComponent<Rigidbody2D> ().angularVelocity = 0;
 				berry.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, 0);
-				//spider.GetComponent<Rigidbody2D>().angularVelocity = 0;
-				//spider.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+				spider.GetComponent<Rigidbody2D>().angularVelocity = 0;
+				spider.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
 				spider.GetComponent<Rigidbody2D> ().isKinematic = true;
 
 				chains = GameObject.FindGameObjectsWithTag ("chain");

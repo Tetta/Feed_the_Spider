@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+#if (UNITY_ANDROID || UNITY_IOS) && UNITY_UNITYADS_API && ENABLE_UNITYADS_RUNTIME && !UNITY_EDITOR
 using UnityEngine.Advertisements;
+#endif
 using System.Collections.Generic;
 using GoogleMobileAds.Api;
 
@@ -34,6 +36,7 @@ public class ctrAdClass: MonoBehaviour {
 
 	public void ShowRewardedAd()
 	{
+#if (UNITY_ANDROID || UNITY_IOS) && UNITY_UNITYADS_API && ENABLE_UNITYADS_RUNTIME && !UNITY_EDITOR
 		if (isAdReady ()) {
 			if (adCategory == "Ad Unity") {
 				var options = new ShowOptions { resultCallback = HandleShowResult };
@@ -44,16 +47,19 @@ public class ctrAdClass: MonoBehaviour {
                 if (adStarted == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "energy", 1);
 				if (adStarted == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "coins", 1);
 				if (adStarted == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "telek", 1);
+				if (adStarted == "dream") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "dream", 1);
 			}
 
 			if (adStarted == "button ad energy") GoogleAnalyticsV4.instance.LogEvent(adCategory, "start", "energy", 1);
 			if (adStarted == "button ad coins") GoogleAnalyticsV4.instance.LogEvent(adCategory, "start", "coins", 1);
 			if (adStarted == "button ad telek") GoogleAnalyticsV4.instance.LogEvent(adCategory, "start", "telek", 1);
+			if (adStarted == "dream") GoogleAnalyticsV4.instance.LogEvent(adCategory, "start", "dream", 1);
 		} else {
             //ad dont ready Admob
             if (adStarted == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "energy", 1);
 			if (adStarted == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "coins", 1);
 			if (adStarted == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "telek", 1);
+            if (adStarted == "dream") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "dream", 1);
 
 			//adDontReadyMenu
 			if (adStarted != "button ad telek")  GameObject.Find("root/static").transform.GetChild(7).gameObject.SetActive(true);
@@ -61,9 +67,10 @@ public class ctrAdClass: MonoBehaviour {
 			//#if UNITY_ANDROID || UNITY_IOS
 			//#endif
 		}
-	}
+#endif
+    }
 
-	#if UNITY_ANDROID || UNITY_IOS
+#if (UNITY_ANDROID || UNITY_IOS) && UNITY_UNITYADS_API && ENABLE_UNITYADS_RUNTIME && !UNITY_EDITOR
 	//Unity Ads event
 	private void HandleShowResult(ShowResult result)
 	{
@@ -77,11 +84,11 @@ public class ctrAdClass: MonoBehaviour {
 		
 	}
 
-	#endif
+#endif
 
-	//on admob rewarded finish
+    //on admob rewarded finish
 
-	void setReward() {
+    void setReward() {
 
 		if (adStarted == "button ad energy") {
 			GoogleAnalyticsV4.instance.LogEvent (adCategory, "finish", "energy", 1);
@@ -108,13 +115,29 @@ public class ctrAdClass: MonoBehaviour {
 			ctrStatsClass.logEvent ("coins", "ad_telek", "level" + ctrProgressClass.progress ["lastLevel"].ToString (), coinsAdReward);
 		} else if (adStarted == "level") {
 			GoogleAnalyticsV4.instance.LogEvent(adCategory, "finish", "level", 1);
-		}
-		if (adStarted != "level") ctrProgressClass.saveProgress ();
+		} else if (adStarted == "dream")
+        {
+            GoogleAnalyticsV4.instance.LogEvent(adCategory, "finish", "dream", 1);
+            //сохраняем dream
+            var nameScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            var p = ctrProgressClass.progress[nameScene + "_dream"];
+
+            if (p == 0 && initLevelMenuClass.levelDemands == 0)
+                ctrProgressClass.progress[nameScene + "_dream"] = 1;
+            else if (p == 0 && initLevelMenuClass.levelDemands == 1)
+                ctrProgressClass.progress[nameScene + "_dream"] = 2;
+            else
+                ctrProgressClass.progress[nameScene + "_dream"] = 3;
+            ctrProgressClass.saveProgress();
+            gHintClass.initDream();
+        }
+        if (adStarted != "level") ctrProgressClass.saveProgress ();
 		adStarted = "";
 		adCategory = "";
 	}
 
 	bool isAdReady() {
+#if (UNITY_ANDROID || UNITY_IOS) && UNITY_UNITYADS_API && ENABLE_UNITYADS_RUNTIME && !UNITY_EDITOR
 		if (Advertisement.IsReady ("video") && adStarted == "level") {
 			adCategory = "Ad Unity";
 			return true;
@@ -125,12 +148,13 @@ public class ctrAdClass: MonoBehaviour {
 			adCategory = "Ad Admob";
 			return true;
 		}
-		return false;
+#endif
+        return false;
 
 	}
 
 	public void ShowLevelAd() {
-		#if UNITY_ANDROID || UNITY_IOS
+#if (UNITY_ANDROID || UNITY_IOS) && UNITY_UNITYADS_API && ENABLE_UNITYADS_RUNTIME && !UNITY_EDITOR
 		if (ctrProgressClass.progress["complect"] == 0 && ctrProgressClass.progress["currentLevel"] >= 5) {
 			showAdLevelCounter ++;
 
@@ -176,12 +200,12 @@ public class ctrAdClass: MonoBehaviour {
 
 			} 
 		}
-		#endif
+#endif
 
-	}
+    }
 
-	//AdMob
-	private void OnAdOpening() {
+    //AdMob
+    private void OnAdOpening() {
         Debug.Log("AdMob OnAdOpening");
         RequestInterstitial();
 
