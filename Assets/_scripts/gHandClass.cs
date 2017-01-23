@@ -19,9 +19,9 @@ public class gHandClass : MonoBehaviour {
 			Time.timeScale = 0;
 			if (transform.childCount > 2) transform.GetChild (2).gameObject.SetActive(true);
 
-			if (level == "level1" || level == "level26" || level == "level28" || level == "level51" || level == "level76" || level == "level78")
+			if (level == "level1" || level == "level14" || level == "level16" || level == "level28" || level == "level37" || level == "level39")
 				StartCoroutine (addHand (1, 0));
-			else if (level == "level7")
+			else if (level == "level4")
 				StartCoroutine (addHand (1, 2.3F));
 		}
 	}
@@ -45,7 +45,7 @@ public class gHandClass : MonoBehaviour {
 
 		description.SetActive (true);
 		hand.SetActive (true);
-		if (level == "level1" || level == "level28" || level == "level51"  || (level == "level76" && handState == "text2") || level == "level78") hand.GetComponent<Animator>().Play("hand click");
+		if (level == "level1" || level == "level16" || level == "level28"  || (level == "level37" && handState == "text2") || level == "level39") hand.GetComponent<Animator>().Play("hand click");
 		else  hand.GetComponent<Animator>().Play("hand drag");
 		description.GetComponent<Animator>().Play("menu open");
 

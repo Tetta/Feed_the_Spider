@@ -334,7 +334,8 @@ public class gBerryClass : MonoBehaviour {
 			if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
 			GetComponent<Rigidbody2D>().isKinematic = true;
 			GetComponent<Collider2D>().enabled = false;
-			collisionObject.rigidbody.isKinematic = true;
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            collisionObject.rigidbody.isKinematic = true;
             collisionObject.rigidbody.angularVelocity = 0;
             collisionObject.rigidbody.velocity = new Vector2(0, 0);
 

@@ -59,7 +59,7 @@ public class gGrootClass : MonoBehaviour {
 				audioClick.Play ();
 				if (grootState == "") {
 					//tutorial
-					if (ctrProgressClass.progress["currentLevel"] == 76 && gHandClass.handState == "text1") 
+					if (ctrProgressClass.progress["currentLevel"] == 37 && gHandClass.handState == "text1") 
 						GameObject.Find("default level/gui/tutorial").GetComponent<gHandClass>().delHand (3, 0);
 
 					staticClass.useGroot = true;
@@ -68,7 +68,7 @@ public class gGrootClass : MonoBehaviour {
 				}		
 				if (grootState == "enable") {
 					//tutorial
-					if (ctrProgressClass.progress["currentLevel"] == 76 && gHandClass.handState == "text2") 
+					if (ctrProgressClass.progress["currentLevel"] == 37 && gHandClass.handState == "text2") 
 						GameObject.Find("default level/gui/tutorial").GetComponent<gHandClass>().delHand (-1, 0);
 
 					staticClass.useGroot = true;
@@ -190,11 +190,11 @@ public class gGrootClass : MonoBehaviour {
 				destroyingRope ();
 				audioOver.Play ();
 				//tutorial
-				if (ctrProgressClass.progress["currentLevel"] == 76 && gHandClass.handState == "text1") 
+				if (ctrProgressClass.progress["currentLevel"] == 37 && gHandClass.handState == "text1") 
 					GameObject.Find("default level/gui/tutorial").GetComponent<gHandClass>().delHand (1, 0);
 			}
 			//tutorial
-			if (ctrProgressClass.progress["currentLevel"] == 76 && gHandClass.handState == "text1" && grootState == "enable") 
+			if (ctrProgressClass.progress["currentLevel"] == 37 && gHandClass.handState == "text1" && grootState == "enable") 
 				GameObject.Find("default level/gui/tutorial").GetComponent<gHandClass>().delHand (2, 1.5F);
 			
 

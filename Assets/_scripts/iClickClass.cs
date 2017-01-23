@@ -159,12 +159,15 @@ public class iClickClass : MonoBehaviour {
 
 
 			if (name == "restart") {
-				//закомментить = 0, сделано для теста
-				//initLevelMenuClass.levelDemands = 0;
 				async = SceneManager.LoadSceneAsync (SceneManager.GetActiveScene ().name);
-			
+
 			}
-			if (name == "restart 2") {
+            else if (name == "restart 1")
+            {
+                initLevelMenuClass.levelDemands = 0;
+                async = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+
+            } else if (name == "restart 2") {
 				initLevelMenuClass.levelDemands = 1;
 				async = SceneManager.LoadSceneAsync (SceneManager.GetActiveScene ().name);
 

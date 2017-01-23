@@ -102,7 +102,7 @@ public class UICamera : MonoBehaviour
 		{
 			get
 			{
-				return current != null && current != fallThrough && NGUITools.FindInParents<UIRoot>(current) != null;
+                return current != null && current != fallThrough && NGUITools.FindInParents<UIRoot>(current) != null;
 			}
 		}
 	}
@@ -182,7 +182,8 @@ public class UICamera : MonoBehaviour
 	/// Get the details of the specified mouse button.
 	/// </summary>
 
-	static public GetMouseDelegate GetMouse = delegate(int button) { return mMouse[button]; };
+	static public GetMouseDelegate GetMouse = delegate(int button) {
+        return mMouse[button]; };
 	
 	/// <summary>
 	/// Get or create a touch event. If you are trying to iterate through a list of active touches, use activeTouches instead.
@@ -793,7 +794,7 @@ public class UICamera : MonoBehaviour
 	{
 		get
 		{
-			if (currentTouch != null) return currentTouch.isOverUI;
+            if (currentTouch != null) return currentTouch.isOverUI;
 
 			for (int i = 0, imax = activeTouches.Count; i < imax; ++i)
 			{
@@ -803,7 +804,8 @@ public class UICamera : MonoBehaviour
 
 			for (int i = 0; i < 3; ++i)
 			{
-				var m = mMouse[i];
+                
+                var m = mMouse[i];
 				if (m.current != null && m.current != fallThrough && NGUITools.FindInParents<UIRoot>(m.current) != null) return true;
 			}
 
@@ -821,7 +823,7 @@ public class UICamera : MonoBehaviour
 	{
 		get
 		{
-			if (inputHasFocus) return true;
+            if (inputHasFocus) return true;
 			if (currentTouch != null) return currentTouch.isOverUI;
 
 			for (int i = 0, imax = activeTouches.Count; i < imax; ++i)
@@ -857,15 +859,17 @@ public class UICamera : MonoBehaviour
 	{
 		get
 		{
-			if (currentTouch != null && currentTouch.dragStarted) return currentTouch.current;
-			if (mHover && mHover.activeInHierarchy) return mHover;
+            if (currentTouch != null && currentTouch.dragStarted) return currentTouch.current;
+
+		    if (mHover && mHover.activeInHierarchy) return mHover;
 			mHover = null;
 			return null;
 		}
 		set
 		{
-			// We already have this object highlighted
-			if (mHover == value) return;
+
+            // We already have this object highlighted
+            if (mHover == value) return;
 			
 			bool statesDiffer = false;
 			UICamera prevCamera = current;
@@ -962,7 +966,7 @@ public class UICamera : MonoBehaviour
 
 					if (nav && nav.constraint != UIKeyNavigation.Constraint.Explicit && nav.startsSelected)
 					{
-						hoveredObject = nav.gameObject;
+                        hoveredObject = nav.gameObject;
 						controller.current = mHover;
 						return mHover;
 					}
@@ -976,7 +980,7 @@ public class UICamera : MonoBehaviour
 
 						if (nav && nav.constraint != UIKeyNavigation.Constraint.Explicit)
 						{
-							hoveredObject = nav.gameObject;
+                            hoveredObject = nav.gameObject;
 							controller.current = mHover;
 							return mHover;
 						}
@@ -996,7 +1000,7 @@ public class UICamera : MonoBehaviour
 				controller.current = null;
 			}
 
-			hoveredObject = value;
+            hoveredObject = value;
 		}
 	}
 
@@ -1018,7 +1022,7 @@ public class UICamera : MonoBehaviour
 		{
 			if (mSelected == value)
 			{
-				hoveredObject = value;
+                hoveredObject = value;
 				controller.current = value;
 				return;
 			}
@@ -1356,23 +1360,22 @@ public class UICamera : MonoBehaviour
 		for (int i = 0; i < list.size; ++i)
 		{
 			UICamera cam = list.buffer[i];
-			
 			// Skip inactive scripts
 			if (!cam.enabled || !NGUITools.GetActive(cam.gameObject)) continue;
-
-			// Convert to view space
-			currentCamera = cam.cachedCamera;
+            
+            // Convert to view space
+            currentCamera = cam.cachedCamera;
 #if !UNITY_4_7 && !UNITY_5_0 && !UNITY_5_1 && !UNITY_5_2
 			if (currentCamera.targetDisplay != 0) continue;
 #endif
 			Vector3 pos = currentCamera.ScreenToViewportPoint(inPos);
 			if (float.IsNaN(pos.x) || float.IsNaN(pos.y)) continue;
-
-			// If it's outside the camera's viewport, do nothing
-			if (pos.x < 0f || pos.x > 1f || pos.y < 0f || pos.y > 1f) continue;
-
-			// Cast a ray into the screen
-			Ray ray = currentCamera.ScreenPointToRay(inPos);
+            
+            // If it's outside the camera's viewport, do nothing
+            if (pos.x < 0f || pos.x > 1f || pos.y < 0f || pos.y > 1f) continue;
+            
+            // Cast a ray into the screen
+            Ray ray = currentCamera.ScreenPointToRay(inPos);
 
 			// Raycast into the screen
 			int mask = currentCamera.cullingMask & (int)cam.eventReceiverMask;
@@ -1414,8 +1417,10 @@ public class UICamera : MonoBehaviour
 					for (int b = 0; b < hitCount; ++b)
 					{
 						GameObject go = mRayHits[b].collider.gameObject;
+                        
+
 #if UNITY_5_5_OR_NEWER
-						UnityEngine.Profiling.Profiler.BeginSample("Editor-only GC allocation (GetComponent)");
+                        UnityEngine.Profiling.Profiler.BeginSample("Editor-only GC allocation (GetComponent)");
 						UIWidget w = go.GetComponent<UIWidget>();
 						UnityEngine.Profiling.Profiler.EndSample();
 #else
@@ -1445,10 +1450,25 @@ public class UICamera : MonoBehaviour
 							mHits.Add(mHit);
 						}
 					}
+                    for (int ii = 0; ii < mHits.size; ++ii)
+                    {
+                        for (int yy = 0; yy < mHits.size; ++yy)
+                        {
+                            if (mHits[ii].go.transform.position.z < mHits[yy].go.transform.position.z)
+                            {
+                                var h = mHits[yy];
 
-					mHits.Sort(delegate(DepthEntry r1, DepthEntry r2) { return r2.depth.CompareTo(r1.depth); });
+                                mHits[yy] = mHits[ii];
+                                mHits[ii] = h;
 
-					for (int b = 0; b < mHits.size; ++b)
+                            }
+
+                        }
+                    }
+                
+                mHits.Sort(delegate(DepthEntry r1, DepthEntry r2) { return r2.depth.CompareTo(r1.depth); });
+
+                    for (int b = 0; b < mHits.size; ++b)
 					{
 #if UNITY_FLASH
 						if (IsVisible(mHits.buffer[b]))
@@ -1897,7 +1917,7 @@ public class UICamera : MonoBehaviour
 #else
         if (!handlesEvents) return;
 #endif
-		if (processEventsIn == ProcessEventsIn.Update) ProcessEvents();
+        if (processEventsIn == ProcessEventsIn.Update) ProcessEvents();
 	}
 
 	/// <summary>
@@ -1936,9 +1956,9 @@ public class UICamera : MonoBehaviour
 	{
 		current = this;
 		NGUIDebug.debugRaycast = debug;
-
-		// Process touch events first
-		if (useTouch) ProcessTouches();
+        
+        // Process touch events first
+        if (useTouch) ProcessTouches();
 		else if (useMouse) ProcessMouse();
 
 		// Custom input processing
@@ -1980,8 +2000,8 @@ public class UICamera : MonoBehaviour
 
 	public void ProcessMouse ()
 	{
-		// Is any button currently pressed?
-		bool isPressed = false;
+        // Is any button currently pressed?
+        bool isPressed = false;
 		bool justPressed = false;
 
 		for (int i = 0; i < 3; ++i)
@@ -1998,14 +2018,15 @@ public class UICamera : MonoBehaviour
 				isPressed = true;
 			}
 		}
+        //Debug.Log("ProcessMouse 0" + mMouse[0]);
 
-		// We're currently using touches -- do nothing
-		if (currentScheme == ControlScheme.Touch) return;
+        // We're currently using touches -- do nothing
+        if (currentScheme == ControlScheme.Touch) return;
 
 		currentTouch = mMouse[0];
-
-		// Update the position and delta
-		Vector2 pos = Input.mousePosition;
+        
+        // Update the position and delta
+        Vector2 pos = Input.mousePosition;
 
 		if (currentTouch.ignoreDelta == 0)
 		{
@@ -2024,7 +2045,7 @@ public class UICamera : MonoBehaviour
 
 		bool posChanged = false;
 
-		if (currentScheme != ControlScheme.Mouse)
+        if (currentScheme != ControlScheme.Mouse)
 		{
 			if (sqrMag < 0.001f) return; // Nothing changed and we are not using the mouse -- exit
 			currentKey = KeyCode.Mouse0;
@@ -2032,8 +2053,8 @@ public class UICamera : MonoBehaviour
 		}
 		else if (sqrMag > 0.001f) posChanged = true;
 
-		// Propagate the updates to the other mouse buttons
-		for (int i = 1; i < 3; ++i)
+        // Propagate the updates to the other mouse buttons
+        for (int i = 1; i < 3; ++i)
 		{
 			mMouse[i].pos = currentTouch.pos;
 			mMouse[i].delta = currentTouch.delta;
@@ -2050,10 +2071,12 @@ public class UICamera : MonoBehaviour
 		bool highlightChanged = (currentTouch.last != currentTouch.current);
 		bool wasPressed = (currentTouch.pressed != null);
 
-		if (!wasPressed)
-			hoveredObject = currentTouch.current;
+        if (!wasPressed)
+	    {
+            hoveredObject = currentTouch.current;
+	    }
 
-		currentTouchID = -1;
+	    currentTouchID = -1;
 		if (highlightChanged) currentKey = KeyCode.Mouse0;
 
 		if (!isPressed && posChanged && (!stickyTooltip || highlightChanged))
@@ -2225,7 +2248,7 @@ public class UICamera : MonoBehaviour
 				return;
 			}
 
-			if (useMouse) ProcessMouse();
+            if (useMouse) ProcessMouse();
 #if UNITY_EDITOR
 			else if (GetInputTouch == null) ProcessFakeTouches();
 #endif
