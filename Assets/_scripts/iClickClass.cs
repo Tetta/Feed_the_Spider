@@ -568,26 +568,21 @@ public class iClickClass : MonoBehaviour {
         Debug.Log("dream click");
         Debug.Log(SceneManager.GetActiveScene().name);
         var p = ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"];
+        GetComponent<AudioSource>().Play();
 
         //если уже есть подсказка
         if ((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 ||
             (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1)
         {
 
-            GetComponent<AudioSource>().Play();
-            ctrProgressClass.saveProgress();
-            gHintClass.hintState = "enable bonus picture";
-            Time.timeScale = 1;
-            gHintClass.counter = 0;
-            gHintClass.isDream = true;
-            staticClass.scenePrev = SceneManager.GetActiveScene().name;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            GameObject.Find("default level/gui/bonuses/tween/hints").SendMessage(SceneManager.GetActiveScene().name + "_" + initLevelMenuClass.levelDemands);
+            gHintClass.initDream();
         }
         //если нет, то смотрим сначала видео
         else
         {
-            
+            ShowRewardedAd();
         }
     }
+
+
 }

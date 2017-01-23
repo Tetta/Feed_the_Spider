@@ -80,7 +80,7 @@ public class gHintClass : MonoBehaviour {
 			}
 			hint.transform.position = сalculateBezierPoint(t, hintStartPos, new Vector2(hintStartPos.x, hintStartPos.y + 0.2F),  new Vector2(hintEndPos.x - offsetX, hintEndPos.y + 0.6F),   new Vector2(hintEndPos.x - offsetX, hintEndPos.y + 0.4F));
 			//заканчиваем перемещение подсказки
-			if (t >= 1) {
+			if (t >= 1 || isDream) {
 				//hint.transform.position = new Vector2 (actions [counter].id.x - offsetX, actions [counter].id.y + 0.4F);
 				hint.transform.position = new Vector2 (hintEndPos.x - offsetX, hintEndPos.y + 0.4F);
 				hintState = "pause";
@@ -114,7 +114,17 @@ public class gHintClass : MonoBehaviour {
 
 	}
 
-
+    public static void initDream()
+    {
+        ctrProgressClass.saveProgress();
+        gHintClass.hintState = "enable bonus picture";
+        Time.timeScale = 1;
+        gHintClass.counter = 0;
+        gHintClass.isDream = true;
+        staticClass.scenePrev = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        GameObject.Find("default level/gui/bonuses/tween/hints").SendMessage(SceneManager.GetActiveScene().name + "_" + initLevelMenuClass.levelDemands);
+    }
 
 	void OnPress(bool flag) {
 		if (!flag) {
@@ -1517,14 +1527,30 @@ public class gHintClass : MonoBehaviour {
 	}
 
 	void level35_0 () {
-		actions = new action[2];
+/*
+        actions = new action[2];
 		actions[0].id = new Vector3(0.6894531F, 1.390625F, 0F); //destroyer
 		actions[0].frame = 50;
 		actions[0].mouse = new Vector3(-0.9192399F, -0.2232779F, 0F);
 		actions[1].id = new Vector3(0.046875F, 1.587891F, 0F); //destroyer
 		actions[1].frame = 95;
 		actions[1].mouse = new Vector3(-0.04513063F, 0.6888361F, 0F);
-	}
+*/
+
+        actions = new action[4];
+        actions[0].id = new Vector3(-0.1542969F, 1.492188F, 0F); //web
+        actions[0].frame = 85;
+        actions[0].mouse = new Vector3(0F, 0F, 0F);
+        actions[1].id = new Vector3(0.2011719F, -0.3496094F, 0F); //sluggish
+        actions[1].frame = 67;
+        actions[1].mouse = new Vector3(0.4739583F, -0.890625F, 0F);
+        actions[2].id = new Vector3(-0.1542969F, 1.492188F, 0F); //web
+        actions[2].frame = 41;
+        actions[2].mouse = new Vector3(0F, 0F, 0F);
+        actions[3].id = new Vector3(-0.1542969F, 1.492188F, 0F); //web
+        actions[3].frame = 73;
+        actions[3].mouse = new Vector3(0F, 0F, 0F);
+    }
 
 	void level35_1 () {
 		actions = new action[2];

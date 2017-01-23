@@ -47,16 +47,19 @@ public class ctrAdClass: MonoBehaviour {
                 if (adStarted == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "energy", 1);
 				if (adStarted == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "coins", 1);
 				if (adStarted == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "telek", 1);
+				if (adStarted == "dream") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "dream", 1);
 			}
 
 			if (adStarted == "button ad energy") GoogleAnalyticsV4.instance.LogEvent(adCategory, "start", "energy", 1);
 			if (adStarted == "button ad coins") GoogleAnalyticsV4.instance.LogEvent(adCategory, "start", "coins", 1);
 			if (adStarted == "button ad telek") GoogleAnalyticsV4.instance.LogEvent(adCategory, "start", "telek", 1);
+			if (adStarted == "dream") GoogleAnalyticsV4.instance.LogEvent(adCategory, "start", "dream", 1);
 		} else {
             //ad dont ready Admob
             if (adStarted == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "energy", 1);
 			if (adStarted == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "coins", 1);
 			if (adStarted == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "telek", 1);
+            if (adStarted == "dream") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "dream", 1);
 
 			//adDontReadyMenu
 			if (adStarted != "button ad telek")  GameObject.Find("root/static").transform.GetChild(7).gameObject.SetActive(true);
@@ -65,7 +68,7 @@ public class ctrAdClass: MonoBehaviour {
 			//#endif
 		}
 #endif
-	}
+    }
 
 #if (UNITY_ANDROID || UNITY_IOS) && UNITY_UNITYADS_API && ENABLE_UNITYADS_RUNTIME && !UNITY_EDITOR
 	//Unity Ads event
@@ -112,8 +115,23 @@ public class ctrAdClass: MonoBehaviour {
 			ctrStatsClass.logEvent ("coins", "ad_telek", "level" + ctrProgressClass.progress ["lastLevel"].ToString (), coinsAdReward);
 		} else if (adStarted == "level") {
 			GoogleAnalyticsV4.instance.LogEvent(adCategory, "finish", "level", 1);
-		}
-		if (adStarted != "level") ctrProgressClass.saveProgress ();
+		} else if (adStarted == "dream")
+        {
+            GoogleAnalyticsV4.instance.LogEvent(adCategory, "finish", "dream", 1);
+            //сохраняем dream
+            var nameScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            var p = ctrProgressClass.progress[nameScene + "_dream"];
+
+            if (p == 0 && initLevelMenuClass.levelDemands == 0)
+                ctrProgressClass.progress[nameScene + "_dream"] = 1;
+            else if (p == 0 && initLevelMenuClass.levelDemands == 1)
+                ctrProgressClass.progress[nameScene + "_dream"] = 2;
+            else
+                ctrProgressClass.progress[nameScene + "_dream"] = 3;
+            ctrProgressClass.saveProgress();
+            gHintClass.initDream();
+        }
+        if (adStarted != "level") ctrProgressClass.saveProgress ();
 		adStarted = "";
 		adCategory = "";
 	}
