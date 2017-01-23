@@ -155,7 +155,12 @@ public class gBerryClass : MonoBehaviour {
         if (staticClass.scenePrev == SceneManager.GetActiveScene().name && !((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 || (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1))
 	    {
 	        staticClass.levelRestartedCount++;
-	        if (staticClass.levelRestartedCount >= 2) GameObject.Find("/default level/gui/dream").SetActive(true);
+	        if (staticClass.levelRestartedCount >= 2)
+	        {
+                var dream = GameObject.Find("/default level/gui/dream");
+                dream.transform.GetChild(0).gameObject.SetActive(true);
+                dream.transform.GetChild(1).gameObject.SetActive(false);
+            }
 	    }
 	    else if
             //если уже есть подсказка
@@ -163,7 +168,6 @@ public class gBerryClass : MonoBehaviour {
              (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1)
         {
             var dream = GameObject.Find("/default level/gui/dream");
-            dream.SetActive(true);
             dream.transform.GetChild(0).gameObject.SetActive(false);
             dream.transform.GetChild(1).gameObject.SetActive(true);
 
@@ -305,8 +309,8 @@ public class gBerryClass : MonoBehaviour {
 			berryState = "start finish";
             gHintClass.hintState = "";
 
-			//cut ropes
-			GameObject[] webs = GameObject.FindGameObjectsWithTag("web");
+            //cut ropes
+            GameObject[] webs = GameObject.FindGameObjectsWithTag("web");
 			foreach (var web in webs) {
 				if (web.GetComponent<gWebClass> ().webStateCollisionBerry) {
 					staticClass.useWeb--;
@@ -385,11 +389,15 @@ public class gBerryClass : MonoBehaviour {
 		if (Everyplay.IsRecording ()) 
 			buttonEveryplayScript.takeScreenshot ();
 
+        //restart scene, if dream show
+        if (GameObject.Find("/default level/gui/dream/ui").activeSelf) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
 		// остановка выполнения функции на costEnergy секунд
 		yield return new WaitForSeconds(1.0F);
-		//для записи подсказки (потом удалить)
-		gRecHintClass.recHintState = 0;
+		Debug.Log(gHintClass.hintState);
+        gHintClass.hintState = "";
+        //для записи подсказки (потом удалить)
+        gRecHintClass.recHintState = 0;
 		//D/ebug.Log ("rec: ");
 		//D/ebug.Log (gRecHintClass.rec);
 		gRecHintClass.counter = 0;

@@ -209,8 +209,7 @@ public class iClickClass : MonoBehaviour {
 				if (ctrProgressClass.progress ["lastLevel"] >= Convert.ToInt32 (name.Substring (5)) - 1)
 					async = SceneManager.LoadSceneAsync ("level" + Convert.ToInt32 (name.Substring (5)));
 			}
-            Debug.Log(name + "1111");
-
+            
             //сбрасываем энергию
             if (staticClass.scenePrev == "level menu") lsEnergyClass.energyTake = false;
 
@@ -553,7 +552,7 @@ public class iClickClass : MonoBehaviour {
 
 	void ShowRewardedAd() {
 		ctrAdClass.adStarted = name;
-		ctrAdClass.instance.ShowRewardedAd ();
+		if (ctrAdClass.instance != null) ctrAdClass.instance.ShowRewardedAd ();
 	}
 
     void restoreEnergy()
@@ -583,7 +582,9 @@ public class iClickClass : MonoBehaviour {
         //если нет, то смотрим сначала видео
         else
         {
-            ShowRewardedAd();
+            //for publish ShowRewardedAd
+            //ShowRewardedAd();
+            gHintClass.initDream();
         }
     }
 
