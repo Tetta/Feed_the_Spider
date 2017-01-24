@@ -102,8 +102,10 @@ public class ctrAdClass: MonoBehaviour {
 			GameObject.Find ("root/static/energy").SendMessage ("OnApplicationPause", false);
 		} else if (adStarted == "ad coins") {
 			ctrProgressClass.progress ["coins"] += 50;
-			//coinsLabel
-			GameObject.Find ("root/static/coins/coinsLabel").GetComponent<UILabel> ().text = ctrProgressClass.progress ["coins"].ToString ();
+            //coinsLabel
+            AdCoinsTimerClass.counter++;
+            AdCoinsTimerClass.timer = DateTime.Now.AddSeconds(AdCoinsTimerClass.interval);
+            GameObject.Find ("root/static/coins/coinsLabel").GetComponent<UILabel> ().text = ctrProgressClass.progress ["coins"].ToString ();
             ctrAnalyticsClass.sendEvent("Gold", new Dictionary<string, string>{ {"video", "50"} });
 		} else if (adStarted == "dream")
         {
