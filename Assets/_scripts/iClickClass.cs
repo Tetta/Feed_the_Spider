@@ -139,8 +139,13 @@ public class iClickClass : MonoBehaviour {
 					yield return StartCoroutine (staticClass.waitForRealTime (100F));
 				}
 			}
-            
-            Application.backgroundLoadingPriority = ThreadPriority.High;
+            //showAd в конце уровня, рестарте, выходе в меню с уровня
+		    if (name == "button play" || name == "button play 0" || name == "button play 1" || name.Substring(0, 5) == "level" || name == "restart" || name == "button next")
+		    {
+		        if (ctrAdClass.instance != null) ctrAdClass.instance.ShowLevelAd(name);
+		    }
+
+		    Application.backgroundLoadingPriority = ThreadPriority.High;
 			AsyncOperation async = new AsyncOperation ();
 			staticClass.scenePrev = SceneManager.GetActiveScene ().name;
 			staticClass.sceneLoading = true;
@@ -206,12 +211,16 @@ public class iClickClass : MonoBehaviour {
 				else
 					async = SceneManager.LoadSceneAsync ("level menu");
 			} else if (name.Substring (0, 5) == "level") {
-				if (ctrProgressClass.progress ["lastLevel"] >= Convert.ToInt32 (name.Substring (5)) - 1)
-					async = SceneManager.LoadSceneAsync ("level" + Convert.ToInt32 (name.Substring (5)));
+                //добавить проверку на гемс
+                if (ctrProgressClass.progress["lastLevel"] >= Convert.ToInt32(name.Substring(5)) - 1)
+			    {
+                    async = SceneManager.LoadSceneAsync("level" + Convert.ToInt32(name.Substring(5)));
+                     
+                }
 			}
             
             //сбрасываем энергию
-            if (staticClass.scenePrev == "level menu") lsEnergyClass.energyTake = false;
+            if (staticClass.scenePrev != SceneManager.GetActiveScene().name) lsEnergyClass.energyTake = false;
 
             async.allowSceneActivation = false;
 			yield return StartCoroutine (staticClass.waitForRealTime (0.5F));
@@ -552,7 +561,9 @@ public class iClickClass : MonoBehaviour {
 
 	void ShowRewardedAd() {
 		ctrAdClass.adStarted = name;
-		if (ctrAdClass.instance != null) ctrAdClass.instance.ShowRewardedAd ();
+       // if (ctrAdClass.instance == null) ctrAdClass.
+
+        if (ctrAdClass.instance != null) ctrAdClass.instance.ShowRewardedAd ();
 	}
 
     void restoreEnergy()
@@ -583,8 +594,8 @@ public class iClickClass : MonoBehaviour {
         else
         {
             //for publish ShowRewardedAd
-            //ShowRewardedAd();
-            gHintClass.initDream();
+            ShowRewardedAd();
+            //gHintClass.initDream();
         }
     }
 

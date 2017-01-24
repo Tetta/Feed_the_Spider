@@ -42,12 +42,13 @@ public class ctrProgressClass {
 
 
 	static private Dictionary<string, int> progressDefault = new Dictionary<string, int>{
-		{"googlePlay",0}, {"lastLevel",0}, {"currentLevel",1},{"coins",0},{"gems",0},{"energyTime",0},{"energy",4},{"energyInfinity",0},
+		{"googlePlay",0}, {"lastLevel",0}, {"currentLevel",1},{"coins",0},{"gems",0},{"energyTime",0},{"energy",0},{"energyInfinity",0},{"energyTutorial",0},
         {"hints",0},{"webs",0},{"collectors",0},{"teleports",0},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
 		{"tutorialBuy",0},{"everyplay",1},{"firstPurchase",0},{"fb",0},
         {"boostersWhite",0 }, {"boostersGreen",0 }, {"boostersBlue",0 }, {"boostersPurple",0 },
-        {"berryRare", UnityEngine.Random.Range(2, 6)}, {"hatRare", UnityEngine.Random.Range(2, 6)},{"skinRare", UnityEngine.Random.Range(2, 6)}, 
+        {"berryRare", UnityEngine.Random.Range(2, 6)}, {"hatRare", UnityEngine.Random.Range(2, 6)},{"skinRare", UnityEngine.Random.Range(2, 6)},
 
+        {"sale", 0},{"saleDate", 0},
 
         {"berry1",1},{"berry2",0},{"berry3",0},{"berry4",0},{"berry5",0},
 		{"hat1",1},{"hat2",0},{"hat3",0},{"hat4",0},{"hat5",0},
@@ -104,13 +105,14 @@ public class ctrProgressClass {
 
     };
 	static private Dictionary<string, int> progressCheat = new Dictionary<string, int>{
-		{"googlePlay",0}, {"lastLevel",99}, {"currentLevel",1},{"coins",1000},{"gems",0},{"energyTime", 0},{"energy",4}, {"energyInfinity",(int) DateTime.Now.AddDays(1).TotalSeconds()},
+		{"googlePlay",0}, {"lastLevel",99}, {"currentLevel",1},{"coins",1000},{"gems",0},{"energyTime", 0},{"energy",4}, {"energyInfinity",(int) DateTime.Now.AddDays(1).TotalSeconds()},{"energyTutorial",0},
         {"hints",99},{"webs",99},{"collectors",99},{"teleports",99},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
 		{"tutorialBuy",0},{"everyplay",1},{"firstPurchase",0},{"fb",0},
 
         {"boostersWhite",110 }, {"boostersGreen",220 }, {"boostersBlue",330 }, {"boostersPurple",110 },
         {"berryRare", 2 }, {"hatRare",2},{"skinRare", 4},
 
+        {"sale", 0},{"saleDate", 0},
 
         {"berry1",1},{"berry2",2},{"berry3",1},{"berry4",5},{"berry5",1},
         {"hat1",1},{"hat2",1},{"hat3",1},{"hat4",4},{"hat5",0},

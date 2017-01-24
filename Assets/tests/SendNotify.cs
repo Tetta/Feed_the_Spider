@@ -5,7 +5,7 @@ using com.playGenesis.VkUnityPlugin;
 using Facebook.Unity;
 using GoogleMobileAds.Api;
 using UnityEngine;
-using UnityEngine.Advertisements;
+//using UnityEngine.Advertisements;
 using UnityEngine.UI;
 
 public class SendNotify : MonoBehaviour
@@ -14,7 +14,7 @@ public class SendNotify : MonoBehaviour
     public Text Text;
     public void Update()
     {
-        Text.text =string.Format("ads ready: {0}",  Advertisement.IsReady());
+        //Text.text =string.Format("ads ready: {0}",  Advertisement.IsReady());
     }
 
     public void Send()
@@ -45,6 +45,7 @@ public class SendNotify : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(this);
+        /*
         RequestBanner();
         RequestInterstitial();
         bannerView.Show();
@@ -52,6 +53,7 @@ public class SendNotify : MonoBehaviour
         {
             bannerView.Hide();
         }
+        */
     }
 
     private void RequestBanner()

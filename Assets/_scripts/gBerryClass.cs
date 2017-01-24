@@ -61,53 +61,6 @@ public class gBerryClass : MonoBehaviour {
 
 
 
-		//showAd, если нет комплекта
-		if (ctrAdClass.instance != null) ctrAdClass.instance.ShowLevelAd();
-		/*
-		#if UNITY_ANDROID || UNITY_IOS
-		if (ctrProgressClass.progress["complect"] == 0 && ctrProgressClass.progress["currentLevel"] >= 5) {
-			staticClass.showAd ++;
-
-			if (staticClass.showAd >= 15) {
-				ctrAdClass.adStarted = "level";
-				//if (ctrAdClass.instance.isAdReady()) {
-					//if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent(ctrAdClass., "start", "level", 1);
-
-				if (Advertisement.IsReady ("video")) {
-					if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent("Ad", "start", "level", 1);
-					var options = new ShowOptions { resultCallback = HandleShowResult };
-					Advertisement.Show ("video", options);
-					staticClass.showAd = 0;
-					//pause
-					pauseMenu.SetActive (true);
-					staticClass.isTimePlay = Time.timeScale;
-					Time.timeScale = 0;
-				} else if (Vungle.isAdvertAvailable()) {
-					// Vungle
-
-					Dictionary<string, object> options = new Dictionary<string, object> ();
-					options ["incentivized"] = false;
-					Vungle.playAdWithOptions (options);
-					staticClass.showAd = 0;
-					//pause
-					pauseMenu.SetActive (true);
-					staticClass.isTimePlay = Time.timeScale;
-					Time.timeScale = 0;
-					//dont ready Unity aAds
-					if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent("Ad", "dont ready", "level", 1);
-
-				
-				} else {
-					
-					//dont ready Vungle
-					if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "dont ready", "level", 1);
-
-					staticClass.showAd = 14;
-				}
-			} 
-		}
-		#endif
-		*/
 
 		staticClass.changeBerry ();
 		//title внизу
@@ -172,10 +125,16 @@ public class gBerryClass : MonoBehaviour {
             dream.transform.GetChild(1).gameObject.SetActive(true);
 
         }
-        else staticClass.levelRestartedCount = 0;
 
-        //off if publish
-	    gRecHintClass.rec = "";
+        //если уровень запущен 1й раз
+        if (staticClass.scenePrev != SceneManager.GetActiveScene().name)
+	    {
+	        staticClass.levelRestartedCount = 0;
+	        staticClass.levelAdViewed = 0;
+	    }
+
+	    //off if publish
+        gRecHintClass.rec = "";
         gRecHintClass.counter = 0;
         gRecHintClass.recHintState = 0;
 

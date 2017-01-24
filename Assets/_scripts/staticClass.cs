@@ -406,5 +406,6 @@ public class staticClass {
 	public static bool bonusesView = false;
 
     public static int levelRestartedCount = 0;
+    public static int levelAdViewed = 0;
 }
 

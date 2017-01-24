@@ -210,8 +210,15 @@ public class mCardClass : MonoBehaviour {
 
 	void openCardGift(bool isPressed) {
 		
-		if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open")) {
-			GetComponent<Animator>().Play("card open");
+		if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open") && !GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open epic"))
+        {
+            if (transform.childCount > 4)
+            {
+                GetComponent<Animator>().Play("card open epic");
+                transform.GetChild(6).GetComponent<AudioSource>().Play();
+
+            }
+            else GetComponent<Animator>().Play("card open");
 			GetComponent<AudioSource> ().Play ();
 			bool flag = true; 
 
@@ -220,7 +227,8 @@ public class mCardClass : MonoBehaviour {
 
 			//перебор 3х карт, если хоть одна закрыта, то flag = false
 			for (int i = 0; i < 3; i++) {
-				if (!transform.parent.GetChild (i).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open") && transform.parent.GetChild (i).name != gameObject.name)
+				if (!transform.parent.GetChild (i).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open") &&
+                    !transform.parent.GetChild(i).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open epic") && transform.parent.GetChild (i).name != gameObject.name)
 						flag = false;
 			}
 

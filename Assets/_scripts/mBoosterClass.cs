@@ -140,20 +140,20 @@ public class mBoosterClass : MonoBehaviour {
             openingCards.Add(new KeyValuePair<string, int>("coins", 50));
             for (int i = 1; i < 5; i++)
             {
-                if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("berry");
-                else setOpeningCardCommon(ref portionsWhite, portionsCountWhite);
+                if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("berry", ref openingCards);
+                else setOpeningCardCommon(ref portionsWhite, portionsCountWhite, ref openingCards);
             }
             Shuffle(openingCards);
         }
 
         if (currentBoosterColor == "boostersGreen")
         {
-            setOpeningCardUncommon("berry");
+            setOpeningCardUncommon("berry", ref openingCards);
             openingCards.Add(new KeyValuePair<string, int>("coins", 100));
             for (int i = 2; i < 5; i++)
             {
-                if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("hat");
-                else setOpeningCardCommon(ref portionsGreen, portionsCountGreen);
+                if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("hat", ref openingCards);
+                else setOpeningCardCommon(ref portionsGreen, portionsCountGreen, ref openingCards);
 
             }
             Shuffle(openingCards);
@@ -161,27 +161,27 @@ public class mBoosterClass : MonoBehaviour {
         }
         if (currentBoosterColor == "boostersBlue")
         {
-            setOpeningCardUncommon("berry");
-            setOpeningCardUncommon("hat");
+            setOpeningCardUncommon("berry", ref openingCards);
+            setOpeningCardUncommon("hat", ref openingCards);
             openingCards.Add(new KeyValuePair<string, int>("coins", 150));
             for (int i = 3; i < 5; i++)
             {
-                if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("skin");
-                else setOpeningCardCommon(ref portionsGreen, portionsCountGreen);
+                if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("skin", ref openingCards);
+                else setOpeningCardCommon(ref portionsGreen, portionsCountGreen, ref openingCards);
 
             }
             Shuffle(openingCards);
         }
         if (currentBoosterColor == "boostersPurple")
         {
-            setOpeningCardUncommon("berry");
-            setOpeningCardUncommon("hat");
-            setOpeningCardUncommon("skin");
+            setOpeningCardUncommon("berry", ref openingCards);
+            setOpeningCardUncommon("hat", ref openingCards);
+            setOpeningCardUncommon("skin", ref openingCards);
             openingCards.Add(new KeyValuePair<string, int>("coins", 200));
             for (int i = 4; i < 5; i++)
             {
-                if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("skin");
-                else setOpeningCardCommon(ref portionsGreen, portionsCountGreen);
+                if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("skin", ref openingCards);
+                else setOpeningCardCommon(ref portionsGreen, portionsCountGreen, ref openingCards);
 
             }
             Shuffle(openingCards);
@@ -259,7 +259,7 @@ public class mBoosterClass : MonoBehaviour {
 
     }
 
-    private void setOpeningCardCommon(ref Dictionary<string, int> portions, Dictionary<string, int> portionsCount)
+    public static void setOpeningCardCommon(ref Dictionary<string, int> portions, Dictionary<string, int> portionsCount, ref List<KeyValuePair<string, int>> openingCards)
     {
         int bonusRand = UnityEngine.Random.Range(0, portions.Values.Sum()); //min [inclusive] and max [exclusive] 
         int counter = 0;
@@ -284,7 +284,7 @@ public class mBoosterClass : MonoBehaviour {
         Debug.Log(nameBonus + " " + countBonus);
     }
 
-    private void setOpeningCardUncommon( string itemName)
+    public static void setOpeningCardUncommon( string itemName, ref List<KeyValuePair<string, int>> openingCards)
     {
         int number = UnityEngine.Random.Range(2, 5);
         if (number == ctrProgressClass.progress[itemName + "Rare"]) number = UnityEngine.Random.Range(2, 5);
@@ -302,7 +302,7 @@ public class mBoosterClass : MonoBehaviour {
 
     }
 
-    private  static void Shuffle<T>(IList<T> list)
+    public  static void Shuffle<T>(IList<T> list)
     {
         Random random = new Random();
         int n = list.Count;
