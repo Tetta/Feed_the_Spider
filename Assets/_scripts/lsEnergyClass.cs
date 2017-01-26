@@ -48,9 +48,9 @@ public class lsEnergyClass : MonoBehaviour {
         if (flag) costEnergy -= 120;
 
 		OnApplicationPause(false);
-        if (energyMenuState == "energy" && ctrProgressClass.progress["energyTutorial"] == 1) OnClick();
+        if (energyMenuState == "energy" && ctrProgressClass.progress["tutorialEnergy"] == 1) OnClick();
         //energy tutorial
-        else if (ctrProgressClass.progress["energyTutorial"] == 0 && ctrProgressClass.progress["energy"]== 0) hand.SetActive(true);
+        else if (ctrProgressClass.progress["tutorialEnergy"] == 0 && ctrProgressClass.progress["energy"]== 0) hand.SetActive(true);
         
 
         //если бесконечная энергия на день
@@ -162,7 +162,7 @@ public class lsEnergyClass : MonoBehaviour {
 			StartCoroutine("CoroutineEnergyMenu");
         //}
 
-	    if (ctrProgressClass.progress["energyTutorial"] == 0) hand.SetActive(false);
+	    if (ctrProgressClass.progress["tutorialEnergy"] == 0) hand.SetActive(false);
 
             
 
@@ -188,7 +188,7 @@ public class lsEnergyClass : MonoBehaviour {
 
         if (maxEnergy > ctrProgressClass.progress["energy"])
         {
-            if (ctrProgressClass.progress["energyTutorial"] == 1)
+            if (ctrProgressClass.progress["tutorialEnergy"] == 1)
                 buttonRestoreEnergy.transform.GetChild(2).GetComponent<UILabel>().text = cost.ToString();
             //if energy tutorial
             else
@@ -205,7 +205,7 @@ public class lsEnergyClass : MonoBehaviour {
        
         }
 
-        if (ctrProgressClass.progress["energyTutorial"] == 1 && cost > ctrProgressClass.progress["coins"]) buttonRestoreEnergy.transform.GetChild(4).gameObject.SetActive(true);
+        if (ctrProgressClass.progress["tutorialEnergy"] == 1 && cost > ctrProgressClass.progress["coins"]) buttonRestoreEnergy.transform.GetChild(4).gameObject.SetActive(true);
 
 
         // остановка выполнения функции
@@ -249,13 +249,13 @@ public class lsEnergyClass : MonoBehaviour {
         ctrProgressClass.progress["energy"] = maxEnergy;
         buttonRestoreEnergy.transform.GetChild(2).GetComponent<UILabel>().text = "0";
         StartCoroutine("CoroutineEnergyMenu");
-        if (ctrProgressClass.progress["energyTutorial"] == 1)
+        if (ctrProgressClass.progress["tutorialEnergy"] == 1)
         {
             ctrProgressClass.progress["coins"] -= costEnergyForCoins * (maxEnergy - ctrProgressClass.progress["energy"]) - (int)(((float)checkEnergy(true) / costEnergy) * costEnergyForCoins);
         }
         else
         {
-            ctrProgressClass.progress["energyTutorial"] = 1;
+            ctrProgressClass.progress["tutorialEnergy"] = 1;
 
 
         }

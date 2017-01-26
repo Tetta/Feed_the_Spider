@@ -100,6 +100,13 @@ tutorialYeti2, "Tap again to continue", "Нажмите еще раз, чтоб�
 tutorialCactus, "Keep the berry away from cactus!", "Остерегайтесь кактусов - они опасны для ягод!"
 tutorialGroot1, "Tap on Flo, rotate to the terrain and release", "Нажмите на Фло, поверните в направлении острова и отпустите"
 tutorialGroot2, "Tap again to remove", "Нажмите еще раз, чтобы убрать"
+tutorialHint, "The bird can help you with challenging levels!", "Птица поможет пройти сложные уровни!"
+tutorialBonus, "Try to take advantage of bonuses!", "Попробуй воспользоваться бонусами!"
+
+bonusWeb, "Choose a location for the placement of additional webs", "Выберите место для размещения дополнительной паутинки"
+bonusTeleport, "Choose a location to teleport spider", "Выберите место для телепортации паучка"
+bonusWand, "Choose any star to collect it", "Выберите любую звезду чтобы собрать ее"
+
 
 sluggish, "Sluggish", "Лизун"
 destroyer, "Destroyer", "Разрушитель"

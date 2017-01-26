@@ -578,6 +578,10 @@ public class iClickClass : MonoBehaviour {
             gameObject.SetActive(false);
             GameObject.Find("bonuses/tween").transform.GetChild(1).gameObject.SetActive(true);
 			staticClass.bonusesView = true;
+
+            //off hand, if tutorial bonus
+            if (ctrProgressClass.progress["tutorialBonus"] == 0) if (GameObject.Find("/default level/gui/tutorial bonus(Clone)/hand") != null )
+                    GameObject.Find("/default level/gui/tutorial bonus(Clone)/hand").SetActive(false);
         }
         else {
             gameObject.SetActive(false);

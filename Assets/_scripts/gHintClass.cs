@@ -149,7 +149,15 @@ public class gHintClass : MonoBehaviour {
 		if (!flag) {
 
 			if (ctrProgressClass.progress ["hints"] > 0) {
-				GetComponent<AudioSource> ().Play ();
+                //off tutorial hint
+			    if (ctrProgressClass.progress["tutorialHint"] == 0)
+			    {
+			        if (GameObject.Find("/default level/gui/tutorial hint(Clone)") != null)
+			            GameObject.Find("/default level/gui/tutorial hint(Clone)").SetActive(false);
+			        ctrProgressClass.progress["tutorialHint"] = 1;
+			    }
+
+			    GetComponent<AudioSource> ().Play ();
 				ctrProgressClass.progress ["hints"]--;
 				transform.GetChild (0).GetComponent<UILabel> ().text = ctrProgressClass.progress [name].ToString ();
 				ctrProgressClass.saveProgress ();

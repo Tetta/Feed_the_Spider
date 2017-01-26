@@ -5,7 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class gBerryClass : MonoBehaviour {
 
-	public static string berryState; 
+    public GameObject tutorialHint;
+    public GameObject tutorialBonus;
+
+    public static string berryState; 
 	public static int starsCounter;
 	public static int fixedCounter = 0;
 
@@ -137,6 +140,30 @@ public class gBerryClass : MonoBehaviour {
         gRecHintClass.rec = "";
         gRecHintClass.counter = 0;
         gRecHintClass.recHintState = 0;
+
+        //show tutorial hint
+        if (staticClass.levelRestartedCount >= 3 && ctrProgressClass.progress["tutorialHint"] == 0 &&
+	        ctrProgressClass.progress["hints"] > 0)
+	    {
+            GameObject tutorialHintGO = Instantiate(tutorialHint, new Vector2(0, 0), Quaternion.identity) as GameObject;
+        }
+
+        //show tutorial bonus
+        if (staticClass.levelRestartedCount >= 3 && ctrProgressClass.progress["tutorialBonus"] == 0 &&
+	        ctrProgressClass.progress["hints"] == 0 && gHintClass.hintState == "" &&
+            (ctrProgressClass.progress["webs"] > 0 || ctrProgressClass.progress["teleports"] > 0 ||
+	         ctrProgressClass.progress["collectors"] > 0))
+	    {
+	        var arrowTemp = GameObject.Find("/default level/gui/bonuses/tween/arrow left");
+            if (arrowTemp.activeSelf)
+	        {
+                arrowTemp.SendMessage("clickBonusesArrow");
+                arrowTemp.transform.parent.transform.localPosition = new Vector3(160, 0, 0);
+            }
+            GameObject tutorialHintGO = Instantiate(tutorialBonus, new Vector2(0, 0), Quaternion.identity) as GameObject;
+        }
+
+
 
     }
 
