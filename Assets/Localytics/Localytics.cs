@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using AOT;
 using System.Collections;
+using Facebook.MiniJSON;
 
 
 namespace LocalyticsUnity {
@@ -319,7 +320,7 @@ namespace LocalyticsUnity {
 			#elif UNITY_IOS
 			string values = "";
 			if (attributeValue != null)
-				values = MiniJSON.jsonEncode (attributeValue);
+				values = Json.Serialize(attributeValue);
 			_addProfileAttributesToSet (attributeName, values, (int)scope);
 			#else
 			throw new NotImplementedException("Localytics Unity SDK only supports iOS or Android");
@@ -333,7 +334,7 @@ namespace LocalyticsUnity {
 			#elif UNITY_IOS
 			string values = "";
 			if (attributeValue != null)
-				values = MiniJSON.jsonEncode (attributeValue);
+				values = Json.Serialize(attributeValue);
 			_addProfileAttributesToSet (attributeName, values, (int)scope);
 			#else
 			throw new NotImplementedException("Localytics Unity SDK only supports iOS or Android");
@@ -539,7 +540,7 @@ namespace LocalyticsUnity {
 			#elif UNITY_IOS
 			string values = "";
 			if (attributeValue != null)
-				values = MiniJSON.jsonEncode (attributeValue);
+				values = Json.Serialize(attributeValue);
 			_removeProfileAttributesFromSet (values, attributeName, (int)scope);
 			#else
 			throw new NotImplementedException("Localytics Unity SDK only supports iOS or Android");
@@ -553,7 +554,7 @@ namespace LocalyticsUnity {
 			#elif UNITY_IOS
 			string values = "";
 			if (attributeValue != null)
-				values = MiniJSON.jsonEncode (attributeValue);
+				values = Json.Serialize(attributeValue);
 			_removeProfileAttributesFromSet (values, attributeName, (int)scope);
 			#else
 			throw new NotImplementedException("Localytics Unity SDK only supports iOS or Android");
@@ -602,7 +603,7 @@ namespace LocalyticsUnity {
 			#if UNITY_ANDROID
 			LocalyticsClass.CallStatic("setProfileAttribute", attributeName, attributeValue, GetProfileScopeEnum(scope));
 			#elif UNITY_IOS
-			string values = MiniJSON.jsonEncode (new long[] { attributeValue });
+			string values = Json.Serialize(new long[] { attributeValue });
 			_removeProfileAttributesFromSet (values, attributeName, (int)scope);
 			#else
 			throw new NotImplementedException("Localytics Unity SDK only supports iOS or Android");
@@ -614,7 +615,7 @@ namespace LocalyticsUnity {
 			#if UNITY_ANDROID
 			LocalyticsClass.CallStatic("setProfileAttribute", attributeName, attributeValue, GetProfileScopeEnum(scope));
 			#elif UNITY_IOS
-			string values = MiniJSON.jsonEncode (attributeValue);
+			string values = Json.Serialize(attributeValue);
 			_removeProfileAttributesFromSet (values, attributeName, (int)scope);
 			#else
 			throw new NotImplementedException("Localytics Unity SDK only supports iOS or Android");
@@ -626,7 +627,7 @@ namespace LocalyticsUnity {
 			#if UNITY_ANDROID
 			LocalyticsClass.CallStatic("setProfileAttribute", attributeName, attributeValue, GetProfileScopeEnum(scope));
 			#elif UNITY_IOS
-			string values = MiniJSON.jsonEncode (new string[] { attributeValue });
+			string values = Json.Serialize(new string[] { attributeValue });
 			_removeProfileAttributesFromSet (values, attributeName, (int)scope);
 			#else
 			throw new NotImplementedException("Localytics Unity SDK only supports iOS or Android");
@@ -638,7 +639,7 @@ namespace LocalyticsUnity {
 			#if UNITY_ANDROID
 			LocalyticsClass.CallStatic("setProfileAttribute", attributeName, attributeValue, GetProfileScopeEnum(scope));
 			#elif UNITY_IOS
-			string values = MiniJSON.jsonEncode (attributeValue);
+			string values = Json.Serialize(attributeValue);
 			_removeProfileAttributesFromSet (values, attributeName, (int)scope);
 			#else
 			throw new NotImplementedException("Localytics Unity SDK only supports iOS or Android");
@@ -652,7 +653,7 @@ namespace LocalyticsUnity {
 			#elif UNITY_IOS
 			string values = "";
 			if (attributes != null)
-				values = MiniJSON.jsonEncode (attributes);
+				values = Json.Serialize(attributes);
 			_tagEvent(eventName, values, customerValueIncrease);
 			#else
 			throw new NotImplementedException("Localytics Unity SDK only supports iOS or Android");
@@ -678,7 +679,7 @@ namespace LocalyticsUnity {
 			#elif UNITY_IOS
 			string values = "";
 			if (attributes != null)
-				values = MiniJSON.jsonEncode (attributes);
+				values = Json.Serialize(attributes);
 			_triggerInAppMessage (triggerName, values);
 			#else
 			throw new NotImplementedException("Localytics Unity SDK only supports iOS or Android");
@@ -1076,7 +1077,7 @@ namespace LocalyticsUnity {
 		{
 			try 
 			{
-				var json = (Hashtable)MiniJSON.jsonDecode (message);
+				var json = (Dictionary<string,object>)Json.Deserialize(message);
 				string e = json["event"].ToString();
 				switch(e)
 				{
@@ -1135,7 +1136,7 @@ namespace LocalyticsUnity {
 		{
 			try 
 			{
-				var json = (Hashtable)MiniJSON.jsonDecode (message);
+				var json = (Dictionary<string, object>)Json.Deserialize(message);
 				string e = json["event"].ToString();
 				switch(e)
 				{

@@ -40,10 +40,24 @@ public class gHintClass : MonoBehaviour {
 	        Time.timeScale = 0;
 	        GameObject.Find("bonuses pictures").transform.GetChild(0).gameObject.SetActive(true);
 	        GameObject.Find("bonuses pictures").transform.GetChild(1).gameObject.SetActive(true);
-	        StartCoroutine(coroutineBonusPictureEnable());
+	        StartCoroutine(coroutineBonusPictureEnable(1));
 
 	    }
-	    else
+        else if (hintState == "enable dream picture")
+        {
+            hint = GameObject.Find("dream folder");
+            Time.maximumDeltaTime = 0.02F;
+            Time.timeScale = 0;
+            GameObject.Find("bonuses pictures").transform.GetChild(0).gameObject.SetActive(true);
+            GameObject.Find("bonuses pictures").transform.GetChild(5).gameObject.SetActive(true);
+            StartCoroutine(coroutineBonusPictureEnable(5));
+            GameObject.Find("default level/gui/camera for ui clicking").GetComponent<Camera>().cullingMask &= ~(1 << LayerMask.NameToLayer("UI"));
+
+            GameObject.Find("default level/gui/Main Camera").GetComponent<Camera>().cullingMask &= ~(1 << LayerMask.NameToLayer("UI"));
+            GameObject.Find("default level/gui/dream/ui").gameObject.SetActive(true);
+
+        }
+        else
 	    {
 	        hintState = "";
             isDream = false;
@@ -89,15 +103,20 @@ public class gHintClass : MonoBehaviour {
 				hint.transform.GetChild (0).GetChild (2).gameObject.SetActive (true);
 				hint.transform.GetChild(0).GetComponent<Animator>().Play("hint show");
 				hint.transform.GetChild (0).GetComponent<Animator> ().speed = 1;
-				//fixedFrameCountLast = fixedFrameCount;
-				fixedFrameCountLast = gBerryClass.fixedCounter;
+			    if (hint.name == "dream folder")
+			    {
+			        hint.transform.GetChild(0).GetChild(3).gameObject.GetComponent<Animator>().Play("dream");
+                    hint.transform.position = hintEndPos;
+
+                }
+                //fixedFrameCountLast = fixedFrameCount;
+                fixedFrameCountLast = gBerryClass.fixedCounter;
 
                 Debug.Log("isDream: " + isDream);
                 if (isDream)
 			    {
                     RaycastHit2D hit = Physics2D.Raycast(actions[counter].id, -Vector2.up);
-                    Debug.Log(hit.collider.name);
-			        if (hit.collider != null)
+                    if (hit.collider != null)
 			        {
 			            Debug.Log(hit.collider.name);
 			            var nameObj = hit.collider.name;
@@ -117,7 +136,7 @@ public class gHintClass : MonoBehaviour {
     public static void initDream()
     {
         ctrProgressClass.saveProgress();
-        gHintClass.hintState = "enable bonus picture";
+        gHintClass.hintState = "enable dream picture";
         Time.timeScale = 1;
         gHintClass.counter = 0;
         gHintClass.isDream = true;
@@ -200,15 +219,15 @@ public class gHintClass : MonoBehaviour {
 
 
 
-	IEnumerator coroutineBonusPictureEnable() {
+	IEnumerator coroutineBonusPictureEnable(int i) {
 
 		yield return StartCoroutine(staticClass.waitForRealTime(0.5F));
 
-		GameObject.Find("bonuses pictures").transform.GetChild(1).gameObject.GetComponent<Animator>().Play("menu exit");
+		GameObject.Find("bonuses pictures").transform.GetChild(i).gameObject.GetComponent<Animator>().Play("menu exit");
 		GameObject.Find("bonuses pictures").transform.GetChild(0).gameObject.SetActive(false);
 		yield return StartCoroutine(staticClass.waitForRealTime(0.3F));
 
-		GameObject.Find("bonuses pictures").transform.GetChild(1).gameObject.SetActive(false);
+		GameObject.Find("bonuses pictures").transform.GetChild(i).gameObject.SetActive(false);
 		hintState = "start";
 		time = Time.unscaledTime;
 		Time.timeScale = 1;

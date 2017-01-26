@@ -61,53 +61,6 @@ public class gBerryClass : MonoBehaviour {
 
 
 
-		//showAd, если нет комплекта
-		if (ctrAdClass.instance != null) ctrAdClass.instance.ShowLevelAd();
-		/*
-		#if UNITY_ANDROID || UNITY_IOS
-		if (ctrProgressClass.progress["complect"] == 0 && ctrProgressClass.progress["currentLevel"] >= 5) {
-			staticClass.showAd ++;
-
-			if (staticClass.showAd >= 15) {
-				ctrAdClass.adStarted = "level";
-				//if (ctrAdClass.instance.isAdReady()) {
-					//if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent(ctrAdClass., "start", "level", 1);
-
-				if (Advertisement.IsReady ("video")) {
-					if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent("Ad", "start", "level", 1);
-					var options = new ShowOptions { resultCallback = HandleShowResult };
-					Advertisement.Show ("video", options);
-					staticClass.showAd = 0;
-					//pause
-					pauseMenu.SetActive (true);
-					staticClass.isTimePlay = Time.timeScale;
-					Time.timeScale = 0;
-				} else if (Vungle.isAdvertAvailable()) {
-					// Vungle
-
-					Dictionary<string, object> options = new Dictionary<string, object> ();
-					options ["incentivized"] = false;
-					Vungle.playAdWithOptions (options);
-					staticClass.showAd = 0;
-					//pause
-					pauseMenu.SetActive (true);
-					staticClass.isTimePlay = Time.timeScale;
-					Time.timeScale = 0;
-					//dont ready Unity aAds
-					if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent("Ad", "dont ready", "level", 1);
-
-				
-				} else {
-					
-					//dont ready Vungle
-					if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "dont ready", "level", 1);
-
-					staticClass.showAd = 14;
-				}
-			} 
-		}
-		#endif
-		*/
 
 		staticClass.changeBerry ();
 		//title внизу
@@ -155,7 +108,12 @@ public class gBerryClass : MonoBehaviour {
         if (staticClass.scenePrev == SceneManager.GetActiveScene().name && !((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 || (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1))
 	    {
 	        staticClass.levelRestartedCount++;
-	        if (staticClass.levelRestartedCount >= 2) GameObject.Find("/default level/gui/dream").SetActive(true);
+	        if (staticClass.levelRestartedCount >= 2)
+	        {
+                var dream = GameObject.Find("/default level/gui/dream");
+                dream.transform.GetChild(0).gameObject.SetActive(true);
+                dream.transform.GetChild(1).gameObject.SetActive(false);
+            }
 	    }
 	    else if
             //если уже есть подсказка
@@ -163,15 +121,20 @@ public class gBerryClass : MonoBehaviour {
              (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1)
         {
             var dream = GameObject.Find("/default level/gui/dream");
-            dream.SetActive(true);
             dream.transform.GetChild(0).gameObject.SetActive(false);
             dream.transform.GetChild(1).gameObject.SetActive(true);
 
         }
-        else staticClass.levelRestartedCount = 0;
 
-        //off if publish
-	    gRecHintClass.rec = "";
+        //если уровень запущен 1й раз
+        if (staticClass.scenePrev != SceneManager.GetActiveScene().name)
+	    {
+	        staticClass.levelRestartedCount = 0;
+	        staticClass.levelAdViewed = 0;
+	    }
+
+	    //off if publish
+        gRecHintClass.rec = "";
         gRecHintClass.counter = 0;
         gRecHintClass.recHintState = 0;
 
@@ -305,8 +268,8 @@ public class gBerryClass : MonoBehaviour {
 			berryState = "start finish";
             gHintClass.hintState = "";
 
-			//cut ropes
-			GameObject[] webs = GameObject.FindGameObjectsWithTag("web");
+            //cut ropes
+            GameObject[] webs = GameObject.FindGameObjectsWithTag("web");
 			foreach (var web in webs) {
 				if (web.GetComponent<gWebClass> ().webStateCollisionBerry) {
 					staticClass.useWeb--;
@@ -385,11 +348,15 @@ public class gBerryClass : MonoBehaviour {
 		if (Everyplay.IsRecording ()) 
 			buttonEveryplayScript.takeScreenshot ();
 
+        //restart scene, if dream show
+        if (GameObject.Find("/default level/gui/dream/ui").activeSelf) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
 		// остановка выполнения функции на costEnergy секунд
 		yield return new WaitForSeconds(1.0F);
-		//для записи подсказки (потом удалить)
-		gRecHintClass.recHintState = 0;
+		Debug.Log(gHintClass.hintState);
+        gHintClass.hintState = "";
+        //для записи подсказки (потом удалить)
+        gRecHintClass.recHintState = 0;
 		//D/ebug.Log ("rec: ");
 		//D/ebug.Log (gRecHintClass.rec);
 		gRecHintClass.counter = 0;

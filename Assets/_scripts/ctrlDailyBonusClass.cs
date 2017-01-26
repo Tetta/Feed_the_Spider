@@ -12,13 +12,14 @@ public class ctrlDailyBonusClass : MonoBehaviour {
 	public static int realTime = 0;
 
 	private string url = "https://time.yandex.ru/sync.json?geo=10393";
+    private List<KeyValuePair<string, int>> openingCards = new List<KeyValuePair<string, int>>();
 
-	//будет дейли бонус или нет
-	IEnumerator Start() {
+    //будет дейли бонус или нет
+    IEnumerator Start() {
 		if (name == "daily bonus") { 
 			WWW www = new WWW(url);
 			yield return www;
-			try {
+			//try {
 				//D/ebug.Log( www.text.Substring(8, 10));
 
 				DateTime now = new DateTime(1970, 1, 1, 0, 0, 0, 0);
@@ -43,18 +44,16 @@ public class ctrlDailyBonusClass : MonoBehaviour {
 					ctrProgressClass.saveProgress();
 				}
 
-			} catch (System.Exception ex) {
-				Debug.Log( ex.Message);
-			}
+			//} catch (System.Exception ex) {
+			//	Debug.Log( ex.Message);
+			//}
 		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	}
-	void OnClick () {
 
-	}
 
 	void dailyBonusMenuOpen() {
 		dailyBonusMenu.transform.GetChild(0).GetChild(0).DestroyChildren();
@@ -66,68 +65,58 @@ public class ctrlDailyBonusClass : MonoBehaviour {
 
 		GameObject card = new GameObject();
 
-		//шансы на картах
-		Dictionary<string, int> portions = new Dictionary<string, int>();
-		Dictionary<string, int> portions2 = new Dictionary<string, int>();
-
-		portions["hints_1"] = 190; 
-		portions["webs_1"] = 50; portions["webs_2"] = 100; 
-		portions["teleports_1"] = 50; 
-		portions["collectors_1"] = 100;
-		portions["coins_50"] = 10; portions["coins_100"] = 100; portions["coins_250"] = 250;
-		portions["energy_5"] = 25; portions["energy_10"] = 70; portions["energy_15"] = 155;
-
-		int portionsSum = 0;
-		int portionsSum2 = 0;
+        //шансы на картах
+        Dictionary<string, int> portionsGreen = new Dictionary<string, int>();
+        Dictionary<string, int> portionsCountGreen = new Dictionary<string, int>();
 
 
-		foreach (var e in portions) {
-			portionsSum += e.Value;
-		}
-		foreach (var e in portions) {
+        portionsGreen["webs"] = 30; portionsGreen["teleports"] = 26;
+        portionsGreen["collectors"] = 24; portionsGreen["hints"] = 20;
+        portionsCountGreen["webs"] = 2; portionsCountGreen["teleports"] = 2;
+        portionsCountGreen["collectors"] = 2; portionsCountGreen["hints"] = 1;
+        openingCards.Add(new KeyValuePair<string, int>("coins", 100));
+        for (int i = 1; i < 3; i++)
+        {
+            if (UnityEngine.Random.Range(0, 100) < 5) mBoosterClass.setOpeningCardUncommon("berry", ref openingCards);
+            else mBoosterClass.setOpeningCardCommon(ref portionsGreen, portionsCountGreen, ref openingCards);
+        }
+        mBoosterClass.Shuffle(openingCards);
 
-			portions2[e.Key] =  portionsSum / e.Value;
-			portionsSum2 += portions2 [e.Key];
-		}
-		for (int i = 0; i < 3; i++) {
-			int counter = 0;
-			int counterArr = 0;
-			int bonusRand = Mathf.CeilToInt(UnityEngine.Random.Range(0, portionsSum2));
+        for (int i = 0; i < 3; i++) {
+            //название карты и количество
+            string bonusName = openingCards[i].Key;
+            int bonusCount = openingCards[i].Value;
+            Debug.Log(bonusName + " " + bonusCount);
 
-			foreach (var portion in portions2 ) {
-				if (bonusRand >= counter && bonusRand < counter + portion.Value) {
+            //копируем карту
+            if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins")
+                card = Instantiate(marketClass.instance.cardsAll.FindChild(bonusName + "_" + bonusCount).gameObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            else
+                card = Instantiate(marketClass.instance.cardsAll.FindChild(bonusName).gameObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            card.GetComponent<mCardClass>().functionPress = "openCardGift";
+			card.transform.parent = dailyBonusMenu.transform.GetChild(0).GetChild(0);
+			card.transform.localScale = new Vector2(1, 1);
+			card.name = "card" + (i + 1);
 
-					//копируем карту
-					card = Instantiate(marketClass.instance.cardsAll.FindChild(portion.Key).gameObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-					card.GetComponent<mCardClass>().functionPress = "openCardDaily";
-					card.transform.parent = dailyBonusMenu.transform.GetChild(0).GetChild(0);
-					card.transform.localScale = new Vector2(1, 1);
-					card.name = portion.Key;
-
-					card.layer = LayerMask.NameToLayer ("daily bonus");
-					ChangeLayersRecursively(card.transform, "daily bonus");
-
-
-					card.SetActive (true);
-					card.transform.GetChild(0).gameObject.SetActive (false);
-					card.transform.GetChild(1).gameObject.SetActive (true);
-					//позиция карты
-					if (i == 0) card.transform.localPosition = new Vector3(-355, 7, -2); else if (i == 1) card.transform.localPosition = new Vector3(0, 7, -2); else if (i == 2) card.transform.localPosition = new Vector3(355, 7, -2); 
-
-					break;
-				}
-				counterArr ++;
-				counter += portion.Value;
-			}
+            card.layer = LayerMask.NameToLayer ("daily bonus");
+			ChangeLayersRecursively(card.transform, "daily bonus");
 
 
+			card.SetActive (true);
+			card.transform.GetChild(0).gameObject.SetActive (false);
+			card.transform.GetChild(1).gameObject.SetActive (true);
+			//позиция карты
+			if (i == 0) card.transform.localPosition = new Vector3(-355, 34, -2); else if (i == 1) card.transform.localPosition = new Vector3(0, 34, -2); else if (i == 2) card.transform.localPosition = new Vector3(355, 34, -2);
+            
+            //сохранение результата
+            ctrProgressClass.progress[bonusName] += bonusCount;
 
-		}
+        }
 		ctrProgressClass.progress["dailyBonus"] = realTime;
+        ctrProgressClass.saveProgress();
 
-
-	}
-
+    }
+    
 	void ChangeLayersRecursively(Transform trans, String name)
 	{
 		foreach (Transform child in trans)
@@ -136,6 +125,6 @@ public class ctrlDailyBonusClass : MonoBehaviour {
 			ChangeLayersRecursively(child, name);
 		}
 	}
-
+    
 
 }
