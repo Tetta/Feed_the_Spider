@@ -59,17 +59,19 @@ public class marketClass : MonoBehaviour {
 
 		gameObject.SetActive (false);
     }
-    /*
         void OnPress(bool isPressed) {
             if (!isPressed) {
                 //запрос на покупку
-                if (name == "booster_3" && ctrProgressClass.progress ["firstPurchase"] == 0) 		
-                    AndroidInAppPurchaseManager.Client.Purchase ("booster_sale");
-                else
-                    AndroidInAppPurchaseManager.Client.Purchase (name);
+                Debug.Log("click buy " + name);
+            
+            //if (name == "booster_3" && ctrProgressClass.progress ["firstPurchase"] == 0) 		
+                //    AndroidInAppPurchaseManager.Client.Purchase ("booster_sale");
+                //else
+                //    AndroidInAppPurchaseManager.Client.Purchase (name);
             }
 
         }
+    /*
 
         //подтверждение покупки товара
         private static void OnProductPurchased(BillingResult result) {

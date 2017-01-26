@@ -17,7 +17,8 @@ public class ctrProgressClass {
 	}
 
 	static public void getProgress() {
-		string strProgress = PlayerPrefs.GetString("progress");
+        //Debug.Log("getProgress");
+        string strProgress = PlayerPrefs.GetString("progress");
 		progress = new Dictionary<string, int> (progressDefault);
 
 		string strKey = "", strValue = "";
@@ -28,8 +29,10 @@ public class ctrProgressClass {
 			else if (strProgress.Substring(i, 1) == ";") {
 				flag = true;
 				progress[strKey] = int.Parse(strValue);
+                if (strKey == "saleDate") Debug.Log(strValue);
+                //Debug.Log(strKey + ": " + strValue);
                 //скины и шапки. запись в статик переменную
-			    if (strKey == "skinCurrent") staticClass.currentSkin = "skin" + strValue;
+                if (strKey == "skinCurrent") staticClass.currentSkin = "skin" + strValue;
                 if (strKey == "berryCurrent") staticClass.currentBerry = "berry" + strValue;
                 if (strKey == "hatCurrent") staticClass.currentHat = "hat" + strValue;
 				strKey = "";

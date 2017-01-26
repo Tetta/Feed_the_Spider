@@ -7,8 +7,10 @@ using UnityEngine;
 public class ctrAnalyticsClass  {
 
 	// Use this for initialization
-	void Start () {
-		
+	void Start ()
+	{
+	    //LocalyticsUnity.Localytics.AppKey. = "fc631941d160eeb3ae14250-16d5b2ca-e200-11e6-8aad-008cc99655f0";
+
 	}
 	
 	// Update is called once per frame
@@ -26,5 +28,6 @@ public class ctrAnalyticsClass  {
             str += attr.Key + ": " + attr.Value + "\n";
         }
         Debug.Log(str);
+        LocalyticsUnity.Localytics.TagEvent(nameEvent, attributes);
     }
 }

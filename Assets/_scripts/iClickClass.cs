@@ -419,51 +419,62 @@ public class iClickClass : MonoBehaviour {
 			transform.parent.parent.parent.GetChild (0).gameObject.SendMessage ("OnClick");
 		} else if (name == "reset progress") {
 			transform.parent.parent.parent.GetChild (1).gameObject.SetActive(true);
-	}
+        }
+        else if (name == "button sale")
+        {
+            //sale menu
+            transform.parent.GetChild(15).gameObject.SetActive(true);
+        }
     }
     public void closeMenu() {
         StartCoroutine(coroutineCloseMenu());
     }
 
-    public IEnumerator coroutineCloseMenu() {
+    public IEnumerator coroutineCloseMenu()
+    {
         yield return new WaitForSeconds(0F);
         GameObject menu = null;
-		if (name == "button exit level menu") {
-			menu = GameObject.Find ("level menu");
-			menu.transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
-			yield return new WaitForSeconds (0.2F);
-			menu.SetActive (false);
-		/*
-		} else if (name == "next level menu") {
-			menu = GameObject.Find ("level menu");
-			menu.SetActive (false);
-			menu = transform.parent.parent.GetChild (3).gameObject;
-			menu.SetActive (true);
-		} else if (name == "prev level menu") {
-			menu = GameObject.Find ("level menu 2");
-			menu.SetActive (false);
-			menu = transform.parent.parent.GetChild (2).gameObject;
-			menu.SetActive (true);
-		} else if (name == "pause") {
-			menu = transform.parent.GetChild (1).gameObject;
-			menu.SetActive (true);
-			staticClass.isTimePlay = Time.timeScale;
-			Time.timeScale = 0;
-		*/
-		} else if (name == "play") {
-			menu = GameObject.Find ("pause menu");
-			yield return StartCoroutine (staticClass.waitForRealTime (0.2F));
-			menu.SetActive (false);
-			Time.timeScale = staticClass.isTimePlay;
+        if (name == "button exit level menu")
+        {
+            menu = GameObject.Find("level menu");
+            menu.transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            menu.SetActive(false);
+            /*
+            } else if (name == "next level menu") {
+                menu = GameObject.Find ("level menu");
+                menu.SetActive (false);
+                menu = transform.parent.parent.GetChild (3).gameObject;
+                menu.SetActive (true);
+            } else if (name == "prev level menu") {
+                menu = GameObject.Find ("level menu 2");
+                menu.SetActive (false);
+                menu = transform.parent.parent.GetChild (2).gameObject;
+                menu.SetActive (true);
+            } else if (name == "pause") {
+                menu = transform.parent.GetChild (1).gameObject;
+                menu.SetActive (true);
+                staticClass.isTimePlay = Time.timeScale;
+                Time.timeScale = 0;
+            */
+        }
+        else if (name == "play")
+        {
+            menu = GameObject.Find("pause menu");
+            yield return StartCoroutine(staticClass.waitForRealTime(0.2F));
+            menu.SetActive(false);
+            Time.timeScale = staticClass.isTimePlay;
 
-			//if (gYetiClass.yetiState == "")
-			//Time.timeScale = 1;
+            //if (gYetiClass.yetiState == "")
+            //Time.timeScale = 1;
 
-		} else if (name == "exit energy menu") {
+        }
+        else if (name == "exit energy menu")
+        {
             menu = GameObject.Find("energy menu");
-            GameObject.Find ("energy menu").transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
-			yield return new WaitForSeconds (0.2F);
-			GameObject.Find ("energy").SendMessage ("stopCoroutineEnergyMenu");
+            GameObject.Find("energy menu").transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            GameObject.Find("energy").SendMessage("stopCoroutineEnergyMenu");
             menu.SetActive(false);
             /*
             } else if (name == "exit thanks menu") {
@@ -479,44 +490,69 @@ public class iClickClass : MonoBehaviour {
                     menu.SetActive (false);
                 }
             */
-        } else if (name == "button settings exit") {
-			menu = transform.parent.parent.gameObject;
-			menu.transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
-			yield return new WaitForSeconds (0.2F);
-			menu.SetActive (false);
+        }
+        else if (name == "button settings exit")
+        {
+            menu = transform.parent.parent.gameObject;
+            menu.transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            menu.SetActive(false);
 
-		} else if (name == "button market exit") {
-			//marketClass.instance.transform.position = new Vector3 (0, 0, -10000);
-			marketClass.instance.gameObject.SetActive (false);
-			//marketClass.instance.camera.SetActive (false);
-			Time.timeScale = staticClass.isTimePlay;
-		} else if (name == "exit open booster menu") {
-			marketClass.instance.openBoosterMenu.SetActive (false);
-			marketClass.instance.boosterMenu.SetActive (true);
+        }
+        else if (name == "button market exit")
+        {
+            //marketClass.instance.transform.position = new Vector3 (0, 0, -10000);
+            marketClass.instance.gameObject.SetActive(false);
+            //marketClass.instance.camera.SetActive (false);
+            Time.timeScale = staticClass.isTimePlay;
+        }
+        else if (name == "exit open booster menu")
+        {
+            marketClass.instance.openBoosterMenu.SetActive(false);
+            marketClass.instance.boosterMenu.SetActive(true);
 
-		} else if (name == "exit gift menu") {
-			transform.parent.gameObject.SetActive (false);
-		} else if (name == "exit daily menu") {
-			transform.parent.gameObject.SetActive (false);
-		} else if (name == "exit energy ad menu") {
-			GameObject.Find ("ad dont ready menu").transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
-			yield return new WaitForSeconds (0.2F);
-			GameObject.Find ("ad dont ready menu").SetActive (false);
-		} else if (name == "exit coins menu") {
-			GameObject.Find ("coins menu").transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
-			yield return new WaitForSeconds (0.2F);
-			GameObject.Find ("coins menu").SetActive (false);
-		} else if (name == "button exit close menu") {
-			menu = GameObject.Find ("close menu");
-			menu.transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
-			yield return new WaitForSeconds (0.2F);
-			menu.SetActive (false);
-		} else if (name == "button exit reset progress menu") {
-			menu = transform.parent.parent.gameObject;
-			menu.transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
-			yield return new WaitForSeconds (0.2F);
-			menu.SetActive (false);
-		}
+        }
+        else if (name == "exit gift menu")
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
+        else if (name == "exit daily menu")
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
+        else if (name == "exit energy ad menu")
+        {
+            GameObject.Find("ad dont ready menu").transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            GameObject.Find("ad dont ready menu").SetActive(false);
+        }
+        else if (name == "exit coins menu")
+        {
+            GameObject.Find("coins menu").transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            GameObject.Find("coins menu").SetActive(false);
+        }
+        else if (name == "button exit close menu")
+        {
+            menu = GameObject.Find("close menu");
+            menu.transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            menu.SetActive(false);
+        }
+        else if (name == "button exit reset progress menu")
+        {
+            menu = transform.parent.parent.gameObject;
+            menu.transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            menu.SetActive(false);
+        }
+        else if (name == "exit sale menu")
+        {
+            menu = GameObject.Find("sale menu");
+            menu.transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            menu.SetActive(false);
+        }
     }
 
     //public IEnumerator CoroutineCloseMenu(){

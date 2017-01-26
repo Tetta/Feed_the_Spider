@@ -15,7 +15,7 @@
   <application  android:name="com.localytics.android.unity.LocalyticsApplication" android:icon="@drawable/app_icon" android:label="@string/app_name" android:debuggable="true">
 
     <receiver android:name="net.agasper.unitynotification.UnityNotificationManager"></receiver>
-    <meta-data android:name="LOCALYTICS_APP_KEY" android:value="d7719bff8aea0356413c0cc-2df61516-a7d1-11e5-142c-008b20abc1fa"/>
+    <meta-data android:name="LOCALYTICS_APP_KEY" android:value="fc631941d160eeb3ae14250-16d5b2ca-e200-11e6-8aad-008cc99655f0"/>
     <meta-data android:name="LOCALYTICS_PUSH_PROJECT_ID" android:value="\ YOUR_PUSH_PROJECT_ID"/>
 
     <activity android:name="com.localytics.android.unity.LocalyticsUnityPlayerActivity" android:label="@string/app_name" android:launchMode="singleTask" android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale">
