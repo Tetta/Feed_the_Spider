@@ -7,6 +7,7 @@ public class gBerryClass : MonoBehaviour {
 
     public GameObject tutorialHint;
     public GameObject tutorialBonus;
+    public GameObject tutorialDream;
 
     public static string berryState; 
 	public static int starsCounter;
@@ -146,6 +147,10 @@ public class gBerryClass : MonoBehaviour {
 	        ctrProgressClass.progress["hints"] > 0)
 	    {
             GameObject tutorialHintGO = Instantiate(tutorialHint, new Vector2(0, 0), Quaternion.identity) as GameObject;
+            //position hand
+            tutorialHintGO.transform.GetChild(0).transform.localPosition = GameObject.Find("/default level/gui/bonuses").transform.localPosition + new Vector3(50, 110, 0);
+            staticClass.isTimePlay = Time.timeScale;
+            Time.timeScale = 0;
         }
 
         //show tutorial bonus
@@ -160,10 +165,26 @@ public class gBerryClass : MonoBehaviour {
                 arrowTemp.SendMessage("clickBonusesArrow");
                 arrowTemp.transform.parent.transform.localPosition = new Vector3(160, 0, 0);
             }
-            GameObject tutorialHintGO = Instantiate(tutorialBonus, new Vector2(0, 0), Quaternion.identity) as GameObject;
+            GameObject tutorialBonusGO = Instantiate(tutorialBonus, new Vector2(0, 0), Quaternion.identity) as GameObject;
+            //position hand
+            tutorialBonusGO.transform.GetChild(0).transform.localPosition = GameObject.Find("/default level/gui/bonuses").transform.localPosition + new Vector3(195, 80, 0);
+            staticClass.isTimePlay = Time.timeScale;
+            Time.timeScale = 0;
         }
 
+        //show tutorial dream
+        if (staticClass.levelRestartedCount == 2 && ctrProgressClass.progress["tutorialDream"] == 0)
+        {
+            GameObject tutorialDreamGO = Instantiate(tutorialDream, new Vector2(0, 0), Quaternion.identity) as GameObject;
+            //position hand
+            tutorialDreamGO.transform.GetChild(0).transform.localPosition = GameObject.Find("/default level/gui/dream").transform.localPosition + new Vector3(-88, -88, 0);
+            //icon ad disable
+            GameObject.Find("/default level/gui/dream").transform.GetChild(0).gameObject.SetActive(false);
+            GameObject.Find("/default level/gui/dream").transform.GetChild(1).gameObject.SetActive(true);
 
+            staticClass.isTimePlay = Time.timeScale;
+            Time.timeScale = 0;
+        }
 
     }
 

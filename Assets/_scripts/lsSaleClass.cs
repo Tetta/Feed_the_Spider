@@ -9,6 +9,7 @@ public class lsSaleClass : MonoBehaviour {
 
     public GameObject rewardMenu;
     public GameObject saleMenu;
+    public GameObject hand;
     public UILabel hours;
     public UILabel minutes;
     public UILabel seconds;
@@ -35,13 +36,15 @@ public class lsSaleClass : MonoBehaviour {
         {
             ctrProgressClass.progress["sale"]++;
             ctrProgressClass.progress["saleDate"] = (int) DateTime.Now.TotalSeconds();
-            ctrProgressClass.saveProgress();
+            
             if (ctrProgressClass.progress["firstPurchase"] == 0 && ctrProgressClass.progress["sale"] > 3)
                 ctrProgressClass.progress["sale"] = 3;
             if (ctrProgressClass.progress["firstPurchase"] == 1 && ctrProgressClass.progress["sale"] > 2)
                 ctrProgressClass.progress["sale"] = 2;
 
             setTimerSaleEnd();
+            ctrProgressClass.saveProgress();
+
         }
 
         //for duration
@@ -52,6 +55,14 @@ public class lsSaleClass : MonoBehaviour {
         //enable sale if timer
         if (timerEndSale < DateTime.Now.Add(duration))
         {
+            //tutotial
+            if (ctrProgressClass.progress["tutorialSale"] == 1) hand.transform.GetChild(1).gameObject.SetActive(false);
+            if (ctrProgressClass.progress["tutorialSale"] < 2)
+            {
+                hand.SetActive(true);
+                ctrProgressClass.progress["tutorialSale"]++;
+            }
+            
             Debug.Log("sale enable");
             //off all sales
             for (int i = 0; i < transform.GetChild(0).childCount; i++)
@@ -66,6 +77,7 @@ public class lsSaleClass : MonoBehaviour {
 
             transform.GetChild(1).gameObject.SetActive(true);
             transform.GetChild(2).gameObject.SetActive(true);
+            ctrProgressClass.saveProgress();
             StartCoroutine(updateTimeCoroutine());
         }
 

@@ -102,6 +102,10 @@ tutorialGroot1, "Tap on Flo, rotate to the terrain and release", "Нажмите
 tutorialGroot2, "Tap again to remove", "Нажмите еще раз, чтобы убрать"
 tutorialHint, "The bird can help you with challenging levels!", "Птица поможет пройти сложные уровни!"
 tutorialBonus, "Try to take advantage of bonuses!", "Попробуй воспользоваться бонусами!"
+tutorialBuy, "The game can be simplified!", "Игру можно и упростить!"
+tutorialDream, "Good sleep never hurt!", "Хороший сон никогда не повредит!"
+tutorialAdCoins, "Get free coins in seconds!", "Получай бесплатные монеты всего за несколько секунд!"
+tutorialSale, "For you have a special offer!", "Для вас есть особое предложение!"
 
 bonusWeb, "Choose a location for the placement of additional webs", "Выберите место для размещения дополнительной паутинки"
 bonusTeleport, "Choose a location to teleport spider", "Выберите место для телепортации паучка"

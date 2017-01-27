@@ -5,6 +5,7 @@ using System.Collections;
 using UnityEngine.Advertisements;
 #endif
 using System.Collections.Generic;
+using Facebook.Unity;
 using GoogleMobileAds.Api;
 using UnityEngine.SceneManagement;
 
@@ -47,6 +48,14 @@ public class ctrAdClass: MonoBehaviour {
     public void ShowRewardedAd()
 	{
 #if UNITY_ANDROID || UNITY_IOS
+	    if (adStarted == "ad coins" && ctrProgressClass.progress["tutorialAdCoins"] < 2)
+	    {
+	        ctrProgressClass.progress["tutorialAdCoins"] = 2;
+            GameObject.Find("/root/static/ad coins/hand").SetActive(false);
+        }
+
+
+
         adsAttributes["name"] = adStarted;
         adsAttributes["type"] = "rewarded";
         Debug.Log("click ShowRewardedAd");
@@ -104,6 +113,7 @@ public class ctrAdClass: MonoBehaviour {
 			ctrProgressClass.progress ["coins"] += 50;
             //coinsLabel
             AdCoinsTimerClass.counter++;
+            ctrProgressClass.progress["adCoinsDate"] = (int)DateTime.Now.AddSeconds(AdCoinsTimerClass.interval).TotalSeconds();
             AdCoinsTimerClass.timer = DateTime.Now.AddSeconds(AdCoinsTimerClass.interval);
             GameObject.Find ("root/static/coins/coinsLabel").GetComponent<UILabel> ().text = ctrProgressClass.progress ["coins"].ToString ();
             ctrAnalyticsClass.sendEvent("Gold", new Dictionary<string, string>{ {"video", "50"} });

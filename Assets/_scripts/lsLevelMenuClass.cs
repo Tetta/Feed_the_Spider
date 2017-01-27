@@ -18,7 +18,8 @@ public class lsLevelMenuClass: MonoBehaviour {
 	public GameObject groot;
 	public GameObject gem1Active;
 	public GameObject gem2Active;
-	private int tabCounter = 0;
+    public GameObject hand;
+    private int tabCounter = 0;
 
 	void setDefault () {
 		// to default
@@ -194,18 +195,7 @@ public class lsLevelMenuClass: MonoBehaviour {
 			scoreAll.GetChild(2).GetChild(1).GetComponent<UILabel>().text = coinsAdd.ToString();
 			ctrProgressClass.progress["coins"] += coinsAdd;
 			ctrStatsClass.logEvent ("coins", "free", "level" + lvlNumber, coinsAdd);
-#if (UNITY_ANDROID || UNITY_IOS) && UNITY_UNITYADS_API && ENABLE_UNITYADS_RUNTIME && !UNITY_EDITOR
-			if (Advertisement.IsReady ("rewardedVideo") || ctrAdClass.instance.interstitialAdMob.IsLoaded()) {
-            //включаем telek
-            transform.GetChild (0).GetChild (5).gameObject.SetActive (true);
-				//coins ad reward label меняем цифру
-				transform.GetChild (0).GetChild (6).GetChild (0).GetComponent<UILabel> ().text = "+" + coinsAdd.ToString ();
-			} else {
-				if (!Advertisement.IsReady ("rewardedVideo")) GoogleAnalyticsV4.instance.LogEvent("Ad", "dont ready", "telek", 1);
-				else GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "dont ready", "telek", 1);
 
-			}
-#endif
 			//сохранение очков в Kii
 			ctrFbKiiClass.updateUserScore("level" + lvlNumber.ToString(), scoreFinal, ctrProgressClass.progress["lastLevel"]);
 
@@ -218,9 +208,8 @@ public class lsLevelMenuClass: MonoBehaviour {
 		if (ctrProgressClass.progress["score" + lvlNumber + "_2"] < score2) ctrProgressClass.progress["score" + lvlNumber + "_2"] = score2;
 		ctrProgressClass.saveProgress();
 
-
-		//анимация очков в grid
-		for (int i = 0; i <= 100; i += 5) {
+        //анимация очков в grid
+        for (int i = 0; i <= 100; i += 5) {
 			scoreLvl.text = (Mathf.Round(score1 * i / 100)).ToString();
             scoreCh.text = (Mathf.Round(score2 * i / 100)).ToString();
 			yield return new WaitForSeconds (0.05F);
@@ -230,8 +219,21 @@ public class lsLevelMenuClass: MonoBehaviour {
 				transform.GetChild (3).GetChild (0).GetComponent<AudioSource>().Play();
 			}
 		}
-		//анимация звезды
-		if (starsCount >= 2) {
+
+        //if tutorial booster == 0 and coins > 400 
+        //or tutorialAdCoins
+        if ((ctrProgressClass.progress["tutorialBuy"] == 0 && ctrProgressClass.progress["coins"] >= 400) || ctrProgressClass.progress["tutorialAdCoins"] == 0)
+        {
+            GameObject handGO = Instantiate(hand, new Vector2(0, 0), Quaternion.identity);
+            handGO.transform.parent = GameObject.Find("/default level/gui").transform;
+            handGO.transform.localScale = new Vector3(-1, 1, 1);
+            handGO.transform.localPosition = new Vector3(-345, -945, 0);
+            handGO.transform.rotation = Quaternion.Euler(0, 0, 109);
+
+        }
+
+        //анимация звезды
+        if (starsCount >= 2) {
 			transform.GetChild (1).GetChild (1).GetChild (0).gameObject.SetActive (true);
 			transform.GetChild (3).GetChild (1).GetComponent<AudioSource>().Play();
 		}
@@ -261,13 +263,19 @@ public class lsLevelMenuClass: MonoBehaviour {
 			gem2Active.GetComponent<Animator> ().Play ("menu open");
 			transform.GetChild (3).GetChild (3).GetComponent<AudioSource> ().Play ();
 		}
-		yield return new WaitForSeconds (1F);
+
+
+
+
+        yield return new WaitForSeconds (1F);
 		grid.parent.gameObject.SetActive (false);
 
 
 		stars1.SetActive(true);
 		stars2.SetActive(true);
-		setContent2 ();
+
+
+	    setContent2();
     }
 
 	public void stopCompleteMenuAnimation () {

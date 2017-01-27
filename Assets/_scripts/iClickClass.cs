@@ -79,9 +79,9 @@ public class iClickClass : MonoBehaviour {
 
 	void checkTutorialBuy() {
 		//если хватает монет и не проходил туториал, показываем hand
-		if (name == "button market" && ctrProgressClass.progress ["coins"] >= 800 && ctrProgressClass.progress ["tutorialBuy"] == 0) {
+		if (name == "button market" && ctrProgressClass.progress ["coins"] >= 400 && ctrProgressClass.progress ["tutorialBuy"] == 0) {
 			transform.GetChild (0).gameObject.SetActive (true);
-		} else if (name == "booster 1" && ctrProgressClass.progress ["coins"] >= 800 && ctrProgressClass.progress ["boosters"] == 0 && ctrProgressClass.progress ["tutorialBuy"] <= 1) {
+		} else if (name == "booster 1" && ctrProgressClass.progress ["coins"] >= 400 && ctrProgressClass.progress ["boosters"] == 0 && ctrProgressClass.progress ["tutorialBuy"] <= 1) {
 			transform.GetChild (0).gameObject.SetActive (true);
 		} else if  (name == "open booster" && ctrProgressClass.progress ["boosters"] >= 1 && ctrProgressClass.progress ["tutorialBuy"] <= 2 ) {
 			transform.GetChild (0).gameObject.SetActive (true);
@@ -104,7 +104,7 @@ public class iClickClass : MonoBehaviour {
 
     void buyCardForCoins() {
         int amount = 1;
-        int cost = 800;
+        int cost = 400;
 		GetComponent<AudioSource> ().Play ();
 		if (ctrProgressClass.progress["coins"] < cost) transform.GetChild(1).GetComponent<Animator>().Play("alpha disable");
         else {
@@ -411,8 +411,8 @@ public class iClickClass : MonoBehaviour {
 
 			}
 
-		} else if (name == "coins ad") {
-			GameObject.Find ("root/static").transform.FindChild ("coins menu").gameObject.SetActive (true);
+		//} else if (name == "coins ad") {
+		//	GameObject.Find ("root/static").transform.FindChild ("coins menu").gameObject.SetActive (true);
 
 
 		} else if (name == "get booster") {
@@ -422,6 +422,9 @@ public class iClickClass : MonoBehaviour {
         }
         else if (name == "button sale")
         {
+            if (ctrProgressClass.progress["tutorialSale"] < 2) ctrProgressClass.progress["tutorialSale"] = 2;
+            GameObject.Find("/root/static/button sale/hand").SetActive(false);
+            ctrProgressClass.saveProgress();
             //sale menu
             transform.parent.GetChild(15).gameObject.SetActive(true);
         }
@@ -620,6 +623,10 @@ public class iClickClass : MonoBehaviour {
     {
         Debug.Log("dream click");
         Debug.Log(SceneManager.GetActiveScene().name);
+        if (staticClass.levelRestartedCount == 2 && ctrProgressClass.progress["tutorialDream"] == 0)
+            ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"] = 1;
+        ctrProgressClass.progress["tutorialDream"] = 1;
+        ctrProgressClass.saveProgress();
         var p = ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"];
         GetComponent<AudioSource>().Play();
 

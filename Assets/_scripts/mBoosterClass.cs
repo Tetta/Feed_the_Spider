@@ -138,7 +138,13 @@ public class mBoosterClass : MonoBehaviour {
         if (currentBoosterColor == "boostersWhite")
         {
             openingCards.Add(new KeyValuePair<string, int>("coins", 50));
-            for (int i = 1; i < 5; i++)
+            var max = 5;
+            if (ctrProgressClass.progress["tutorialBuy"] < 3)
+            {
+                setOpeningCardUncommon("berry", ref openingCards);
+                max = 4;
+            }
+            for (int i = 1; i < max; i++)
             {
                 if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("berry", ref openingCards);
                 else setOpeningCardCommon(ref portionsWhite, portionsCountWhite, ref openingCards);
