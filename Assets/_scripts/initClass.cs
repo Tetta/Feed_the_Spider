@@ -53,8 +53,13 @@ public class initClass : MonoBehaviour {
 			//опции
 			GameObject.Find ("settings folder").transform.GetChild (0).gameObject.SetActive (true);
 			//если язык не выбран или русский
-			if ((ctrProgressClass.progress ["language"] == 0 && Application.systemLanguage.ToString () == "Russian") || ctrProgressClass.progress ["language"] == 2) {
-				Localization.language = "Russian";
+			if ((ctrProgressClass.progress ["language"] == 0 && 
+                        (Application.systemLanguage.ToString () == "Russian" ||
+                        Application.systemLanguage.ToString() == "Ukrainian" ||
+                        Application.systemLanguage.ToString() == "Belarusian"
+                        )) || ctrProgressClass.progress ["language"] == 2) {
+
+                Localization.language = "Russian";
 				GameObject.Find (Localization.language).transform.GetChild(0).gameObject.SetActive (true);
 				ctrProgressClass.progress ["language"] = 2;
 			} else {

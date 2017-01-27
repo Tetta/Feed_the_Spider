@@ -6,7 +6,9 @@ using KiiCorp.Cloud.Storage;
 using KiiCorp.Cloud.Unity;
 using System;
 using System.Linq;
+using com.playGenesis.VkUnityPlugin;
 using UnityEngine.SceneManagement;
+using Facebook.MiniJSON;
 
 public class ctrFbKiiClass : MonoBehaviour {
 	public GameObject fbFriendPhoto;
@@ -30,7 +32,7 @@ public class ctrFbKiiClass : MonoBehaviour {
 	//public static  List<friendsFbStruct>  friends = new List<friendsFbStruct>();
 
 	public static string[] friendsIds = null;
-	public static string userFbId = "";
+	public static string userId = "";
     public static bool isLoginKii = false;
 
 	//список друзей Kii: userFbId -> levelNumber -> score
@@ -38,6 +40,12 @@ public class ctrFbKiiClass : MonoBehaviour {
 
 	//список: "Кто из друзей на каком уровне?" level1 = userFbId
 	public static Dictionary<string, string> friendsLastLevel = new Dictionary<string, string>();
+
+
+
+    public Downloader d;
+    public FriendManager friendManagerVK;
+    public List<VKUser> friends = new List<VKUser>();
 
     // Awake function from Unity's MonoBehavior
     void Start() {
@@ -48,13 +56,28 @@ public class ctrFbKiiClass : MonoBehaviour {
         }
         instance = this;
         DontDestroyOnLoad(gameObject);
+        d = VkApi.VkApiInstance.gameObject.GetComponent<Downloader>();
+        friendManagerVK = VkApi.VkApiInstance.gameObject.GetComponent<FriendManager>();
 
-		if (!FB.IsInitialized) {
-			// Initialize the Facebook SDK
-			FB.Init (InitCallback);
-		}
+        ctrProgressClass.getProgress();
+        //fb
+        if (ctrProgressClass.progress["language"] == 1)
+        {
+            if (!FB.IsInitialized)
+            {
+                // Initialize the Facebook SDK
+                FB.Init(InitCallback);
+            }
+        }
+        //vk
+        else if (ctrProgressClass.progress["language"] == 2)
+        {
+            if (VkApi.VkApiInstance.IsUserLoggedIn) {
+                    onLoggedInVK();
+                }
+        }
     }
-
+    //fb
     private void InitCallback() {
         if (FB.IsInitialized) {
 			//for tests
@@ -76,6 +99,35 @@ public class ctrFbKiiClass : MonoBehaviour {
             } 
 
         } 
+    }
+
+    //vk
+    public void onLoggedInVK()
+    {
+        try
+        {
+            VkApi.VkApiInstance.LoggedIn -= onLoggedInVK;
+        }
+        catch (System.Exception ex)
+        {
+
+        }
+        userId = VkApi.CurrentToken.user_id;
+
+        //VkApi.VkApiInstance.
+        //     VKRequest r = new VKRequest
+        //{
+        //    url = "users.get?user_ids=51066050&photo_50",
+        //    CallBackFunction = OnGotUserInfo
+        //};
+        //VkApi.VkApiInstance.Call(r);
+
+        var request = new VKRequest()
+        {
+            url = "friends.getAppUsers?user_id=" + VkApi.CurrentToken.user_id + "&count=100&fields=photo_100",
+            CallBackFunction = OnGetFriendsIdsCompleted,
+        };
+        VkApi.VkApiInstance.Call(request);
     }
     /*
 	private void OnHideUnity (bool isGameShown)
@@ -124,9 +176,9 @@ public class ctrFbKiiClass : MonoBehaviour {
     }
 
 	public static void updateUserScore(string levelName, int score, int lastLevel) {
-		if (isLoginKii && userFbId != "") {
+		if (isLoginKii && userId != "") {
 			KiiBucket bucket = Kii.Bucket("scores");
-			KiiObject kiiObj = bucket.NewKiiObject(userFbId);
+			KiiObject kiiObj = bucket.NewKiiObject(userId);
 			kiiObj[levelName] = score;
 			kiiObj["lastLevel"] = "level" + lastLevel.ToString();
 			kiiObj.Save((KiiObject savedObj, Exception e) => {
@@ -149,7 +201,7 @@ public class ctrFbKiiClass : MonoBehaviour {
             KiiBucket bucket = Kii.Bucket("scores");
 
             //save user scores
-            KiiObject kiiObj = bucket.NewKiiObject(userFbId);
+            KiiObject kiiObj = bucket.NewKiiObject(userId);
             
             for (int i = 1; i <= 100; i++) {
                 int y = ctrProgressClass.progress["score" + i.ToString() + "_1"] + ctrProgressClass.progress["score" + i.ToString() + "_2"];
@@ -158,7 +210,7 @@ public class ctrFbKiiClass : MonoBehaviour {
 				kiiObj["lastLevel"] = "level" + i.ToString();
 
             }
-			kiiObj["userFbId"] = userFbId;
+			kiiObj["userFbId"] = userId;
 
              //запись, если есть хотя бы 1 уровень
             if (kiiObj.Has("level1")) {
@@ -266,7 +318,7 @@ public class ctrFbKiiClass : MonoBehaviour {
 				}
 
 			}
-			scores[userFbId] = ctrProgressClass.progress ["score" + levelNumber + "_1"] + ctrProgressClass.progress ["score" + levelNumber + "_2"];
+			scores[userId] = ctrProgressClass.progress ["score" + levelNumber + "_1"] + ctrProgressClass.progress ["score" + levelNumber + "_2"];
 			//Debug.Log (scores[userFbId]);
 			scores = scores.OrderByDescending (x => x.Value).ToDictionary (x => x.Key, x => x.Value);
 
@@ -279,7 +331,7 @@ public class ctrFbKiiClass : MonoBehaviour {
 					//photo
 
 					//если юзер
-					if (userFbId == score.Key) {
+					if (userId == score.Key) {
 						if (userImage != null) fbMenu.GetChild (1).GetChild (i).GetChild(0).GetComponent<SpriteRenderer> ().sprite = Sprite.Create (userImage, new Rect(0, 0, userImage.width, userImage.height), new Vector2(0.5F, 0.5F), 1);
 						fbMenu.GetChild (1).GetChild (i).GetChild (1).GetComponent<UILabel> ().text = score.Value.ToString ();
 						i++;
@@ -338,7 +390,7 @@ public class ctrFbKiiClass : MonoBehaviour {
 
         string id;
         if (result.ResultDictionary.TryGetValue("id", out id)) {
-            userFbId = id;
+            userId = id;
             //GameStateManager.Username = name;
         }
         
@@ -682,7 +734,7 @@ public class ctrFbKiiClass : MonoBehaviour {
 		}
 		return null;
 	}
-	/*
+    /*
 	// Pull out score from a JSON user entry object constructed in FBGraph.GetScores()
 	public static int GetScoreFromEntry(object obj)
 	{
@@ -690,6 +742,106 @@ public class ctrFbKiiClass : MonoBehaviour {
 		return Convert.ToInt32(entry["score"]);
 	}
 	*/
-	#endregion
+    #endregion
+
+
+
+
+
+
+    //-------------------------------------------VK-----------------------------------------------------
+    void OnGetFriendsIdsCompleted(VKRequest arg1)
+    {
+        //проверяем на ошибки
+        if (arg1.error != null)
+        {
+            FindObjectOfType<GlobalErrorHandler>().Notification.Notify(arg1);
+            return;
+        }
+
+        var dict = Json.Deserialize(arg1.response) as Dictionary<string, object>;
+        try
+        {
+            var resp = (List<object>)dict["response"];
+            var resp2 = new List<string>();
+            foreach (var item in resp)
+            {
+                resp2.Add(item.ToString());
+            }
+
+            var g = resp.First();
+           var request = new VKRequest()
+            {
+                url = "users.get?user_ids=" + string.Join(",", resp2.ToArray()) + "&count=100&fields=photo_100",
+                CallBackFunction = OnGetFriendsCompleted,
+            };
+            VkApi.VkApiInstance.Call(request);
+        }
+
+        catch (System.Exception ex)
+        {
+
+        }
+
+
+    }
+
+    void OnGetFriendsCompleted(VKRequest arg1)
+    {
+        //проверяем на ошибки
+        if (arg1.error != null)
+        {
+            FindObjectOfType<GlobalErrorHandler>().Notification.Notify(arg1);
+            return;
+        }
+
+        var dict = Json.Deserialize(arg1.response) as Dictionary<string, object>;
+        Debug.Log(dict["response"].GetType());
+
+//        try
+//        {
+            var resp = (List<object>) dict["response"];
+            //var items = (List<object>) resp["items"];
+            var items = resp;
+        friendsIds = new string[items.Count];
+        var i = 0;
+        foreach (var item in items)
+        {
+            var friend = VKUser.Deserialize(item);
+                friends.Add(friend);
+                if (!string.IsNullOrEmpty(friend.photo_100))
+                {
+                    DownloadFriendImage(friend.photo_100, friend);
+                }
+            friendsIds.SetValue(friend.id.ToString(), i);
+            friendsFirstname[friend.id.ToString()] = friend.first_name;
+            i++;
+
+        }
+
+    }
+
+    private void DownloadFriendImage(string url, VKUser friend)
+    {
+        Action<DownloadRequest> doOnFinish = (d) =>
+        {
+            var fid = (long)d.CustomData[0];
+            if (d.DownloadResult.error == null && friend.id == fid)
+            {
+
+                friendsImage.Add(friend.id.ToString(), d.DownloadResult.texture);
+            }
+
+        };
+        var r = new DownloadRequest
+        {
+            url = url,
+            onFinished = doOnFinish,
+            CustomData = new object[] { friend.id }
+        };
+        VkApi.Downloader.download(r);
+    }
+    
+
 
 }

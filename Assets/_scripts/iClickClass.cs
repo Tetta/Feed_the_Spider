@@ -556,6 +556,13 @@ public class iClickClass : MonoBehaviour {
             yield return new WaitForSeconds(0.2F);
             menu.SetActive(false);
         }
+        else if (name == "exit reward menu")
+        {
+            menu = GameObject.Find("root/static/reward menu");
+            menu.transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            menu.SetActive(false);
+        }
     }
 
     //public IEnumerator CoroutineCloseMenu(){
@@ -598,7 +605,12 @@ public class iClickClass : MonoBehaviour {
 		ctrFbKiiClass.instance.connect ();
 	}
 
-	void fbInvite() {
+    void vkConnect()
+    {
+        ctrFbKiiClass.instance.connect();
+    }
+
+    void fbInvite() {
 		ctrFbKiiClass.instance.invite ();
 	}
 

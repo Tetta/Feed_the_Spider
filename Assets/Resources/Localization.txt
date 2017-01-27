@@ -17,6 +17,8 @@ lsInfiniteEnergy, "Unlimit energy for a day", "Бесконечная энерг
 lsEnergyMenu3, "Advertising is not ready. Try later!", "Реклама не готова. Попробуйте позже!"
 lsCoinsMenu, "Want to see advertisements", "Хочешь посмотреть рекламу"
 lsCoinsMenu2, " and get 70   ?", " и получить 70   ?"
+lsAdCoinsReward, "You got a reward!", "Киносеанс удался!"
+
 marketNotCoinsMenu, "Not enought coins!", "Недостаточно монет!"
 marketThanksMenu, "Thanks!", "Спасибо!"
 marketSpecial, "Special offers", "Особые предложения"

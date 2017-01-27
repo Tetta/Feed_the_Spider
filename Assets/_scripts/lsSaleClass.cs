@@ -56,7 +56,7 @@ public class lsSaleClass : MonoBehaviour {
         if (timerEndSale < DateTime.Now.Add(duration))
         {
             //tutotial
-            if (ctrProgressClass.progress["tutorialSale"] == 1) hand.transform.GetChild(1).gameObject.SetActive(false);
+            if (ctrProgressClass.progress["tutorialSale"] == 1) if (hand != null) hand.transform.GetChild(1).gameObject.SetActive(false);
             if (ctrProgressClass.progress["tutorialSale"] < 2)
             {
                 hand.SetActive(true);
@@ -118,6 +118,7 @@ public class lsSaleClass : MonoBehaviour {
             transform.GetChild(0).gameObject.SetActive(false);
             transform.GetChild(1).gameObject.SetActive(false);
             transform.GetChild(2).gameObject.SetActive(false);
+            hand.SetActive(false);
         }
 
     }
