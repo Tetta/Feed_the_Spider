@@ -122,6 +122,10 @@ public class gHintClass : MonoBehaviour {
 			            var nameObj = hit.collider.name;
 
                         if (nameObj == "destroyer" || nameObj == "groot" || nameObj == "sluggish physics") hit.collider.gameObject.SendMessage("OnPress", true);
+                        else if (nameObj == "cloud" || nameObj == "yeti body")
+                        {
+                            hit.collider.gameObject.SendMessage("OnPress", false);
+                        }  
                         else hit.collider.gameObject.SendMessage("OnClick");  
                     }
                 }

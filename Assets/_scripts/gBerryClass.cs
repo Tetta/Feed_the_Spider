@@ -104,12 +104,11 @@ public class gBerryClass : MonoBehaviour {
 			GameObject.Find ("tween").transform.localPosition = new Vector3 (880, 0, 0);
 		}
 
-        //Vungle event finished
-        //initializeEventHandlers ();
-
         //dream
         var p = ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"];
-        if (staticClass.scenePrev == SceneManager.GetActiveScene().name && !((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 || (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1))
+        if (staticClass.scenePrev == SceneManager.GetActiveScene().name && !((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 || (p == 2 || p == 3)
+            && initLevelMenuClass.levelDemands == 1)
+            && gHintClass.hintState == "")
 	    {
 	        staticClass.levelRestartedCount++;
 	        if (staticClass.levelRestartedCount >= 2)
@@ -117,16 +116,19 @@ public class gBerryClass : MonoBehaviour {
                 var dream = GameObject.Find("/default level/gui/dream");
                 dream.transform.GetChild(0).gameObject.SetActive(true);
                 dream.transform.GetChild(1).gameObject.SetActive(false);
-            }
+	            dream.GetComponent<BoxCollider>().enabled = true;
+	        }
 	    }
 	    else if
             //если уже есть подсказка
             ((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 ||
-             (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1)
+             (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1 
+             && gHintClass.hintState == "")
         {
             var dream = GameObject.Find("/default level/gui/dream");
             dream.transform.GetChild(0).gameObject.SetActive(false);
             dream.transform.GetChild(1).gameObject.SetActive(true);
+            dream.GetComponent<BoxCollider>().enabled = true;
 
         }
 
@@ -173,7 +175,7 @@ public class gBerryClass : MonoBehaviour {
         }
 
         //show tutorial dream
-        if (staticClass.levelRestartedCount == 2 && ctrProgressClass.progress["tutorialDream"] == 0)
+        if (staticClass.levelRestartedCount == 2 && ctrProgressClass.progress["tutorialDream"] == 0 && gHintClass.hintState == "")
         {
             GameObject tutorialDreamGO = Instantiate(tutorialDream, new Vector2(0, 0), Quaternion.identity) as GameObject;
             //position hand
