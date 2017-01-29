@@ -168,8 +168,8 @@ public class ctrProgressClass {
         {"level41_dream",0},{"level42_dream",0},{"level43_dream",0},{"level44_dream",0},{"level45_dream",0},{"level46_dream",0},{"level47_dream",0},{"level48_dream",0},{"level49_dream",0},{"level50_dream",0},
         {"level51_dream",0},{"level52_dream",0},{"level53_dream",0},{"level54_dream",0},{"level55_dream",0},{"level56_dream",0},{"level57_dream",0},{"level58_dream",0},{"level59_dream",0},{"level60_dream",0},
         {"level61_dream",0},{"level62_dream",0},{"level63_dream",0},{"level64_dream",0},{"level65_dream",0},{"level66_dream",0},{"level67_dream",0},{"level68_dream",0},{"level69_dream",0},{"level70_dream",0},
-        {"level71_dream",0},{"level72_dream",0},{"level73_dream",0},{"level74_dream",0},{"level75_dream",0},{"level76_dream",0},{"level77_dream",0},{"level78_dream",0},{"level79_dream",0},{"level80_dream",0},
-        {"level81_dream",0},{"level82_dream",0},{"level83_dream",0},{"level84_dream",0},{"level85_dream",0},{"level86_dream",0},{"level87_dream",0},{"level88_dream",0},{"level89_dream",0},{"level90_dream",0},
+        {"level71_dream",0},{"level72_dream",0},{"level73_dream",0},{"level74_dream",0},{"level75_dream",0},{"level76_dream",0},{"level77_dream",0},{"level78_dream",3},{"level79_dream",0},{"level80_dream",0},
+        {"level81_dream",0},{"level82_dream",0},{"level83_dream",3},{"level84_dream",0},{"level85_dream",0},{"level86_dream",0},{"level87_dream",0},{"level88_dream",0},{"level89_dream",0},{"level90_dream",0},
         {"level91_dream",0},{"level92_dream",0},{"level93_dream",0},{"level94_dream",0},{"level95_dream",0},{"level96_dream",0},{"level97_dream",0},{"level98_dream",0},{"level99_dream",0},{"level100_dream",0}
     };
 	static public void resetProgress(string nameButton) {

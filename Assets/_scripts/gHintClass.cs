@@ -2330,103 +2330,125 @@ public class gHintClass : MonoBehaviour {
 	}
 
 	void level55_0 () {
-		actions = new action[12];
-
-		actions[0].id = new Vector3(0.8945313F, 0.2792969F, 0F); //groot
-		actions[0].frame = 30;
-		actions[0].mouse = new Vector3(-0.3125F, 0.04166675F, 0F);
-		actions[1].id = new Vector3(0.4023438F, 1.435547F, 0F); //web
-		actions[1].frame = 43;
-		actions[1].mouse = new Vector3(0F, 0F, 0F);
-		actions[2].id = new Vector3(0.4023438F, 1.435547F, 0F); //web
-		actions[2].frame = 88;
-		actions[2].mouse = new Vector3(0F, 0F, 0F);
-		actions[3].id = new Vector3(0.8945313F, 0.2792969F, 0F); //groot
-		actions[3].frame = 110;
-		actions[3].mouse = new Vector3(0.8229166F, 0.2864583F, 0F);
-		actions[4].id = new Vector3(-0.78125F, 0.71875F, 0F); //web
-		actions[4].frame = 91;
-		actions[4].mouse = new Vector3(0F, 0F, 0F);
-		actions[5].id = new Vector3(-0.78125F, 0.71875F, 0F); //web
-		actions[5].frame = 63;
-		actions[5].mouse = new Vector3(0F, 0F, 0F);
-		actions[6].id = new Vector3(0.6855469F, -0.8046875F, 0F); //groot
-		actions[6].frame = 50;
-		actions[6].mouse = new Vector3(-0.06770837F, -0.6666666F, 0F);
-		actions[7].id = new Vector3(0.8945313F, 0.2792969F, 0F); //groot
-		actions[7].frame = 50;
-		actions[7].mouse = new Vector3(0.8958334F, -0.5260416F, 0F);
-		actions[8].id = new Vector3(-1.003906F, -0.5488281F, -0.015625F); //sluggish
-		actions[8].frame = 80;
-		actions[8].mouse = new Vector3(-1.140625F, -1.192708F, 0F);
-		actions[9].id = new Vector3(0.4023438F, 1.435547F, 0F); //web
-		actions[9].frame = 65;
-		actions[9].mouse = new Vector3(0F, 0F, 0F);
-		actions[10].id = new Vector3(0.4023438F, 1.435547F, 0F); //web
-		actions[10].frame = 143;
-		actions[10].mouse = new Vector3(0F, 0F, 0F);
-		actions[11].id = new Vector3(0.6855469F, -0.8046875F, 0F); //groot
-		actions[11].frame = 104;
-		actions[11].mouse = new Vector3(0.5833333F, -0.7291666F, 0F);
-	}
-	void level55_1 () {
-		actions = new action[5];
-
-		actions[0].id = new Vector3(0.6855469F, -0.8046875F, 0F); //groot
-		actions[0].frame = 30;
-		actions[0].mouse = new Vector3(-0.2239583F, 0.1145833F, 0F);
-		actions[1].id = new Vector3(0.8945313F, 0.2792969F, 0F); //groot
-		actions[1].frame = 50;
-		actions[1].mouse = new Vector3(0.8489583F, -0.578125F, 0F);
-		actions[2].id = new Vector3(0.4023438F, 1.435547F, 0F); //web
-		actions[2].frame = 50;
-		actions[2].mouse = new Vector3(0F, 0F, 0F);
-		actions[3].id = new Vector3(0.4023438F, 1.435547F, 0F); //web
-		actions[3].frame = 114;
-		actions[3].mouse = new Vector3(0F, 0F, 0F);
-		actions[4].id = new Vector3(0.6855469F, -0.8046875F, 0F); //groot
-		actions[4].frame = 100;
-		actions[4].mouse = new Vector3(0.6666667F, -0.7552084F, 0F);
-	}
-
-	void level56_0 () {
 		actions = new action[7];
 
-		actions[0].id = new Vector3(-0.734375F, 1.509766F, 0F); //web
-		actions[0].frame = 34;
-		actions[0].mouse = new Vector3(0F, 0F, 0F);
-		actions[1].id = new Vector3(-0.734375F, 1.509766F, 0F); //web
-		actions[1].frame = 44;
-		actions[1].mouse = new Vector3(0F, 0F, 0F);
-		actions[2].id = new Vector3(0.3886719F, 1.007813F, 0F); //web
-		actions[2].frame = 49;
-		actions[2].mouse = new Vector3(0F, 0F, 0F);
-		actions[3].id = new Vector3(-0.734375F, 1.509766F, 0F); //web
-		actions[3].frame = 120;
-		actions[3].mouse = new Vector3(0F, 0F, 0F);
-		actions[4].id = new Vector3(0.5351563F, -0.6464844F, 0F); //web
-		actions[4].frame = 78;
-		actions[4].mouse = new Vector3(0F, 0F, 0F);
-		actions[5].id = new Vector3(0.5957031F, 0.1894531F, -0.015625F); //sluggish
-		actions[5].frame = 53;
-		actions[5].mouse = new Vector3(-0.625F, 0.2395833F, 0F);
-		actions[6].id = new Vector3(0.5351563F, -0.6464844F, 0F); //web
-		actions[6].frame = 25;
-		actions[6].mouse = new Vector3(0F, 0F, 0F);
-	}
-	void level56_1 () {
-		actions = new action[3];
+        actions[0].id = new Vector3(0.6953125F, -0.8554688F, 0F); //groot
+        actions[0].frame = 43;
+        actions[0].mouse = new Vector3(-0.2810304F, -1.428571F, 0F);
+        actions[1].id = new Vector3(0.8945313F, 0.2792969F, 0F); //groot
+        actions[1].frame = 64;
+        actions[1].mouse = new Vector3(0.7681499F, -0.7540984F, 0F);
+        actions[2].id = new Vector3(0.4023438F, 1.435547F, 0F); //web
+        actions[2].frame = 65;
+        actions[2].mouse = new Vector3(0F, 0F, 0F);
+        actions[3].id = new Vector3(0.4023438F, 1.435547F, 0F); //web
+        actions[3].frame = 32;
+        actions[3].mouse = new Vector3(0F, 0F, 0F);
+        actions[4].id = new Vector3(-1.003906F, -0.5488281F, -0.015625F); //sluggish
+        actions[4].frame = 141;
+        actions[4].mouse = new Vector3(-1.01171F, -1.161592F, 0F);
+        actions[5].id = new Vector3(-1.003906F, -0.5488281F, -0.015625F); //sluggish
+        actions[5].frame = 158;
+        actions[5].mouse = new Vector3(-1.217799F, -0.4074942F, 0F);
+        actions[6].id = new Vector3(0.6953125F, -0.8554688F, 0F); //groot
+        actions[6].frame = 55;
+        actions[6].mouse = new Vector3(0.6510538F, -0.8665105F, 0F);
+    }
+	void level55_1 () {
+		actions = new action[7];
 
-		actions[0].id = new Vector3(0.3886719F, 1.007813F, 0F); //web
-		actions[0].frame = 58;
-		actions[0].mouse = new Vector3(0F, 0F, 0F);
-		actions[1].id = new Vector3(-0.2285156F, -0.8652344F, 0F); //groot
-		actions[1].frame = 40;
-		actions[1].mouse = new Vector3(-0.5260416F, -1.578125F, 0F);
-		actions[2].id = new Vector3(-0.734375F, 1.509766F, 0F); //web
-		actions[2].frame = 40;
-		actions[2].mouse = new Vector3(0F, 0F, 0F);
-	}
+        actions[0].id = new Vector3(0.6953125F, -0.8554688F, 0F); //groot
+        actions[0].frame = 43;
+        actions[0].mouse = new Vector3(-0.2810304F, -1.428571F, 0F);
+        actions[1].id = new Vector3(0.8945313F, 0.2792969F, 0F); //groot
+        actions[1].frame = 64;
+        actions[1].mouse = new Vector3(0.7681499F, -0.7540984F, 0F);
+        actions[2].id = new Vector3(0.4023438F, 1.435547F, 0F); //web
+        actions[2].frame = 65;
+        actions[2].mouse = new Vector3(0F, 0F, 0F);
+        actions[3].id = new Vector3(0.4023438F, 1.435547F, 0F); //web
+        actions[3].frame = 32;
+        actions[3].mouse = new Vector3(0F, 0F, 0F);
+        actions[4].id = new Vector3(-1.003906F, -0.5488281F, -0.015625F); //sluggish
+        actions[4].frame = 141;
+        actions[4].mouse = new Vector3(-1.01171F, -1.161592F, 0F);
+        actions[5].id = new Vector3(-1.003906F, -0.5488281F, -0.015625F); //sluggish
+        actions[5].frame = 158;
+        actions[5].mouse = new Vector3(-1.217799F, -0.4074942F, 0F);
+        actions[6].id = new Vector3(0.6953125F, -0.8554688F, 0F); //groot
+        actions[6].frame = 55;
+        actions[6].mouse = new Vector3(0.6510538F, -0.8665105F, 0F);
+
+    }
+
+    void level56_0 () {
+		actions = new action[10];
+
+        actions[0].id = new Vector3(0.9375F, 0.1132813F, 0F); //groot
+        actions[0].frame = 119;
+        actions[0].mouse = new Vector3(-0.2763466F, -0.8009368F, 0F);
+        actions[1].id = new Vector3(0.009765625F, 1.460938F, 0F); //web
+        actions[1].frame = 49;
+        actions[1].mouse = new Vector3(0F, 0F, 0F);
+        actions[2].id = new Vector3(0.9375F, 0.1132813F, 0F); //groot
+        actions[2].frame = 154;
+        actions[2].mouse = new Vector3(0.8571429F, 0.06088996F, 0F);
+        actions[3].id = new Vector3(-0.6816406F, 0.1289063F, 0F); //groot
+        actions[3].frame = 101;
+        actions[3].mouse = new Vector3(0.3606557F, -0.9133489F, 0F);
+        actions[4].id = new Vector3(0.9375F, 0.1132813F, 0F); //groot
+        actions[4].frame = 64;
+        actions[4].mouse = new Vector3(0.7353631F, -0.8103044F, 0F);
+        actions[5].id = new Vector3(0.009765625F, 1.460938F, 0F); //web
+        actions[5].frame = 48;
+        actions[5].mouse = new Vector3(0F, 0F, 0F);
+        actions[6].id = new Vector3(0.009765625F, 1.460938F, 0F); //web
+        actions[6].frame = 29;
+        actions[6].mouse = new Vector3(0F, 0F, 0F);
+        actions[7].id = new Vector3(0.9375F, 0.1132813F, 0F); //groot
+        actions[7].frame = 120;
+        actions[7].mouse = new Vector3(0.9555035F, 0.04215455F, 0F);
+        actions[8].id = new Vector3(-0.6816406F, 0.1289063F, 0F); //groot
+        actions[8].frame = 59;
+        actions[8].mouse = new Vector3(-0.6791568F, 0.09367681F, 0F);
+
+        actions[9].id = new Vector3(0.1191406F, -1.369141F, -0.015625F); //sluggish
+        actions[9].frame = 75;
+        actions[9].mouse = new Vector3(0.1779859F, -1.845433F, 0F);
+    }
+	void level56_1 () {
+		actions = new action[10];
+        actions[0].id = new Vector3(0.9375F, 0.1132813F, 0F); //groot
+        actions[0].frame = 38;
+        actions[0].mouse = new Vector3(-0.2763466F, -0.8571428F, 0F);
+        actions[1].id = new Vector3(0.009765625F, 1.460938F, 0F); //web
+        actions[1].frame = 36;
+        actions[1].mouse = new Vector3(0F, 0F, 0F);
+        actions[2].id = new Vector3(0.009765625F, 1.460938F, 0F); //web
+        actions[2].frame = 24;
+        actions[2].mouse = new Vector3(0F, 0F, 0F);
+        actions[3].id = new Vector3(-0.6816406F, 0.1289063F, 0F); //groot
+        actions[3].frame = 55;
+        actions[3].mouse = new Vector3(0.2529274F, -0.7587821F, 0F);
+        actions[4].id = new Vector3(0.9375F, 0.1132813F, 0F); //groot
+        actions[4].frame = 44;
+        actions[4].mouse = new Vector3(0.8149883F, 0.01873541F, 0F);
+        actions[5].id = new Vector3(0.9375F, 0.1132813F, 0F); //groot
+        actions[5].frame = 40;
+        actions[5].mouse = new Vector3(0.6978922F, -0.8290398F, 0F);
+        actions[6].id = new Vector3(0.009765625F, 1.460938F, 0F); //web
+        actions[6].frame = 32;
+        actions[6].mouse = new Vector3(0F, 0F, 0F);
+        actions[7].id = new Vector3(0.9375F, 0.1132813F, 0F); //groot
+        actions[7].frame = 113;
+        actions[7].mouse = new Vector3(0.9180328F, 0.0749414F, 0F);
+        actions[8].id = new Vector3(-0.6816406F, 0.1289063F, 0F); //groot
+        actions[8].frame = 35;
+        actions[8].mouse = new Vector3(-0.5901639F, 0.07962537F, 0F);
+        actions[9].id = new Vector3(0.1191406F, -1.369141F, -0.015625F); //sluggish
+        actions[9].frame = 154;
+        actions[9].mouse = new Vector3(0.2295082F, -1.976581F, 0F);
+    }
 
 	void level57_0 () {
 		actions = new action[12];
@@ -2615,122 +2637,44 @@ public class gHintClass : MonoBehaviour {
 	}
 
 	void level60_0 () {
-		actions = new action[20];
-		actions[0].id = new Vector3(-0.8183594F, 1.488281F, 0F); //web
-		actions[0].frame = 33;
-		actions[0].mouse = new Vector3(0F, 0F, 0F);
-		actions[1].id = new Vector3(-0.8183594F, 1.488281F, 0F); //web
-		actions[1].frame = 50;
-		actions[1].mouse = new Vector3(0F, 0F, 0F);
-		actions[2].id = new Vector3(-0.8183594F, 1.488281F, 0F); //web
-		actions[2].frame = 28;
-		actions[2].mouse = new Vector3(0F, 0F, 0F);
-		actions[3].id = new Vector3(0.6777344F, 0.9550781F, 0F); //web
-		actions[3].frame = 44;
-		actions[3].mouse = new Vector3(0F, 0F, 0F);
-		actions[4].id = new Vector3(-0.8183594F, 1.488281F, 0F); //web
-		actions[4].frame = 111;
-		actions[4].mouse = new Vector3(0F, 0F, 0F);
-		actions[5].id = new Vector3(-0.4101563F, 0.2773438F, 0F); //web
-		actions[5].frame = 62;
-		actions[5].mouse = new Vector3(0F, 0F, 0F);
-		actions[6].id = new Vector3(-0.4101563F, 0.2773438F, 0F); //web
-		actions[6].frame = 35;
-		actions[6].mouse = new Vector3(0F, 0F, 0F);
-		actions[7].id = new Vector3(0.6777344F, 0.9550781F, 0F); //web
-		actions[7].frame = 42;
-		actions[7].mouse = new Vector3(0F, 0F, 0F);
-		actions[8].id = new Vector3(0.6777344F, 0.9550781F, 0F); //web
-		actions[8].frame = 37;
-		actions[8].mouse = new Vector3(0F, 0F, 0F);
-		actions[9].id = new Vector3(-0.3007813F, -0.984375F, 0F); //web
-		actions[9].frame = 65;
-		actions[9].mouse = new Vector3(0F, 0F, 0F);
-		actions[10].id = new Vector3(-0.3007813F, -0.984375F, 0F); //web
-		actions[10].frame = 44;
-		actions[10].mouse = new Vector3(0F, 0F, 0F);
-		actions[11].id = new Vector3(0.6777344F, 0.9550781F, 0F); //web
-		actions[11].frame = 60;
-		actions[11].mouse = new Vector3(0F, 0F, 0F);
-		actions[12].id = new Vector3(-0.3007813F, -0.984375F, 0F); //web
-		actions[12].frame = 70;
-		actions[12].mouse = new Vector3(0F, 0F, 0F);
-		actions[13].id = new Vector3(0.40625F, -0.3417969F, 0F); //web
-		actions[13].frame = 126;
-		actions[13].mouse = new Vector3(0F, 0F, 0F);
-		actions[14].id = new Vector3(-0.4101563F, 0.2773438F, 0F); //web
-		actions[14].frame = 98;
-		actions[14].mouse = new Vector3(0F, 0F, 0F);
-		actions[15].id = new Vector3(0.40625F, -0.3417969F, 0F); //web
-		actions[15].frame = 102;
-		actions[15].mouse = new Vector3(0F, 0F, 0F);
-		actions[16].id = new Vector3(-0.4101563F, 0.2773438F, 0F); //web
-		actions[16].frame = 110;
-		actions[16].mouse = new Vector3(0F, 0F, 0F);
-		actions[17].id = new Vector3(0.40625F, -0.3417969F, 0F); //web
-		actions[17].frame = 127;
-		actions[17].mouse = new Vector3(0F, 0F, 0F);
-		actions[18].id = new Vector3(-0.3007813F, -0.984375F, 0F); //web
-		actions[18].frame = 38;
-		actions[18].mouse = new Vector3(0F, 0F, 0F);
-		actions[19].id = new Vector3(0.40625F, -0.3417969F, 0F); //web
-		actions[19].frame = 16;
-		actions[19].mouse = new Vector3(0F, 0F, 0F);
-	}
+		actions = new action[7];
+        actions[0].id = new Vector3(0.6679688F, 0.3183594F, -0.015625F); //sluggish (1)
+        actions[0].frame = 59;
+        actions[0].mouse = new Vector3(0.8618267F, -0.266979F, 0F);
+        actions[1].id = new Vector3(0.07421875F, -1.778623F, -0.01953125F); //yeti body
+        actions[1].frame = 55;
+        actions[1].mouse = new Vector3(0F, 0F, 0F);
+        actions[2].id = new Vector3(0.07421875F, -1.778623F, -0.01953125F); //yeti body
+        actions[2].frame = 0;
+        actions[2].mouse = new Vector3(0F, 0F, 0F);
+        actions[3].id = new Vector3(-0.515625F, -0.07617188F, -0.015625F); //sluggish
+        actions[3].frame = 86;
+        actions[3].mouse = new Vector3(-0.7775176F, -0.440281F, 0F);
+        actions[4].id = new Vector3(0.07421875F, -1.778623F, -0.01953125F); //yeti body
+        actions[4].frame = 33;
+        actions[4].mouse = new Vector3(0F, 0F, 0F);
+        actions[5].id = new Vector3(0.07421875F, -1.778623F, -0.01953125F); //yeti body
+        actions[5].frame = 0;
+        actions[5].mouse = new Vector3(0F, 0F, 0F);
+        actions[6].id = new Vector3(0.6679688F, 0.3183594F, -0.015625F); //sluggish (1)
+        actions[6].frame = 91;
+        actions[6].mouse = new Vector3(1.021077F, 1.04918F, 0F);
+    }
 	void level60_1 () {
-		actions = new action[17];
-		actions[0].id = new Vector3(-0.8183594F, 1.488281F, 0F); //web
-		actions[0].frame = 15;
-		actions[0].mouse = new Vector3(0F, 0F, 0F);
-		actions[1].id = new Vector3(-0.8183594F, 1.488281F, 0F); //web
-		actions[1].frame = 54;
-		actions[1].mouse = new Vector3(0F, 0F, 0F);
-		actions[2].id = new Vector3(-0.8183594F, 1.488281F, 0F); //web
-		actions[2].frame = 21;
-		actions[2].mouse = new Vector3(0F, 0F, 0F);
-		actions[3].id = new Vector3(0.6777344F, 0.9550781F, 0F); //web
-		actions[3].frame = 25;
-		actions[3].mouse = new Vector3(0F, 0F, 0F);
-		actions[4].id = new Vector3(-0.8183594F, 1.488281F, 0F); //web
-		actions[4].frame = 20;
-		actions[4].mouse = new Vector3(0F, 0F, 0F);
-		actions[5].id = new Vector3(0.6777344F, 0.9550781F, 0F); //web
-		actions[5].frame = 15;
-		actions[5].mouse = new Vector3(0F, 0F, 0F);
-		actions[6].id = new Vector3(0.6777344F, 0.9550781F, 0F); //web
-		actions[6].frame = 30;
-		actions[6].mouse = new Vector3(0F, 0F, 0F);
-		actions[7].id = new Vector3(-0.3007813F, -0.984375F, 0F); //web
-		actions[7].frame = 20;
-		actions[7].mouse = new Vector3(0F, 0F, 0F);
-		actions[8].id = new Vector3(-0.3007813F, -0.984375F, 0F); //web
-		actions[8].frame = 35;
-		actions[8].mouse = new Vector3(0F, 0F, 0F);
-		actions[9].id = new Vector3(0.6777344F, 0.9550781F, 0F); //web
-		actions[9].frame = 60;
-		actions[9].mouse = new Vector3(0F, 0F, 0F);
-		actions[10].id = new Vector3(-0.3007813F, -0.984375F, 0F); //web
-		actions[10].frame = 60;
-		actions[10].mouse = new Vector3(0F, 0F, 0F);
-		actions[11].id = new Vector3(0.40625F, -0.3417969F, 0F); //web
-		actions[11].frame = 50;
-		actions[11].mouse = new Vector3(0F, 0F, 0F);
-		actions[12].id = new Vector3(-0.4101563F, 0.2773438F, 0F); //web
-		actions[12].frame = 30;
-		actions[12].mouse = new Vector3(0F, 0F, 0F);
-		actions[13].id = new Vector3(0.40625F, -0.3417969F, 0F); //web
-		actions[13].frame = 30;
-		actions[13].mouse = new Vector3 (0F, 0F, 0F);
-		actions[14].id = new Vector3(0.40625F, -0.3417969F, 0F); //web
-		actions[14].frame = 30;
-		actions[14].mouse = new Vector3 (0F, 0F, 0F);
-		actions[15].id = new Vector3(-0.4101563F, 0.2773438F, 0F); //web
-		actions[15].frame = 30;
-		actions[15].mouse = new Vector3(0F, 0F, 0F);
-		actions[16].id = new Vector3(-0.3007813F, -0.984375F, 0F); //web
-		actions[16].frame = 20;
-		actions[16].mouse = new Vector3(0F, 0F, 0F);
-	}
+		actions = new action[4];
+        actions[0].id = new Vector3(0.6679688F, 0.3183594F, -0.015625F); //sluggish
+        actions[0].frame = 56;
+        actions[0].mouse = new Vector3(1.039813F, 0.2710304F, 0F);
+        actions[1].id = new Vector3(0.07421875F, -1.778623F, -0.01953125F); //yeti body
+        actions[1].frame = 20;
+        actions[1].mouse = new Vector3(0F, 0F, 0F);
+        actions[2].id = new Vector3(0.07421875F, -1.778623F, -0.01953125F); //yeti body
+        actions[2].frame = 0;
+        actions[2].mouse = new Vector3(0F, 0F, 0F);
+        actions[3].id = new Vector3(-0.515625F, -0.07617188F, -0.015625F); //sluggish
+        actions[3].frame = 50;
+        actions[3].mouse = new Vector3(-0.913349F, 0.3606558F, 0F);
+    }
 
 	void level61_0 () {
 		actions = new action[14];
@@ -2760,7 +2704,7 @@ public class gHintClass : MonoBehaviour {
 		actions[7].frame = 80;
 		actions[7].mouse = new Vector3(0.7864583F, -0.234375F, 0F);
 		actions[8].id = new Vector3(-0.1640625F, 1.648438F, 0F); //web
-		actions[8].frame = 209;
+		actions[8].frame = 109;
 		actions[8].mouse = new Vector3(0F, 0F, 0F);
 		actions[9].id = new Vector3(-0.1640625F, 1.648438F, 0F); //web
 		actions[9].frame = 74;
@@ -2798,12 +2742,12 @@ public class gHintClass : MonoBehaviour {
 		actions[4].mouse = new Vector3(0F, 0F, 0F);
 		actions[5].id = new Vector3(0.6132813F, 0.3632813F, -0.015625F); //sluggish
 		actions[5].frame = 60;
-		actions[5].mouse = new Vector3(0.765625F, -0.1979166F, 0F);
-		actions[6].id = new Vector3(-0.1640625F, 1.648438F, 0F); //web
-		actions[6].frame = 200;
+        actions[5].mouse = new Vector3(0.7864583F, -0.234375F, 0F);
+        actions[6].id = new Vector3(-0.1640625F, 1.648438F, 0F); //web
+		actions[6].frame = 90;
 		actions[6].mouse = new Vector3(0F, 0F, 0F);
 		actions[7].id = new Vector3(-0.1640625F, 1.648438F, 0F); //web
-		actions[7].frame = 73;
+		actions[7].frame = 90;
 		actions[7].mouse = new Vector3(0F, 0F, 0F);
 		actions[8].id = new Vector3(-0.01757813F, -1.805967F, -0.01953125F); //yeti body
 		actions[8].frame = 53;
@@ -2865,7 +2809,7 @@ public class gHintClass : MonoBehaviour {
 		actions[3].frame = 90;
 		actions[3].mouse = new Vector3(0F, 0F, 0F);
 		actions[4].id = new Vector3(0.4375F, -0.4570313F, 0F); //web
-		actions[4].frame = 112;
+		actions[4].frame = 105;
 		actions[4].mouse = new Vector3(0F, 0F, 0F);
 	}
 	void level63_1 () {
@@ -3091,27 +3035,20 @@ public class gHintClass : MonoBehaviour {
 		actions[9].mouse = new Vector3(0F, 0F, 0F);
 	}
 	void level69_1 () {
-		actions = new action[6];
-
-		actions[0].id = new Vector3(-0.9570313F, 0.9765625F, 0F); //destroyer
-		actions[0].frame = 50;
-		actions[0].mouse = new Vector3(-0.4270833F, 1.411458F, 0F);
-		actions[1].id = new Vector3(-0.8398438F, 0.4101563F, 0F); //sluggish
-		actions[1].frame = 153;
-		actions[1].mouse = new Vector3(-1.625F, 0.359375F, 0F);
-		actions[2].id = new Vector3(0.4921875F, 0.6972656F, 0F); //web
-		actions[2].frame = 31;
-		actions[2].mouse = new Vector3(0F, 0F, 0F);
-		actions[3].id = new Vector3(-0.2558594F, -0.03125F, 0F); //web
-		actions[3].frame = 118;
-		actions[3].mouse = new Vector3(0F, 0F, 0F);
-		actions[4].id = new Vector3(-0.2558594F, -0.03125F, 0F); //web
-		actions[4].frame = 64;
-		actions[4].mouse = new Vector3(0F, 0F, 0F);
-		actions[5].id = new Vector3(0.4921875F, 0.6972656F, 0F); //web
-		actions[5].frame = 35;
-		actions[5].mouse = new Vector3(0F, 0F, 0F);
-	}
+		actions = new action[4];
+        actions[0].id = new Vector3(-0.9570313F, 0.9765625F, 0F); //destroyer
+        actions[0].frame = 79;
+        actions[0].mouse = new Vector3(-0.4637003F, 1.386417F, 0F);
+        actions[1].id = new Vector3(-0.2558594F, -0.03125F, 0F); //web
+        actions[1].frame = 70;
+        actions[1].mouse = new Vector3(0F, 0F, 0F);
+        actions[2].id = new Vector3(-0.8398438F, 0.4101563F, 0F); //sluggish
+        actions[2].frame = 65;
+        actions[2].mouse = new Vector3(-0.3934427F, 0.8571429F, 0F);
+        actions[3].id = new Vector3(-0.2558594F, -0.03125F, 0F); //web
+        actions[3].frame = 158;
+        actions[3].mouse = new Vector3(0F, 0F, 0F);
+    }
 
 	void level70_0 () {
 		actions = new action[17];
@@ -3480,43 +3417,44 @@ public class gHintClass : MonoBehaviour {
 	}
 
 	void level75_0 () {
-		actions = new action[6];
+		actions = new action[7];
 
-		actions[0].id = new Vector3(-0.1699219F, 0.08789063F, 0F); //destroyer
-		actions[0].frame = 40;
-		actions[0].mouse = new Vector3(0.0520833F, 0.5364583F, 0F);
-		actions[1].id = new Vector3(0.2148438F, 1.083984F, 0F); //groot
-		actions[1].frame = 40;
-		actions[1].mouse = new Vector3(0.8593749F, -0.2135416F, 0F);
-		actions[2].id = new Vector3(-0.9023438F, 1.507813F, 0F); //web
-		actions[2].frame = 40;
-		actions[2].mouse = new Vector3(0F, 0F, 0F);
-		actions[3].id = new Vector3(-0.9023438F, 1.507813F, 0F); //web
-		actions[3].frame = 144;
-		actions[3].mouse = new Vector3(0F, 0F, 0F);
-		actions[4].id = new Vector3(-0.4355469F, 0.2597656F, 0F); //web
-		actions[4].frame = 85;
-		actions[4].mouse = new Vector3(0F, 0F, 0F);
-		actions[5].id = new Vector3(-0.4355469F, 0.2597656F, 0F); //web
-		actions[5].frame = 80;
-		actions[5].mouse = new Vector3(0F, 0F, 0F);
-	}
+        actions[0].id = new Vector3(0.2148438F, 1.083984F, 0F); //groot
+        actions[0].frame = 30;
+        actions[0].mouse = new Vector3(0.6370024F, 0.3606558F, 0F);
+        actions[1].id = new Vector3(-0.7265625F, 0.1230469F, 0F); //web
+        actions[1].frame = 44;
+        actions[1].mouse = new Vector3(0F, 0F, 0F);
+        actions[2].id = new Vector3(-0.7265625F, 0.1230469F, 0F); //web
+        actions[2].frame = 25;
+        actions[2].mouse = new Vector3(0F, 0F, 0F);
+        actions[3].id = new Vector3(0.2148438F, 1.083984F, 0F); //groot
+        actions[3].frame = 111;
+        actions[3].mouse = new Vector3(-0.08430912F, 0.03747082F, 0F);
+
+        actions[4].id = new Vector3(-0.1757813F, -0.046875F, 0F); //destroyer
+        actions[4].frame = 10;
+        actions[4].mouse = new Vector3(0.3512881F, 0.266979F, 0F);
+
+        actions[5].id = new Vector3(-0.7265625F, 0.1230469F, 0F); //web
+        actions[5].frame = 80;
+        actions[5].mouse = new Vector3(0F, 0F, 0F);
+        actions[6].id = new Vector3(-0.7265625F, 0.1230469F, 0F); //web
+        actions[6].frame = 90;
+        actions[6].mouse = new Vector3(0F, 0F, 0F);
+    }
 	void level75_1 () {
-		actions = new action[4];
-
-		actions[0].id = new Vector3(-0.9023438F, 1.507813F, 0F); //web
-		actions[0].frame = 33;
-		actions[0].mouse = new Vector3(0F, 0F, 0F);
-		actions[1].id = new Vector3(-0.9023438F, 1.507813F, 0F); //web
-		actions[1].frame = 137;
-		actions[1].mouse = new Vector3(0F, 0F, 0F);
-		actions[2].id = new Vector3(-0.4355469F, 0.2597656F, 0F); //web
-		actions[2].frame = 72;
-		actions[2].mouse = new Vector3(0F, 0F, 0F);
-		actions[3].id = new Vector3(-0.4355469F, 0.2597656F, 0F); //web
-		actions[3].frame = 97;
-		actions[3].mouse = new Vector3(0F, 0F, 0F);
-	}
+		actions = new action[3];
+        actions[0].id = new Vector3(-0.1757813F, -0.046875F, 0F); //destroyer
+        actions[0].frame = 49;
+        actions[0].mouse = new Vector3(-0.07962529F, 0.7587821F, 0F);
+        actions[1].id = new Vector3(-0.7265625F, 0.1230469F, 0F); //web
+        actions[1].frame = 128;
+        actions[1].mouse = new Vector3(0F, 0F, 0F);
+        actions[2].id = new Vector3(-0.7265625F, 0.1230469F, 0F); //web
+        actions[2].frame = 7;
+        actions[2].mouse = new Vector3(0F, 0F, 0F);
+    }
 	// desert -----------------------------------------------------------------------------------------------------------
 	void level76_0 () {
 		actions = new action[10];
@@ -3554,14 +3492,27 @@ public class gHintClass : MonoBehaviour {
 
 	}
 	void level76_1 () {
-		actions = new action[2];
-		actions[0].id = new Vector3(0.3183594F, 0.1875F, 0F); //groot
-		actions[0].frame = 63;
-		actions[0].mouse = new Vector3(-0.9184358F, 0.3597765F, 0F);
-		actions[1].id = new Vector3(0.3183594F, 0.1875F, 0F); //groot
-		actions[1].frame = 305;
-		actions[1].mouse = new Vector3(0.2167597F, 0.1765363F, 0F);
-	}
+		actions = new action[6];
+        actions[0].id = new Vector3(0.4824219F, 1.107422F, 0F); //web
+        actions[0].frame = 104;
+        actions[0].mouse = new Vector3(0F, 0F, 0F);
+        actions[1].id = new Vector3(-0.6601563F, 0.6230469F, 0F); //web
+        actions[1].frame = 50;
+        actions[1].mouse = new Vector3(0F, 0F, 0F);
+        actions[2].id = new Vector3(-0.6601563F, 0.6230469F, 0F); //web
+        actions[2].frame = 46;
+        actions[2].mouse = new Vector3(0F, 0F, 0F);
+        actions[3].id = new Vector3(-0.6601563F, 0.6230469F, 0F); //web
+        actions[3].frame = 29;
+        actions[3].mouse = new Vector3(0F, 0F, 0F);
+        actions[4].id = new Vector3(0.4824219F, 1.107422F, 0F); //web
+        actions[4].frame = 140;
+        actions[4].mouse = new Vector3(0F, 0F, 0F);
+        actions[5].id = new Vector3(0.4824219F, 1.107422F, 0F); //web
+        actions[5].frame = 10;
+        actions[5].mouse = new Vector3(0F, 0F, 0F);
+
+    }
 
 	void level77_0 () {
 		actions = new action[4];
@@ -3618,7 +3569,7 @@ public class gHintClass : MonoBehaviour {
 		actions[5].frame = 129;
 		actions[5].mouse = new Vector3(0F, 0F, 0F);
 		actions[6].id = new Vector3(0.125F, -0.8222656F, 0F); //web
-		actions[6].frame = 50;
+		actions[6].frame = 100;
 		actions[6].mouse = new Vector3(0F, 0F, 0F);
 		actions[7].id = new Vector3(-0.8183594F, -0.7871094F, -0.015625F); //sluggish
 		actions[7].frame = 40;
@@ -3631,18 +3582,45 @@ public class gHintClass : MonoBehaviour {
 		actions[9].mouse = new Vector3(0F, 0F, 0F);
 	}
 	void level78_1 () {
-		actions = new action[3];
+        actions = new action[12];
+        actions[0].id = new Vector3(-0.6875F, 1.384766F, 0F); //web
+        actions[0].frame = 16;
+        actions[0].mouse = new Vector3(0F, 0F, 0F);
+        actions[1].id = new Vector3(0.9179688F, -0.6992188F, 0F); //destroyer
+        actions[1].frame = 92;
+        actions[1].mouse = new Vector3(0.1639345F, -0.06557381F, 0F);
+        actions[2].id = new Vector3(0.1855469F, 0.2109375F, 0F); //web
+        actions[2].frame = 123;
+        actions[2].mouse = new Vector3(0F, 0F, 0F);
+        actions[3].id = new Vector3(-0.6875F, 1.384766F, 0F); //web
+        actions[3].frame = 70;
+        actions[3].mouse = new Vector3(0F, 0F, 0F);
+        actions[4].id = new Vector3(-0.6875F, 1.384766F, 0F); //web
+        actions[4].frame = 37;
+        actions[4].mouse = new Vector3(0F, 0F, 0F);
+        actions[5].id = new Vector3(0.1855469F, 0.2109375F, 0F); //web
+        actions[5].frame = 46;
+        actions[5].mouse = new Vector3(0F, 0F, 0F);
+        actions[6].id = new Vector3(-0.6875F, 1.384766F, 0F); //web
+        actions[6].frame = 91;
+        actions[6].mouse = new Vector3(0F, 0F, 0F);
+        actions[7].id = new Vector3(-0.6875F, 1.384766F, 0F); //web
+        actions[7].frame = 24;
+        actions[7].mouse = new Vector3(0F, 0F, 0F);
+        actions[8].id = new Vector3(0.1855469F, 0.2109375F, 0F); //web
+        actions[8].frame = 51;
+        actions[8].mouse = new Vector3(0F, 0F, 0F);
+        actions[9].id = new Vector3(-0.6875F, 1.384766F, 0F); //web
+        actions[9].frame = 96;
+        actions[9].mouse = new Vector3(0F, 0F, 0F);
+        actions[10].id = new Vector3(0.1855469F, 0.2109375F, 0F); //web
+        actions[10].frame = 179;
+        actions[10].mouse = new Vector3(0F, 0F, 0F);
+        actions[11].id = new Vector3(0.1855469F, 0.2109375F, 0F); //web
+        actions[11].frame = 15;
+        actions[11].mouse = new Vector3(0F, 0F, 0F);
 
-		actions[0].id = new Vector3(0.9179688F, -0.6992188F, 0F); //destroyer
-		actions[0].frame = 80;
-		actions[0].mouse = new Vector3(-0.1510417F, 1.015625F, 0F);
-		actions[1].id = new Vector3(0.125F, -0.8222656F, 0F); //web
-		actions[1].frame = 175;
-		actions[1].mouse = new Vector3(0F, 0F, 0F);
-		actions[2].id = new Vector3(-0.8183594F, -0.7871094F, -0.015625F); //sluggish
-		actions[2].frame = 80;
-		actions[2].mouse = new Vector3(-1.364583F, -0.046875F, 0F);
-	}
+    }
 
 	void level79_0 () {
 		actions = new action[6];
@@ -3777,19 +3755,19 @@ public class gHintClass : MonoBehaviour {
 	void level82_1 () {
 		actions = new action[4];
 
-		actions[0].id = new Vector3(-0.8300781F, 0.59375F, 0F); //web
-		actions[0].frame = 29;
-		actions[0].mouse = new Vector3(0F, 0F, 0F);
-		actions[1].id = new Vector3(-0.08398438F, 1.445313F, 0F); //web
-		actions[1].frame = 59;
-		actions[1].mouse = new Vector3(0F, 0F, 0F);
-		actions[2].id = new Vector3(0.05859375F, 0.7695313F, 0F); //web
-		actions[2].frame = 90;
-		actions[2].mouse = new Vector3(0F, 0F, 0F);
-		actions[3].id = new Vector3(0.7324219F, 0.734375F, 0F); //web
-		actions[3].frame = 191;
-		actions[3].mouse = new Vector3(0F, 0F, 0F);
-	}
+        actions[0].id = new Vector3(-0.8300781F, 0.59375F, 0F); //web
+        actions[0].frame = 3;
+        actions[0].mouse = new Vector3(0F, 0F, 0F);
+        actions[1].id = new Vector3(-0.08398438F, 1.445313F, 0F); //web
+        actions[1].frame = 80;
+        actions[1].mouse = new Vector3(0F, 0F, 0F);
+        actions[2].id = new Vector3(0.05859375F, 0.7695313F, 0F); //web
+        actions[2].frame = 73;
+        actions[2].mouse = new Vector3(0F, 0F, 0F);
+        actions[3].id = new Vector3(0.7324219F, 0.734375F, 0F); //web
+        actions[3].frame = 196;
+        actions[3].mouse = new Vector3(0F, 0F, 0F);
+    }
 
 	void level83_0 () {
 		actions = new action[9];
@@ -4146,57 +4124,62 @@ public class gHintClass : MonoBehaviour {
 	}
 
 	void level91_0 () {
-		actions = new action[6];
-		
-		actions[0].id = new Vector3(-0.5019531F, 0.2265625F, 0F); //groot
-		actions[0].frame = 90;
-		actions[0].mouse = new Vector3(-0.265625F, -0.6927084F, 0F);
-		actions[1].id = new Vector3(-0.3261719F, -0.8554688F, 0F); //groot
-		actions[1].frame = 77;
-		actions[1].mouse = new Vector3(0.2552083F, -1.713542F, 0F);
-		actions[2].id = new Vector3(0.4375F, 1.171875F, 0F); //web
-		actions[2].frame = 90;
-		actions[2].mouse = new Vector3(0F, 0F, 0F);
-		actions[3].id = new Vector3(-0.4980469F, 1.486328F, 0F); //web
-		actions[3].frame = 49;
-		actions[3].mouse = new Vector3(0F, 0F, 0F);
-		actions[4].id = new Vector3(-0.4980469F, 1.486328F, 0F); //web
-		actions[4].frame = 30;
-		actions[4].mouse = new Vector3(0F, 0F, 0F);
-		actions[5].id = new Vector3(-0.4980469F, 1.486328F, 0F); //web
-		actions[5].frame = 85;
-		actions[5].mouse = new Vector3(0F, 0F, 0F);
-	}
-	void level91_1 () {
 		actions = new action[8];
 
-		actions[0].id = new Vector3(0.546875F, -0.6425781F, 0F); //cloud
-		actions[0].frame = 30;
-		actions[0].mouse = new Vector3(0F, 0F, 0F);
-		actions[1].id = new Vector3(-0.3261719F, -0.8554688F, 0F); //groot
-		actions[1].frame = 60;
-		actions[1].mouse = new Vector3(0.203125F, -1.677083F, 0F);
-		actions[2].id = new Vector3(1.03125F, -0.2148438F, -1.953125E-05F); //groot
-		actions[2].frame = 60;
-		actions[2].mouse = new Vector3(-0.1979167F, -0.90625F, 0F);
-		actions[3].id = new Vector3(0.4375F, 1.171875F, 0F); //web
-		actions[3].frame = 60;
-		actions[3].mouse = new Vector3(0F, 0F, 0F);
-		actions[4].id = new Vector3(-0.4980469F, 1.486328F, 0F); //web
-		actions[4].frame = 49;
-		actions[4].mouse = new Vector3(0F, 0F, 0F);
-		actions[5].id = new Vector3(-0.4980469F, 1.486328F, 0F); //web
-		actions[5].frame = 29;
-		actions[5].mouse = new Vector3(0F, 0F, 0F);
-		actions[6].id = new Vector3(-0.4980469F, 1.486328F, 0F); //web
-		actions[6].frame = 54;
-		actions[6].mouse = new Vector3(0F, 0F, 0F);
-		actions[7].id = new Vector3(1.03125F, -0.2148438F, -1.953125E-05F); //groot
-		actions[7].frame = 75;
-		actions[7].mouse = new Vector3(0.9270834F, -0.3072916F, 0F);
-	}
+        actions[0].id = new Vector3(-0.3261719F, -0.8554688F, 0F); //groot
+        actions[0].frame = 52;
+        actions[0].mouse = new Vector3(0.2857144F, -1.765808F, 0F);
+        actions[1].id = new Vector3(-0.5019531F, 0.2265625F, 0F); //groot
+        actions[1].frame = 72;
+        actions[1].mouse = new Vector3(-0.2950819F, -0.763466F, 0F);
+        actions[2].id = new Vector3(0.4375F, 1.171875F, 0F); //web
+        actions[2].frame = 38;
+        actions[2].mouse = new Vector3(0F, 0F, 0F);
+        actions[3].id = new Vector3(-0.4980469F, 1.486328F, 0F); //web
+        actions[3].frame = 51;
+        actions[3].mouse = new Vector3(0F, 0F, 0F);
+        actions[4].id = new Vector3(-0.4980469F, 1.486328F, 0F); //web
+        actions[4].frame = 25;
+        actions[4].mouse = new Vector3(0F, 0F, 0F);
+        actions[5].id = new Vector3(0.4375F, 1.171875F, 0F); //web
+        actions[5].frame = 68;
+        actions[5].mouse = new Vector3(0F, 0F, 0F);
+        actions[6].id = new Vector3(-0.4980469F, 1.486328F, 0F); //web
+        actions[6].frame = 26;
+        actions[6].mouse = new Vector3(0F, 0F, 0F);
+        actions[7].id = new Vector3(0.4375F, 1.171875F, 0F); //web
+        actions[7].frame = 75;
+        actions[7].mouse = new Vector3(0F, 0F, 0F);
+    }
+	void level91_1 () {
+		actions = new action[8];
+        actions[0].id = new Vector3(0.4375F, 1.171875F, 0F); //web
+        actions[0].frame = 26;
+        actions[0].mouse = new Vector3(0F, 0F, 0F);
+        actions[1].id = new Vector3(-0.4980469F, 1.486328F, 0F); //web
+        actions[1].frame = 46;
+        actions[1].mouse = new Vector3(0F, 0F, 0F);
+        actions[2].id = new Vector3(-0.4980469F, 1.486328F, 0F); //web
+        actions[2].frame = 24;
+        actions[2].mouse = new Vector3(0F, 0F, 0F);
+        actions[3].id = new Vector3(0.4375F, 1.171875F, 0F); //web
+        actions[3].frame = 45;
+        actions[3].mouse = new Vector3(0F, 0F, 0F);
+        actions[4].id = new Vector3(-0.4980469F, 1.486328F, 0F); //web
+        actions[4].frame = 31;
+        actions[4].mouse = new Vector3(0F, 0F, 0F);
+        actions[5].id = new Vector3(0.4375F, 1.171875F, 0F); //web
+        actions[5].frame = 79;
+        actions[5].mouse = new Vector3(0F, 0F, 0F);
+        actions[6].id = new Vector3(0.4375F, 1.171875F, 0F); //web
+        actions[6].frame = 24;
+        actions[6].mouse = new Vector3(0F, 0F, 0F);
+        actions[7].id = new Vector3(0.4375F, 1.171875F, 0F); //web
+        actions[7].frame = 104;
+        actions[7].mouse = new Vector3(0F, 0F, 0F);
+    }
 
-	void level92_1 () {
+	void level92_0 () {
 		actions = new action[9];
 	
 		actions[0].id = new Vector3(0.6816406F, 1.050781F, 0F); //groot
@@ -4224,10 +4207,10 @@ public class gHintClass : MonoBehaviour {
 		actions[7].frame = 40;
 		actions[7].mouse = new Vector3(-1.197917F, 0.2291667F, 0F);
 		actions[8].id = new Vector3(0.6816406F, 1.050781F, 0F); //groot
-		actions[8].frame = 90;
+		actions[8].frame = 65;
 		actions[8].mouse = new Vector3(0.6197916F, 0.9739583F, 0F);
 	}
-	void level92_0 () {
+	void level92_1 () {
 		actions = new action[4];
 
 		actions[0].id = new Vector3(0.6816406F, 1.050781F, 0F); //groot
@@ -4246,16 +4229,6 @@ public class gHintClass : MonoBehaviour {
 
 	void level93_0 () {
 		actions = new action[2];
-		
-		actions[0].id = new Vector3(-0.7207031F, -0.5488281F, 0F); //destroyer
-		actions[0].frame = 30;
-		actions[0].mouse = new Vector3(0.06249996F, 1.208333F, 0F);
-		actions[1].id = new Vector3(-0.4042969F, -1.707031F, 0F); //destroyer
-		actions[1].frame = 400;
-		actions[1].mouse = new Vector3(0.1614584F, -0.421875F, 0F);
-	}
-	void level93_1 () {
-		actions = new action[2];
 
 		actions[0].id = new Vector3(-0.7207031F, -0.5488281F, 0F); //destroyer
 		actions[0].frame = 30;
@@ -4264,6 +4237,17 @@ public class gHintClass : MonoBehaviour {
 		actions[1].frame = 669;
 		actions[1].mouse = new Vector3(-0.0729167F, -0.9166666F, 0F);
 	}
+    
+	void level93_1 () {
+		actions = new action[2];
+
+        actions[0].id = new Vector3(-0.7207031F, -0.5488281F, 0F); //destroyer
+        actions[0].frame = 119;
+        actions[0].mouse = new Vector3(0.1358313F, 0.9274004F, 0F);
+        actions[1].id = new Vector3(-0.4042969F, -1.707031F, 0F); //destroyer
+        actions[1].frame = 200;
+        actions[1].mouse = new Vector3(0.1779859F, -0.6463701F, 0F);
+    }
 
 	void level94_0 () {
 		actions = new action[11];
@@ -4339,7 +4323,7 @@ public class gHintClass : MonoBehaviour {
 		actions[3].mouse = new Vector3(0F, 0F, 0F);
 	}
 	void level95_1 () {
-		actions = new action[4];
+		actions = new action[2];
 
 		actions[0].id = new Vector3(-0.8515625F, -1.060547F, 0F); //groot
 		actions[0].frame = 50;
@@ -4401,7 +4385,7 @@ public class gHintClass : MonoBehaviour {
 		actions[0].frame = 80;
 		actions[0].mouse = new Vector3(-0.375F, -0.4583334F, 0F);
 		actions[1].id = new Vector3(0.6953125F, 0.5449219F, 0F); //web
-		actions[1].frame = 143;
+		actions[1].frame = 100;
 		actions[1].mouse = new Vector3(0F, 0F, 0F);
 		actions[2].id = new Vector3(0.6953125F, 0.5449219F, 0F); //web
 		actions[2].frame = 40;
@@ -4432,51 +4416,90 @@ public class gHintClass : MonoBehaviour {
 		actions[10].mouse = new Vector3(0F, 0F, 0F);
 	}
 	void level97_1 () {
-		actions = new action[3];
+		actions = new action[10];
 
-		actions[0].id = new Vector3(0.1171875F, -0.7128906F, 0F); //web
-		actions[0].frame = 292;
-		actions[0].mouse = new Vector3(0F, 0F, 0F);
-		actions[1].id = new Vector3(0.6953125F, 0.5449219F, 0F); //web
-		actions[1].frame = 64;
-		actions[1].mouse = new Vector3(0F, 0F, 0F);
-		actions[2].id = new Vector3(-0.6152344F, 0.1503906F, 0F); //web
-		actions[2].frame = 48;
-		actions[2].mouse = new Vector3(0F, 0F, 0F);
-	}
+        actions[0].id = new Vector3(0.3417969F, 0.5332031F, 0F); //groot
+        actions[0].frame = 62;
+        actions[0].mouse = new Vector3(-0.4777518F, -0.4543326F, 0F);
+        actions[1].id = new Vector3(0.6953125F, 0.5449219F, 0F); //web
+        actions[1].frame = 117;
+        actions[1].mouse = new Vector3(0F, 0F, 0F);
+        actions[2].id = new Vector3(0.6953125F, 0.5449219F, 0F); //web
+        actions[2].frame = 27;
+        actions[2].mouse = new Vector3(0F, 0F, 0F);
+        actions[3].id = new Vector3(0.3417969F, 0.5332031F, 0F); //groot
+        actions[3].frame = 40;
+        actions[3].mouse = new Vector3(0.3185011F, 0.4777517F, 0F);
+        actions[4].id = new Vector3(0.1171875F, -0.7128906F, 0F); //web
+        actions[4].frame = 65;
+        actions[4].mouse = new Vector3(0F, 0F, 0F);
+        actions[5].id = new Vector3(0.3417969F, 0.5332031F, 0F); //groot
+        actions[5].frame = 54;
+        actions[5].mouse = new Vector3(0.4496487F, -0.5199063F, 0F);
+        actions[6].id = new Vector3(0.6953125F, 0.5449219F, 0F); //web
+        actions[6].frame = 29;
+        actions[6].mouse = new Vector3(0F, 0F, 0F);
+        actions[7].id = new Vector3(-0.6152344F, 0.1503906F, 0F); //web
+        actions[7].frame = 36;
+        actions[7].mouse = new Vector3(0F, 0F, 0F);
+        actions[8].id = new Vector3(0.1171875F, -0.7128906F, 0F); //web
+        actions[8].frame = 24;
+        actions[8].mouse = new Vector3(0F, 0F, 0F);
+        actions[9].id = new Vector3(0.3417969F, 0.5332031F, 0F); //groot
+        actions[9].frame = 47;
+        actions[9].mouse = new Vector3(0.3934427F, 0.4355972F, 0F);
+
+    }
 
 	void level98_0 () {
-		actions = new action[7];
-		
-		actions[0].id = new Vector3(0.3027344F, -0.1523438F, 0F); //web
-		actions[0].frame = 30;
-		actions[0].mouse = new Vector3(0F, 0F, 0F);
-		actions[1].id = new Vector3(0.1367188F, 1.136719F, 0F); //groot
-		actions[1].frame = 40;
-		actions[1].mouse = new Vector3(0.1197916F, 0.03125F, 0F);
-		actions[2].id = new Vector3(0.7871094F, -0.5800781F, -0.015625F); //sluggish
-		actions[2].frame = 40;
-		actions[2].mouse = new Vector3(0.1093749F, -1.114583F, 0F);
-		actions[3].id = new Vector3(-0.5332031F, 1.236328F, 0F); //web
-		actions[3].frame = 34;
-		actions[3].mouse = new Vector3(0F, 0F, 0F);
-		actions[4].id = new Vector3(0.1367188F, 1.136719F, 0F); //groot
-		actions[4].frame = 40;
-		actions[4].mouse = new Vector3(0.1510417F, 1.088542F, 0F);
-		actions[5].id = new Vector3(0.3027344F, -0.1523438F, 0F); //web
-		actions[5].frame = 40;
-		actions[5].mouse = new Vector3(0F, 0F, 0F);
-		actions[6].id = new Vector3(-0.5332031F, 1.236328F, 0F); //web
-		actions[6].frame = 202;
-		actions[6].mouse = new Vector3(0F, 0F, 0F);
-	}
-	void level98_1 () {
-		actions = new action[1];
+		actions = new action[11];
 
-		actions[0].id = new Vector3(0.7871094F, -0.5800781F, -0.015625F); //sluggish
-		actions[0].frame = 60;
-		actions[0].mouse = new Vector3(0.9791667F, -0.6979166F, 0F);
-	}
+        actions[0].id = new Vector3(0.3027344F, -0.1523438F, 0F); //web
+        actions[0].frame = 14;
+        actions[0].mouse = new Vector3(0F, 0F, 0F);
+        actions[1].id = new Vector3(0.7871094F, -0.5800781F, -0.015625F); //sluggish
+        actions[1].frame = 44;
+        actions[1].mouse = new Vector3(1.189696F, 0.04215455F, 0F);
+        actions[2].id = new Vector3(0.1367188F, 1.136719F, 0F); //groot
+        actions[2].frame = 108;
+        actions[2].mouse = new Vector3(0.4449649F, 0.04683852F, 0F);
+        actions[3].id = new Vector3(0.7871094F, -0.5800781F, -0.015625F); //sluggish
+        actions[3].frame = 47;
+        actions[3].mouse = new Vector3(0.2669789F, -0.7587821F, 0F);
+        actions[4].id = new Vector3(-0.5332031F, 1.236328F, 0F); //web
+        actions[4].frame = 37;
+        actions[4].mouse = new Vector3(0F, 0F, 0F);
+        actions[5].id = new Vector3(0.3027344F, -0.1523438F, 0F); //web
+        actions[5].frame = 82;
+        actions[5].mouse = new Vector3(0F, 0F, 0F);
+        actions[6].id = new Vector3(0.1367188F, 1.136719F, 0F); //groot
+        actions[6].frame = 22;
+        actions[6].mouse = new Vector3(0.1686182F, 1.035129F, 0F);
+        actions[7].id = new Vector3(-0.5332031F, 1.236328F, 0F); //web
+        actions[7].frame = 128;
+        actions[7].mouse = new Vector3(0F, 0F, 0F);
+        actions[8].id = new Vector3(0.3027344F, -0.1523438F, 0F); //web
+        actions[8].frame = 43;
+        actions[8].mouse = new Vector3(0F, 0F, 0F);
+        actions[9].id = new Vector3(0.3027344F, -0.1523438F, 0F); //web
+        actions[9].frame = 41;
+        actions[9].mouse = new Vector3(0F, 0F, 0F);
+        actions[10].id = new Vector3(0.7871094F, -0.5800781F, -0.015625F); //sluggish
+        actions[10].frame = 125;
+        actions[10].mouse = new Vector3(1.138173F, -0.4562295F, 0F);
+    }
+	void level98_1 () {
+		actions = new action[3];
+        actions[0].id = new Vector3(0.3027344F, -0.1523438F, 0F); //web
+        actions[0].frame = 10;
+        actions[0].mouse = new Vector3(0F, 0F, 0F);
+        actions[1].id = new Vector3(0.7871094F, -0.5800781F, -0.015625F); //sluggish
+        actions[1].frame = 39;
+        actions[1].mouse = new Vector3(0.9789227F, -0.6229508F, 0F);
+        actions[2].id = new Vector3(0.3027344F, -0.1523438F, 0F); //web
+        actions[2].frame = 22;
+        actions[2].mouse = new Vector3(0F, 0F, 0F);
+    }
 
 	void level99_0 () {
 		actions = new action[6];
@@ -4502,21 +4525,28 @@ public class gHintClass : MonoBehaviour {
 
 	}
 	void level99_1 () {
-		actions = new action[4];
+		actions = new action[6];
 
-		actions[0].id = new Vector3(0.6445313F, -0.3847656F, 0F); //groot
-		actions[0].frame = 40;
-		actions[0].mouse = new Vector3(0.08854161F, -1.145833F, 0F);
-		actions[1].id = new Vector3(0.8652344F, 0.6152344F, -0.015625F); //sluggish
-		actions[1].frame = 60;
-		actions[1].mouse = new Vector3(1.078125F, 1.15625F, 0F);
-		actions[2].id = new Vector3(0.7148438F, -1.265625F, 0F); //web
-		actions[2].frame = 75;
-		actions[2].mouse = new Vector3(0F, 0F, 0F);
-		actions[3].id = new Vector3(0.7148438F, -1.265625F, 0F); //web
-		actions[3].frame = 16;
-		actions[3].mouse = new Vector3(0F, 0F, 0F);
-	}
+        actions[0].id = new Vector3(0.6445313F, -0.3847656F, 0F); //groot
+        actions[0].frame = 74;
+        actions[0].mouse = new Vector3(-0.529274F, -0.6416862F, 0F);
+        actions[1].id = new Vector3(0.8652344F, 0.6152344F, -0.015625F); //sluggish
+        actions[1].frame = 69;
+        actions[1].mouse = new Vector3(1.185012F, 0.9180329F, 0F);
+        actions[2].id = new Vector3(-0.2402344F, 0.08203125F, 0F); //web
+        actions[2].frame = 37;
+        actions[2].mouse = new Vector3(0F, 0F, 0F);
+        actions[3].id = new Vector3(0.6445313F, -0.3847656F, 0F); //groot
+        actions[3].frame = 30;
+        actions[3].mouse = new Vector3(0.5667448F, -0.3887588F, 0F);
+        actions[4].id = new Vector3(-0.2402344F, 0.08203125F, 0F); //web
+        actions[4].frame = 32;
+        actions[4].mouse = new Vector3(0F, 0F, 0F);
+        actions[5].id = new Vector3(0.7148438F, -1.265625F, 0F); //web
+        actions[5].frame = 50;
+        actions[5].mouse = new Vector3(0F, 0F, 0F);
+
+    }
 
 	void level100_0 () {
 		actions = new action[11];
@@ -4556,7 +4586,7 @@ public class gHintClass : MonoBehaviour {
 		actions[10].mouse = new Vector3(0.5104167F, -0.203125F, 0F);
 	}
 	void level100_1 () {
-		actions = new action[12];
+		actions = new action[5];
 
 		actions[0].id = new Vector3(-0.6679688F, 0.1835938F, 0F); //groot
 		actions[0].frame = 40;
