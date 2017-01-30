@@ -50,7 +50,7 @@ public class ctrFbKiiClass : MonoBehaviour {
     // Awake function from Unity's MonoBehavior
     void Start() {
 
-		if (instance != null) {
+        if (instance != null) {
             Destroy(gameObject);
             return;
         }
@@ -61,7 +61,11 @@ public class ctrFbKiiClass : MonoBehaviour {
 
         ctrProgressClass.getProgress();
         //fb
-        if (ctrProgressClass.progress["language"] == 1)
+        Debug.Log("Start Kii Class");
+        Debug.Log("lang: " + ctrProgressClass.progress["language"]);
+
+        var l = staticClass.getLanguage();
+        if (l == 1)
         {
             if (!FB.IsInitialized)
             {
@@ -70,8 +74,9 @@ public class ctrFbKiiClass : MonoBehaviour {
             }
         }
         //vk
-        else if (ctrProgressClass.progress["language"] == 2)
+        else if (l == 2)
         {
+            Debug.Log("vk isLogin: " + VkApi.VkApiInstance.IsUserLoggedIn);
             if (VkApi.VkApiInstance.IsUserLoggedIn) {
                     onLoggedInVK();
                 }
@@ -80,7 +85,8 @@ public class ctrFbKiiClass : MonoBehaviour {
     //fb
     private void InitCallback() {
         if (FB.IsInitialized) {
-			//for tests
+			Debug.Log("FB.IsInitialized");
+            //for tests
 			//var perms = new List<string>() { "public_profile", "email", "user_friends" };
 			//FB.LogInWithReadPermissions(perms, AuthCallback);
 
@@ -91,11 +97,12 @@ public class ctrFbKiiClass : MonoBehaviour {
             // ...
 
             if (FB.IsLoggedIn) {
+                Debug.Log("FB.IsLoggedIn");
                 // AccessToken class will have session details
                 //var aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
                 // Print current access token's User ID
                 // Print current access token's granted permissions
-                onLoginComplete();
+                onLoginCompleteFB();
             } 
 
         } 
@@ -104,6 +111,7 @@ public class ctrFbKiiClass : MonoBehaviour {
     //vk
     public void onLoggedInVK()
     {
+        Debug.Log("onLoggedInVK");
         try
         {
             VkApi.VkApiInstance.LoggedIn -= onLoggedInVK;
@@ -114,20 +122,49 @@ public class ctrFbKiiClass : MonoBehaviour {
         }
         userId = VkApi.CurrentToken.user_id;
 
-        //VkApi.VkApiInstance.
-        //     VKRequest r = new VKRequest
-        //{
-        //    url = "users.get?user_ids=51066050&photo_50",
-        //    CallBackFunction = OnGotUserInfo
-        //};
-        //VkApi.VkApiInstance.Call(r);
+        VKRequest r = new VKRequest
+        {
+            url = "users.get?user_ids=" + userId + "&fields=photo_100",
+            //url = "users.get?user_ids=" + userId + "&photo_50",
+            CallBackFunction = OnGotUserInfoVK
+        };
+        VkApi.VkApiInstance.Call(r);
 
         var request = new VKRequest()
         {
-            url = "friends.getAppUsers?user_id=" + VkApi.CurrentToken.user_id + "&count=100&fields=photo_100",
+            url = "friends.getAppUsers?user_id=" + userId + "&count=100&fields=photo_100",
             CallBackFunction = OnGetFriendsIdsCompleted,
         };
         VkApi.VkApiInstance.Call(request);
+        onLoginCompleteVK();
+    }
+
+    public void OnGotUserInfoVK(VKRequest r)
+    {
+        if (r.error != null)
+        {
+            //hande error here
+            Debug.Log(r.error.error_msg);
+            return;
+        }
+
+        //now we need to deserialize response in json from vk server
+        var dict = Json.Deserialize(r.response) as Dictionary<string, object>;
+        var users = (List<object>)dict["response"];
+        var user = VKUser.Deserialize(users[0]);
+
+        Debug.Log(user.ToString());
+
+
+        if (!string.IsNullOrEmpty(user.photo_100))
+        {
+            DownloadImage(user.photo_100, user, true);
+        }
+        Debug.Log("user id is " + user.id);
+        Debug.Log("user name is " + user.first_name);
+        Debug.Log("user last name is " + user.last_name);
+        Debug.Log("photo " + user.photo_100);
+
     }
     /*
 	private void OnHideUnity (bool isGameShown)
@@ -142,8 +179,18 @@ public class ctrFbKiiClass : MonoBehaviour {
 	}
 	*/
 
+    public void connectVK()
+    {
+        Debug.Log("connectVK");
+        VkApi.VkSetts.forceOAuth = false;
+        VkApi.VkApiInstance.LoggedIn += onLoggedInVK;
+        VkApi.VkApiInstance.Login();
+    }
+
 
     public void connect() {
+        Debug.Log("FB connect");
+        Debug.Log("FB.IsInitialized:" + FB.IsInitialized);
         if (FB.IsInitialized) {
             var perms = new List<string>() { "public_profile", "email", "user_friends" };
             FB.LogInWithReadPermissions(perms, AuthCallback);
@@ -156,14 +203,29 @@ public class ctrFbKiiClass : MonoBehaviour {
             // AccessToken class will have session details
             var aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
             // Print current access token's User ID
-            onLoginComplete();
+            onLoginCompleteFB();
             // Print current access token's granted permissions
 
         }
 
     }
 
-    private void onLoginComplete() {
+    private void onLoginCompleteVK()
+    {
+        Debug.Log("onLoginCompleteVK");
+        if (ctrProgressClass.progress["vk"] == 0)
+        {
+            ctrProgressClass.progress["vk"] = 1;
+            ctrProgressClass.saveProgress();
+
+        }
+        //GetPlayerInfo();
+        //GetFriends();
+        StartCoroutine(loginKiiVK());
+
+    }
+
+    private void onLoginCompleteFB() {
 		if (ctrProgressClass.progress ["fb"] == 0) {
 			ctrProgressClass.progress ["fb"] = 1;
 			ctrProgressClass.saveProgress ();
@@ -171,7 +233,7 @@ public class ctrFbKiiClass : MonoBehaviour {
 		}
         GetPlayerInfo();
         GetFriends();
-        StartCoroutine(loginKii());
+        StartCoroutine(loginKiiFB());
 
     }
 
@@ -190,58 +252,123 @@ public class ctrFbKiiClass : MonoBehaviour {
 		}
     }
 
-    IEnumerator loginKii() {
+    IEnumerator loginKiiVK()
+    {
         yield return StartCoroutine(staticClass.waitForRealTime(0.2F));
+        Debug.Log("loginKiiVK");
+        Debug.Log("userId: " + userId);
 
-        Dictionary<string, string> accessCredential = new Dictionary<string, string>();
-        accessCredential.Add("accessToken", Facebook.Unity.AccessToken.CurrentAccessToken.TokenString);
-        KiiUser.LoginWithSocialNetwork(accessCredential, KiiCorp.Cloud.Storage.Connector.Provider.FACEBOOK, (KiiUser user, Exception exception) => {
-            isLoginKii = true;
+        //vk
+        string username = userId;
+        string password = "123ABC";
 
-            KiiBucket bucket = Kii.Bucket("scores");
+        KiiUser.LogIn(username, password, (KiiUser user, Exception e) =>
+        {
+            if (e != null)
+            {
+                Debug.Log(e.HelpLink);
+                Debug.Log(e.StackTrace);
+                Debug.Log(e.Message);
 
-            //save user scores
-            KiiObject kiiObj = bucket.NewKiiObject(userId);
-            
-            for (int i = 1; i <= 100; i++) {
-                int y = ctrProgressClass.progress["score" + i.ToString() + "_1"] + ctrProgressClass.progress["score" + i.ToString() + "_2"];
-                if (y <= 0) break;
-                kiiObj["level" + i.ToString()] = y;
-				kiiObj["lastLevel"] = "level" + i.ToString();
+                KiiUser.Builder builder;
+                builder = KiiUser.BuilderWithName(userId);
+                //builder.SetEmail("user_123456@example.com");
+                //builder.SetGlobalPhone("+819012345678");
+                KiiUser userNew = builder.Build();
 
-            }
-			kiiObj["userFbId"] = userId;
-
-             //запись, если есть хотя бы 1 уровень
-            if (kiiObj.Has("level1")) {
-                kiiObj.SaveAllFields(true, (KiiObject savedObj, Exception e) => {
-                    if (e != null) {
+                userNew.Register("123ABC", (KiiUser registeredUser, Exception ee) => {
+                    //user.Register("123ABC", (KiiUser registeredUser, Exception ee) => {
+                    if (ee != null)
+                    {
+                        Debug.Log(ee.HelpLink);
+                        Debug.Log(ee.StackTrace);
+                        Debug.Log(ee.Message);
+                        // handle error
+                        return;
                     }
-                    else {
-                    }
+                    else afterLoginKii();
                 });
 
+
+                //return;
             }
+            else
+            {
+                afterLoginKii();
 
-
-			if (friendsIds != null) {
-                KiiQuery query = new KiiQuery(
-				KiiClause.InWithStringValue("_id", friendsIds)
-                );
-                query.Limit = 50;
-                bucket.Query(query, (KiiQueryResult<KiiObject> result, Exception e) => {
-                    if (e != null) {
-						//Debug.LogError("Failed to get friend scores" + e.ToString());
-						return;
-                    }
-					friendsScore = result;
-					setFriendsLastLevel();
-               });
             }
         });
     }
 
-	public static void setFriendsLastLevel() {
+    IEnumerator loginKiiFB() {
+        yield return StartCoroutine(staticClass.waitForRealTime(0.2F));
+        Debug.Log("loginKiiFB");
+
+
+        Dictionary<string, string> accessCredential = new Dictionary<string, string>();
+        accessCredential.Add("accessToken", Facebook.Unity.AccessToken.CurrentAccessToken.TokenString);
+        KiiUser.LoginWithSocialNetwork(accessCredential, KiiCorp.Cloud.Storage.Connector.Provider.FACEBOOK, (KiiUser user, Exception exception) =>
+        {
+            afterLoginKii();
+        });
+    }
+
+    private void afterLoginKii()
+    {
+        Debug.Log("afterLoginKii");
+        //KiiUser.LoginWithSocialNetwork(accessCredential, KiiCorp.Cloud.Storage.Connector.Provider.FACEBOOK, (KiiUser user, Exception exception) => {
+        isLoginKii = true;
+
+        KiiBucket bucket = Kii.Bucket("scores");
+
+        //save user scores
+        KiiObject kiiObj = bucket.NewKiiObject(userId);
+
+        for (int i = 1; i <= 100; i++)
+        {
+            int y = ctrProgressClass.progress["score" + i.ToString() + "_1"] + ctrProgressClass.progress["score" + i.ToString() + "_2"];
+            if (y <= 0) break;
+            kiiObj["level" + i.ToString()] = y;
+            kiiObj["lastLevel"] = "level" + i.ToString();
+
+        }
+        kiiObj["userFbId"] = userId;
+
+        //запись, если есть хотя бы 1 уровень
+        if (kiiObj.Has("level1"))
+        {
+            kiiObj.SaveAllFields(true, (KiiObject savedObj, Exception e) => {
+                if (e != null)
+                {
+                }
+                else
+                {
+                }
+            });
+
+        }
+
+
+        if (friendsIds != null)
+        {
+            KiiQuery query = new KiiQuery(
+            KiiClause.InWithStringValue("_id", friendsIds)
+            );
+            query.Limit = 50;
+            bucket.Query(query, (KiiQueryResult<KiiObject> result, Exception e) => {
+                if (e != null)
+                {
+                    //Debug.LogError("Failed to get friend scores" + e.ToString());
+                    return;
+                }
+                friendsScore = result;
+                setFriendsLastLevel();
+            });
+        }
+
+    }
+
+    public static void setFriendsLastLevel() {
 		//Debug.Log ("setFriendsLastLevel");
 		foreach (KiiObject obj in friendsScore) {
 			try {
@@ -295,17 +422,24 @@ public class ctrFbKiiClass : MonoBehaviour {
 		}
 	}
 
-	public static void setBestGamers(Transform fbMenu, int levelNumber) {
-		//Debug.Log ("setBestGamers");
+	public static void setBestGamers(Transform levelMenu, int levelNumber) {
+        Debug.Log ("setBestGamers");
+        Transform socialMenu = levelMenu.GetChild(2);
+        if (ctrProgressClass.progress["fb"] == 1 && FB.IsLoggedIn)
+            socialMenu = levelMenu.GetChild(2);
+        else if (ctrProgressClass.progress["vk"] == 1 && VkApi.VkApiInstance.IsUserLoggedIn)
+            socialMenu = levelMenu.GetChild(3);
+        else return;
+        Debug.Log(socialMenu.name);
 
-		if (ctrProgressClass.progress ["fb"] == 1 && FB.IsLoggedIn) {
+        //if (ctrProgressClass.progress ["fb"] == 1 && FB.IsLoggedIn) {
 
-			//выключаем панель fb login, включаем панель с лучшими игроками, выключаем каждого игрока (всего 3)
-			fbMenu.GetChild (0).gameObject.SetActive (false);
-			fbMenu.GetChild (1).gameObject.SetActive (true);
-			fbMenu.GetChild (1).GetChild (0).gameObject.SetActive (false);
-			fbMenu.GetChild (1).GetChild (1).gameObject.SetActive (false);
-			fbMenu.GetChild (1).GetChild (2).gameObject.SetActive (false);
+            //выключаем панель fb login, включаем панель с лучшими игроками, выключаем каждого игрока (всего 3)
+            socialMenu.GetChild (0).gameObject.SetActive (false);
+            socialMenu.GetChild (1).gameObject.SetActive (true);
+            socialMenu.GetChild (1).GetChild (0).gameObject.SetActive (false);
+            socialMenu.GetChild (1).GetChild (1).gameObject.SetActive (false);
+			socialMenu.GetChild (1).GetChild (2).gameObject.SetActive (false);
 
 			Dictionary<string, int> scores = new Dictionary<string, int>();
 			if (friendsScore != null)
@@ -326,20 +460,20 @@ public class ctrFbKiiClass : MonoBehaviour {
 			int i = 0;
 			foreach (var score in scores) {
 				if (i < 3) {
-					fbMenu.GetChild (1).GetChild (i).gameObject.SetActive (true);
+                    socialMenu.GetChild (1).GetChild (i).gameObject.SetActive (true);
 
 					//photo
 
 					//если юзер
 					if (userId == score.Key) {
-						if (userImage != null) fbMenu.GetChild (1).GetChild (i).GetChild(0).GetComponent<SpriteRenderer> ().sprite = Sprite.Create (userImage, new Rect(0, 0, userImage.width, userImage.height), new Vector2(0.5F, 0.5F), 1);
-						fbMenu.GetChild (1).GetChild (i).GetChild (1).GetComponent<UILabel> ().text = score.Value.ToString ();
+						if (userImage != null) socialMenu.GetChild (1).GetChild (i).GetChild(0).GetComponent<SpriteRenderer> ().sprite = Sprite.Create (userImage, new Rect(0, 0, userImage.width, userImage.height), new Vector2(0.5F, 0.5F), 1);
+                        socialMenu.GetChild (1).GetChild (i).GetChild (1).GetComponent<UILabel> ().text = score.Value.ToString ();
 						i++;
 
 					}
 					if (friendsImage.ContainsKey(score.Key)) {
-						fbMenu.GetChild (1).GetChild (i).GetChild(0).GetComponent<SpriteRenderer> ().sprite = Sprite.Create (friendsImage[score.Key], new Rect(0, 0, friendsImage[score.Key].width, friendsImage[score.Key].height), new Vector2(0.5F, 0.5F), 1);
-						fbMenu.GetChild (1).GetChild (i).GetChild (1).GetComponent<UILabel> ().text = score.Value.ToString ();
+                        socialMenu.GetChild (1).GetChild (i).GetChild(0).GetComponent<SpriteRenderer> ().sprite = Sprite.Create (friendsImage[score.Key], new Rect(0, 0, friendsImage[score.Key].width, friendsImage[score.Key].height), new Vector2(0.5F, 0.5F), 1);
+                        socialMenu.GetChild (1).GetChild (i).GetChild (1).GetComponent<UILabel> ().text = score.Value.ToString ();
 						i++;
 
 					
@@ -356,7 +490,7 @@ public class ctrFbKiiClass : MonoBehaviour {
 				} else
 					break;
 			}
-		}	
+		//}	
 	
 	}
 
@@ -755,7 +889,8 @@ public class ctrFbKiiClass : MonoBehaviour {
         //проверяем на ошибки
         if (arg1.error != null)
         {
-            FindObjectOfType<GlobalErrorHandler>().Notification.Notify(arg1);
+            Debug.Log(arg1.error.error_msg);
+            //FindObjectOfType<GlobalErrorHandler>().Notification.Notify(arg1);
             return;
         }
 
@@ -791,7 +926,7 @@ public class ctrFbKiiClass : MonoBehaviour {
         //проверяем на ошибки
         if (arg1.error != null)
         {
-            FindObjectOfType<GlobalErrorHandler>().Notification.Notify(arg1);
+            //FindObjectOfType<GlobalErrorHandler>().Notification.Notify(arg1);
             return;
         }
 
@@ -811,7 +946,7 @@ public class ctrFbKiiClass : MonoBehaviour {
                 friends.Add(friend);
                 if (!string.IsNullOrEmpty(friend.photo_100))
                 {
-                    DownloadFriendImage(friend.photo_100, friend);
+                    DownloadImage(friend.photo_100, friend, false);
                 }
             friendsIds.SetValue(friend.id.ToString(), i);
             friendsFirstname[friend.id.ToString()] = friend.first_name;
@@ -821,15 +956,17 @@ public class ctrFbKiiClass : MonoBehaviour {
 
     }
 
-    private void DownloadFriendImage(string url, VKUser friend)
+    private void DownloadImage(string url, VKUser user, bool self)
     {
         Action<DownloadRequest> doOnFinish = (d) =>
         {
             var fid = (long)d.CustomData[0];
-            if (d.DownloadResult.error == null && friend.id == fid)
+            if (d.DownloadResult.error == null && user.id == fid)
             {
-
-                friendsImage.Add(friend.id.ToString(), d.DownloadResult.texture);
+                Debug.Log("DownloadImage, self: " + self);
+                Debug.Log("DownloadImage, id: " + user.id.ToString());
+                if (self) userImage = d.DownloadResult.texture;
+                else friendsImage.Add(user.id.ToString(), d.DownloadResult.texture);
             }
 
         };
@@ -837,11 +974,11 @@ public class ctrFbKiiClass : MonoBehaviour {
         {
             url = url,
             onFinished = doOnFinish,
-            CustomData = new object[] { friend.id }
+            CustomData = new object[] { user.id }
         };
         VkApi.Downloader.download(r);
     }
     
 
-
+    
 }

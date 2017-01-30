@@ -21,7 +21,7 @@ public class ctrAnalyticsClass
 
     }
 
-    public static void sendEvent(string nameEvent, Dictionary<string, string> attributes)
+    public static void sendEvent(string nameEvent, Dictionary<string, string> attributes, long purchase = 0)
     {
         //LocalyticsUnity.Localytics.TagEvent(nameEvent, attributes);
         string str = "";
@@ -33,7 +33,7 @@ public class ctrAnalyticsClass
         Debug.Log(str);
         try
         {
-            LocalyticsUnity.Localytics.TagEvent(nameEvent, attributes);
+            LocalyticsUnity.Localytics.TagEvent(nameEvent, attributes, purchase);
         }
         catch (Exception)
         {
@@ -42,4 +42,5 @@ public class ctrAnalyticsClass
         }
         
     }
+
 }

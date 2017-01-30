@@ -2,6 +2,7 @@
 using System.Collections;
 //using UnionAssets.FLE;
 using System.Collections.Generic;
+using CompleteProject;
 
 public class marketClass : MonoBehaviour {
 
@@ -63,7 +64,7 @@ public class marketClass : MonoBehaviour {
             if (!isPressed) {
                 //запрос на покупку
                 Debug.Log("click buy " + name);
-            
+                marketClass.instance.GetComponent<Purchaser>().BuyProductID(name);
             //if (name == "booster_3" && ctrProgressClass.progress ["firstPurchase"] == 0) 		
                 //    AndroidInAppPurchaseManager.Client.Purchase ("booster_sale");
                 //else
@@ -200,5 +201,41 @@ public class marketClass : MonoBehaviour {
 
         */
 
+    public void setRewardForPurchase(string itemId)
+    {
+
+        var attr = new Dictionary<string, string> {{"category", "shop"}, { "name", itemId }, { "revenue", "100" } };
+        //ctrAnalyticsClass.sendEvent("Gold", new Dictionary<string, string> { { "video", "50" } });
+
+        //int boostersCount = 0;
+        //float boostersPrice = 0;
+        switch (itemId)
+        {
+            case "booster_green_1":
+                ctrProgressClass.progress["boostersGreen"] += 1;
+                attr["revenue"] = "139";
+                break;
+            case "booster_blue_1":
+                ctrProgressClass.progress["boostersBlue"] += 1;
+                attr["revenue"] = "349";
+                break;
+            //case "booster_sale":
+                //ctrProgressClass.progress["firstPurchase"] = 1;
+                //marketClass.instance.sale.SetActive(false);
+
+                //break;
+        }
+        ctrProgressClass.saveProgress();
+        //marketClass.instance.boostersLabel.text = ctrProgressClass.progress["boosters"].ToString();
+        //marketClass.instance.boostersLabel.GetComponent<AudioSource>().Play();
+        //marketClass.instance.boostersLabel.GetComponent<Animator>().Play("button");
+        //marketClass.instance.boostersLabel.transform.GetChild(0).GetComponent<ParticleSystem>().Stop();
+        //marketClass.instance.boostersLabel.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+
+        ctrAnalyticsClass.sendEvent("Revenue", attr, long.Parse( attr["revenue"]));
+
+ 
+
+    }
 
 }

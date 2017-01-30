@@ -41,7 +41,7 @@ public class initClass : MonoBehaviour {
 		//for test 
 		//Application.targetFrameRate = -1;
 		#if UNITY_STANDALONE_WIN
-			//Screen.SetResolution(768, 1024, false);
+			Screen.SetResolution(575, 1024, false);
 		#endif
 		Debug.Log("start menu: " + Time.realtimeSinceStartup);
 
@@ -52,34 +52,27 @@ public class initClass : MonoBehaviour {
 
 			//опции
 			GameObject.Find ("settings folder").transform.GetChild (0).gameObject.SetActive (true);
-			//если язык не выбран или русский
-			if ((ctrProgressClass.progress ["language"] == 0 && 
-                        (Application.systemLanguage.ToString () == "Russian" ||
-                        Application.systemLanguage.ToString() == "Ukrainian" ||
-                        Application.systemLanguage.ToString() == "Belarusian"
-                        )) || ctrProgressClass.progress ["language"] == 2) {
-
-                Localization.language = "Russian";
+            
+            //language
+		    var l = staticClass.getLanguage();
+            if (l == 2)
 				GameObject.Find (Localization.language).transform.GetChild(0).gameObject.SetActive (true);
-				ctrProgressClass.progress ["language"] = 2;
-			} else {
-				Localization.language = "English";
-				GameObject.Find (Localization.language).transform.GetChild(0).gameObject.SetActive (true);
-				ctrProgressClass.progress ["language"] = 1;
-			}
-
+			else
+                GameObject.Find (Localization.language).transform.GetChild(0).gameObject.SetActive (true);
+		    //ctrProgressClass.progress["language"] = 1;
 			//everyplay
 			if (ctrProgressClass.progress ["everyplay"] == 1) {
 				Everyplay.SetDisableSingleCoreDevices (true);
 				Everyplay.SetMaxRecordingMinutesLength(10);
 				//Everyplay.SetLowMemoryDevice (true);
 			}
-			if (!Everyplay.IsRecordingSupported () || ctrProgressClass.progress ["everyplay"] == 0) {
+            /*
+            if (!Everyplay.IsRecordingSupported () || ctrProgressClass.progress ["everyplay"] == 0) {
 				ctrProgressClass.progress ["everyplay"] = 0;
 				GameObject.Find ("camera button").transform.GetChild(0).gameObject.SetActive (true);
 				GameObject.Find ("camera button").transform.GetChild(1).gameObject.SetActive (false);
 			}
-
+            */
 			ctrProgressClass.saveProgress ();
 
 			if (ctrProgressClass.progress ["music"] == 0)  GameObject.Find ("music").GetComponent<AudioSource> ().mute = true;

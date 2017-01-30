@@ -90,11 +90,13 @@ public class iClickClass : MonoBehaviour {
 	}
 
 	void clickTutorialBuy() {
-		if (transform.GetChild (0).gameObject.activeSelf) {
-			transform.GetChild (0).gameObject.SetActive (false);
+        Debug.Log("clickTutorialBuy");
+        if (transform.GetChild (0).gameObject.activeSelf) {
+            Debug.Log(name);
+            transform.GetChild (0).gameObject.SetActive (false);
 			if (name == "button market")  ctrProgressClass.progress ["tutorialBuy"] = 1;
 			if (name == "booster 1")  ctrProgressClass.progress ["tutorialBuy"] = 2;
-			if (name == "open booster")  ctrProgressClass.progress ["tutorialBuy"] = 3;
+			//if (transform.parent.name == "open booster")  ctrProgressClass.progress ["tutorialBuy"] = 3;
 
 			ctrProgressClass.saveProgress ();
 			if (name == "booster 1")
@@ -392,9 +394,9 @@ public class iClickClass : MonoBehaviour {
 		else if (name == "button settings")
 			GameObject.Find ("settings folder").transform.GetChild (0).gameObject.SetActive (true);
 		else if (transform.parent.gameObject.name == "open booster") {
-
+            Debug.Log("open booster");
+            Debug.Log(name + ": " + ctrProgressClass.progress[name]);
             if (ctrProgressClass.progress [name] > 0) {
-
                 //отключаем все спрайты бустера
                 for (int i = 0; i < 4; i++)
 			    {
@@ -511,6 +513,7 @@ public class iClickClass : MonoBehaviour {
         }
         else if (name == "exit open booster menu")
         {
+            Debug.Log(name);
             marketClass.instance.openBoosterMenu.SetActive(false);
             marketClass.instance.boosterMenu.SetActive(true);
 
@@ -607,7 +610,7 @@ public class iClickClass : MonoBehaviour {
 
     void vkConnect()
     {
-        ctrFbKiiClass.instance.connect();
+        ctrFbKiiClass.instance.connectVK();
     }
 
     void fbInvite() {

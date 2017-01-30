@@ -59,7 +59,7 @@ public class lsSaleClass : MonoBehaviour {
             if (ctrProgressClass.progress["tutorialSale"] == 1) if (hand != null) hand.transform.GetChild(1).gameObject.SetActive(false);
             if (ctrProgressClass.progress["tutorialSale"] < 2)
             {
-                hand.SetActive(true);
+                if (hand != null) hand.SetActive(true);
                 ctrProgressClass.progress["tutorialSale"]++;
             }
             
@@ -77,6 +77,8 @@ public class lsSaleClass : MonoBehaviour {
 
             transform.GetChild(1).gameObject.SetActive(true);
             transform.GetChild(2).gameObject.SetActive(true);
+
+            if (GetComponent<BoxCollider>() != null) GetComponent<BoxCollider>().enabled = true;
             ctrProgressClass.saveProgress();
             StartCoroutine(updateTimeCoroutine());
         }
@@ -118,16 +120,17 @@ public class lsSaleClass : MonoBehaviour {
             transform.GetChild(0).gameObject.SetActive(false);
             transform.GetChild(1).gameObject.SetActive(false);
             transform.GetChild(2).gameObject.SetActive(false);
-            hand.SetActive(false);
+            if (GetComponent<BoxCollider>() != null) GetComponent<BoxCollider>().enabled = false;
+            if (hand != null) hand.SetActive(false);
         }
 
     }
 
     private void setTimerSaleEnd()
     {
-        Debug.Log("saleDate: " + ctrProgressClass.progress["saleDate"]);
-        Debug.Log("sale: " + ctrProgressClass.progress["sale"]);
-        Debug.Log("time now: " + DateTime.Now);
+       // Debug.Log("saleDate: " + ctrProgressClass.progress["saleDate"]);
+        //Debug.Log("sale: " + ctrProgressClass.progress["sale"]);
+        //Debug.Log("time now: " + DateTime.Now);
 
         DateTime startDate = new DateTime(1970, 1, 1, 0, 0, 0, 0);
         string str = "free";
@@ -140,15 +143,15 @@ public class lsSaleClass : MonoBehaviour {
         //timer sale end
         if (ctrProgressClass.progress["saleDate"] == 0)
             ctrProgressClass.progress["saleDate"] = (int)DateTime.Now.TotalSeconds();
-        Debug.Log("saleDate: " + ctrProgressClass.progress["saleDate"]);
+        //Debug.Log("saleDate: " + ctrProgressClass.progress["saleDate"]);
         timerEndSale =
             startDate.AddSeconds(ctrProgressClass.progress["saleDate"])
                 .Add(pause)
                 .Add(duration);
 
-        Debug.Log("sale pause: " + pause);
-        Debug.Log("sale duration: " + duration);
-        Debug.Log("sale timer end: " + timerEndSale);
+        //Debug.Log("sale pause: " + pause);
+        //Debug.Log("sale duration: " + duration);
+        //Debug.Log("sale timer end: " + timerEndSale);
 
     }
 }

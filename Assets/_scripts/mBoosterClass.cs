@@ -139,14 +139,19 @@ public class mBoosterClass : MonoBehaviour {
         {
             openingCards.Add(new KeyValuePair<string, int>("coins", 50));
             var max = 5;
+            Debug.Log("tutorialBuy:" + ctrProgressClass.progress["tutorialBuy"]);
             if (ctrProgressClass.progress["tutorialBuy"] < 3)
             {
                 setOpeningCardUncommon("berry", ref openingCards);
                 max = 4;
+                ctrProgressClass.progress["tutorialBuy"] = 3;
+
             }
             for (int i = 1; i < max; i++)
             {
-                if (UnityEngine.Random.Range(0, 100) < 2) setOpeningCardUncommon("berry", ref openingCards);
+                var r = UnityEngine.Random.Range(0, 100);
+                Debug.Log("rand:" + r);
+                if (r < 2) setOpeningCardUncommon("berry", ref openingCards);
                 else setOpeningCardCommon(ref portionsWhite, portionsCountWhite, ref openingCards);
             }
             Shuffle(openingCards);

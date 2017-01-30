@@ -201,7 +201,7 @@ public class mCardClass : MonoBehaviour {
             mBoosterClass.counterOpenCard++;
             if (mBoosterClass.counterOpenCard >= 5) {
             	transform.parent.parent.parent.parent.FindChild("exit open booster menu").localPosition = new Vector3(0, 0, -1);
-				if (ctrProgressClass.progress["boosters"] > 0) transform.parent.parent.parent.parent.FindChild("button open booster").gameObject.SetActive(true);
+				//if (ctrProgressClass.progress["boosters"] > 0) transform.parent.parent.parent.parent.FindChild("button open booster").gameObject.SetActive(true);
                 mBoosterClass.counterOpenCard = 0;
             }
         }

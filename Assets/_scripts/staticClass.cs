@@ -463,5 +463,43 @@ public class staticClass
       {"sale_2_payers", new saleTimer(new TimeSpan(0, 0, 5), new TimeSpan(0, 0, 30))},
 
     };
+
+    public static int getLanguage()
+    {
+
+        if (ctrProgressClass.progress["language"] == 0)
+        {
+            if (Application.systemLanguage.ToString() == "Russian" ||
+                Application.systemLanguage.ToString() == "Ukrainian" ||
+                Application.systemLanguage.ToString() == "Belarusian"
+            )
+            {
+
+                Localization.language = "Russian";
+                ctrProgressClass.progress["language"] = 2;
+
+            }
+            else
+            {
+                Localization.language = "English";
+                ctrProgressClass.progress["language"] = 1;
+            }
+            ctrProgressClass.saveProgress();
+        }
+        else
+        {
+            if (ctrProgressClass.progress["language"] == 2)
+            {
+                Localization.language = "Russian";
+                ctrProgressClass.progress["language"] = 2;
+            }
+            else
+            {
+                Localization.language = "English";
+                ctrProgressClass.progress["language"] = 1;
+            }
+        }
+        return ctrProgressClass.progress["language"];
+    }
 }
 

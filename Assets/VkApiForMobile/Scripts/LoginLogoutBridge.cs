@@ -8,6 +8,23 @@ using System.Runtime.InteropServices;
 
 public class LoginLogoutBridge  {
 
+#if UNITY_STANDALONE_WIN
+    public delegate void LoginDelegate(List<string> scope, int appid, bool forceOAuth);
+    public delegate void LogoutDelegate();
+
+    public LogoutDelegate OnWSALogout { get; set; }
+    public LoginDelegate OnWSALogin { get; set; }
+
+    public void Login()
+    {
+    }
+
+    public void Logout()
+    {
+
+    }
+#endif
+
     //VkSettings vsetts=VkApi.VkSetts;
 
 #if UNITY_WSA && !UNITY_EDITOR
@@ -121,7 +138,7 @@ public class LoginLogoutBridge  {
 	}
 #endif
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR && !UNITY_STANDALONE_WIN
 
     public void Login()
 	{
@@ -138,7 +155,7 @@ public class LoginLogoutBridge  {
 	{
 		VkApi.VkApiInstance.onLoggedOut ();
 	}
-	#endif
+#endif
 	private void WebViewAuth()
 	{
 		var r = new WebViewRequest

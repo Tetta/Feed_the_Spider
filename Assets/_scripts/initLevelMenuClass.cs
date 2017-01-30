@@ -45,8 +45,14 @@ public class initLevelMenuClass : MonoBehaviour {
 	        fb.SetActive(false);
             vk.SetActive(true);
 	    }
+        //fb on, vk off
+        else if (ctrProgressClass.progress["language"] == 1)
+        {
+            fb.SetActive(true);
+            vk.SetActive(false);
+        }
 
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
