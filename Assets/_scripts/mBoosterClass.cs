@@ -145,6 +145,7 @@ public class mBoosterClass : MonoBehaviour {
                 setOpeningCardUncommon("berry", ref openingCards);
                 max = 4;
                 ctrProgressClass.progress["tutorialBuy"] = 3;
+                ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, string> { { "name", "open booster" } });
 
             }
             for (int i = 1; i < max; i++)
@@ -203,8 +204,7 @@ public class mBoosterClass : MonoBehaviour {
 			string bonusName = openingCards[i].Key;
 			int bonusCount = openingCards[i].Value;
             Debug.Log(bonusName + " " + bonusCount);
-            Debug.Log(bonusName + " " + bonusCount);
-
+            
             //копируем карту
             if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins")
                 card = Instantiate(cardsAll.FindChild(bonusName + "_" + bonusCount).gameObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
@@ -244,10 +244,11 @@ public class mBoosterClass : MonoBehaviour {
             }
             else {
                 ctrProgressClass.progress[bonusName] += bonusCount;
-                //if (ctrProgressClass.progress[bonusName] == 0) ctrProgressClass.progress[bonusName] = 1;
+                if (bonusName == "coins") ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "income", "booster" }, { "coins", bonusCount.ToString() } });
+
 
             }
-			if (initLevelMenuClass.instance != null) {
+            if (initLevelMenuClass.instance != null) {
 				if (initLevelMenuClass.instance.coinsLabel != null)
 					initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress ["coins"].ToString ();
 				if (initLevelMenuClass.instance.energyLabel != null)
@@ -292,7 +293,7 @@ public class mBoosterClass : MonoBehaviour {
         countBonus = 1 + portionsCount[nameBonus] - Mathf.CeilToInt(bonusRand/part);
         openingCards.Add(new KeyValuePair<string, int>(nameBonus, countBonus));
 
-        Debug.Log(nameBonus + " " + countBonus);
+        //Debug.Log(nameBonus + " " + countBonus);
     }
 
     public static void setOpeningCardUncommon( string itemName, ref List<KeyValuePair<string, int>> openingCards)
@@ -307,7 +308,7 @@ public class mBoosterClass : MonoBehaviour {
         }
         if (i == 6) ctrProgressClass.progress[itemName + "Rare"] = 0;
 
-        Debug.Log(itemName + number + " " + 1);
+        //Debug.Log(itemName + number + " " + 1);
 
         openingCards.Add(new KeyValuePair<string, int>(itemName + number, 1));
 

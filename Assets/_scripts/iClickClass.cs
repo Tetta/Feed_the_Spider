@@ -95,10 +95,15 @@ public class iClickClass : MonoBehaviour {
             Debug.Log(name);
             transform.GetChild (0).gameObject.SetActive (false);
 			if (name == "button market")  ctrProgressClass.progress ["tutorialBuy"] = 1;
-			if (name == "booster 1")  ctrProgressClass.progress ["tutorialBuy"] = 2;
-			//if (transform.parent.name == "open booster")  ctrProgressClass.progress ["tutorialBuy"] = 3;
+            if (name == "booster 1")
+            {
+                ctrProgressClass.progress ["tutorialBuy"] = 2;
+                ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, string> { { "name", "buy booster" } });
 
-			ctrProgressClass.saveProgress ();
+            }
+            //if (transform.parent.name == "open booster")  ctrProgressClass.progress ["tutorialBuy"] = 3;
+
+            ctrProgressClass.saveProgress ();
 			if (name == "booster 1")
 				GameObject.Find ("preview icon/button/open booster").SendMessage ("checkTutorialBuy");
 		}
@@ -111,8 +116,11 @@ public class iClickClass : MonoBehaviour {
 		if (ctrProgressClass.progress["coins"] < cost) transform.GetChild(1).GetComponent<Animator>().Play("alpha disable");
         else {
 			GoogleAnalyticsV4.instance.LogEvent("Purchase for coins", "purchase", "booster", 1);
+            //переделать
+		    var nameItem = "booster1";
+            ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "decome", nameItem }, { "coins", (-cost).ToString() } });
 
-			ctrProgressClass.progress["coins"] -= cost;
+            ctrProgressClass.progress["coins"] -= cost;
             ctrProgressClass.progress["boosters"] += amount;
             ctrProgressClass.saveProgress();
             marketClass.instance.boostersLabel.text = ctrProgressClass.progress["boosters"].ToString();
@@ -146,8 +154,10 @@ public class iClickClass : MonoBehaviour {
 		    {
 		        if (ctrAdClass.instance != null) ctrAdClass.instance.ShowLevelAd(name);
 		    }
+            if (name == "restart" || name == "start level menu")
+                if (GameObject.Find("berry") != null && GameObject.Find("berry").GetComponent<gBerryClass>() != null) GameObject.Find("berry").GetComponent<gBerryClass>().endLevel(false);
 
-		    Application.backgroundLoadingPriority = ThreadPriority.High;
+            Application.backgroundLoadingPriority = ThreadPriority.High;
 			AsyncOperation async = new AsyncOperation ();
 			staticClass.scenePrev = SceneManager.GetActiveScene ().name;
 			staticClass.sceneLoading = true;
@@ -639,9 +649,12 @@ public class iClickClass : MonoBehaviour {
         Debug.Log("dream click");
         Debug.Log(SceneManager.GetActiveScene().name);
         if (staticClass.levelRestartedCount == 2 && ctrProgressClass.progress["tutorialDream"] == 0)
+        {
             ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"] = 1;
-        ctrProgressClass.progress["tutorialDream"] = 1;
-        ctrProgressClass.saveProgress();
+            ctrProgressClass.progress["tutorialDream"] = 1;
+            ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, string> { { "name", "use dream" } });
+            ctrProgressClass.saveProgress();
+        }
         var p = ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"];
         GetComponent<AudioSource>().Play();
 

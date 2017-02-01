@@ -225,6 +225,7 @@ public class marketClass : MonoBehaviour {
 
                 //break;
         }
+        ctrProgressClass.progress["paymentCount"] ++;
         ctrProgressClass.saveProgress();
         //marketClass.instance.boostersLabel.text = ctrProgressClass.progress["boosters"].ToString();
         //marketClass.instance.boostersLabel.GetComponent<AudioSource>().Play();
@@ -234,8 +235,8 @@ public class marketClass : MonoBehaviour {
 
         ctrAnalyticsClass.sendEvent("Revenue", attr, long.Parse( attr["revenue"]));
 
- 
-
+        ctrAnalyticsClass.sendCustomDimension(2, ctrAnalyticsClass.getGroup(ctrProgressClass.progress["paymentCount"], ctrAnalyticsClass.paymentGroups)); //paymentCount
+        ctrAnalyticsClass.sendCustomDimension(3, ctrAnalyticsClass.getGroup(ctrProgressClass.progress["revenue"], ctrAnalyticsClass.revenueGroups)); //revenue
     }
 
 }

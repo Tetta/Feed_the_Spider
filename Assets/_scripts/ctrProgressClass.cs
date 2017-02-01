@@ -8,7 +8,8 @@ public class ctrProgressClass {
 	static public Dictionary<string, int> progress = new Dictionary<string, int>();
 
 	static public void saveProgress() {
-		string strProgress = "";
+        Debug.Log("saveProgress");
+        string strProgress = "";
 		foreach (var item in progress ) {
 			if (progressDefault.ContainsKey(item.Key)) if (progress[item.Key] != progressDefault[item.Key]) strProgress += item.Key + "=" + item.Value + ";";
 		}
@@ -17,9 +18,10 @@ public class ctrProgressClass {
 	}
 
 	static public void getProgress() {
-        //Debug.Log("getProgress");
+
         string strProgress = PlayerPrefs.GetString("progress");
-		progress = new Dictionary<string, int> (progressDefault);
+
+        progress = new Dictionary<string, int> (progressDefault);
 
 		string strKey = "", strValue = "";
 		bool flag = true;
@@ -41,10 +43,12 @@ public class ctrProgressClass {
 			else if (!flag) strValue += strProgress.Substring(i, 1);
 
 		}
-	}
 
 
-	static private Dictionary<string, int> progressDefault = new Dictionary<string, int>{
+    }
+
+
+    static private Dictionary<string, int> progressDefault = new Dictionary<string, int>{
 		{"googlePlay",0}, {"lastLevel",0}, {"currentLevel",1},{"coins",0},{"gems",0},{"energyTime",0},{"energy",0},{"energyInfinity",0},
         {"hints",0},{"webs",0},{"collectors",0},{"teleports",0},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
 		{"everyplay",0},{"firstPurchase",0},{"fb",0},{"vk",0},
@@ -59,6 +63,8 @@ public class ctrProgressClass {
         {"berryCurrent", 1}, {"hatCurrent", 1}, {"skinCurrent", 1},
 
         {"tutorialEnergy",0}, {"tutorialBuy",0}, {"tutorialHint",0}, {"tutorialBonus",0}, {"tutorialDream",0},  {"tutorialAdCoins",0},  {"tutorialSale",0},
+
+        {"sessionStart",0}, {"sessionEnd",0}, {"sessionCount",0}, {"levelPlayCount",0}, {"winCount",0}, {"firstLaunch", 0}, {"paymentCount", 0}, {"revenue", 0},
 
         {"level1",0},{"level2",0},{"level3",0},{"level4",0},{"level5",0},{"level6",0},{"level7",0},{"level8",0},{"level9",0},{"level10",0},
 		{"level11",0},{"level12",0},{"level13",0},{"level14",0},{"level15",0},{"level16",0},{"level17",0},{"level18",0},{"level19",0},{"level20",0},
@@ -125,6 +131,8 @@ public class ctrProgressClass {
 
         {"tutorialEnergy",0}, {"tutorialBuy",0}, {"tutorialHint",0}, {"tutorialBonus",0}, {"tutorialDream",0},  {"tutorialAdCoins",0},  {"tutorialSale",0},
 
+        { "sessionStart",0}, {"sessionEnd",0}, {"sessionCount",0}, {"levelPlayCount",0}, {"winCount",0}, {"firstLaunch", 0}, {"paymentCount", 0}, {"revenue", 0},
+
         {"level1",3},{"level2",3},{"level3",3},{"level4",3},{"level5",3},{"level6",3},{"level7",3},{"level8",3},{"level9",3},{"level10",3},
 		{"level11",3},{"level12",3},{"level13",3},{"level14",3},{"level15",3},{"level16",3},{"level17",3},{"level18",3},{"level19",3},{"level20",3},
 		{"level21",3},{"level22",3},{"level23",3},{"level24",3},{"level25",3},{"level26",3},{"level27",3},{"level28",3},{"level29",3},{"level30",3},
@@ -173,15 +181,21 @@ public class ctrProgressClass {
         {"level91_dream",3},{"level92_dream",3},{"level93_dream",3},{"level94_dream",3},{"level95_dream",3},{"level96_dream",3},{"level97_dream",3},{"level98_dream",3},{"level99_dream",3},{"level100_dream",3}
     };
 	static public void resetProgress(string nameButton) {
-		//сброс прогресса
-		progress = new Dictionary<string, int> (progressDefault);
-		if (nameButton == "reset cheat") progress = new Dictionary<string, int> (progressCheat);
-		saveProgress ();
-		//PlayerPrefs.SetString("progress", staticClass.strProgressDefault);
+        //save session vars
+	    var sStart = progress["sessionStart"];
+        var sEnd = progress["sessionEnd"];
+        var sCount = progress["sessionCount"];
+        var firstLaunch = progress["firstLaunch"];
 
-		//ctrProgressClass.getProgress();
-		//GooglePlayManager.instance.ResetAllAchievements();
-		//GooglePlayManager.instance.SubmitScore("leaderboard_test_leaderboard", 0);
+        //сброс прогресса
+        progress = new Dictionary<string, int> (progressDefault);
+		if (nameButton == "reset cheat") progress = new Dictionary<string, int> (progressCheat);
+
+	    progress["sessionStart"] = sStart;
+        progress["sessionEnd"] = sEnd;
+        progress["sessionCount"] = sCount;
+        progress["firstLaunch"] = firstLaunch;
+        saveProgress();
 	}
 
 }

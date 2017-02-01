@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 
@@ -159,9 +160,19 @@ public class gHintClass : MonoBehaviour {
 			        if (GameObject.Find("/default level/gui/tutorial hint(Clone)") != null)
 			            GameObject.Find("/default level/gui/tutorial hint(Clone)").SetActive(false);
 			        ctrProgressClass.progress["tutorialHint"] = 1;
-			    }
+                    ctrAnalyticsClass.sendEvent("Tutorial", new System.Collections.Generic.Dictionary<string, string> { { "name", "use hint" } });
 
-			    GetComponent<AudioSource> ().Play ();
+                }
+                //for analytics
+                var type = (initLevelMenuClass.levelDemands == 0) ? "normal" : "challenge";
+                ctrAnalyticsClass.sendEvent("Bonuses Use", new Dictionary<string, string>
+                {
+                    { "level number", SceneManager.GetActiveScene().name.Substring(5)},
+                    { "type", type},
+                    { "name", "hints"}
+                });
+
+                GetComponent<AudioSource> ().Play ();
 				ctrProgressClass.progress ["hints"]--;
 				transform.GetChild (0).GetComponent<UILabel> ().text = ctrProgressClass.progress [name].ToString ();
 				ctrProgressClass.saveProgress ();

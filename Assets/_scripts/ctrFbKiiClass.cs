@@ -6,9 +6,11 @@ using KiiCorp.Cloud.Storage;
 using KiiCorp.Cloud.Unity;
 using System;
 using System.Linq;
+//using Boo.Lang;
 using com.playGenesis.VkUnityPlugin;
 using UnityEngine.SceneManagement;
 using Facebook.MiniJSON;
+
 
 public class ctrFbKiiClass : MonoBehaviour {
 	public GameObject fbFriendPhoto;
@@ -45,7 +47,7 @@ public class ctrFbKiiClass : MonoBehaviour {
 
     public Downloader d;
     public FriendManager friendManagerVK;
-    public List<VKUser> friends = new List<VKUser>();
+    public System.Collections.Generic.List<VKUser> friends = new System.Collections.Generic.List<VKUser>();
 
     // Awake function from Unity's MonoBehavior
     void Start() {
@@ -124,7 +126,7 @@ public class ctrFbKiiClass : MonoBehaviour {
 
         VKRequest r = new VKRequest
         {
-            url = "users.get?user_ids=" + userId + "&fields=photo_100",
+            url = "users.get?user_ids=" + userId + "&fields=photo_100,sex,bdate",
             //url = "users.get?user_ids=" + userId + "&photo_50",
             CallBackFunction = OnGotUserInfoVK
         };
@@ -150,22 +152,46 @@ public class ctrFbKiiClass : MonoBehaviour {
 
         //now we need to deserialize response in json from vk server
         var dict = Json.Deserialize(r.response) as Dictionary<string, object>;
-        var users = (List<object>)dict["response"];
+        var users = (System.Collections.Generic.List<object>)dict["response"];
         var user = VKUser.Deserialize(users[0]);
-
-        Debug.Log(user.ToString());
-
 
         if (!string.IsNullOrEmpty(user.photo_100))
         {
             DownloadImage(user.photo_100, user, true);
         }
         Debug.Log("user id is " + user.id);
-        Debug.Log("user name is " + user.first_name);
-        Debug.Log("user last name is " + user.last_name);
+        //Debug.Log("user name is " + user.first_name);
+        //Debug.Log("user last name is " + user.last_name);
         Debug.Log("photo " + user.photo_100);
 
+
+        //for analytics - Profiles
+        int age = 0;
+        if (!string.IsNullOrEmpty(user.bdate)) age = Mathf.RoundToInt(      (         (float)( ((DateTime.Now - DateTime.Parse(user.bdate)).TotalDays) )      /365)     );
+        if (age != 0) ctrAnalyticsClass.sendProfileAttribute("age", age.ToString());
+        var gender = "";
+        if (ctrAnalyticsClass.developerIds.Contains(userId))
+            gender = "developer";
+        else if (user.sex == 1)
+            gender = "female";
+        else if (user.sex == 2)
+            gender = "male";
+        
+        if (gender != "") ctrAnalyticsClass.sendProfileAttribute("gender", gender);
+
+        ctrAnalyticsClass.sendProfileAttribute("social id", userId);
+        //for analytics - Dimension
+        if (age != 0) ctrAnalyticsClass.sendCustomDimension(0, ctrAnalyticsClass.getGroup((float) age, ctrAnalyticsClass.ageGroups)); //age
+        if (gender != "") ctrAnalyticsClass.sendCustomDimension(1, gender); //gender
+        ctrAnalyticsClass.sendCustomDimension(6, "VK"); //Authorisation status
+
+
+        if (!string.IsNullOrEmpty(user.first_name)) ctrAnalyticsClass.setCustomerFirstName(user.first_name);
+        if (!string.IsNullOrEmpty(user.last_name)) ctrAnalyticsClass.setCustomerLastName(user.last_name);
+        if (!string.IsNullOrEmpty(user.first_name) || !string.IsNullOrEmpty(user.last_name)) ctrAnalyticsClass.setCustomerFullName(user.first_name + " " + user.last_name);
     }
+
+
     /*
 	private void OnHideUnity (bool isGameShown)
 	{
@@ -192,7 +218,7 @@ public class ctrFbKiiClass : MonoBehaviour {
         Debug.Log("FB connect");
         Debug.Log("FB.IsInitialized:" + FB.IsInitialized);
         if (FB.IsInitialized) {
-            var perms = new List<string>() { "public_profile", "email", "user_friends" };
+            var perms = new System.Collections.Generic.List<string>() { "public_profile", "email", "user_friends", "first_name", "last_name", "gender" };
             FB.LogInWithReadPermissions(perms, AuthCallback);
         }
     }
@@ -504,7 +530,7 @@ public class ctrFbKiiClass : MonoBehaviour {
 	//---------------------------------------------------------- FB GRAPH ---------------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------------------------------------------------------------------
 	public static void GetPlayerInfo() {
-        string queryString = "/me?fields=id,first_name,picture.width(100).height(100)";
+        string queryString = "/me?fields=id,first_name,age_range,gender,picture.width(100).height(100)";
         FB.API(queryString, HttpMethod.GET, GetPlayerInfoCallback);
     }
 
@@ -521,6 +547,16 @@ public class ctrFbKiiClass : MonoBehaviour {
         if (result.ResultDictionary.TryGetValue("first_name", out name)) {
             //GameStateManager.Username = name;
         }
+        Dictionary<string, object> ageRange;
+        var age = 0F;
+        if (result.ResultDictionary.TryGetValue("age_range", out ageRange))
+        {
+            var d = ageRange["min"];
+            Debug.Log(d.GetType());
+            age = float.Parse( ageRange["min"].ToString());
+        }
+        var gender = "";
+        result.ResultDictionary.TryGetValue("gender", out gender);
 
         string id;
         if (result.ResultDictionary.TryGetValue("id", out id)) {
@@ -541,7 +577,28 @@ public class ctrFbKiiClass : MonoBehaviour {
 				// Redraw the UI
 				//GameStateManager.CallUIRedraw();
 			});
-		
+
+        //for analytics - Profiles
+        
+        if (age != 0) ctrAnalyticsClass.sendProfileAttribute("age", age.ToString());
+        if (ctrAnalyticsClass.developerIds.Contains(userId))
+            gender = "developer";
+        if (gender != "") ctrAnalyticsClass.sendProfileAttribute("gender", gender);
+        
+        ctrAnalyticsClass.sendProfileAttribute("social id", userId);
+        //for analytics - Dimension
+        if (age != 0) ctrAnalyticsClass.sendCustomDimension(0, ctrAnalyticsClass.getGroup((float)age, ctrAnalyticsClass.ageGroups)); //age
+        if (gender != "") ctrAnalyticsClass.sendCustomDimension(1, gender); //gender
+        ctrAnalyticsClass.sendCustomDimension(6, "FB"); //Authorisation status
+
+        string fname;
+        if (result.ResultDictionary.TryGetValue("first_name", out fname)) ctrAnalyticsClass.setCustomerFirstName(fname);
+        string lname;
+        if (result.ResultDictionary.TryGetValue("last_name", out lname)) ctrAnalyticsClass.setCustomerLastName(lname);
+        if (fname != "" || lname != "") ctrAnalyticsClass.setCustomerFullName(fname + " " + lname);
+        string email;
+        if (result.ResultDictionary.TryGetValue("email", out email)) ctrAnalyticsClass.setCustomerEmail(email);
+
 
     }
     /*
@@ -610,7 +667,7 @@ public class ctrFbKiiClass : MonoBehaviour {
         // Store /me/friends result
         object dataList;
         if (result.ResultDictionary.TryGetValue("data", out dataList)) {
-            CacheFriends((List<object>)dataList);
+            CacheFriends((System.Collections.Generic.List<object>)dataList);
             //var friendsList = (List<object>)dataList;
             //CacheFriends(friendsList);
         }
@@ -654,7 +711,7 @@ public class ctrFbKiiClass : MonoBehaviour {
         }
     }
 
-    private static void CacheFriends(List<object> newFriends) {
+    private static void CacheFriends(System.Collections.Generic.List<object> newFriends) {
 		int i = 0;
 		friendsIds = new string[newFriends.Count];
 		foreach (Dictionary<string, object> newFriend in newFriends) {
@@ -897,8 +954,8 @@ public class ctrFbKiiClass : MonoBehaviour {
         var dict = Json.Deserialize(arg1.response) as Dictionary<string, object>;
         try
         {
-            var resp = (List<object>)dict["response"];
-            var resp2 = new List<string>();
+            var resp = (System.Collections.Generic.List<object>)dict["response"];
+            var resp2 = new System.Collections.Generic.List<string>();
             foreach (var item in resp)
             {
                 resp2.Add(item.ToString());
@@ -931,11 +988,10 @@ public class ctrFbKiiClass : MonoBehaviour {
         }
 
         var dict = Json.Deserialize(arg1.response) as Dictionary<string, object>;
-        Debug.Log(dict["response"].GetType());
 
 //        try
 //        {
-            var resp = (List<object>) dict["response"];
+            var resp = (System.Collections.Generic.List<object>) dict["response"];
             //var items = (List<object>) resp["items"];
             var items = resp;
         friendsIds = new string[items.Count];
@@ -963,7 +1019,6 @@ public class ctrFbKiiClass : MonoBehaviour {
             var fid = (long)d.CustomData[0];
             if (d.DownloadResult.error == null && user.id == fid)
             {
-                Debug.Log("DownloadImage, self: " + self);
                 Debug.Log("DownloadImage, id: " + user.id.ToString());
                 if (self) userImage = d.DownloadResult.texture;
                 else friendsImage.Add(user.id.ToString(), d.DownloadResult.texture);

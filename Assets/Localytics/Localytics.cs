@@ -931,19 +931,22 @@ namespace LocalyticsUnity {
 
 	        void localyticsSessionDidOpen(bool isFirst, bool isUpgrade, bool isResume)
 	        {
-	            if (Localytics.OnLocalyticsSessionDidOpen != null)
+                Debug.Log("localyticsSessionDidOpen: " + Localytics.OnLocalyticsSessionDidOpen + ", isFirst: " + isFirst + ", isFirst: " + isUpgrade + ", isFirst: " + isResume);
+                if (Localytics.OnLocalyticsSessionDidOpen != null)
 	                Localytics.OnLocalyticsSessionDidOpen(isFirst, isUpgrade, isResume);
 	        }
 
 	        void localyticsSessionWillClose()
 	        {
-	            if (Localytics.OnLocalyticsSessionWillClose != null)
+	            Debug.Log("localyticsSessionWillClose: " + Localytics.OnLocalyticsSessionWillClose);
+                if (Localytics.OnLocalyticsSessionWillClose != null)
 	                Localytics.OnLocalyticsSessionWillClose();
 	        }
 
 	        void localyticsSessionWillOpen(bool isFirst, bool isUpgrade, bool isResume)
 	        {
-	            if (Localytics.OnLocalyticsSessionWillOpen != null)
+                Debug.Log("localyticsSessionWillOpen: " + Localytics.OnLocalyticsSessionWillOpen + ", isFirst: " + isFirst + ", isFirst: " + isUpgrade + ", isFirst: " + isResume);
+                if (Localytics.OnLocalyticsSessionWillOpen != null)
 	                Localytics.OnLocalyticsSessionWillOpen(isFirst, isUpgrade, isResume);
 	        }
 

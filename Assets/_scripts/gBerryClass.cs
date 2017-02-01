@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class gBerryClass : MonoBehaviour {
@@ -41,8 +42,11 @@ public class gBerryClass : MonoBehaviour {
 		*/
 		if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
 
-		//запись текущего уровня
-		if (ctrProgressClass.progress["currentLevel"] != int.Parse(SceneManager.GetActiveScene().name.Substring(5))) {
+        //for analytics
+        if (gHintClass.hintState != "enable dream picture") ctrProgressClass.progress["levelPlayCount"]++;
+
+        //запись текущего уровня
+        if (ctrProgressClass.progress["currentLevel"] != int.Parse(SceneManager.GetActiveScene().name.Substring(5))) {
 			ctrProgressClass.progress["currentLevel"] = int.Parse(SceneManager.GetActiveScene().name.Substring(5));
 			ctrProgressClass.saveProgress ();
 		}
@@ -188,6 +192,7 @@ public class gBerryClass : MonoBehaviour {
             Time.timeScale = 0;
         }
 
+
     }
 
 
@@ -217,7 +222,7 @@ public class gBerryClass : MonoBehaviour {
 							gHintClass.hintEndPos = new Vector3 (gHintClass.hintEndPos.x - 0.02F, gHintClass.hintEndPos.y - 0.33F, gHintClass.hintEndPos.z); 
 					} 
 					//если groot
-					if (ctrProgressClass.progress["currentLevel"] > 75)
+					if (ctrProgressClass.progress["currentLevel"] >= 37)
 					foreach (GameObject go in GameObject.FindGameObjectsWithTag("groot")) {
 						if (go.transform.position == gHintClass.actions [gHintClass.counter].id)
 							gHintClass.hintEndPos = go.transform.GetChild (2).GetChild (1).GetChild (6).transform.position;
@@ -401,8 +406,11 @@ public class gBerryClass : MonoBehaviour {
         //restart scene, if dream show
         if (GameObject.Find("/default level/gui/dream/ui").activeSelf) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
-		// остановка выполнения функции на costEnergy секунд
-		yield return new WaitForSeconds(1.0F);
+        //for analytics
+        ctrProgressClass.progress["winCount"]++;
+        
+        // остановка выполнения функции на costEnergy секунд
+        yield return new WaitForSeconds(1.0F);
 		Debug.Log(gHintClass.hintState);
         gHintClass.hintState = "";
         //для записи подсказки (потом удалить)
@@ -466,21 +474,26 @@ public class gBerryClass : MonoBehaviour {
 			}
 		}
 
+        if (flagGemGetting) endLevel(true, "complete");
+        else if (flagGemGetting2) endLevel(true, "already");
+        else endLevel(true);
+        //if (ctrProgressClass.progress["level" + lvlNumber] < starsCounter) {
+        //if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) GooglePlayManager.instance.IncrementAchievement("achievement_collect_all_stars", starsCounter - ctrProgressClass.progress["level" + lvlNumber]);
+        //ctrProgressClass.progress["level" + lvlNumber] = starsCounter;
+        //}
 
+	    if (lvlNumber >= ctrProgressClass.progress["lastLevel"])
+	    {
+	        ctrProgressClass.progress["lastLevel"] = lvlNumber;
+            ctrAnalyticsClass.sendCustomDimension(4, lvlNumber.ToString()); 
 
+        }
 
-		//if (ctrProgressClass.progress["level" + lvlNumber] < starsCounter) {
-			//if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) GooglePlayManager.instance.IncrementAchievement("achievement_collect_all_stars", starsCounter - ctrProgressClass.progress["level" + lvlNumber]);
-			//ctrProgressClass.progress["level" + lvlNumber] = starsCounter;
-		//}
-		
-		if (lvlNumber >= ctrProgressClass.progress["lastLevel"]) ctrProgressClass.progress["lastLevel"] = lvlNumber;
-		
-		//ctrProgressClass.saveProgress();
+        //ctrProgressClass.saveProgress();
 
-		//Everyplay
-		//Everyplay metadata
-		if (Everyplay.IsRecording ()) { 
+        //Everyplay
+        //Everyplay metadata
+        if (Everyplay.IsRecording ()) { 
 			Everyplay.SetMetadata ("Level", "Level " + ctrProgressClass.progress["currentLevel"]);
 			if (initLevelMenuClass.levelDemands == 0) {
 				Everyplay.SetMetadata ("Stars", starsCounter);
@@ -533,7 +546,24 @@ public class gBerryClass : MonoBehaviour {
 		}
     }
 
+    public void endLevel(bool result, string taskStatus = "fail")
+    {
+        Debug.Log("endLevel: " + result);
 
+        var resultStr = (result) ? "win" : "lost";
+        var type = (initLevelMenuClass.levelDemands == 0) ? "normal" : "challenge";
+
+        var attr = new Dictionary<string, string>
+        {
+            {"level number", SceneManager.GetActiveScene().name.Substring(5)},
+            {"type", type},
+            {"result", resultStr},
+            {"task status", taskStatus},
+            { "time", Mathf.Round(Time.timeSinceLevelLoad).ToString()}
+        };
+        if (initLevelMenuClass.levelDemands == 0) attr.Add("stars", starsCounter.ToString());
+        ctrAnalyticsClass.sendEvent("Play Level", attr);
+    }
 
 	void OnDestroy() {
 		//Everyplay
@@ -541,28 +571,6 @@ public class gBerryClass : MonoBehaviour {
 			Everyplay.StopRecording ();
 	}
 
-	/*
-	//Unity Ads
-	#if UNITY_ANDROID || UNITY_IOS
-	private void HandleShowResult(ShowResult result)
-	{
-		switch (result)
-		{
-		case ShowResult.Finished:
-			GoogleAnalyticsV4.instance.LogEvent("Ad", "finish", "level", 1);
-						break;
-		}
-	}
-	#endif	
 
-	//Vungle
-	void initializeEventHandlers() {
-		//Event is triggered when a Vungle ad finished and provides the entire information about this event
-		//These can be used to determine how much of the video the user viewed, if they skipped the ad early, etc.
-		Vungle.onAdFinishedEvent += (args) => {
-			if (args.IsCompletedView) GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "finish", "level", 1);
-		};
-	}
-	*/
 		
 }

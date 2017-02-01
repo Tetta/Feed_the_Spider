@@ -100,8 +100,9 @@ public class lsGiftClass : MonoBehaviour {
 
 			//сохранение результата
 			if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins") ctrProgressClass.progress[bonusName] += bonusCount;
+            if (bonusName == "coins") ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "income", "chest" }, { "coins", bonusCount.ToString() } });
 
-			initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress ["coins"].ToString ();
+            initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress ["coins"].ToString ();
 
 		}
 		//off for tests

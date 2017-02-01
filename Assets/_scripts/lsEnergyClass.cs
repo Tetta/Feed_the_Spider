@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 using Facebook.Unity;
 using UnityEngine.SceneManagement;
 
@@ -130,7 +131,7 @@ public class lsEnergyClass : MonoBehaviour {
             if (ctrProgressClass.progress["energy"] > maxEnergy) ctrProgressClass.progress["energy"] = maxEnergy;
 		}
 		if (flag) {
-			ctrProgressClass.saveProgress();
+			//ctrProgressClass.saveProgress();
 			if (maxEnergy <= ctrProgressClass.progress["energy"] && GameObject.Find("energy") != null) GameObject.Find("energy").SendMessage("stopCoroutineEnergyMenu");
 			return mod;
 		} else {
@@ -251,10 +252,15 @@ public class lsEnergyClass : MonoBehaviour {
         StartCoroutine("CoroutineEnergyMenu");
         if (ctrProgressClass.progress["tutorialEnergy"] == 1)
         {
-            ctrProgressClass.progress["coins"] -= costEnergyForCoins * (maxEnergy - ctrProgressClass.progress["energy"]) - (int)(((float)checkEnergy(true) / costEnergy) * costEnergyForCoins);
+            var costCurrent = costEnergyForCoins * (maxEnergy - ctrProgressClass.progress["energy"]) - (int)(((float)checkEnergy(true) / costEnergy) * costEnergyForCoins);
+
+            ctrProgressClass.progress["coins"] -= costCurrent;
+            ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "decome", "energy" }, { "coins", (-costCurrent).ToString() } });
+
         }
         else
         {
+            ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, string>{{"name", "energy free"}});
             ctrProgressClass.progress["tutorialEnergy"] = 1;
 
 

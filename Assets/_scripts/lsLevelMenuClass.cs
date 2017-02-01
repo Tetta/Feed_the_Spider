@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 #if (UNITY_ANDROID || UNITY_IOS) && UNITY_UNITYADS_API && ENABLE_UNITYADS_RUNTIME && !UNITY_EDITOR
 using UnityEngine.Advertisements;
@@ -194,7 +195,9 @@ public class lsLevelMenuClass: MonoBehaviour {
 			int coinsAdd = Mathf.RoundToInt(((scoreFinal - (ctrProgressClass.progress["score" + lvlNumber + "_1"] + ctrProgressClass.progress["score" + lvlNumber + "_2"]))* percent)/100 /100);
 			scoreAll.GetChild(2).GetChild(1).GetComponent<UILabel>().text = coinsAdd.ToString();
 			ctrProgressClass.progress["coins"] += coinsAdd;
-			ctrStatsClass.logEvent ("coins", "free", "level" + lvlNumber, coinsAdd);
+
+            if (coinsAdd > 0) ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "income", "level" }, { "coins", coinsAdd.ToString() } });
+            ctrStatsClass.logEvent ("coins", "free", "level" + lvlNumber, coinsAdd);
 
 			//сохранение очков в Kii
 			ctrFbKiiClass.updateUserScore("level" + lvlNumber.ToString(), scoreFinal, ctrProgressClass.progress["lastLevel"]);

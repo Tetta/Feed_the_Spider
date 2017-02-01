@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class gBonusClass : MonoBehaviour {
 
@@ -51,14 +52,27 @@ public class gBonusClass : MonoBehaviour {
                     if (GameObject.Find("/default level/gui/tutorial bonus(Clone)") != null)
                         GameObject.Find("/default level/gui/tutorial bonus(Clone)").SetActive(false);
                     ctrProgressClass.progress["tutorialBonus"] = 1;
+                    ctrAnalyticsClass.sendEvent("Tutorial", new System.Collections.Generic.Dictionary<string, string> { { "name", "use bonus" } });
+
                 }
 
                 GetComponent<AudioSource> ().Play ();
 				ctrProgressClass.progress [name]--;
 				transform.GetChild (0).GetComponent<UILabel> ().text = ctrProgressClass.progress [name].ToString ();
 				ctrProgressClass.saveProgress ();
-				//показываем картинку в середине
-				GameObject.Find ("bonuses pictures").transform.GetChild (0).gameObject.SetActive (true);
+
+                //for analytics
+                var type = (initLevelMenuClass.levelDemands == 0) ? "normal" : "challenge";
+                ctrAnalyticsClass.sendEvent("Bonuses Use", new Dictionary<string, string>
+                {
+                    { "level number", UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Substring(5)},
+                    { "type", type},
+                    { "name", name}
+                });
+
+
+                //показываем картинку в середине
+                GameObject.Find ("bonuses pictures").transform.GetChild (0).gameObject.SetActive (true);
 				if (name == "webs")
 					GameObject.Find ("bonuses pictures").transform.GetChild (2).gameObject.SetActive (true);
 				if (name == "teleports")
