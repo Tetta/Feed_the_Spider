@@ -20,13 +20,12 @@ public class initClass : MonoBehaviour {
 	private int y;
 
 	// Use this for initialization
-	void Start () { 
+	void Start ()
+	{
 
-
-
-		//AndroidGoogleAnalytics.Instance.EnableAdvertisingIdCollection (true);
-		//AndroidGoogleAnalytics.Instance.StartTracking ();
-		/*
+        //AndroidGoogleAnalytics.Instance.EnableAdvertisingIdCollection (true);
+        //AndroidGoogleAnalytics.Instance.StartTracking ();
+        /*
 		GoogleAnalyticsV4.instance.LogScreen ("start");
 		GoogleAnalyticsV4.instance.LogScreen("q" + new TimingHitBuilder().GetCampaignName());
 		GoogleAnalyticsV4.instance.LogScreen("w" + new TimingHitBuilder().GetCampaignContent());
@@ -38,12 +37,12 @@ public class initClass : MonoBehaviour {
 		Debug.Log ("id: " + new TimingHitBuilder().GetCampaignID());
 		Debug.Log ("t: " + GoogleAnalyticsV4.TIMING_HIT);
 		*/
-		//for test 
-		//Application.targetFrameRate = -1;
-		#if UNITY_STANDALONE_WIN
+        //for test 
+        //Application.targetFrameRate = -1;
+#if UNITY_STANDALONE_WIN
 			Screen.SetResolution(575, 1024, false);
-		#endif
-		Debug.Log("start menu: " + Time.realtimeSinceStartup);
+#endif
+        Debug.Log("start menu: " + Time.realtimeSinceStartup);
 
 		if (ctrProgressClass.progress.Count == 0) {
 			Time.maximumDeltaTime = 0.9F;

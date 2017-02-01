@@ -64,14 +64,18 @@ public class marketClass : MonoBehaviour {
             if (!isPressed) {
                 //запрос на покупку
                 Debug.Log("click buy " + name);
-                marketClass.instance.GetComponent<Purchaser>().BuyProductID(name);
+#if UNITY_IOS
+            instance.GetComponent<Purchaser>().BuyProductID("com.mysterytag.spider." + name);
+#else
+            instance.GetComponent<Purchaser>().BuyProductID("com.evogames.feedthespider." + name);
+#endif
             //if (name == "booster_3" && ctrProgressClass.progress ["firstPurchase"] == 0) 		
-                //    AndroidInAppPurchaseManager.Client.Purchase ("booster_sale");
-                //else
-                //    AndroidInAppPurchaseManager.Client.Purchase (name);
-            }
-
+            //    AndroidInAppPurchaseManager.Client.Purchase ("booster_sale");
+            //else
+            //    AndroidInAppPurchaseManager.Client.Purchase (name);
         }
+
+    }
     /*
 
         //подтверждение покупки товара
@@ -205,10 +209,11 @@ public class marketClass : MonoBehaviour {
     {
 
         var attr = new Dictionary<string, string> {{"category", "shop"}, { "name", itemId }, { "revenue", "100" } };
-        //ctrAnalyticsClass.sendEvent("Gold", new Dictionary<string, string> { { "video", "50" } });
-
-        //int boostersCount = 0;
-        //float boostersPrice = 0;
+#if UNITY_IOS
+        itemId = itemId.Substring(22);
+#else
+        itemId = itemId.Substring(27);
+#endif 
         switch (itemId)
         {
             case "booster_green_1":

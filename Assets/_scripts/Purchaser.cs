@@ -60,8 +60,14 @@ namespace CompleteProject
 
             // Add a product to sell / restore by way of its identifier, associating the general identifier
             // with its store-specific identifiers.
-            builder.AddProduct("booster_green_1", ProductType.Consumable);
-            builder.AddProduct("booster_blue_1", ProductType.Consumable);
+#if UNITY_IOS
+            builder.AddProduct("com.mysterytag.spider.booster_green_1", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.booster_blue_1", ProductType.Consumable);
+#else
+            builder.AddProduct("com.evogames.feedthespider.booster_green_1", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.booster_blue_1", ProductType.Consumable);
+#endif
+
             // Continue adding the non-consumable product.
             //builder.AddProduct(kProductIDNonConsumable, ProductType.NonConsumable);
             // And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
