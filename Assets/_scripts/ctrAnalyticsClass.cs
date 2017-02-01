@@ -9,7 +9,7 @@ using UnityEngine;
 public class ctrAnalyticsClass: MonoBehaviour
 {
     public static ctrAnalyticsClass instance = null;
-    private int sessionTimeout = 3;
+    private int sessionTimeout = 60 * 5;
 
 
     public static List<string> developerIds = new List<string>
@@ -26,6 +26,16 @@ public class ctrAnalyticsClass: MonoBehaviour
     void Start()
     {
         Debug.Log("ctrAnalyticsClass start");
+        try
+        {
+            Debug.Log("Localytics SessionTimeoutInterval: " + sessionTimeout);
+            LocalyticsUnity.Localytics.SessionTimeoutInterval = sessionTimeout;
+        }
+        catch (Exception)
+        {
+            Debug.Log("Localytics SessionTimeoutInterval error");
+            //throw;
+        }
 
         if (instance != null)
         {
