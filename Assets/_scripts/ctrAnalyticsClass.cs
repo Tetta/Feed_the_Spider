@@ -113,6 +113,18 @@ public class ctrAnalyticsClass: MonoBehaviour
             //pause
             ctrProgressClass.progress["sessionEnd"] = (int) DateTime.Now.TotalSeconds();
             ctrProgressClass.saveProgress();
+
+            lsSaleClass.setTimerSale();
+            lsSaleClass.setSale();
+            LocalNotification.CancelAllNotifications();
+            if (lsSaleClass.timerStartSale > DateTime.Now)
+            {
+                var delay = lsSaleClass.timerStartSale - DateTime.Now;
+                var type = ctrProgressClass.progress["firstPurchase"] == 1 ? "Payers" : "Free";
+                Debug.Log(Localization.Get("sale" + ctrProgressClass.progress["sale"] + type));
+                LocalNotification.SendNotification(1, delay, Localization.Get("sale" + ctrProgressClass.progress["sale"] + type), "");
+            }
+            
         }
         else
         {

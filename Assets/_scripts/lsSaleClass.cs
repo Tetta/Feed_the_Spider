@@ -15,6 +15,7 @@ public class lsSaleClass : MonoBehaviour {
     public UILabel seconds;
 
     public static int counter = 0;
+    public static DateTime timerStartSale = DateTime.Now;
     public static DateTime timerEndSale = DateTime.Now;
 
 
@@ -29,31 +30,13 @@ public class lsSaleClass : MonoBehaviour {
     {
 
         ctrProgressClass.saveProgress();
-        setTimerSaleEnd();
+        setTimerSale();
 
         //next sale
-        if (timerEndSale < DateTime.Now)
-        {
-            ctrProgressClass.progress["sale"]++;
-            ctrProgressClass.progress["saleDate"] = (int) DateTime.Now.TotalSeconds();
-            
-            if (ctrProgressClass.progress["firstPurchase"] == 0 && ctrProgressClass.progress["sale"] > 3)
-                ctrProgressClass.progress["sale"] = 3;
-            if (ctrProgressClass.progress["firstPurchase"] == 1 && ctrProgressClass.progress["sale"] > 2)
-                ctrProgressClass.progress["sale"] = 2;
-
-            setTimerSaleEnd();
-            ctrProgressClass.saveProgress();
-
-        }
-
-        //for duration
-        string str = "free";
-        if (ctrProgressClass.progress["firstPurchase"] == 1) str = "payers";
-        var duration = staticClass.sales["sale_" + ctrProgressClass.progress["sale"] + "_" + str].duration;
+        setSale();
 
         //enable sale if timer
-        if (timerEndSale < DateTime.Now.Add(duration))
+        if (timerStartSale < DateTime.Now)
         {
             //tutotial
             if (ctrProgressClass.progress["tutorialSale"] == 1) if (hand != null) hand.transform.GetChild(1).gameObject.SetActive(false);
@@ -126,7 +109,7 @@ public class lsSaleClass : MonoBehaviour {
 
     }
 
-    private void setTimerSaleEnd()
+    public static void setTimerSale()
     {
        // Debug.Log("saleDate: " + ctrProgressClass.progress["saleDate"]);
         //Debug.Log("sale: " + ctrProgressClass.progress["sale"]);
@@ -144,6 +127,10 @@ public class lsSaleClass : MonoBehaviour {
         if (ctrProgressClass.progress["saleDate"] == 0)
             ctrProgressClass.progress["saleDate"] = (int)DateTime.Now.TotalSeconds();
         //Debug.Log("saleDate: " + ctrProgressClass.progress["saleDate"]);
+        timerStartSale =
+            startDate.AddSeconds(ctrProgressClass.progress["saleDate"])
+                .Add(pause);
+
         timerEndSale =
             startDate.AddSeconds(ctrProgressClass.progress["saleDate"])
                 .Add(pause)
@@ -153,5 +140,23 @@ public class lsSaleClass : MonoBehaviour {
         //Debug.Log("sale duration: " + duration);
         //Debug.Log("sale timer end: " + timerEndSale);
 
+    }
+
+    public static void setSale()
+    {
+        if (timerEndSale < DateTime.Now)
+        {
+            ctrProgressClass.progress["sale"]++;
+            ctrProgressClass.progress["saleDate"] = (int)DateTime.Now.TotalSeconds();
+
+            if (ctrProgressClass.progress["firstPurchase"] == 0 && ctrProgressClass.progress["sale"] > 3)
+                ctrProgressClass.progress["sale"] = 3;
+            if (ctrProgressClass.progress["firstPurchase"] == 1 && ctrProgressClass.progress["sale"] > 2)
+                ctrProgressClass.progress["sale"] = 2;
+
+            setTimerSale();
+            ctrProgressClass.saveProgress();
+
+        }
     }
 }

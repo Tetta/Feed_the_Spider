@@ -230,6 +230,7 @@ public class marketClass : MonoBehaviour {
 
                 //break;
         }
+        ctrProgressClass.progress["firstPurchase"] = 1;
         ctrProgressClass.progress["paymentCount"] ++;
         ctrProgressClass.saveProgress();
         //marketClass.instance.boostersLabel.text = ctrProgressClass.progress["boosters"].ToString();
