@@ -79,9 +79,9 @@ public class iClickClass : MonoBehaviour {
 
 	void checkTutorialBuy() {
 		//если хватает монет и не проходил туториал, показываем hand
-		if (name == "button market" && ctrProgressClass.progress ["coins"] >= 800 && ctrProgressClass.progress ["tutorialBuy"] == 0) {
+		if (name == "button market" && ctrProgressClass.progress ["coins"] >= 400 && ctrProgressClass.progress ["tutorialBuy"] == 0) {
 			transform.GetChild (0).gameObject.SetActive (true);
-		} else if (name == "booster 1" && ctrProgressClass.progress ["coins"] >= 800 && ctrProgressClass.progress ["boosters"] == 0 && ctrProgressClass.progress ["tutorialBuy"] <= 1) {
+		} else if (name == "booster 1" && ctrProgressClass.progress ["coins"] >= 400 && ctrProgressClass.progress ["boosters"] == 0 && ctrProgressClass.progress ["tutorialBuy"] <= 1) {
 			transform.GetChild (0).gameObject.SetActive (true);
 		} else if  (name == "open booster" && ctrProgressClass.progress ["boosters"] >= 1 && ctrProgressClass.progress ["tutorialBuy"] <= 2 ) {
 			transform.GetChild (0).gameObject.SetActive (true);
@@ -90,13 +90,20 @@ public class iClickClass : MonoBehaviour {
 	}
 
 	void clickTutorialBuy() {
-		if (transform.GetChild (0).gameObject.activeSelf) {
-			transform.GetChild (0).gameObject.SetActive (false);
+        Debug.Log("clickTutorialBuy");
+        if (transform.GetChild (0).gameObject.activeSelf) {
+            Debug.Log(name);
+            transform.GetChild (0).gameObject.SetActive (false);
 			if (name == "button market")  ctrProgressClass.progress ["tutorialBuy"] = 1;
-			if (name == "booster 1")  ctrProgressClass.progress ["tutorialBuy"] = 2;
-			if (name == "open booster")  ctrProgressClass.progress ["tutorialBuy"] = 3;
+            if (name == "booster 1")
+            {
+                ctrProgressClass.progress ["tutorialBuy"] = 2;
+                ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, string> { { "name", "buy booster" } });
 
-			ctrProgressClass.saveProgress ();
+            }
+            //if (transform.parent.name == "open booster")  ctrProgressClass.progress ["tutorialBuy"] = 3;
+
+            ctrProgressClass.saveProgress ();
 			if (name == "booster 1")
 				GameObject.Find ("preview icon/button/open booster").SendMessage ("checkTutorialBuy");
 		}
@@ -104,13 +111,16 @@ public class iClickClass : MonoBehaviour {
 
     void buyCardForCoins() {
         int amount = 1;
-        int cost = 800;
+        int cost = 400;
 		GetComponent<AudioSource> ().Play ();
 		if (ctrProgressClass.progress["coins"] < cost) transform.GetChild(1).GetComponent<Animator>().Play("alpha disable");
         else {
 			GoogleAnalyticsV4.instance.LogEvent("Purchase for coins", "purchase", "booster", 1);
+            //переделать
+		    var nameItem = "booster1";
+            ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "decome", nameItem }, { "coins", (-cost).ToString() } });
 
-			ctrProgressClass.progress["coins"] -= cost;
+            ctrProgressClass.progress["coins"] -= cost;
             ctrProgressClass.progress["boosters"] += amount;
             ctrProgressClass.saveProgress();
             marketClass.instance.boostersLabel.text = ctrProgressClass.progress["boosters"].ToString();
@@ -139,7 +149,14 @@ public class iClickClass : MonoBehaviour {
 					yield return StartCoroutine (staticClass.waitForRealTime (100F));
 				}
 			}
-            
+            //showAd в конце уровня, рестарте, выходе в меню с уровня
+		    if (name == "button play" || name == "button play 0" || name == "button play 1" || name.Substring(0, 5) == "level" || name == "restart" || name == "button next")
+		    {
+		        if (ctrAdClass.instance != null) ctrAdClass.instance.ShowLevelAd(name);
+		    }
+            if (name == "restart" || name == "start level menu")
+                if (GameObject.Find("berry") != null && GameObject.Find("berry").GetComponent<gBerryClass>() != null) GameObject.Find("berry").GetComponent<gBerryClass>().endLevel(false);
+
             Application.backgroundLoadingPriority = ThreadPriority.High;
 			AsyncOperation async = new AsyncOperation ();
 			staticClass.scenePrev = SceneManager.GetActiveScene ().name;
@@ -206,12 +223,16 @@ public class iClickClass : MonoBehaviour {
 				else
 					async = SceneManager.LoadSceneAsync ("level menu");
 			} else if (name.Substring (0, 5) == "level") {
-				if (ctrProgressClass.progress ["lastLevel"] >= Convert.ToInt32 (name.Substring (5)) - 1)
-					async = SceneManager.LoadSceneAsync ("level" + Convert.ToInt32 (name.Substring (5)));
+                //добавить проверку на гемс
+                if (ctrProgressClass.progress["lastLevel"] >= Convert.ToInt32(name.Substring(5)) - 1)
+			    {
+                    async = SceneManager.LoadSceneAsync("level" + Convert.ToInt32(name.Substring(5)));
+                     
+                }
 			}
             
             //сбрасываем энергию
-            if (staticClass.scenePrev == "level menu") lsEnergyClass.energyTake = false;
+            if (staticClass.scenePrev != SceneManager.GetActiveScene().name) lsEnergyClass.energyTake = false;
 
             async.allowSceneActivation = false;
 			yield return StartCoroutine (staticClass.waitForRealTime (0.5F));
@@ -383,9 +404,9 @@ public class iClickClass : MonoBehaviour {
 		else if (name == "button settings")
 			GameObject.Find ("settings folder").transform.GetChild (0).gameObject.SetActive (true);
 		else if (transform.parent.gameObject.name == "open booster") {
-
+            Debug.Log("open booster");
+            Debug.Log(name + ": " + ctrProgressClass.progress[name]);
             if (ctrProgressClass.progress [name] > 0) {
-
                 //отключаем все спрайты бустера
                 for (int i = 0; i < 4; i++)
 			    {
@@ -402,59 +423,73 @@ public class iClickClass : MonoBehaviour {
 
 			}
 
-		} else if (name == "coins ad") {
-			GameObject.Find ("root/static").transform.FindChild ("coins menu").gameObject.SetActive (true);
+		//} else if (name == "coins ad") {
+		//	GameObject.Find ("root/static").transform.FindChild ("coins menu").gameObject.SetActive (true);
 
 
 		} else if (name == "get booster") {
 			transform.parent.parent.parent.GetChild (0).gameObject.SendMessage ("OnClick");
 		} else if (name == "reset progress") {
 			transform.parent.parent.parent.GetChild (1).gameObject.SetActive(true);
-	}
+        }
+        else if (name == "button sale")
+        {
+            if (ctrProgressClass.progress["tutorialSale"] < 2) ctrProgressClass.progress["tutorialSale"] = 2;
+            GameObject.Find("/root/static/button sale/hand").SetActive(false);
+            ctrProgressClass.saveProgress();
+            //sale menu
+            transform.parent.GetChild(15).gameObject.SetActive(true);
+        }
     }
     public void closeMenu() {
         StartCoroutine(coroutineCloseMenu());
     }
 
-    public IEnumerator coroutineCloseMenu() {
+    public IEnumerator coroutineCloseMenu()
+    {
         yield return new WaitForSeconds(0F);
         GameObject menu = null;
-		if (name == "button exit level menu") {
-			menu = GameObject.Find ("level menu");
-			menu.transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
-			yield return new WaitForSeconds (0.2F);
-			menu.SetActive (false);
-		/*
-		} else if (name == "next level menu") {
-			menu = GameObject.Find ("level menu");
-			menu.SetActive (false);
-			menu = transform.parent.parent.GetChild (3).gameObject;
-			menu.SetActive (true);
-		} else if (name == "prev level menu") {
-			menu = GameObject.Find ("level menu 2");
-			menu.SetActive (false);
-			menu = transform.parent.parent.GetChild (2).gameObject;
-			menu.SetActive (true);
-		} else if (name == "pause") {
-			menu = transform.parent.GetChild (1).gameObject;
-			menu.SetActive (true);
-			staticClass.isTimePlay = Time.timeScale;
-			Time.timeScale = 0;
-		*/
-		} else if (name == "play") {
-			menu = GameObject.Find ("pause menu");
-			yield return StartCoroutine (staticClass.waitForRealTime (0.2F));
-			menu.SetActive (false);
-			Time.timeScale = staticClass.isTimePlay;
+        if (name == "button exit level menu")
+        {
+            menu = GameObject.Find("level menu");
+            menu.transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            menu.SetActive(false);
+            /*
+            } else if (name == "next level menu") {
+                menu = GameObject.Find ("level menu");
+                menu.SetActive (false);
+                menu = transform.parent.parent.GetChild (3).gameObject;
+                menu.SetActive (true);
+            } else if (name == "prev level menu") {
+                menu = GameObject.Find ("level menu 2");
+                menu.SetActive (false);
+                menu = transform.parent.parent.GetChild (2).gameObject;
+                menu.SetActive (true);
+            } else if (name == "pause") {
+                menu = transform.parent.GetChild (1).gameObject;
+                menu.SetActive (true);
+                staticClass.isTimePlay = Time.timeScale;
+                Time.timeScale = 0;
+            */
+        }
+        else if (name == "play")
+        {
+            menu = GameObject.Find("pause menu");
+            yield return StartCoroutine(staticClass.waitForRealTime(0.2F));
+            menu.SetActive(false);
+            Time.timeScale = staticClass.isTimePlay;
 
-			//if (gYetiClass.yetiState == "")
-			//Time.timeScale = 1;
+            //if (gYetiClass.yetiState == "")
+            //Time.timeScale = 1;
 
-		} else if (name == "exit energy menu") {
+        }
+        else if (name == "exit energy menu")
+        {
             menu = GameObject.Find("energy menu");
-            GameObject.Find ("energy menu").transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
-			yield return new WaitForSeconds (0.2F);
-			GameObject.Find ("energy").SendMessage ("stopCoroutineEnergyMenu");
+            GameObject.Find("energy menu").transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            GameObject.Find("energy").SendMessage("stopCoroutineEnergyMenu");
             menu.SetActive(false);
             /*
             } else if (name == "exit thanks menu") {
@@ -470,44 +505,77 @@ public class iClickClass : MonoBehaviour {
                     menu.SetActive (false);
                 }
             */
-        } else if (name == "button settings exit") {
-			menu = transform.parent.parent.gameObject;
-			menu.transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
-			yield return new WaitForSeconds (0.2F);
-			menu.SetActive (false);
+        }
+        else if (name == "button settings exit")
+        {
+            menu = transform.parent.parent.gameObject;
+            menu.transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            menu.SetActive(false);
 
-		} else if (name == "button market exit") {
-			//marketClass.instance.transform.position = new Vector3 (0, 0, -10000);
-			marketClass.instance.gameObject.SetActive (false);
-			//marketClass.instance.camera.SetActive (false);
-			Time.timeScale = staticClass.isTimePlay;
-		} else if (name == "exit open booster menu") {
-			marketClass.instance.openBoosterMenu.SetActive (false);
-			marketClass.instance.boosterMenu.SetActive (true);
+        }
+        else if (name == "button market exit")
+        {
+            //marketClass.instance.transform.position = new Vector3 (0, 0, -10000);
+            marketClass.instance.gameObject.SetActive(false);
+            //marketClass.instance.camera.SetActive (false);
+            Time.timeScale = staticClass.isTimePlay;
+        }
+        else if (name == "exit open booster menu")
+        {
+            Debug.Log(name);
+            marketClass.instance.openBoosterMenu.SetActive(false);
+            marketClass.instance.boosterMenu.SetActive(true);
 
-		} else if (name == "exit gift menu") {
-			transform.parent.gameObject.SetActive (false);
-		} else if (name == "exit daily menu") {
-			transform.parent.gameObject.SetActive (false);
-		} else if (name == "exit energy ad menu") {
-			GameObject.Find ("ad dont ready menu").transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
-			yield return new WaitForSeconds (0.2F);
-			GameObject.Find ("ad dont ready menu").SetActive (false);
-		} else if (name == "exit coins menu") {
-			GameObject.Find ("coins menu").transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
-			yield return new WaitForSeconds (0.2F);
-			GameObject.Find ("coins menu").SetActive (false);
-		} else if (name == "button exit close menu") {
-			menu = GameObject.Find ("close menu");
-			menu.transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
-			yield return new WaitForSeconds (0.2F);
-			menu.SetActive (false);
-		} else if (name == "button exit reset progress menu") {
-			menu = transform.parent.parent.gameObject;
-			menu.transform.GetChild (0).GetComponent<Animator> ().Play ("menu exit");
-			yield return new WaitForSeconds (0.2F);
-			menu.SetActive (false);
-		}
+        }
+        else if (name == "exit gift menu")
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
+        else if (name == "exit daily menu")
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
+        else if (name == "exit energy ad menu")
+        {
+            GameObject.Find("ad dont ready menu").transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            GameObject.Find("ad dont ready menu").SetActive(false);
+        }
+        else if (name == "exit coins menu")
+        {
+            GameObject.Find("coins menu").transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            GameObject.Find("coins menu").SetActive(false);
+        }
+        else if (name == "button exit close menu")
+        {
+            menu = GameObject.Find("close menu");
+            menu.transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            menu.SetActive(false);
+        }
+        else if (name == "button exit reset progress menu")
+        {
+            menu = transform.parent.parent.gameObject;
+            menu.transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            menu.SetActive(false);
+        }
+        else if (name == "exit sale menu")
+        {
+            menu = GameObject.Find("sale menu");
+            menu.transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            menu.SetActive(false);
+        }
+        else if (name == "exit reward menu")
+        {
+            menu = GameObject.Find("root/static/reward menu");
+            menu.transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            menu.SetActive(false);
+        }
     }
 
     //public IEnumerator CoroutineCloseMenu(){
@@ -533,6 +601,10 @@ public class iClickClass : MonoBehaviour {
             gameObject.SetActive(false);
             GameObject.Find("bonuses/tween").transform.GetChild(1).gameObject.SetActive(true);
 			staticClass.bonusesView = true;
+
+            //off hand, if tutorial bonus
+            if (ctrProgressClass.progress["tutorialBonus"] == 0) if (GameObject.Find("/default level/gui/tutorial bonus(Clone)/hand") != null )
+                    GameObject.Find("/default level/gui/tutorial bonus(Clone)/hand").SetActive(false);
         }
         else {
             gameObject.SetActive(false);
@@ -546,13 +618,20 @@ public class iClickClass : MonoBehaviour {
 		ctrFbKiiClass.instance.connect ();
 	}
 
-	void fbInvite() {
+    void vkConnect()
+    {
+        ctrFbKiiClass.instance.connectVK();
+    }
+
+    void fbInvite() {
 		ctrFbKiiClass.instance.invite ();
 	}
 
 	void ShowRewardedAd() {
 		ctrAdClass.adStarted = name;
-		if (ctrAdClass.instance != null) ctrAdClass.instance.ShowRewardedAd ();
+       // if (ctrAdClass.instance == null) ctrAdClass.
+
+        if (ctrAdClass.instance != null) ctrAdClass.instance.ShowRewardedAd ();
 	}
 
     void restoreEnergy()
@@ -569,6 +648,13 @@ public class iClickClass : MonoBehaviour {
     {
         Debug.Log("dream click");
         Debug.Log(SceneManager.GetActiveScene().name);
+        if (staticClass.levelRestartedCount == 2 && ctrProgressClass.progress["tutorialDream"] == 0)
+        {
+            ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"] = 1;
+            ctrProgressClass.progress["tutorialDream"] = 1;
+            ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, string> { { "name", "use dream" } });
+            ctrProgressClass.saveProgress();
+        }
         var p = ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"];
         GetComponent<AudioSource>().Play();
 
@@ -583,8 +669,8 @@ public class iClickClass : MonoBehaviour {
         else
         {
             //for publish ShowRewardedAd
-            //ShowRewardedAd();
-            gHintClass.initDream();
+            ShowRewardedAd();
+            //gHintClass.initDream();
         }
     }
 

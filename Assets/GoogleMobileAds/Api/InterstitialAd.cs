@@ -94,6 +94,7 @@ namespace GoogleMobileAds.Api
         // Displays the InterstitialAd.
         public void Show()
         {
+            
             client.ShowInterstitial();
         }
 

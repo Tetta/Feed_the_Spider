@@ -106,7 +106,7 @@ public class lsSpiderClass : MonoBehaviour {
 		levelMenu.SendMessage ("levelMenuEnable");
 
 		//FB
-		ctrFbKiiClass.setBestGamers(levelMenu.transform.GetChild(2), ctrProgressClass.progress["currentLevel"]);
+		ctrFbKiiClass.setBestGamers(levelMenu.transform, ctrProgressClass.progress["currentLevel"]);
 	}
 
 	Vector3 сalculateBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3) {

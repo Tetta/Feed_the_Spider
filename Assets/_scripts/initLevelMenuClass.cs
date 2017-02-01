@@ -11,11 +11,14 @@ public class initLevelMenuClass : MonoBehaviour {
 	public UILabel gemsLabel;
 	public UILabel energyLabel;
 
-	//public static UILabel coinsLabel;
-	//public static UILabel gemsLabel;
-	//public static UILabel energyLabel;
-	//на 3 звезды = 0, испытание = 1
-	public static int levelDemands = 0;
+    public GameObject fb;
+    public GameObject vk;
+
+    //public static UILabel coinsLabel;
+    //public static UILabel gemsLabel;
+    //public static UILabel energyLabel;
+    //на 3 звезды = 0, испытание = 1
+    public static int levelDemands = 0;
 
 	public static string levelMenuState = "";
 
@@ -36,7 +39,20 @@ public class initLevelMenuClass : MonoBehaviour {
 		instance = this;
 		if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogScreen("level menu");
 
-	}
+        //fb off, vk on
+        if (ctrProgressClass.progress["language"] == 2)
+	    {
+	        fb.SetActive(false);
+            vk.SetActive(true);
+	    }
+        //fb on, vk off
+        else if (ctrProgressClass.progress["language"] == 1)
+        {
+            fb.SetActive(true);
+            vk.SetActive(false);
+        }
+
+    }
 	
 	// Update is called once per frame
 	void Update () {

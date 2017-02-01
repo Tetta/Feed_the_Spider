@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class gBonusClass : MonoBehaviour {
 
@@ -38,18 +39,40 @@ public class gBonusClass : MonoBehaviour {
 			tempGo1.transform.rotation = Quaternion.Euler(0, 0, -transform.parent.rotation.z);
 
 		}
-	}
+        if (bonusState == "collectors") bonusState = name + " wait click";
+
+    }
 	
 
 	void OnPress(bool flag) {
 		if (!flag && bonusState == "") {
 			if (ctrProgressClass.progress [name] > 0) {
-				GetComponent<AudioSource> ().Play ();
+                //off tutorial bonus
+                if (ctrProgressClass.progress["tutorialBonus"] == 0) {
+                    if (GameObject.Find("/default level/gui/tutorial bonus(Clone)") != null)
+                        GameObject.Find("/default level/gui/tutorial bonus(Clone)").SetActive(false);
+                    ctrProgressClass.progress["tutorialBonus"] = 1;
+                    ctrAnalyticsClass.sendEvent("Tutorial", new System.Collections.Generic.Dictionary<string, string> { { "name", "use bonus" } });
+
+                }
+
+                GetComponent<AudioSource> ().Play ();
 				ctrProgressClass.progress [name]--;
 				transform.GetChild (0).GetComponent<UILabel> ().text = ctrProgressClass.progress [name].ToString ();
 				ctrProgressClass.saveProgress ();
-				//показываем картинку в середине
-				GameObject.Find ("bonuses pictures").transform.GetChild (0).gameObject.SetActive (true);
+
+                //for analytics
+                var type = (initLevelMenuClass.levelDemands == 0) ? "normal" : "challenge";
+                ctrAnalyticsClass.sendEvent("Bonuses Use", new Dictionary<string, string>
+                {
+                    { "level number", UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Substring(5)},
+                    { "type", type},
+                    { "name", name}
+                });
+
+
+                //показываем картинку в середине
+                GameObject.Find ("bonuses pictures").transform.GetChild (0).gameObject.SetActive (true);
 				if (name == "webs")
 					GameObject.Find ("bonuses pictures").transform.GetChild (2).gameObject.SetActive (true);
 				if (name == "teleports")
@@ -60,7 +83,16 @@ public class gBonusClass : MonoBehaviour {
 				StartCoroutine (coroutineBonusPictureEnable ());
 			}
 		}
-		if (!flag && (bonusState == "webs wait click" || bonusState == "teleports wait click")) {
+	    if (!flag && (bonusState == "webs wait click" || bonusState == "teleports wait click"))
+	    {
+            GameObject.Find("bonuses pictures").transform.GetChild(6).gameObject.SetActive(false);
+            GameObject.Find("bonuses pictures").transform.GetChild(7).gameObject.SetActive(false);
+            GameObject.Find("bonuses pictures").transform.GetChild(8).gameObject.SetActive(false);
+            Time.timeScale = staticClass.isTimePlay;
+
+        }
+
+        if (!flag && (bonusState == "webs wait click" || bonusState == "teleports wait click")) {
 			GetComponent<UIWidget>().autoResizeBoxCollider = true;
 			GetComponent<BoxCollider>().size = new Vector2(170, 178);
 			transform.GetChild(1).GetComponent<AudioSource> ().Play ();
@@ -78,6 +110,7 @@ public class gBonusClass : MonoBehaviour {
 
 			bonusState = "";
 		}
+
 
 	}
 	
@@ -102,8 +135,10 @@ public class gBonusClass : MonoBehaviour {
 	}
 
 	IEnumerator coroutineBonusPictureEnable() {
-		
-		yield return StartCoroutine(staticClass.waitForRealTime(0.5F));
+        staticClass.isTimePlay = Time.timeScale;
+        Time.timeScale = 0;
+
+        yield return StartCoroutine(staticClass.waitForRealTime(0.5F));
 		//yield return new WaitForSeconds(0.5F);
 
 		if (name == "webs") GameObject.Find("bonuses pictures").transform.GetChild(2).gameObject.GetComponent<Animator>().Play("menu exit");
@@ -112,11 +147,23 @@ public class gBonusClass : MonoBehaviour {
 		GameObject.Find("bonuses pictures").transform.GetChild(0).gameObject.SetActive(false);
 
 		yield return StartCoroutine(staticClass.waitForRealTime(0.3F));
-		if (name == "webs") GameObject.Find("bonuses pictures").transform.GetChild(2).gameObject.SetActive(false);
-		if (name == "teleports") GameObject.Find("bonuses pictures").transform.GetChild(3).gameObject.SetActive(false);
-		if (name == "collectors") GameObject.Find("bonuses pictures").transform.GetChild(4).gameObject.SetActive(false);
-		//yield return new WaitForSeconds(0.3F);
-		bonusState = name;
+	    if (name == "webs")
+	    {
+	        GameObject.Find("bonuses pictures").transform.GetChild(2).gameObject.SetActive(false);
+            GameObject.Find("bonuses pictures").transform.GetChild(6).gameObject.SetActive(true);
+        }
+        if (name == "teleports")
+	    {
+	        GameObject.Find("bonuses pictures").transform.GetChild(3).gameObject.SetActive(false);
+            GameObject.Find("bonuses pictures").transform.GetChild(7).gameObject.SetActive(true);
+        }
+        if (name == "collectors")
+	    {
+	        GameObject.Find("bonuses pictures").transform.GetChild(4).gameObject.SetActive(false);
+            GameObject.Find("bonuses pictures").transform.GetChild(8).gameObject.SetActive(true);
+        }
+        //yield return new WaitForSeconds(0.3F);
+        bonusState = name;
 	}
 
 

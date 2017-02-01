@@ -18,8 +18,10 @@ public class gStarClass : MonoBehaviour {
 
 	void OnClick () {
 		GameObject collectors = GameObject.Find ("bonuses/tween/collectors");
-		if (collectors.GetComponent<gBonusClass> ().bonusState == "collectors") {
-			collectors.transform.GetChild(1).GetComponent<AudioSource> ().Play ();
+		if (collectors.GetComponent<gBonusClass> ().bonusState == "collectors wait click") {
+            GameObject.Find("bonuses pictures").transform.GetChild(8).gameObject.SetActive(false);
+            Time.timeScale = staticClass.isTimePlay;
+            collectors.transform.GetChild(1).GetComponent<AudioSource> ().Play ();
 
 			GameObject tempGo = Instantiate(collectors.transform.GetChild(2).gameObject, new Vector2(0, 0), Quaternion.identity) as GameObject;
 			tempGo.transform.parent = GameObject.Find("root").transform;

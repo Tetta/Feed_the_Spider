@@ -24,13 +24,13 @@ public class FriendManager : MonoBehaviour {
         {
             if (value == null)
             {
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
             }
             else
             {
                 _friend = value;
-                gameObject.SetActive(true);
-                t.text = _friend.first_name + " " + _friend.last_name;
+                //gameObject.SetActive(true);
+                //t.text = _friend.first_name + " " + _friend.last_name;
                 GetImageFromCacheOrDownload(value.id);
             }
             

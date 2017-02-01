@@ -6,9 +6,10 @@ using System.Collections.Generic;
 public class lsGiftClass : MonoBehaviour {
 
 	public GameObject giftMenu;
-	//public int giftLevel;
-	// Use this for initialization
-	void Start () {
+    private List<KeyValuePair<string, int>> openingCards = new List<KeyValuePair<string, int>>();
+    //public int giftLevel;
+    // Use this for initialization
+    void Start () {
 		if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
 
 		//открыт или нет сундук
@@ -45,81 +46,63 @@ public class lsGiftClass : MonoBehaviour {
 		GameObject card = new GameObject();
 
 		//шансы на картах
-		Dictionary<string, int> portions = new Dictionary<string, int>();
-		Dictionary<string, int> portions2 = new Dictionary<string, int>();
-
-		portions["hints_1"] = 190; 
-		portions["webs_1"] = 50; portions["webs_2"] = 100; 
-		portions["teleports_1"] = 50; 
-		portions["collectors_1"] = 100;
-		portions["coins_50"] = 10; portions["coins_100"] = 100; portions["coins_250"] = 250;
-		portions["energy_5"] = 25; portions["energy_10"] = 70; portions["energy_15"] = 155;
+        Dictionary<string, int> portionsGreen = new Dictionary<string, int>();
+        Dictionary<string, int> portionsCountGreen = new Dictionary<string, int>();
 
 
-		int portionsSum = 0;
-		int portionsSum2 = 0;
+        portionsGreen["webs"] = 30; portionsGreen["teleports"] = 26;
+        portionsGreen["collectors"] = 24; portionsGreen["hints"] = 20;
+        portionsCountGreen["webs"] = 2; portionsCountGreen["teleports"] = 2;
+        portionsCountGreen["collectors"] = 2; portionsCountGreen["hints"] = 1;
 
 
-		foreach (var e in portions) {
-			portionsSum += e.Value;
-		}
-		foreach (var e in portions) {
+	    if (name == "gift7")
+	    {
+            openingCards.Add(new KeyValuePair<string, int>("webs", 2));
+            openingCards.Add(new KeyValuePair<string, int>("coins", 100));
+            openingCards.Add(new KeyValuePair<string, int>("collectors", 1));
 
-			portions2[e.Key] =  portionsSum / e.Value;
-			portionsSum2 += portions2 [e.Key];
-		}
+        } else if (name == "gift8")
+	    {
+            openingCards.Add(new KeyValuePair<string, int>("coins", 150));
+            openingCards.Add(new KeyValuePair<string, int>("teleports", 1));
+            openingCards.Add(new KeyValuePair<string, int>("hints", 1));
+        }
+        else
+	    {
+	        openingCards.Add(new KeyValuePair<string, int>("coins", 100));
+	        for (int i = 1; i < 3; i++)
+	        {
+	            mBoosterClass.setOpeningCardCommon(ref portionsGreen, portionsCountGreen, ref openingCards);
 
-		for (int i = 0; i < 3; i++) {
-			int counter = 0;
-			int counterArr = 0;
-			int bonusRand = Mathf.CeilToInt(UnityEngine.Random.Range(0, portionsSum2));
+            }
+	        mBoosterClass.Shuffle(openingCards);
+	    }
 
-			foreach (var portion in portions2 ) {
-				if (bonusRand >= counter && bonusRand < counter + portion.Value) {
-
-					//копируем карту
-					card = Instantiate(marketClass.instance.cardsAll.FindChild(portion.Key).gameObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-					card.GetComponent<mCardClass>().functionPress = "openCardGift";
-					card.transform.parent = giftMenu.transform.GetChild(0).GetChild(0);
-					card.transform.localScale = new Vector2(1, 1);
-					card.name = "card" + (i + 1);
-					card.SetActive (true);
-					card.transform.GetChild(0).gameObject.SetActive (false);
-					card.transform.GetChild(1).gameObject.SetActive (true);
-					//позиция карты
-					if (i == 0) card.transform.localPosition = new Vector3(-355, 7, -2); else if (i == 1) card.transform.localPosition = new Vector3(0, 7, -2); else if (i == 2) card.transform.localPosition = new Vector3(355, 7, -2); 
-
-					//название карты и количество
-					string bonusName = portion.Key.Split(new Char[] { '_' })[0];
-					int bonusCount = int.Parse(portion.Key.Split(new Char[] { '_' })[1]);
-
-					//сохранение результата
-					if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins") ctrProgressClass.progress[bonusName] += bonusCount;
-					else if (bonusName == "energy") {
-						ctrProgressClass.progress["energyTime"] -= bonusCount * lsEnergyClass.costEnergy;
-						ctrProgressClass.progress["energy"] += bonusCount;
-
-						if (GameObject.Find ("root/static/energy/energy line") != null) {
-							GameObject.Find ("root/static/energy/energy line").GetComponent<UISprite>().fillAmount = 1 - (float)ctrProgressClass.progress ["energy"] / lsEnergyClass.maxEnergy;
-							if (lsEnergyClass.energyInfinity)
-								GameObject.Find ("root/static/energy/energy line").GetComponent<UISprite>().fillAmount = 1;
-						}
-					}
-					else {
-						if (ctrProgressClass.progress[bonusName] == 0) ctrProgressClass.progress[bonusName] = 1;
-
-					}
-					initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress ["coins"].ToString ();
-					initLevelMenuClass.instance.energyLabel.text = ctrProgressClass.progress ["energy"].ToString ();
-
-					break;
-				}
-				counterArr ++;
-				counter += portion.Value;
-			}
+	    for (int i = 0; i < 3; i++) {
+            //название карты и количество
+            string bonusName = openingCards[i].Key;
+            int bonusCount = openingCards[i].Value;
+            Debug.Log(bonusName + " " + bonusCount);
 
 
+            //копируем карту
+            card = Instantiate(marketClass.instance.cardsAll.FindChild(bonusName + "_" + bonusCount).gameObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+			card.GetComponent<mCardClass>().functionPress = "openCardGift";
+			card.transform.parent = giftMenu.transform.GetChild(0).GetChild(0);
+			card.transform.localScale = new Vector2(1, 1);
+			card.name = "card" + (i + 1);
+			card.SetActive (true);
+			card.transform.GetChild(0).gameObject.SetActive (false);
+			card.transform.GetChild(1).gameObject.SetActive (true);
+			//позиция карты
+			if (i == 0) card.transform.localPosition = new Vector3(-355, 7, -2); else if (i == 1) card.transform.localPosition = new Vector3(0, 7, -2); else if (i == 2) card.transform.localPosition = new Vector3(355, 7, -2); 
 
+			//сохранение результата
+			if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins") ctrProgressClass.progress[bonusName] += bonusCount;
+            if (bonusName == "coins") ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "income", "chest" }, { "coins", bonusCount.ToString() } });
+
+            initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress ["coins"].ToString ();
 
 		}
 		//off for tests

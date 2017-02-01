@@ -2,7 +2,9 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
+#if UNITY_IOS
 using UnityEditor.iOS.Xcode;
+#endif
 using System.IO;
 
 public class PbxModifier
@@ -12,6 +14,7 @@ public class PbxModifier
     {
         if (buildTarget == BuildTarget.iOS)
         {
+#if UNITY_IOS
             string projPath = path + "/Unity-iPhone.xcodeproj/project.pbxproj";
 
             PBXProject proj = new PBXProject();
@@ -27,6 +30,7 @@ public class PbxModifier
             proj.SetCompileFlagsForFile(target, file, flags);
 
             File.WriteAllText(projPath, proj.WriteToString());
+#endif
         }
     }
 }

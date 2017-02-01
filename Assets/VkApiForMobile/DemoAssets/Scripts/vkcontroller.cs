@@ -8,7 +8,8 @@ public class vkcontroller : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		if (VkApi.VkApiInstance.IsUserLoggedIn) {
+        VkApi.VkApiInstance.onLoggedOut();
+        if (VkApi.VkApiInstance.IsUserLoggedIn) {
 			onLoggedIn ();
 		} else {
 			VkApi.VkApiInstance.LoggedIn+=onLoggedIn;
@@ -25,7 +26,7 @@ public class vkcontroller : MonoBehaviour {
 		}
 		VKRequest r = new VKRequest
 		{
-			url="users.get?user_ids=205387401&photo_50",
+			url= "users.get?user_ids=51066050&photo_50",
 			CallBackFunction=OnGotUserInfo
 		};
 		VkApi.VkApiInstance.Call (r);

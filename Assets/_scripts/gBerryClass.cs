@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class gBerryClass : MonoBehaviour {
 
-	public static string berryState; 
+    public GameObject tutorialHint;
+    public GameObject tutorialBonus;
+    public GameObject tutorialDream;
+
+    public static string berryState; 
 	public static int starsCounter;
 	public static int fixedCounter = 0;
 
@@ -37,8 +42,11 @@ public class gBerryClass : MonoBehaviour {
 		*/
 		if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
 
-		//запись текущего уровня
-		if (ctrProgressClass.progress["currentLevel"] != int.Parse(SceneManager.GetActiveScene().name.Substring(5))) {
+        //for analytics
+        if (gHintClass.hintState != "enable dream picture") ctrProgressClass.progress["levelPlayCount"]++;
+
+        //запись текущего уровня
+        if (ctrProgressClass.progress["currentLevel"] != int.Parse(SceneManager.GetActiveScene().name.Substring(5))) {
 			ctrProgressClass.progress["currentLevel"] = int.Parse(SceneManager.GetActiveScene().name.Substring(5));
 			ctrProgressClass.saveProgress ();
 		}
@@ -61,53 +69,6 @@ public class gBerryClass : MonoBehaviour {
 
 
 
-		//showAd, если нет комплекта
-		if (ctrAdClass.instance != null) ctrAdClass.instance.ShowLevelAd();
-		/*
-		#if UNITY_ANDROID || UNITY_IOS
-		if (ctrProgressClass.progress["complect"] == 0 && ctrProgressClass.progress["currentLevel"] >= 5) {
-			staticClass.showAd ++;
-
-			if (staticClass.showAd >= 15) {
-				ctrAdClass.adStarted = "level";
-				//if (ctrAdClass.instance.isAdReady()) {
-					//if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent(ctrAdClass., "start", "level", 1);
-
-				if (Advertisement.IsReady ("video")) {
-					if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent("Ad", "start", "level", 1);
-					var options = new ShowOptions { resultCallback = HandleShowResult };
-					Advertisement.Show ("video", options);
-					staticClass.showAd = 0;
-					//pause
-					pauseMenu.SetActive (true);
-					staticClass.isTimePlay = Time.timeScale;
-					Time.timeScale = 0;
-				} else if (Vungle.isAdvertAvailable()) {
-					// Vungle
-
-					Dictionary<string, object> options = new Dictionary<string, object> ();
-					options ["incentivized"] = false;
-					Vungle.playAdWithOptions (options);
-					staticClass.showAd = 0;
-					//pause
-					pauseMenu.SetActive (true);
-					staticClass.isTimePlay = Time.timeScale;
-					Time.timeScale = 0;
-					//dont ready Unity aAds
-					if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent("Ad", "dont ready", "level", 1);
-
-				
-				} else {
-					
-					//dont ready Vungle
-					if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "dont ready", "level", 1);
-
-					staticClass.showAd = 14;
-				}
-			} 
-		}
-		#endif
-		*/
 
 		staticClass.changeBerry ();
 		//title внизу
@@ -147,12 +108,11 @@ public class gBerryClass : MonoBehaviour {
 			GameObject.Find ("tween").transform.localPosition = new Vector3 (880, 0, 0);
 		}
 
-        //Vungle event finished
-        //initializeEventHandlers ();
-
         //dream
         var p = ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"];
-        if (staticClass.scenePrev == SceneManager.GetActiveScene().name && !((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 || (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1))
+        if (staticClass.scenePrev == SceneManager.GetActiveScene().name && !((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 || (p == 2 || p == 3)
+            && initLevelMenuClass.levelDemands == 1)
+            && gHintClass.hintState == "")
 	    {
 	        staticClass.levelRestartedCount++;
 	        if (staticClass.levelRestartedCount >= 2)
@@ -160,24 +120,78 @@ public class gBerryClass : MonoBehaviour {
                 var dream = GameObject.Find("/default level/gui/dream");
                 dream.transform.GetChild(0).gameObject.SetActive(true);
                 dream.transform.GetChild(1).gameObject.SetActive(false);
-            }
+	            dream.GetComponent<BoxCollider>().enabled = true;
+	        }
 	    }
 	    else if
             //если уже есть подсказка
             ((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 ||
-             (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1)
+             (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1 
+             && gHintClass.hintState == "")
         {
             var dream = GameObject.Find("/default level/gui/dream");
             dream.transform.GetChild(0).gameObject.SetActive(false);
             dream.transform.GetChild(1).gameObject.SetActive(true);
+            dream.GetComponent<BoxCollider>().enabled = true;
 
         }
-        else staticClass.levelRestartedCount = 0;
 
-        //off if publish
-	    gRecHintClass.rec = "";
+        //если уровень запущен 1й раз
+        if (staticClass.scenePrev != SceneManager.GetActiveScene().name)
+	    {
+	        staticClass.levelRestartedCount = 0;
+	        staticClass.levelAdViewed = 0;
+	    }
+
+	    //off if publish
+        gRecHintClass.rec = "";
         gRecHintClass.counter = 0;
         gRecHintClass.recHintState = 0;
+
+        //show tutorial hint
+        if (staticClass.levelRestartedCount >= 3 && ctrProgressClass.progress["tutorialHint"] == 0 &&
+	        ctrProgressClass.progress["hints"] > 0)
+	    {
+            GameObject tutorialHintGO = Instantiate(tutorialHint, new Vector2(0, 0), Quaternion.identity) as GameObject;
+            //position hand
+            tutorialHintGO.transform.GetChild(0).transform.localPosition = GameObject.Find("/default level/gui/bonuses").transform.localPosition + new Vector3(50, 110, 0);
+            staticClass.isTimePlay = Time.timeScale;
+            Time.timeScale = 0;
+        }
+
+        //show tutorial bonus
+        if (staticClass.levelRestartedCount >= 3 && ctrProgressClass.progress["tutorialBonus"] == 0 &&
+	        ctrProgressClass.progress["hints"] == 0 && gHintClass.hintState == "" &&
+            (ctrProgressClass.progress["webs"] > 0 || ctrProgressClass.progress["teleports"] > 0 ||
+	         ctrProgressClass.progress["collectors"] > 0))
+	    {
+	        var arrowTemp = GameObject.Find("/default level/gui/bonuses/tween/arrow left");
+            if (arrowTemp.activeSelf)
+	        {
+                arrowTemp.SendMessage("clickBonusesArrow");
+                arrowTemp.transform.parent.transform.localPosition = new Vector3(160, 0, 0);
+            }
+            GameObject tutorialBonusGO = Instantiate(tutorialBonus, new Vector2(0, 0), Quaternion.identity) as GameObject;
+            //position hand
+            tutorialBonusGO.transform.GetChild(0).transform.localPosition = GameObject.Find("/default level/gui/bonuses").transform.localPosition + new Vector3(195, 80, 0);
+            staticClass.isTimePlay = Time.timeScale;
+            Time.timeScale = 0;
+        }
+
+        //show tutorial dream
+        if (staticClass.levelRestartedCount == 2 && ctrProgressClass.progress["tutorialDream"] == 0 && gHintClass.hintState == "")
+        {
+            GameObject tutorialDreamGO = Instantiate(tutorialDream, new Vector2(0, 0), Quaternion.identity) as GameObject;
+            //position hand
+            tutorialDreamGO.transform.GetChild(0).transform.localPosition = GameObject.Find("/default level/gui/dream").transform.localPosition + new Vector3(-88, -88, 0);
+            //icon ad disable
+            GameObject.Find("/default level/gui/dream").transform.GetChild(0).gameObject.SetActive(false);
+            GameObject.Find("/default level/gui/dream").transform.GetChild(1).gameObject.SetActive(true);
+
+            staticClass.isTimePlay = Time.timeScale;
+            Time.timeScale = 0;
+        }
+
 
     }
 
@@ -208,7 +222,7 @@ public class gBerryClass : MonoBehaviour {
 							gHintClass.hintEndPos = new Vector3 (gHintClass.hintEndPos.x - 0.02F, gHintClass.hintEndPos.y - 0.33F, gHintClass.hintEndPos.z); 
 					} 
 					//если groot
-					if (ctrProgressClass.progress["currentLevel"] > 75)
+					if (ctrProgressClass.progress["currentLevel"] >= 37)
 					foreach (GameObject go in GameObject.FindGameObjectsWithTag("groot")) {
 						if (go.transform.position == gHintClass.actions [gHintClass.counter].id)
 							gHintClass.hintEndPos = go.transform.GetChild (2).GetChild (1).GetChild (6).transform.position;
@@ -392,8 +406,11 @@ public class gBerryClass : MonoBehaviour {
         //restart scene, if dream show
         if (GameObject.Find("/default level/gui/dream/ui").activeSelf) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
-		// остановка выполнения функции на costEnergy секунд
-		yield return new WaitForSeconds(1.0F);
+        //for analytics
+        ctrProgressClass.progress["winCount"]++;
+        
+        // остановка выполнения функции на costEnergy секунд
+        yield return new WaitForSeconds(1.0F);
 		Debug.Log(gHintClass.hintState);
         gHintClass.hintState = "";
         //для записи подсказки (потом удалить)
@@ -457,21 +474,26 @@ public class gBerryClass : MonoBehaviour {
 			}
 		}
 
+        if (flagGemGetting) endLevel(true, "complete");
+        else if (flagGemGetting2) endLevel(true, "already");
+        else endLevel(true);
+        //if (ctrProgressClass.progress["level" + lvlNumber] < starsCounter) {
+        //if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) GooglePlayManager.instance.IncrementAchievement("achievement_collect_all_stars", starsCounter - ctrProgressClass.progress["level" + lvlNumber]);
+        //ctrProgressClass.progress["level" + lvlNumber] = starsCounter;
+        //}
 
+	    if (lvlNumber >= ctrProgressClass.progress["lastLevel"])
+	    {
+	        ctrProgressClass.progress["lastLevel"] = lvlNumber;
+            ctrAnalyticsClass.sendCustomDimension(4, lvlNumber.ToString()); 
 
+        }
 
-		//if (ctrProgressClass.progress["level" + lvlNumber] < starsCounter) {
-			//if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) GooglePlayManager.instance.IncrementAchievement("achievement_collect_all_stars", starsCounter - ctrProgressClass.progress["level" + lvlNumber]);
-			//ctrProgressClass.progress["level" + lvlNumber] = starsCounter;
-		//}
-		
-		if (lvlNumber >= ctrProgressClass.progress["lastLevel"]) ctrProgressClass.progress["lastLevel"] = lvlNumber;
-		
-		//ctrProgressClass.saveProgress();
+        //ctrProgressClass.saveProgress();
 
-		//Everyplay
-		//Everyplay metadata
-		if (Everyplay.IsRecording ()) { 
+        //Everyplay
+        //Everyplay metadata
+        if (Everyplay.IsRecording ()) { 
 			Everyplay.SetMetadata ("Level", "Level " + ctrProgressClass.progress["currentLevel"]);
 			if (initLevelMenuClass.levelDemands == 0) {
 				Everyplay.SetMetadata ("Stars", starsCounter);
@@ -524,7 +546,24 @@ public class gBerryClass : MonoBehaviour {
 		}
     }
 
+    public void endLevel(bool result, string taskStatus = "fail")
+    {
+        Debug.Log("endLevel: " + result);
 
+        var resultStr = (result) ? "win" : "lost";
+        var type = (initLevelMenuClass.levelDemands == 0) ? "normal" : "challenge";
+
+        var attr = new Dictionary<string, string>
+        {
+            {"level number", SceneManager.GetActiveScene().name.Substring(5)},
+            {"type", type},
+            {"result", resultStr},
+            {"task status", taskStatus},
+            { "time", Mathf.Round(Time.timeSinceLevelLoad).ToString()}
+        };
+        if (initLevelMenuClass.levelDemands == 0) attr.Add("stars", starsCounter.ToString());
+        ctrAnalyticsClass.sendEvent("Play Level", attr);
+    }
 
 	void OnDestroy() {
 		//Everyplay
@@ -532,28 +571,6 @@ public class gBerryClass : MonoBehaviour {
 			Everyplay.StopRecording ();
 	}
 
-	/*
-	//Unity Ads
-	#if UNITY_ANDROID || UNITY_IOS
-	private void HandleShowResult(ShowResult result)
-	{
-		switch (result)
-		{
-		case ShowResult.Finished:
-			GoogleAnalyticsV4.instance.LogEvent("Ad", "finish", "level", 1);
-						break;
-		}
-	}
-	#endif	
 
-	//Vungle
-	void initializeEventHandlers() {
-		//Event is triggered when a Vungle ad finished and provides the entire information about this event
-		//These can be used to determine how much of the video the user viewed, if they skipped the ad early, etc.
-		Vungle.onAdFinishedEvent += (args) => {
-			if (args.IsCompletedView) GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "finish", "level", 1);
-		};
-	}
-	*/
 		
 }

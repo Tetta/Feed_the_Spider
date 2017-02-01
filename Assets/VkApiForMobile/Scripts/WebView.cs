@@ -14,7 +14,7 @@ namespace com.playGenesis.VkUnityPlugin
 			jo.Call ("OpenWebView",openurl,closeurl);
 		}
 #endif
-#if UNITY_WSA && !UNITY_EDITOR 
+#if UNITY_WSA && !UNITY_EDITOR
 		public delegate void OpenWebViewDelegate(string openurl,string closeurl);
 		public OpenWebViewDelegate OpenWebViewAction{get;set;}
 		private void  OpenWebView(string openurl,string closeurl)
@@ -35,7 +35,13 @@ namespace com.playGenesis.VkUnityPlugin
 		}
 
 #endif
-#if UNITY_EDITOR
+#if UNITY_STANDALONE_WIN
+        private void OpenWebView(string openurl, string closeurl)
+        {
+            //Application.OpenURL(openurl);
+        }
+#endif
+#if UNITY_EDITOR && !UNITY_STANDALONE_WIN
         private void OpenWebView(string openurl, string closeurl)
         {
             Application.OpenURL(openurl);
