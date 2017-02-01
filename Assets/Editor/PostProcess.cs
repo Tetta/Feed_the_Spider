@@ -21,6 +21,7 @@ public class PbxModifier
             proj.ReadFromString(File.ReadAllText(projPath));
 
             string target = proj.TargetGuidByName("Unity-iPhone"); 
+
 			proj.SetBuildProperty (target, "ENABLE_BITCODE", "false");
 			proj.SetBuildProperty (target, "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES", "yes");
            string file = proj.FindFileGuidByProjectPath("Libraries/Plugins/iOS/KiiIOSSocialNetworkConnector.mm"); 
@@ -30,6 +31,23 @@ public class PbxModifier
             proj.SetCompileFlagsForFile(target, file, flags);
 
             File.WriteAllText(projPath, proj.WriteToString());
+
+
+            string plistPath = path + "/Info.plist";
+            PlistDocument plist = new PlistDocument();
+            plist.ReadFromString(File.ReadAllText(plistPath));
+
+            // Get root
+            PlistElementDict rootDict = plist.root;
+
+            // Change value of CFBundleVersion in Xcode plist
+
+            rootDict.SetString("NSPhotoLibraryUsageDescription", "This app requires access to the photo library.");
+            rootDict.SetString("NSCameraUsageDescription", "This app requires access to the camera.");
+
+            // Write to file
+            File.WriteAllText(plistPath, plist.WriteToString());
+
 #endif
         }
     }
