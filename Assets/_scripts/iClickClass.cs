@@ -271,8 +271,7 @@ public class iClickClass : MonoBehaviour {
                 {
                     //rate us
                     Debug.Log(name);
-                    Debug.Log(staticClass.rateUsLast);
-
+                    
                     if (staticClass.rateUsLast < nextLevelNumber - 1 && staticClass.rateUsLevels.Contains(nextLevelNumber - 1))
                     {
                         rateUsMenuEnable();
@@ -300,6 +299,11 @@ public class iClickClass : MonoBehaviour {
                 Debug.Log(name);
                 staticClass.rateUsLast = ctrProgressClass.progress["lastLevel"];
                 async = SceneManager.LoadSceneAsync(staticClass.rateUsSceneNext);
+            }
+            else if (name == "restart after dream")
+            {
+                async = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+
             }
 
             //сбрасываем энергию
@@ -738,7 +742,7 @@ public class iClickClass : MonoBehaviour {
         Debug.Log(SceneManager.GetActiveScene().name);
         if (staticClass.levelRestartedCount == 2 && ctrProgressClass.progress["tutorialDream"] == 0)
         {
-            ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"] = 1;
+            ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"] = 3;
             ctrProgressClass.progress["tutorialDream"] = 1;
             ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, string> { { "name", "use dream" } });
             ctrProgressClass.saveProgress();
