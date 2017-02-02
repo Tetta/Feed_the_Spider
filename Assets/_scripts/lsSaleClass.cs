@@ -121,8 +121,6 @@ public class lsSaleClass : MonoBehaviour {
         var pause = staticClass.sales["sale_" + ctrProgressClass.progress["sale"] + "_" + str].pause;
         var duration = staticClass.sales["sale_" + ctrProgressClass.progress["sale"] + "_" + str].duration;
 
-        //сделать. чтоб любой инап сбивал цикл на начало
-
         //timer sale end
         if (ctrProgressClass.progress["saleDate"] == 0)
             ctrProgressClass.progress["saleDate"] = (int)DateTime.Now.TotalSeconds();

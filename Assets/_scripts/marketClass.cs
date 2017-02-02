@@ -253,6 +253,9 @@ public class marketClass : MonoBehaviour {
 
                 //break;
         }
+        ctrProgressClass.progress["sale"] = 0;
+        ctrProgressClass.progress["saleDate"] = 0;
+        lsSaleClass.setTimerSale();
         ctrProgressClass.progress["firstPurchase"] = 1;
         ctrProgressClass.progress["paymentCount"] ++;
         ctrProgressClass.saveProgress();

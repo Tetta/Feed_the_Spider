@@ -109,6 +109,7 @@ public class initClass : MonoBehaviour {
             //bug!!!
             //if (!flagNotifer) AndroidNotificationManager.instance.ScheduleLocalNotification(Localization.Get("notiferTitleDay"), Localization.Get("notiferMesssageDay"), 60 * 60 * 24);
 
+		    staticClass.rateUsLast = ctrProgressClass.progress["lastLevel"];
 
 		}
 

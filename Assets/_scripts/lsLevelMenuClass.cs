@@ -20,6 +20,7 @@ public class lsLevelMenuClass: MonoBehaviour {
 	public GameObject gem1Active;
 	public GameObject gem2Active;
     public GameObject hand;
+    public GameObject rateUsMenu;
     private int tabCounter = 0;
 
 	void setDefault () {

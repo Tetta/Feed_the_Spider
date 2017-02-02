@@ -121,7 +121,10 @@ public class lsEnergyClass : MonoBehaviour {
     public static int checkEnergy(bool flag) {
 		if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
         int mod = 0;
-        if (ctrProgressClass.progress["energy"] < maxEnergy) { 
+        if (ctrProgressClass.progress["energy"] < maxEnergy) {
+            //var startDate = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+
+
             //число секунд с 01.01.2015
             int now = (int)(DateTime.UtcNow - new DateTime(2015, 1, 1)).TotalSeconds;
             int deltaEnergy = Mathf.CeilToInt((now - ctrProgressClass.progress["energyTime"]) / costEnergy);

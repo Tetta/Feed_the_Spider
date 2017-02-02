@@ -496,12 +496,18 @@ public class staticClass
         return ctrProgressClass.progress["language"];
     }
 
-    static public Dictionary<int, int> levelBlocks = new Dictionary<int, int>
+    public static Dictionary<int, int> levelBlocks = new Dictionary<int, int>
     {
       {3, 222},
 
     };
 
-    static public bool notGemsForLevel = false;
+    public static bool notGemsForLevel = false;
+
+    public static int  rateUsLast = 0;
+    public static List<int> rateUsLevels = new List<int> {8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 100};
+    public static string rateUsSceneNext;
+
+
 }
 

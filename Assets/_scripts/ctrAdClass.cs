@@ -165,7 +165,9 @@ public class ctrAdClass: MonoBehaviour {
 
 	    public void ShowLevelAd(string buttonName) {
 #if UNITY_ANDROID || UNITY_IOS
-		if (ctrProgressClass.progress["firstPurchase"] == 0 && ctrProgressClass.progress["currentLevel"] >= 5)
+		if (ctrProgressClass.progress["firstPurchase"] == 0 && ctrProgressClass.progress["currentLevel"] >= 5 && (
+            !staticClass.rateUsLevels.Contains(ctrProgressClass.progress["currentLevel"])
+            ))
 		{
 		    bool flag = false;
             if (buttonName == "restart")

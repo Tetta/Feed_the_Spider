@@ -22,6 +22,8 @@ public class ctrAnalyticsClass: MonoBehaviour
     public static List<float> sessionGroups = new List<float> { 1, 2, 3, 4, 5, 10, 25, 50, 100, 200  };
     public static List<float> friendGroups = new List<float> { 0, 1, 5, 10, 25, 50, 100 };
 
+    public 
+
     // Use this for initialization
     void Start()
     {
@@ -114,7 +116,7 @@ public class ctrAnalyticsClass: MonoBehaviour
             //pause
             ctrProgressClass.progress["sessionEnd"] = (int) DateTime.Now.TotalSeconds();
             ctrProgressClass.saveProgress();
-            sendNotiferSale();
+            sendNotifers();
 
 
         }
@@ -136,7 +138,7 @@ public class ctrAnalyticsClass: MonoBehaviour
         Debug.Log("OnApplicationQuit");
         ctrProgressClass.progress["sessionEnd"] = (int)DateTime.Now.TotalSeconds();
         ctrProgressClass.saveProgress();
-        sendNotiferSale();
+        sendNotifers();
     }
 
     public void startSession()
@@ -253,18 +255,41 @@ public class ctrAnalyticsClass: MonoBehaviour
         }
     }
 
-    public void sendNotiferSale()
+    public void sendNotifers()
     {
+        //sale notifer
         lsSaleClass.setTimerSale();
         lsSaleClass.setSale();
         LocalNotification.CancelAllNotifications();
+        var delay = new TimeSpan();
         if (lsSaleClass.timerStartSale > DateTime.Now)
         {
-            var delay = lsSaleClass.timerStartSale - DateTime.Now;
+            delay = lsSaleClass.timerStartSale - DateTime.Now;
+            var h = DateTime.Now.Add(delay).Hour;
+            if (h < 10) delay.Add(new TimeSpan(10 - h, 0, 0));
+            Debug.Log("notifer 1 delay: " + delay);
             var type = ctrProgressClass.progress["firstPurchase"] == 1 ? "Payers" : "Free";
-            //Debug.Log(Localization.Get("sale" + ctrProgressClass.progress["sale"] + type));
-            LocalNotification.SendNotification(1, delay, Localization.Get("sale" + ctrProgressClass.progress["sale"] + type), "");
+            LocalNotification.SendNotification(1, delay, "", Localization.Get("notiferTitleSale") + Localization.Get("sale" + ctrProgressClass.progress["sale"] + type));
         }
+
+//daily notifer
+delay = DateTime.Parse("12:00:00") - DateTime.Now;
+        if (delay < new TimeSpan(0)) delay = DateTime.Parse("12:00:00").AddDays(1) - DateTime.Now;
+        LocalNotification.SendNotification(2, delay, "", Localization.Get("notiferTitleDay"));
+
+
+        //energy notifer
+        lsEnergyClass.checkEnergy(true);
+        if (ctrProgressClass.progress["energy"] < lsEnergyClass.maxEnergy && !lsEnergyClass.energyInfinity)
+        {
+            var start = new DateTime(2015, 1, 1).AddSeconds(ctrProgressClass.progress["energyTime"]);
+            var end = start.AddSeconds((lsEnergyClass.maxEnergy - ctrProgressClass.progress["energy"]) * lsEnergyClass.costEnergy);
+            delay = end - DateTime.UtcNow;
+            LocalNotification.SendNotification(3, delay,"", Localization.Get("notiferTitleEnergy"));
+
+        }
+
+
 
     }
 
