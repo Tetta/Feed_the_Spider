@@ -306,10 +306,13 @@ public class iClickClass : MonoBehaviour {
 			} 
 		}
 		if (name == "camera button") {
-			if (!Everyplay.IsRecordingSupported () || ctrProgressClass.progress ["everyplay"] == 0) {
+            /*
+            if (!Everyplay.IsRecordingSupported () || ctrProgressClass.progress ["everyplay"] == 0) {
 				transform.GetChild(0).gameObject.SetActive (true);
 				transform.GetChild(1).gameObject.SetActive (false);
 			}
+            */
+            
 		}
 
     }
@@ -349,8 +352,10 @@ public class iClickClass : MonoBehaviour {
     }
 
 	void clickSettingCamera() {
-		if (ctrProgressClass.progress["everyplay"] == 0) {
-			if (Everyplay.IsRecordingSupported ()) {
+/*
+        if (ctrProgressClass.progress["everyplay"] == 0) {
+
+            if (Everyplay.IsRecordingSupported ()) {
 				ctrProgressClass.progress ["everyplay"] = 1;
 				ctrProgressClass.saveProgress ();
 				transform.GetChild (0).gameObject.SetActive (false);
@@ -366,6 +371,7 @@ public class iClickClass : MonoBehaviour {
 
 
 		}
+        */
 	}
 
 
@@ -431,8 +437,8 @@ public class iClickClass : MonoBehaviour {
                 marketClass.instance.openBoosterMenu.SetActive(true);
                 marketClass.instance.boosterMenu.SetActive(false);
 
-                if (Everyplay.IsRecordingSupported () && !Everyplay.IsRecording() && ctrProgressClass.progress["everyplay"] == 1)
-					Everyplay.StartRecording ();
+                //if (Everyplay.IsRecordingSupported () && !Everyplay.IsRecording() && ctrProgressClass.progress["everyplay"] == 1)
+				//	Everyplay.StartRecording ();
 
 			}
 

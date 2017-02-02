@@ -61,8 +61,8 @@ public class initClass : MonoBehaviour {
 		    //ctrProgressClass.progress["language"] = 1;
 			//everyplay
 			if (ctrProgressClass.progress ["everyplay"] == 1) {
-				Everyplay.SetDisableSingleCoreDevices (true);
-				Everyplay.SetMaxRecordingMinutesLength(10);
+			//	Everyplay.SetDisableSingleCoreDevices (true);
+			//	Everyplay.SetMaxRecordingMinutesLength(10);
 				//Everyplay.SetLowMemoryDevice (true);
 			}
             /*

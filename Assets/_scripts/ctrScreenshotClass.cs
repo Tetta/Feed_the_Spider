@@ -4,7 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class ctrScreenshotClass : MonoBehaviour
 {
-	public Transform labelShare;
+/*
+    public Transform labelShare;
 	public Transform buttonPlay0;
 	public Transform buttonPlay1;
 
@@ -18,13 +19,14 @@ public class ctrScreenshotClass : MonoBehaviour
 
 	private IEnumerator changeSprites()
     {
-		while (true) {
+       while (true) {
 			transform.GetChild (0).GetChild (0).GetComponent<SpriteRenderer> ().sprite = Sprite.Create (screenshots[currentIndex], new Rect(0, 0, screenshots[currentIndex].width, screenshots[currentIndex].height), new Vector2(0.5F, 0.5F), 1);
 			currentIndex ++;
 			if (currentIndex >= counterScreenshots)
 				currentIndex = 0;
 			yield return StartCoroutine(staticClass.waitForRealTime(1F));
 		}
+        
     }
 
 	public void takeScreenshot() {
@@ -109,4 +111,5 @@ public class ctrScreenshotClass : MonoBehaviour
 				GetComponent<BoxCollider>().enabled = false;
 		}
 	}
+*/
 }

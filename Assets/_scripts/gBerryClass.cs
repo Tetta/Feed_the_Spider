@@ -400,8 +400,8 @@ public class gBerryClass : MonoBehaviour {
 	public IEnumerator Coroutine(Collision2D collisionObject){
 
 		yield return new WaitForSeconds(0.5F);
-		if (Everyplay.IsRecording ()) 
-			buttonEveryplayScript.takeScreenshot ();
+		//if (Everyplay.IsRecording ()) 
+		//	buttonEveryplayScript.takeScreenshot ();
 
         //restart scene, if dream show
         if (GameObject.Find("/default level/gui/dream/ui").activeSelf) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -493,6 +493,7 @@ public class gBerryClass : MonoBehaviour {
 
         //Everyplay
         //Everyplay metadata
+        /*
         if (Everyplay.IsRecording ()) { 
 			Everyplay.SetMetadata ("Level", "Level " + ctrProgressClass.progress["currentLevel"]);
 			if (initLevelMenuClass.levelDemands == 0) {
@@ -529,7 +530,7 @@ public class gBerryClass : MonoBehaviour {
 			buttonEveryplayScript.enableScreenshots();
 		}
 		//buttonEveryplayScript.enableScreenshots();
-
+        */
         completeMenu.SetActive(true);
 
 
@@ -567,8 +568,8 @@ public class gBerryClass : MonoBehaviour {
 
 	void OnDestroy() {
 		//Everyplay
-		if (Everyplay.IsRecording ())
-			Everyplay.StopRecording ();
+		//if (Everyplay.IsRecording ())
+		//	Everyplay.StopRecording ();
 	}
 
 
