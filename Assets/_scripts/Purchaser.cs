@@ -63,9 +63,11 @@ namespace CompleteProject
 #if UNITY_IOS
             builder.AddProduct("com.mysterytag.spider.booster_green_1", ProductType.Consumable);
             builder.AddProduct("com.mysterytag.spider.booster_blue_1", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.chapter", ProductType.Consumable);
 #else
             builder.AddProduct("com.evogames.feedthespider.booster_green_1", ProductType.Consumable);
             builder.AddProduct("com.evogames.feedthespider.booster_blue_1", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.chapter", ProductType.Consumable);
 #endif
 
             // Continue adding the non-consumable product.

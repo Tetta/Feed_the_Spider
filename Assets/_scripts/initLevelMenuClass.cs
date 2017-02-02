@@ -6,8 +6,9 @@ using System.Collections.Generic;
 
 public class initLevelMenuClass : MonoBehaviour {
 	public static initLevelMenuClass instance = null;
+    public GameObject unlockСhapterMenu;
 
-	public UILabel coinsLabel;
+    public UILabel coinsLabel;
 	public UILabel gemsLabel;
 	public UILabel energyLabel;
 
@@ -52,6 +53,12 @@ public class initLevelMenuClass : MonoBehaviour {
             vk.SetActive(false);
         }
 
+        //unlockСhapterMenu enable
+        if (staticClass.notGemsForLevel)
+	    {
+	        unlockСhapterMenu.SetActive(true);
+	        staticClass.notGemsForLevel = false;
+	    }
     }
 	
 	// Update is called once per frame

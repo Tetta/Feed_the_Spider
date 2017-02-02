@@ -35,7 +35,7 @@ public class lsLevelClass : MonoBehaviour {
                 }
         //убираем или нет блокировку
         if (block != null)
-            if (int.Parse(block.name.Substring(6)) <= ctrProgressClass.progress["gems"])
+            if (int.Parse(block.name.Substring(6)) <= ctrProgressClass.progress["gems"] || lastLevel >= level)
                 block.SetActive(false);
             else flagBlock = true;
 

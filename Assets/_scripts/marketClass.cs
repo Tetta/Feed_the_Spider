@@ -76,6 +76,17 @@ public class marketClass : MonoBehaviour {
         }
 
     }
+    public static void buyChapter()
+    {
+
+            //запрос на покупку
+            Debug.Log("buyChapter");
+#if UNITY_IOS
+            instance.GetComponent<Purchaser>().BuyProductID("com.mysterytag.spider.chapter");
+#else
+            instance.GetComponent<Purchaser>().BuyProductID("com.evogames.feedthespider.chapter");
+#endif
+    }
     /*
 
         //подтверждение покупки товара
@@ -224,7 +235,19 @@ public class marketClass : MonoBehaviour {
                 ctrProgressClass.progress["boostersBlue"] += 1;
                 attr["revenue"] = "349";
                 break;
-            //case "booster_sale":
+            case "chapter":
+                foreach (var block in staticClass.levelBlocks)
+                {
+                    if (ctrProgressClass.progress["lastLevel"] < block.Key)
+                    {
+                        ctrProgressClass.progress["lastLevel"] = block.Key;
+                        break;
+                    }
+                }
+                initLevelMenuClass.instance.unlockСhapterMenu.SetActive(false);
+                attr["revenue"] = "99";
+                break;
+                //case "booster_sale":
                 //ctrProgressClass.progress["firstPurchase"] = 1;
                 //marketClass.instance.sale.SetActive(false);
 

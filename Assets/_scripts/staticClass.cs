@@ -22,8 +22,6 @@ public class staticClass
 
     //public static List<level> levels = new List<level>();
     public static int[,] levels = new int[101, 2];
-    public static int[] levelBlocks = new int[101];
-
 
     public static void initLevels()
     {
@@ -235,10 +233,6 @@ public class staticClass
 		levels[100, 0] = 2;
 		levels[100, 1] = 11;
 
-
-
-
-        levelBlocks[5] = 3;
 
     }
 
@@ -501,5 +495,13 @@ public class staticClass
         }
         return ctrProgressClass.progress["language"];
     }
+
+    static public Dictionary<int, int> levelBlocks = new Dictionary<int, int>
+    {
+      {3, 222},
+
+    };
+
+    static public bool notGemsForLevel = false;
 }
 

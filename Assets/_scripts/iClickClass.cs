@@ -150,7 +150,7 @@ public class iClickClass : MonoBehaviour {
 				}
 			}
             //showAd в конце уровня, рестарте, выходе в меню с уровня
-		    if (name == "button play" || name == "button play 0" || name == "button play 1" || name.Substring(0, 5) == "level" || name == "restart" || name == "button next")
+		    if (name == "button play" || name == "button play 0" || name == "button play 1" || name.Substring(0, 5) == "level" || name == "restart" || name == "button next" || name == "button next level")
 		    {
 		        if (ctrAdClass.instance != null) ctrAdClass.instance.ShowLevelAd(name);
 		    }
@@ -205,7 +205,6 @@ public class iClickClass : MonoBehaviour {
 				else
 					async = SceneManager.LoadSceneAsync ("level menu");
 
-
 				
 			} else if (name == "button play 0") {
 
@@ -214,23 +213,37 @@ public class iClickClass : MonoBehaviour {
 					async = SceneManager.LoadSceneAsync ("level" + ctrProgressClass.progress ["currentLevel"]);
 				else
 					async = SceneManager.LoadSceneAsync ("level menu");
-			
-			} else if (name == "button play 1") {
+            }
+            else if (name == "button play 1") {
 
 				initLevelMenuClass.levelDemands = 1;
 				if (Application.CanStreamedLevelBeLoaded ("level" + ctrProgressClass.progress ["currentLevel"]))
 					async = SceneManager.LoadSceneAsync ("level" + ctrProgressClass.progress ["currentLevel"]);
 				else
 					async = SceneManager.LoadSceneAsync ("level menu");
-			} else if (name.Substring (0, 5) == "level") {
+            }
+            else if (name.Substring (0, 5) == "level") {
                 //добавить проверку на гемс
                 if (ctrProgressClass.progress["lastLevel"] >= Convert.ToInt32(name.Substring(5)) - 1)
 			    {
                     async = SceneManager.LoadSceneAsync("level" + Convert.ToInt32(name.Substring(5)));
                      
                 }
+			} else if (name == "button next level")
+			{
+                var nextLevelNumber = int.Parse(staticClass.scenePrev.Substring(5)) + 1;
+                if ((staticClass.levelBlocks.ContainsKey(nextLevelNumber) && staticClass.levelBlocks[nextLevelNumber] <= ctrProgressClass.progress["gems"])
+                    || !staticClass.levelBlocks.ContainsKey(nextLevelNumber) 
+                    || ctrProgressClass.progress["lastLevel"] >= nextLevelNumber)
+
+			        async = SceneManager.LoadSceneAsync("level" + nextLevelNumber);
+			    else
+			    {
+			        async = SceneManager.LoadSceneAsync("level menu");
+			        staticClass.notGemsForLevel = true;
+			    }
 			}
-            
+
             //сбрасываем энергию
             if (staticClass.scenePrev != SceneManager.GetActiveScene().name) lsEnergyClass.energyTake = false;
 
@@ -576,6 +589,14 @@ public class iClickClass : MonoBehaviour {
             yield return new WaitForSeconds(0.2F);
             menu.SetActive(false);
         }
+    
+        else if (name == "exit unlock chapter menu")
+        {
+            menu = initLevelMenuClass.instance.unlockСhapterMenu;
+            menu.transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            menu.SetActive(false);
+        }
     }
 
     //public IEnumerator CoroutineCloseMenu(){
@@ -674,5 +695,8 @@ public class iClickClass : MonoBehaviour {
         }
     }
 
-
+    public void buyChapter()
+    {
+        marketClass.buyChapter();
+    }
 }

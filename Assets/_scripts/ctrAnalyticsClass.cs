@@ -26,6 +26,7 @@ public class ctrAnalyticsClass: MonoBehaviour
     void Start()
     {
         Debug.Log("ctrAnalyticsClass start");
+        LocalNotification.CancelAllNotifications();
         try
         {
             Debug.Log("Localytics SessionTimeoutInterval: " + sessionTimeout);
@@ -113,18 +114,9 @@ public class ctrAnalyticsClass: MonoBehaviour
             //pause
             ctrProgressClass.progress["sessionEnd"] = (int) DateTime.Now.TotalSeconds();
             ctrProgressClass.saveProgress();
+            sendNotiferSale();
 
-            lsSaleClass.setTimerSale();
-            lsSaleClass.setSale();
-            LocalNotification.CancelAllNotifications();
-            if (lsSaleClass.timerStartSale > DateTime.Now)
-            {
-                var delay = lsSaleClass.timerStartSale - DateTime.Now;
-                var type = ctrProgressClass.progress["firstPurchase"] == 1 ? "Payers" : "Free";
-                Debug.Log(Localization.Get("sale" + ctrProgressClass.progress["sale"] + type));
-                LocalNotification.SendNotification(1, delay, Localization.Get("sale" + ctrProgressClass.progress["sale"] + type), "");
-            }
-            
+
         }
         else
         {
@@ -144,6 +136,7 @@ public class ctrAnalyticsClass: MonoBehaviour
         Debug.Log("OnApplicationQuit");
         ctrProgressClass.progress["sessionEnd"] = (int)DateTime.Now.TotalSeconds();
         ctrProgressClass.saveProgress();
+        sendNotiferSale();
     }
 
     public void startSession()
@@ -258,6 +251,21 @@ public class ctrAnalyticsClass: MonoBehaviour
         {
             Debug.Log("Localytics setCustomerEmail error");
         }
+    }
+
+    public void sendNotiferSale()
+    {
+        lsSaleClass.setTimerSale();
+        lsSaleClass.setSale();
+        LocalNotification.CancelAllNotifications();
+        if (lsSaleClass.timerStartSale > DateTime.Now)
+        {
+            var delay = lsSaleClass.timerStartSale - DateTime.Now;
+            var type = ctrProgressClass.progress["firstPurchase"] == 1 ? "Payers" : "Free";
+            //Debug.Log(Localization.Get("sale" + ctrProgressClass.progress["sale"] + type));
+            LocalNotification.SendNotification(1, delay, Localization.Get("sale" + ctrProgressClass.progress["sale"] + type), "");
+        }
+
     }
 
 }

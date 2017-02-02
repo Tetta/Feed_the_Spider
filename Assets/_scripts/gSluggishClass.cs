@@ -112,7 +112,7 @@ public class gSluggishClass : MonoBehaviour {
 
 		if (sluggishState == "collision" && flag && flagHintUse) {
 			//tutorial
-			if (ctrProgressClass.progress["currentLevel"] == 7 && gHandClass.handState == "text1") 
+			if (ctrProgressClass.progress["currentLevel"] == 4 && gHandClass.handState == "text1") 
 				GameObject.Find("default level/gui/tutorial").GetComponent<gHandClass>().delHand (-1, 0);
 			
 			GetComponent<Rigidbody2D> ().drag = 20;
