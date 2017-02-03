@@ -271,7 +271,7 @@ public class iClickClass : MonoBehaviour {
                 {
                     //rate us
                     Debug.Log(name);
-                    
+                    initLevelMenuClass.levelDemands = 0;
                     if (staticClass.rateUsLast < nextLevelNumber - 1 && staticClass.rateUsLevels.Contains(nextLevelNumber - 1))
                     {
                         rateUsMenuEnable();
@@ -791,6 +791,8 @@ public class iClickClass : MonoBehaviour {
         rateUsGO.transform.parent = GameObject.Find("/default level/gui/panel back transition").transform;
         rateUsGO.transform.localScale = new Vector3(1, 1, 1);
         rateUsGO.transform.localPosition = new Vector3(0, -62, 0);
+        //disable loading
+        rateUsGO.transform.parent.GetChild(1).localScale = Vector3.zero;
 
         staticClass.sceneLoading = false;
     }

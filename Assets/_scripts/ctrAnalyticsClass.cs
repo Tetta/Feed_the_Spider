@@ -272,8 +272,8 @@ public class ctrAnalyticsClass: MonoBehaviour
             LocalNotification.SendNotification(1, delay, "", Localization.Get("notiferTitleSale") + Localization.Get("sale" + ctrProgressClass.progress["sale"] + type));
         }
 
-//daily notifer
-delay = DateTime.Parse("12:00:00") - DateTime.Now;
+        //daily notifer
+        delay = DateTime.Parse("12:00:00") - DateTime.Now;
         if (delay < new TimeSpan(0)) delay = DateTime.Parse("12:00:00").AddDays(1) - DateTime.Now;
         LocalNotification.SendNotification(2, delay, "", Localization.Get("notiferTitleDay"));
 
