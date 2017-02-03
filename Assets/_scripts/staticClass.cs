@@ -498,8 +498,7 @@ public class staticClass
 
     public static Dictionary<int, int> levelBlocks = new Dictionary<int, int>
     {
-      {3, 222},
-
+      {26, 15}, {37, 27}, {51, 47}, {62, 64}, {76, 85}, {87, 120}
     };
 
     public static bool notGemsForLevel = false;

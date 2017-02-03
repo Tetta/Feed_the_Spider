@@ -37,7 +37,7 @@ public class gHandClass : MonoBehaviour {
 			yield return StartCoroutine (staticClass.waitForRealTime (1F));
 			transform.GetChild (2).gameObject.SetActive (false);
 		}
-		if (level == "level51") {
+		if (level == "level28") {
 			if (gYetiClass.yetiState == "")
 				Time.timeScale = 1;
 		} else Time.timeScale = 1;

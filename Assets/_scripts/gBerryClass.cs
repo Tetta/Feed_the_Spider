@@ -108,13 +108,26 @@ public class gBerryClass : MonoBehaviour {
 			GameObject.Find ("tween").transform.localPosition = new Vector3 (880, 0, 0);
 		}
 
-        //dream
-        var p = ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"];
+        //если уровень запущен 1й раз
+        if (staticClass.scenePrev != SceneManager.GetActiveScene().name)
+        {
+            staticClass.levelRestartedCount = 0;
+            staticClass.levelAdViewed = 0;
+        }
+
+        //level restarted
+        if (staticClass.scenePrev == SceneManager.GetActiveScene().name && gHintClass.hintState == "")
+	    {
+	        staticClass.levelRestartedCount++;
+	    }
+
+	    //dream
+            var p = ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"];
         if (staticClass.scenePrev == SceneManager.GetActiveScene().name && !((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 || (p == 2 || p == 3)
             && initLevelMenuClass.levelDemands == 1)
             && gHintClass.hintState == "")
 	    {
-	        staticClass.levelRestartedCount++;
+	       // staticClass.levelRestartedCount++;
 	        if (staticClass.levelRestartedCount >= 2)
 	        {
                 var dream = GameObject.Find("/default level/gui/dream");
@@ -136,12 +149,7 @@ public class gBerryClass : MonoBehaviour {
 
         }
 
-        //если уровень запущен 1й раз
-        if (staticClass.scenePrev != SceneManager.GetActiveScene().name)
-	    {
-	        staticClass.levelRestartedCount = 0;
-	        staticClass.levelAdViewed = 0;
-	    }
+
 
 	    //off if publish
         gRecHintClass.rec = "";
@@ -150,17 +158,25 @@ public class gBerryClass : MonoBehaviour {
 
         //show tutorial hint
         if (staticClass.levelRestartedCount >= 3 && ctrProgressClass.progress["tutorialHint"] == 0 &&
-	        ctrProgressClass.progress["hints"] > 0)
+	        ctrProgressClass.progress["hints"] > 0 && ctrProgressClass.progress["tutorialDream"] != ctrProgressClass.progress["currentLevel"])
 	    {
             GameObject tutorialHintGO = Instantiate(tutorialHint, new Vector2(0, 0), Quaternion.identity) as GameObject;
             //position hand
             tutorialHintGO.transform.GetChild(0).transform.localPosition = GameObject.Find("/default level/gui/bonuses").transform.localPosition + new Vector3(50, 110, 0);
             staticClass.isTimePlay = Time.timeScale;
             Time.timeScale = 0;
+
+            //off level tutorial
+            if (GameObject.Find("/default level/gui/tutorial") != null) GameObject.Find("/default level/gui/tutorial").transform.localScale = Vector3.zero;
         }
 
+
+	    Debug.Log("tutorialBonus: " + ctrProgressClass.progress["tutorialBonus"]);
+        Debug.Log("staticClass.levelRestartedCount: " + staticClass.levelRestartedCount);
+        Debug.Log("gHintClass.hintState: " + gHintClass.hintState);
+
         //show tutorial bonus
-        if (staticClass.levelRestartedCount >= 3 && ctrProgressClass.progress["tutorialBonus"] == 0 &&
+        if (ctrProgressClass.progress["tutorialDream"] != ctrProgressClass.progress["currentLevel"] && staticClass.levelRestartedCount >= 3 && ctrProgressClass.progress["tutorialBonus"] == 0 &&
 	        ctrProgressClass.progress["hints"] == 0 && gHintClass.hintState == "" &&
             (ctrProgressClass.progress["webs"] > 0 || ctrProgressClass.progress["teleports"] > 0 ||
 	         ctrProgressClass.progress["collectors"] > 0))
@@ -176,6 +192,9 @@ public class gBerryClass : MonoBehaviour {
             tutorialBonusGO.transform.GetChild(0).transform.localPosition = GameObject.Find("/default level/gui/bonuses").transform.localPosition + new Vector3(195, 80, 0);
             staticClass.isTimePlay = Time.timeScale;
             Time.timeScale = 0;
+            
+            //off level tutorial
+            if (GameObject.Find("/default level/gui/tutorial") != null) GameObject.Find("/default level/gui/tutorial").transform.localScale = Vector3.zero;
         }
 
         //show tutorial dream
@@ -190,6 +209,9 @@ public class gBerryClass : MonoBehaviour {
 
             staticClass.isTimePlay = Time.timeScale;
             Time.timeScale = 0;
+
+            //off level tutorial
+            if (GameObject.Find("/default level/gui/tutorial") != null) GameObject.Find("/default level/gui/tutorial").transform.localScale = Vector3.zero;
         }
 
 

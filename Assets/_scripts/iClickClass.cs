@@ -240,7 +240,8 @@ public class iClickClass : MonoBehaviour {
 					async = SceneManager.LoadSceneAsync ("level" + ctrProgressClass.progress ["currentLevel"]);
 				else
 					async = SceneManager.LoadSceneAsync ("level menu");
-            }
+		        staticClass.levelRestartedCount = -1;
+		    }
             else if (name == "button play 1") {
 
 				initLevelMenuClass.levelDemands = 1;
@@ -248,6 +249,7 @@ public class iClickClass : MonoBehaviour {
 					async = SceneManager.LoadSceneAsync ("level" + ctrProgressClass.progress ["currentLevel"]);
 				else
 					async = SceneManager.LoadSceneAsync ("level menu");
+                staticClass.levelRestartedCount = -1;
             }
             else if (name.Substring (0, 5) == "level") {
                 //добавить проверку на гемс
@@ -750,7 +752,7 @@ public class iClickClass : MonoBehaviour {
         if (staticClass.levelRestartedCount == 2 && ctrProgressClass.progress["tutorialDream"] == 0)
         {
             ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"] = 3;
-            ctrProgressClass.progress["tutorialDream"] = 1;
+            ctrProgressClass.progress["tutorialDream"] = ctrProgressClass.progress["currentLevel"];
             ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, string> { { "name", "use dream" } });
             ctrProgressClass.saveProgress();
         }
@@ -781,10 +783,11 @@ public class iClickClass : MonoBehaviour {
     public void rateUs()
     {
         Debug.Log("rate us click");
-        #if UNITY_ANDROID
+#if UNITY_ANDROID
                 Application.OpenURL("market://details?id=com.evogames.feedthespider");
 #elif UNITY_IPHONE
              Application.OpenURL("itms-apps://itunes.apple.com/app/id1194487188");
+        //??? https://itunes.apple.com/us/app/feed-the-spider/id1194487188?l=ru&ls=1&mt=8
 #endif
     }
 

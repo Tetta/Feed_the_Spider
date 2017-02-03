@@ -63,10 +63,46 @@ namespace CompleteProject
 #if UNITY_IOS
             builder.AddProduct("com.mysterytag.spider.booster_green_1", ProductType.Consumable);
             builder.AddProduct("com.mysterytag.spider.booster_blue_1", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.booster_purple_1", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.booster_green_10", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.booster_blue_10", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.booster_purple_10", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.sale_1_free", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.sale_2_free", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.sale_3_free", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.sale_4_free", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.sale_1_green_payers", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.sale_1_blue_payers", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.sale_1_purple_payers", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.sale_2_green_payers", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.sale_2_blue_payers", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.sale_2_purple_payers", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.sale_3_green_payers", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.sale_3_blue_payers", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.sale_3_purple_payers", ProductType.Consumable);
+            builder.AddProduct("com.mysterytag.spider.energy_for_day", ProductType.Consumable);
             builder.AddProduct("com.mysterytag.spider.chapter", ProductType.Consumable);
 #else
             builder.AddProduct("com.evogames.feedthespider.booster_green_1", ProductType.Consumable);
             builder.AddProduct("com.evogames.feedthespider.booster_blue_1", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.booster_purple_1", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.booster_green_10", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.booster_blue_10", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.booster_purple_10", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.sale_1_free", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.sale_2_free", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.sale_3_free", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.sale_4_free", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.sale_1_green_payers", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.sale_1_blue_payers", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.sale_1_purple_payers", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.sale_2_green_payers", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.sale_2_blue_payers", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.sale_2_purple_payers", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.sale_3_green_payers", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.sale_3_blue_payers", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.sale_3_purple_payers", ProductType.Consumable);
+            builder.AddProduct("com.evogames.feedthespider.energy_for_day", ProductType.Consumable);
             builder.AddProduct("com.evogames.feedthespider.chapter", ProductType.Consumable);
 #endif
 
