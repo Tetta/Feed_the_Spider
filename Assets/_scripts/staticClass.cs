@@ -508,6 +508,12 @@ public class staticClass
     public static List<int> rateUsLevels = new List<int> {8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 100};
     public static string rateUsSceneNext;
 
+    public static bool showRewardCardsMenu = false;
+    public static int showRewardCardsMenuWebs = 0;
+    public static int showRewardCardsMenuCollectors = 0;
+    public static int showRewardCardsMenuTeleports = 0;
+    public static int showRewardCardsMenuHints = 0;
+
 
 }
 

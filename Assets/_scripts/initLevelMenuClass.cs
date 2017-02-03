@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class initLevelMenuClass : MonoBehaviour {
 	public static initLevelMenuClass instance = null;
     public GameObject unlockСhapterMenu;
+    public GameObject rewardForCardsMenu;
 
     public UILabel coinsLabel;
 	public UILabel gemsLabel;
@@ -59,6 +60,78 @@ public class initLevelMenuClass : MonoBehaviour {
 	        unlockСhapterMenu.SetActive(true);
 	        staticClass.notGemsForLevel = false;
 	    }
+
+	    //for test
+        //staticClass.showRewardCardsMenuCollectors = 3;
+        //staticClass.showRewardCardsMenuWebs = 3;
+        //staticClass.showRewardCardsMenuHints = 1;
+        //staticClass.showRewardCardsMenuTeleports = 22;
+
+        //reward menu for collection cards
+        if (staticClass.showRewardCardsMenuCollectors != 0 || staticClass.showRewardCardsMenuWebs != 0 ||
+            staticClass.showRewardCardsMenuHints != 0 || staticClass.showRewardCardsMenuTeleports != 0)
+        {
+            List<Transform> bonuses = new List<Transform>();
+            rewardForCardsMenu.SetActive(true);
+            if (staticClass.showRewardCardsMenuCollectors != 0)
+            {
+                var tr = rewardForCardsMenu.transform.GetChild(0).GetChild(0);
+                tr.GetChild(0).GetChild(3).GetChild(0).GetComponent<UILabel>().text =
+                    staticClass.showRewardCardsMenuCollectors.ToString();
+                tr.gameObject.SetActive(true);
+                bonuses.Add(tr);
+            }
+            if (staticClass.showRewardCardsMenuHints != 0)
+            {
+                var tr = rewardForCardsMenu.transform.GetChild(0).GetChild(1);
+                tr.GetChild(0).GetChild(3).GetChild(0).GetComponent<UILabel>().text =
+                    staticClass.showRewardCardsMenuHints.ToString();
+                tr.gameObject.SetActive(true);
+                bonuses.Add(tr);
+            }
+            if (staticClass.showRewardCardsMenuTeleports != 0)
+            {
+                var tr = rewardForCardsMenu.transform.GetChild(0).GetChild(2);
+                tr.GetChild(0).GetChild(3).GetChild(0).GetComponent<UILabel>().text =
+                    staticClass.showRewardCardsMenuTeleports.ToString();
+                tr.gameObject.SetActive(true);
+                bonuses.Add(tr);
+            }
+            if (staticClass.showRewardCardsMenuWebs != 0)
+            {
+                var tr = rewardForCardsMenu.transform.GetChild(0).GetChild(3);
+                tr.GetChild(0).GetChild(3).GetChild(0).GetComponent<UILabel>().text =
+                    staticClass.showRewardCardsMenuWebs.ToString();
+                tr.gameObject.SetActive(true);
+                bonuses.Add(tr);
+            }
+            if (bonuses.Count == 1)
+            {
+                bonuses[0].localPosition = new Vector3(16, 41, 0);
+                bonuses[0].rotation = Quaternion.Euler(0, 0, -8);
+            }
+            if (bonuses.Count == 2)
+            {
+                bonuses[0].localPosition = new Vector3(-99, 54, 0);
+                bonuses[1].localPosition = new Vector3(107, 36, 0);
+
+                bonuses[0].rotation = Quaternion.Euler(0, 0, 10);
+                bonuses[1].rotation = Quaternion.Euler(0, 0, -25);
+            }
+            if (bonuses.Count == 3)
+            {
+                bonuses[0].localPosition = new Vector3(-203, -48, 0);
+                bonuses[1].localPosition = new Vector3(8, 57, 0);
+                bonuses[2].localPosition = new Vector3(229, 54, 0);
+            }
+            staticClass.showRewardCardsMenuCollectors = 0;
+            staticClass.showRewardCardsMenuWebs = 0;
+            staticClass.showRewardCardsMenuHints = 0;
+            staticClass.showRewardCardsMenuTeleports = 0;
+        }
+
+
+
     }
 	
 	// Update is called once per frame

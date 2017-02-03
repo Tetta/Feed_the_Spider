@@ -22,6 +22,9 @@ lsUnlockChapterMenu, "You don't have enough crystals.", "У вас недост�
 lsUnlockChapterMenu2, "You want to buy the next chapter?", "Хотите приобрести следующую главу?"
 lsUnlockChapterMenu3, "Collect gems", "Собрать кристаллы"
 
+lsRewardForCardsMenu, "Daily bonuses for a collection of cards!", "Ежедневные бонусы за коллекцию карт!"
+lsRewardForCardsMenu2, "Pick up", "Забрать"
+
 marketNotCoinsMenu, "Not enought coins!", "Недостаточно монет!"
 marketThanksMenu, "Thanks!", "Спасибо!"
 marketSpecial, "Special offers", "Особые предложения"
@@ -76,9 +79,11 @@ marketBonus, "If exist in collection:", "Если есть в коллекции
 marketBonus2, "to the maximum", "к максимуму"
 marketBonus3, "during the walkthrough of levels", "при прохождении уровней"
 marketBonus4, "every day", "каждый день"
+
 marketGetBooster, "Get booster!", "Получить бустер!"
 marketSkinBonus, "Collect the complete collection of skins!", "Собери полную коллекцию скинов!"
-marketSkinBonus2, "Get infinite   !", "Получи бесконечную   !"
+marketSkinBonus2, "Get acceleration energy recovery for 2 minutes!", "Получи ускорение восстановления энергии на 2 минуты!"
+marketSkinBonus3, "Accelerates energy recovery by ", "Ускоряет восстановление энергии на "
 marketHatBonus, "Collect the complete collection of hats!", "Собери полную коллекцию шапок!"
 marketHatBonus2, "Get +100%   !", "Получи +100%   !"
 marketBerryBonus, "Collect the complete collection of berries!", "Собери полную коллекцию ягод!"
@@ -94,6 +99,7 @@ free, "free", "бесплатно"
 yes, "yes", "да"
 no, "no", "нет"
 buy, "buy", "купить"
+sec, "sec", "сек"
 
 //tutoralAll, "Deliver berry to Spider", "Доставьте ягоду к Паучку"
 tutorialWeb1, "Deliver berry to Spider \nTap on the cobweb to reach the berry", "Доставьте ягоду к Паучку \nНажмите на паутинку чтоб достать до ягоды"

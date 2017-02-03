@@ -668,6 +668,13 @@ public class iClickClass : MonoBehaviour {
             yield return new WaitForSeconds(0.2F);
             menu.SetActive(false);
         }
+        else if (name == "exit reward for cards menu")
+        {
+            menu = initLevelMenuClass.instance.rewardForCardsMenu;
+            menu.transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            menu.SetActive(false);
+        }
     }
 
     //public IEnumerator CoroutineCloseMenu(){
