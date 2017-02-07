@@ -34,19 +34,17 @@ public class PbxModifier
 
 
             string plistPath = path + "/Info.plist";
-            PlistDocument plist = new PlistDocument();
-            plist.ReadFromString(File.ReadAllText(plistPath));
+			var txt = File.ReadAllText(plistPath);
 
-            // Get root
-            PlistElementDict rootDict = plist.root;
-
-            // Change value of CFBundleVersion in Xcode plist
-
-            rootDict.SetString("NSPhotoLibraryUsageDescription", "This app requires access to the photo library.");
-            rootDict.SetString("NSCameraUsageDescription", "This app requires access to the camera.");
-
+			txt = txt.Replace("<key>LSApplicationQueriesSchemes</key>",@"
+<key>NSPhotoLibraryUsageDescription</key>
+<string>This app requires access to the photo library.</string>
+<key>NSCameraUsageDescription</key>
+<string>This app requires access to the camera</string>			
+<key>LSApplicationQueriesSchemes</key>");
+			
             // Write to file
-            File.WriteAllText(plistPath, plist.WriteToString());
+            File.WriteAllText(plistPath, txt);
 
 #endif
         }
