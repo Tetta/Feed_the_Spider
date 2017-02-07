@@ -113,6 +113,7 @@ public class mCardClass : MonoBehaviour {
 			        if (i != 0 && ctrProgressClass.progress[name] != 0)
 			        {
 			            if (name.Substring(0, 3) == "hat") previewObj.GetChild(i + 5).GetChild(1).GetComponent<UILabel>().text = "+" + int.Parse(previewObj.GetChild(i + 5).GetChild(2).GetComponent<UILabel>().text) * ctrProgressClass.progress[name] + "%";
+                        else if (name.Substring(0, 4) == "skin") previewObj.GetChild(i + 5).GetChild(1).GetComponent<UILabel>().text = "" + int.Parse(previewObj.GetChild(i + 5).GetChild(2).GetComponent<UILabel>().text) * ctrProgressClass.progress[name];
                         else previewObj.GetChild(i + 5).GetChild(1).GetComponent<UILabel>().text = "+" + int.Parse( previewObj.GetChild(i + 5).GetChild(2).GetComponent<UILabel>().text) * ctrProgressClass.progress[name];
 			        }
 

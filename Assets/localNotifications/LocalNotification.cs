@@ -34,8 +34,8 @@ class LocalNotification
         UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(k);
 #endif
     }
-
-    public static void SendNotification(int id, long delay, string title, string message, Color32 bgColor,   bool sound = true, bool vibrate = true, bool lights = true, string bigIcon = "", NotificationExecuteMode executeMode = NotificationExecuteMode.Inexact)
+    
+    public static void SendNotification(int id, long delay, string title, string message, Color32 bgColor,   bool sound = true, bool vibrate = true, bool lights = true, string bigIcon = "app_icon", NotificationExecuteMode executeMode = NotificationExecuteMode.Inexact)
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
         AndroidJavaClass pluginClass = new AndroidJavaClass(fullClassName);

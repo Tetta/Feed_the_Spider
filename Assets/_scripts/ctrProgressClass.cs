@@ -98,8 +98,8 @@ public class ctrProgressClass {
 		{"score91_1",0},{"score91_2",0},{"score92_1",0},{"score92_2",0},{"score93_1",0},{"score93_2",0},{"score94_1",0},{"score94_2",0},{"score95_1",0},{"score95_2",0},
 		{"score96_1",0},{"score96_2",0},{"score97_1",0},{"score97_2",0},{"score98_1",0},{"score98_2",0},{"score99_1",0},{"score99_2",0},{"score100_1",0},{"score100_2",0},
 
-		{"gift7",0},{"gift8",0},{"gift11",0},{"gift19",0},{"gift21",0},{"gift31",0},{"gift32",0},{"gift40",0},{"gift47",0},
-		{"gift53",0},{"gift56",0},{"gift63",0},{"gift69",0},{"gift71",0},{"gift73",0},{"gift84",0},{"gift87",0},{"gift94",0},{"gift95",0},
+		{"gift7",0},{"gift8",0},{"gift12",0},{"gift19",0},{"gift20",0},{"gift28",0},{"gift31",0},{"gift45",0},{"gift48",0},
+		{"gift55",0},{"gift57",0},{"gift65",0},{"gift72",0},{"gift79",0},{"gift81",0},{"gift83",0},{"gift87",0},{"gift94",0},{"gift95",0},
 
         //0 нет, 1 первый, 2 второй, 3 оба
         { "level1_dream",0},{"level2_dream",0},{"level3_dream",0},{"level4_dream",0},{"level5_dream",0},{"level6_dream",0},{"level7_dream",0},{"level8_dream",0},{"level9_dream",0},{"level10_dream",0},
@@ -117,7 +117,7 @@ public class ctrProgressClass {
 	static private Dictionary<string, int> progressCheat = new Dictionary<string, int>{
 		{"googlePlay",0}, {"lastLevel",99}, {"currentLevel",1},{"coins",1000},{"gems",200},{"energyTime", 0},{"energy",4}, {"energyInfinity", 0},
         {"hints",99},{"webs",99},{"collectors",99},{"teleports",99},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
-		{"everyplay",0},{"firstPurchase",0},{"fb",0},{"vk",0},
+		{"everyplay",0},{"firstPurchase",1},{"fb",0},{"vk",0},
 
         {"boostersWhite",110 }, {"boostersGreen",220 }, {"boostersBlue",330 }, {"boostersPurple",110 },
         {"berryRare", 2 }, {"hatRare",2},{"skinRare", 4},
@@ -165,8 +165,8 @@ public class ctrProgressClass {
 		{"score91_1",0},{"score91_2",0},{"score92_1",0},{"score92_2",0},{"score93_1",0},{"score93_2",0},{"score94_1",0},{"score94_2",0},{"score95_1",0},{"score95_2",0},
 		{"score96_1",0},{"score96_2",0},{"score97_1",0},{"score97_2",0},{"score98_1",0},{"score98_2",0},{"score99_1",0},{"score99_2",0},{"score100_1",0},{"score100_2",0},
 
-		{"gift7",0},{"gift8",0},{"gift11",0},{"gift19",0},{"gift21",0},{"gift31",0},{"gift32",0},{"gift40",0},{"gift47",0},
-		{"gift53",0},{"gift56",0},{"gift63",0},{"gift69",0},{"gift71",0},{"gift73",0},{"gift84",0},{"gift87",0},{"gift94",0},{"gift95",0},
+        {"gift7",0},{"gift8",0},{"gift12",0},{"gift19",0},{"gift20",0},{"gift28",0},{"gift31",0},{"gift45",0},{"gift48",0},
+        {"gift55",0},{"gift57",0},{"gift65",0},{"gift72",0},{"gift79",0},{"gift81",0},{"gift83",0},{"gift87",0},{"gift94",0},{"gift95",0},
                 
         //0 нет, 1 первый, 2 второй, 3 оба
         { "level1_dream",3},{"level2_dream",3},{"level3_dream",3},{"level4_dream",3},{"level5_dream",3},{"level6_dream",3},{"level7_dream",3},{"level8_dream",3},{"level9_dream",3},{"level10_dream",3},

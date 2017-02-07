@@ -61,8 +61,8 @@ public class initClass : MonoBehaviour {
 		    //ctrProgressClass.progress["language"] = 1;
 			//everyplay
 			if (ctrProgressClass.progress ["everyplay"] == 1) {
-				Everyplay.SetDisableSingleCoreDevices (true);
-				Everyplay.SetMaxRecordingMinutesLength(10);
+			//	Everyplay.SetDisableSingleCoreDevices (true);
+			//	Everyplay.SetMaxRecordingMinutesLength(10);
 				//Everyplay.SetLowMemoryDevice (true);
 			}
             /*
@@ -109,6 +109,7 @@ public class initClass : MonoBehaviour {
             //bug!!!
             //if (!flagNotifer) AndroidNotificationManager.instance.ScheduleLocalNotification(Localization.Get("notiferTitleDay"), Localization.Get("notiferMesssageDay"), 60 * 60 * 24);
 
+		    staticClass.rateUsLast = ctrProgressClass.progress["lastLevel"];
 
 		}
 

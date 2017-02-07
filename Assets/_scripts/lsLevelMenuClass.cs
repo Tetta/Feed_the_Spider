@@ -20,6 +20,7 @@ public class lsLevelMenuClass: MonoBehaviour {
 	public GameObject gem1Active;
 	public GameObject gem2Active;
     public GameObject hand;
+    public GameObject rateUsMenu;
     private int tabCounter = 0;
 
 	void setDefault () {
@@ -97,8 +98,10 @@ public class lsLevelMenuClass: MonoBehaviour {
     public void completeMenuEnable (float timeLevel, bool gem, int starsCount, int lvlNumber) {
 		//выключаем root
 		GameObject.Find("root").SetActive(false);
+        //выключаем bonuses
+        GameObject.Find("/default level/gui/bonuses/").SetActive(false);
 
-		setDefault ();
+        setDefault();
 		stars1.SetActive(false);
 		stars2.SetActive(false);
 		Transform score = levelMenu.transform.GetChild (0).GetChild (4);

@@ -139,7 +139,7 @@ public class iClickClass : MonoBehaviour {
 		if (!staticClass.sceneLoading) {
 
 			Time.timeScale = 0;
-
+		    bool sceneCanLoad = true;
             //проверяем энергию при запуске уровня и списываем ее
             //раскомментить при publish game
             Debug.Log(name);
@@ -150,9 +150,10 @@ public class iClickClass : MonoBehaviour {
 				}
 			}
             //showAd в конце уровня, рестарте, выходе в меню с уровня
-		    if (name == "button play" || name == "button play 0" || name == "button play 1" || name.Substring(0, 5) == "level" || name == "restart" || name == "button next")
+		    if (name == "button play" || name == "button play 0" || name == "button play 1" || name.Substring(0, 5) == "level" || name == "restart" || name == "button next" || name == "button next level")
 		    {
-		        if (ctrAdClass.instance != null) ctrAdClass.instance.ShowLevelAd(name);
+		        if (ctrAdClass.instance != null)
+                    ctrAdClass.instance.ShowLevelAd(name);
 		    }
             if (name == "restart" || name == "start level menu")
                 if (GameObject.Find("berry") != null && GameObject.Find("berry").GetComponent<gBerryClass>() != null) GameObject.Find("berry").GetComponent<gBerryClass>().endLevel(false);
@@ -164,18 +165,25 @@ public class iClickClass : MonoBehaviour {
 			//if (Application.targetFrameRate != -1) Application.targetFrameRate = -1;
 
 
-				
-			if (name == "start level menu") {
-				if (ctrProgressClass.progress ["lastLevel"] == 0) {
-					staticClass.scenePrev = "level menu";
-					async = SceneManager.LoadSceneAsync ("level1");
-				} else
-					async = SceneManager.LoadSceneAsync ("level menu");
-			} else if (name == "button back")
-				async = SceneManager.LoadSceneAsync ("menu");
+
+		    if (name == "start level menu")
+		    {
+		        if (ctrProgressClass.progress["lastLevel"] == 0)
+		        {
+		            staticClass.scenePrev = "level menu";
+		            async = SceneManager.LoadSceneAsync("level1");
+		        }
+		        else
+		        {
+		             async = SceneManager.LoadSceneAsync("level menu");
+		        }
+
+		    }
+		    else if (name == "button back")
+		        async = SceneManager.LoadSceneAsync("menu");
 
 
-			if (name == "restart") {
+		    if (name == "restart") {
 				async = SceneManager.LoadSceneAsync (SceneManager.GetActiveScene ().name);
 
 			}
@@ -189,8 +197,27 @@ public class iClickClass : MonoBehaviour {
 				async = SceneManager.LoadSceneAsync (SceneManager.GetActiveScene ().name);
 
 			} else if (name == "button next") {
+                Debug.Log(name);
+                Debug.Log(staticClass.scenePrev.Substring(0, 5));
+                Debug.Log(staticClass.rateUsLast);
+                if (staticClass.scenePrev.Substring(0, 5) == "level")
+                {
+                    //rate us
+                    if (staticClass.rateUsLast < int.Parse(staticClass.scenePrev.Substring(5)) &&
+                        staticClass.rateUsLevels.Contains(int.Parse(staticClass.scenePrev.Substring(5)) ))
+                    {
+                        rateUsMenuEnable();
+                        sceneCanLoad = false;
+                        staticClass.rateUsSceneNext = "level menu";
+                    }
+                    else
+                    {
+                        async = SceneManager.LoadSceneAsync("level menu");
+                    }
 
-				async = SceneManager.LoadSceneAsync ("level menu");
+                }
+                else
+                    async = SceneManager.LoadSceneAsync ("level menu");
 
 			} else if (name == "button play") {
 				//если открыта вкладка основного прохождения
@@ -205,7 +232,6 @@ public class iClickClass : MonoBehaviour {
 				else
 					async = SceneManager.LoadSceneAsync ("level menu");
 
-
 				
 			} else if (name == "button play 0") {
 
@@ -214,31 +240,85 @@ public class iClickClass : MonoBehaviour {
 					async = SceneManager.LoadSceneAsync ("level" + ctrProgressClass.progress ["currentLevel"]);
 				else
 					async = SceneManager.LoadSceneAsync ("level menu");
-			
-			} else if (name == "button play 1") {
+		        staticClass.levelRestartedCount = -1;
+		    }
+            else if (name == "button play 1") {
 
 				initLevelMenuClass.levelDemands = 1;
 				if (Application.CanStreamedLevelBeLoaded ("level" + ctrProgressClass.progress ["currentLevel"]))
 					async = SceneManager.LoadSceneAsync ("level" + ctrProgressClass.progress ["currentLevel"]);
 				else
 					async = SceneManager.LoadSceneAsync ("level menu");
-			} else if (name.Substring (0, 5) == "level") {
+                staticClass.levelRestartedCount = -1;
+            }
+            else if (name.Substring (0, 5) == "level") {
                 //добавить проверку на гемс
                 if (ctrProgressClass.progress["lastLevel"] >= Convert.ToInt32(name.Substring(5)) - 1)
 			    {
                     async = SceneManager.LoadSceneAsync("level" + Convert.ToInt32(name.Substring(5)));
                      
                 }
-			}
-            
+			} else if (name == "button next level")
+			{
+                var nextLevelNumber = int.Parse(staticClass.scenePrev.Substring(5)) + 1;
+
+                //next level load
+           
+			    
+                    if ((staticClass.levelBlocks.ContainsKey(nextLevelNumber) && staticClass.levelBlocks[nextLevelNumber] <= ctrProgressClass.progress["gems"])
+			    
+			        ||
+			        !staticClass.levelBlocks.ContainsKey(nextLevelNumber)
+			            || ctrProgressClass.progress["lastLevel"] >= nextLevelNumber)
+                {
+                    //rate us
+                    Debug.Log(name);
+                    initLevelMenuClass.levelDemands = 0;
+                    if (staticClass.rateUsLast < nextLevelNumber - 1 && staticClass.rateUsLevels.Contains(nextLevelNumber - 1))
+                    {
+                        rateUsMenuEnable();
+                        sceneCanLoad = false;
+                        staticClass.rateUsSceneNext = "level" + nextLevelNumber;
+                    } else
+                    async = SceneManager.LoadSceneAsync("level" + nextLevelNumber);
+			    }
+                //notGemsForLevel
+                else
+                {
+                        async = SceneManager.LoadSceneAsync("level menu");
+                        staticClass.notGemsForLevel = true;
+                    }
+                
+
+            }else if (name == "exit rate us menu")
+		    {
+                Debug.Log(name);
+		        staticClass.rateUsLast = ctrProgressClass.progress["lastLevel"];
+                async = SceneManager.LoadSceneAsync(staticClass.rateUsSceneNext);
+            }
+            else if (name == "button rate us")
+            {
+                Debug.Log(name);
+                staticClass.rateUsLast = ctrProgressClass.progress["lastLevel"];
+                async = SceneManager.LoadSceneAsync(staticClass.rateUsSceneNext);
+            }
+            else if (name == "restart after dream")
+            {
+                async = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+
+            }
+
             //сбрасываем энергию
             if (staticClass.scenePrev != SceneManager.GetActiveScene().name) lsEnergyClass.energyTake = false;
 
-            async.allowSceneActivation = false;
-			yield return StartCoroutine (staticClass.waitForRealTime (0.5F));
-			async.allowSceneActivation = true;
-			yield return async;
-		
+		    if (sceneCanLoad)
+		    {
+		        async.allowSceneActivation = false;
+		        yield return StartCoroutine(staticClass.waitForRealTime(0.5F));
+		        async.allowSceneActivation = true;
+		        yield return async;
+		    }
+
 		}
 
     }
@@ -293,10 +373,13 @@ public class iClickClass : MonoBehaviour {
 			} 
 		}
 		if (name == "camera button") {
-			if (!Everyplay.IsRecordingSupported () || ctrProgressClass.progress ["everyplay"] == 0) {
+            /*
+            if (!Everyplay.IsRecordingSupported () || ctrProgressClass.progress ["everyplay"] == 0) {
 				transform.GetChild(0).gameObject.SetActive (true);
 				transform.GetChild(1).gameObject.SetActive (false);
 			}
+            */
+            
 		}
 
     }
@@ -336,8 +419,10 @@ public class iClickClass : MonoBehaviour {
     }
 
 	void clickSettingCamera() {
-		if (ctrProgressClass.progress["everyplay"] == 0) {
-			if (Everyplay.IsRecordingSupported ()) {
+/*
+        if (ctrProgressClass.progress["everyplay"] == 0) {
+
+            if (Everyplay.IsRecordingSupported ()) {
 				ctrProgressClass.progress ["everyplay"] = 1;
 				ctrProgressClass.saveProgress ();
 				transform.GetChild (0).gameObject.SetActive (false);
@@ -353,6 +438,7 @@ public class iClickClass : MonoBehaviour {
 
 
 		}
+        */
 	}
 
 
@@ -418,8 +504,8 @@ public class iClickClass : MonoBehaviour {
                 marketClass.instance.openBoosterMenu.SetActive(true);
                 marketClass.instance.boosterMenu.SetActive(false);
 
-                if (Everyplay.IsRecordingSupported () && !Everyplay.IsRecording() && ctrProgressClass.progress["everyplay"] == 1)
-					Everyplay.StartRecording ();
+                //if (Everyplay.IsRecordingSupported () && !Everyplay.IsRecording() && ctrProgressClass.progress["everyplay"] == 1)
+				//	Everyplay.StartRecording ();
 
 			}
 
@@ -576,6 +662,21 @@ public class iClickClass : MonoBehaviour {
             yield return new WaitForSeconds(0.2F);
             menu.SetActive(false);
         }
+    
+        else if (name == "exit unlock chapter menu")
+        {
+            menu = initLevelMenuClass.instance.unlockСhapterMenu;
+            menu.transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            menu.SetActive(false);
+        }
+        else if (name == "exit reward for cards menu")
+        {
+            menu = initLevelMenuClass.instance.rewardForCardsMenu;
+            menu.transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
+            yield return new WaitForSeconds(0.2F);
+            menu.SetActive(false);
+        }
     }
 
     //public IEnumerator CoroutineCloseMenu(){
@@ -650,8 +751,8 @@ public class iClickClass : MonoBehaviour {
         Debug.Log(SceneManager.GetActiveScene().name);
         if (staticClass.levelRestartedCount == 2 && ctrProgressClass.progress["tutorialDream"] == 0)
         {
-            ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"] = 1;
-            ctrProgressClass.progress["tutorialDream"] = 1;
+            ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"] = 3;
+            ctrProgressClass.progress["tutorialDream"] = ctrProgressClass.progress["currentLevel"];
             ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, string> { { "name", "use dream" } });
             ctrProgressClass.saveProgress();
         }
@@ -674,5 +775,35 @@ public class iClickClass : MonoBehaviour {
         }
     }
 
+    public void buyChapter()
+    {
+        marketClass.buyChapter();
+    }
 
+    public void rateUs()
+    {
+        Debug.Log("rate us click");
+#if UNITY_ANDROID
+                Application.OpenURL("market://details?id=com.evogames.feedthespider");
+#elif UNITY_IPHONE
+             Application.OpenURL("itms-apps://itunes.apple.com/app/id1194487188");
+        //??? https://itunes.apple.com/us/app/feed-the-spider/id1194487188?l=ru&ls=1&mt=8
+#endif
+    }
+
+
+    private void rateUsMenuEnable()
+    {
+        Debug.Log("rate us menu enable");
+        var rateUs =
+            GameObject.Find("/default level/gui/complete menu").GetComponent<lsLevelMenuClass>().rateUsMenu;
+        var rateUsGO = Instantiate(rateUs);
+        rateUsGO.transform.parent = GameObject.Find("/default level/gui/panel back transition").transform;
+        rateUsGO.transform.localScale = new Vector3(1, 1, 1);
+        rateUsGO.transform.localPosition = new Vector3(0, -62, 0);
+        //disable loading
+        rateUsGO.transform.parent.GetChild(1).localScale = Vector3.zero;
+
+        staticClass.sceneLoading = false;
+    }
 }

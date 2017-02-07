@@ -19,7 +19,7 @@ public class ctrlDailyBonusClass : MonoBehaviour {
 		if (name == "daily bonus") { 
 			WWW www = new WWW(url);
 			yield return www;
-			//try {
+			try {
 				//D/ebug.Log( www.text.Substring(8, 10));
 
 				DateTime now = new DateTime(1970, 1, 1, 0, 0, 0, 0);
@@ -40,13 +40,27 @@ public class ctrlDailyBonusClass : MonoBehaviour {
                     ctrProgressClass.progress["collectors"] += ctrProgressClass.progress["berry3"];
                     ctrProgressClass.progress["teleports"] += ctrProgressClass.progress["berry4"];
                     ctrProgressClass.progress["hints"] += ctrProgressClass.progress["berry5"];
-					if (ctrProgressClass.progress["berry2"] >= 1 && ctrProgressClass.progress["berry3"] >= 1 && ctrProgressClass.progress["berry4"] >= 1 && ctrProgressClass.progress["berry5"] >= 1) ctrProgressClass.progress["hints"] ++;
-					ctrProgressClass.saveProgress();
+
+                    //for reward menu on map
+                    staticClass.showRewardCardsMenuWebs = ctrProgressClass.progress["berry2"];
+                    staticClass.showRewardCardsMenuCollectors = ctrProgressClass.progress["berry3"];
+                    staticClass.showRewardCardsMenuTeleports = ctrProgressClass.progress["berry4"];
+                    staticClass.showRewardCardsMenuHints = ctrProgressClass.progress["berry5"];
+
+				    if (ctrProgressClass.progress["berry2"] >= 1 && ctrProgressClass.progress["berry3"] >= 1 &&
+				        ctrProgressClass.progress["berry4"] >= 1 && ctrProgressClass.progress["berry5"] >= 1)
+				    {
+				        ctrProgressClass.progress["hints"] ++;
+				        staticClass.showRewardCardsMenuHints++;
+
+				    }
+
+                    ctrProgressClass.saveProgress();
 				}
 
-			//} catch (System.Exception ex) {
-			//	Debug.Log( ex.Message);
-			//}
+			} catch (System.Exception ex) {
+				Debug.Log( ex.Message);
+			}
 		}
 	}
 	

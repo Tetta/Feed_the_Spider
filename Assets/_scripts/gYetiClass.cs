@@ -42,7 +42,7 @@ public class gYetiClass : MonoBehaviour {
 			gHintClass.checkHint (gameObject);
 			if (yetiState == "") {
 				//tutorial
-				if (ctrProgressClass.progress["currentLevel"] == 51 && gHandClass.handState == "text1") 
+				if (ctrProgressClass.progress["currentLevel"] == 28 && gHandClass.handState == "text1") 
 				GameObject.Find("default level/gui/tutorial").GetComponent<gHandClass>().delHand (2, 0F);
 
 				yetiState = "active";
@@ -67,7 +67,7 @@ public class gYetiClass : MonoBehaviour {
 				backYeti.SetActive (true);
 			} else {
 				//tutorial
-				if (ctrProgressClass.progress["currentLevel"] == 51 && gHandClass.handState == "text2") 
+				if (ctrProgressClass.progress["currentLevel"] == 28 && gHandClass.handState == "text2") 
 					GameObject.Find("default level/gui/tutorial").GetComponent<gHandClass>().delHand (-1, 0F);
 				
 				yetiState = "";

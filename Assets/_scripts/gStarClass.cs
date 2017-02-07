@@ -65,8 +65,8 @@ public class gStarClass : MonoBehaviour {
 
 		//Everyplay
 		if (buttonEveryplayScript != null) {
-			if (Everyplay.IsRecording ())
-				buttonEveryplayScript.takeScreenshot ();
+		//	if (Everyplay.IsRecording ())
+		//		buttonEveryplayScript.takeScreenshot ();
 		}
 
 		yield return StartCoroutine(staticClass.waitForRealTime(1F));

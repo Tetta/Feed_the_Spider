@@ -47,7 +47,7 @@ public class gDestroyerClass : MonoBehaviour {
 
 		if (destroyerState == "" && isPressed && flagHintUse) {
 			//tutorial
-			if (ctrProgressClass.progress["currentLevel"] == 26 && gHandClass.handState == "text1") 
+			if (ctrProgressClass.progress["currentLevel"] == 14 && gHandClass.handState == "text1") 
 				GameObject.Find("default level/gui/tutorial").GetComponent<gHandClass>().delHand (-1, 0);
 
             GetComponent<BoxCollider2D>().size = new Vector2(30, 30);           

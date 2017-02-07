@@ -92,7 +92,9 @@ public class lsGiftClass : MonoBehaviour {
 			card.transform.parent = giftMenu.transform.GetChild(0).GetChild(0);
 			card.transform.localScale = new Vector2(1, 1);
 			card.name = "card" + (i + 1);
-			card.SetActive (true);
+	        card.layer = 5;
+            ChangeLayersRecursively(card.transform, "UI");
+            card.SetActive (true);
 			card.transform.GetChild(0).gameObject.SetActive (false);
 			card.transform.GetChild(1).gameObject.SetActive (true);
 			//позиция карты
@@ -113,4 +115,13 @@ public class lsGiftClass : MonoBehaviour {
 		ctrProgressClass.saveProgress();
 
 	}
+
+    void ChangeLayersRecursively(Transform trans, String name)
+    {
+        foreach (Transform child in trans)
+        {
+            child.gameObject.layer = LayerMask.NameToLayer(name);
+            ChangeLayersRecursively(child, name);
+        }
+    }
 }
