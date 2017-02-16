@@ -557,7 +557,8 @@ public class gBerryClass : MonoBehaviour {
 
 
         //списание энергии
-	    if (!lsEnergyClass.energyTake) lsEnergyClass.checkEnergy(false);
+        Debug.Log("energyTake: " + lsEnergyClass.energyTake);
+        if (!lsEnergyClass.energyTake) lsEnergyClass.checkEnergy(false);
 
         //вызов complete menu, передача полученныx очков (float timeLevel, bool gem, int starsCount, int lvlNumber)
         completeMenu.GetComponent<lsLevelMenuClass>().completeMenuEnable(Time.timeSinceLevelLoad, flagGemGetting, starsCounter, lvlNumber);

@@ -61,7 +61,8 @@ public class lsLevelClass : MonoBehaviour {
 
 		}
 
-		//туториал для 2го уровня (добавляем)
+		
+        //туториал для 2го уровня (добавляем)
 		if (level == 2) {
 			if (lastLevel == 1 && ctrProgressClass.progress ["currentLevel"] == 1) {
 				GetComponent<Animator> ().enabled = true;

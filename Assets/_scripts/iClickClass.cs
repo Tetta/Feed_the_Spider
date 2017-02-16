@@ -115,7 +115,7 @@ public class iClickClass : MonoBehaviour {
 		GetComponent<AudioSource> ().Play ();
 		if (ctrProgressClass.progress["coins"] < cost) transform.GetChild(1).GetComponent<Animator>().Play("alpha disable");
         else {
-			GoogleAnalyticsV4.instance.LogEvent("Purchase for coins", "purchase", "booster", 1);
+			//GoogleAnalyticsV4.instance.LogEvent("Purchase for coins", "purchase", "booster", 1);
             //переделать
 		    var nameItem = "booster1";
             ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "decome", nameItem }, { "coins", (-cost).ToString() } });
@@ -140,11 +140,10 @@ public class iClickClass : MonoBehaviour {
 
 			Time.timeScale = 0;
 		    bool sceneCanLoad = true;
-            //проверяем энергию при запуске уровня и списываем ее
-            //раскомментить при publish game
+
             Debug.Log(name);
             
-            if (name == "button play" || name == "button play 0" || name == "button play 1" || name == "level") {
+            if (name == "button play" || name == "button play 0" || name == "button play 1" || name == "level" || name == "button next level") {
 				if (!lsEnergyClass.checkLoadLevelEnergy ()) {
 					yield return StartCoroutine (staticClass.waitForRealTime (100F));
 				}
@@ -161,45 +160,53 @@ public class iClickClass : MonoBehaviour {
             Application.backgroundLoadingPriority = ThreadPriority.High;
 			AsyncOperation async = new AsyncOperation ();
 			staticClass.scenePrev = SceneManager.GetActiveScene ().name;
-			staticClass.sceneLoading = true;
-			//if (Application.targetFrameRate != -1) Application.targetFrameRate = -1;
+            staticClass.sceneLoading = true;
+            //if (Application.targetFrameRate != -1) Application.targetFrameRate = -1;
 
+		    var sceneNeedLoad = "";
 
-
-		    if (name == "start level menu")
+            if (name == "start level menu")
 		    {
 		        if (ctrProgressClass.progress["lastLevel"] == 0)
 		        {
-		            staticClass.scenePrev = "level menu";
-		            async = SceneManager.LoadSceneAsync("level1");
+                    Debug.Log("lastLevel == 0");
+                    staticClass.scenePrev = "level menu";
+		            sceneNeedLoad = "level1";
+                    //async = SceneManager.LoadSceneAsync("level1");
 		        }
 		        else
 		        {
-		             async = SceneManager.LoadSceneAsync("level menu");
+                    sceneNeedLoad = "level menu";
+
+                    //async = SceneManager.LoadSceneAsync("level menu");
 		        }
 
 		    }
 		    else if (name == "button back")
-		        async = SceneManager.LoadSceneAsync("menu");
+                //async = SceneManager.LoadSceneAsync("menu");
+                sceneNeedLoad = "menu";
 
 
-		    if (name == "restart") {
-				async = SceneManager.LoadSceneAsync (SceneManager.GetActiveScene ().name);
+            if (name == "restart") {
+				//async = SceneManager.LoadSceneAsync (SceneManager.GetActiveScene ().name);
+                sceneNeedLoad = SceneManager.GetActiveScene().name;
 
-			}
+            }
             else if (name == "restart 1")
             {
                 initLevelMenuClass.levelDemands = 0;
-                async = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+                //async = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+                sceneNeedLoad = SceneManager.GetActiveScene().name;
 
-            } else if (name == "restart 2") {
+
+            }
+            else if (name == "restart 2") {
 				initLevelMenuClass.levelDemands = 1;
-				async = SceneManager.LoadSceneAsync (SceneManager.GetActiveScene ().name);
+				//async = SceneManager.LoadSceneAsync (SceneManager.GetActiveScene ().name);
+                sceneNeedLoad = SceneManager.GetActiveScene().name;
 
-			} else if (name == "button next") {
-                Debug.Log(name);
-                Debug.Log(staticClass.scenePrev.Substring(0, 5));
-                Debug.Log(staticClass.rateUsLast);
+            }
+            else if (name == "button next") {
                 if (staticClass.scenePrev.Substring(0, 5) == "level")
                 {
                     //rate us
@@ -212,14 +219,15 @@ public class iClickClass : MonoBehaviour {
                     }
                     else
                     {
-                        async = SceneManager.LoadSceneAsync("level menu");
+                        sceneNeedLoad = "level menu";
+                        //async = SceneManager.LoadSceneAsync("level menu");
                     }
 
                 }
                 else
-                    async = SceneManager.LoadSceneAsync ("level menu");
-
-			} else if (name == "button play") {
+                    //async = SceneManager.LoadSceneAsync ("level menu");
+                    sceneNeedLoad = "level menu";
+            } else if (name == "button play") {
 				//если открыта вкладка основного прохождения
 				if (transform.parent.GetChild(0).GetChild(2).gameObject.activeSelf ) 
 					initLevelMenuClass.levelDemands = 0;
@@ -228,35 +236,39 @@ public class iClickClass : MonoBehaviour {
 
 
 				if (Application.CanStreamedLevelBeLoaded ("level" + ctrProgressClass.progress ["currentLevel"]))
-					async = SceneManager.LoadSceneAsync ("level" + ctrProgressClass.progress ["currentLevel"]);
+                    sceneNeedLoad = "level" + ctrProgressClass.progress["currentLevel"];
+                    //async = SceneManager.LoadSceneAsync ("level" + ctrProgressClass.progress ["currentLevel"]);
 				else
-					async = SceneManager.LoadSceneAsync ("level menu");
+                    sceneNeedLoad = "level menu";
+                    //async = SceneManager.LoadSceneAsync ("level menu");
 
 				
 			} else if (name == "button play 0") {
 
 				initLevelMenuClass.levelDemands = 0;
 				if (Application.CanStreamedLevelBeLoaded ("level" + ctrProgressClass.progress ["currentLevel"]))
-					async = SceneManager.LoadSceneAsync ("level" + ctrProgressClass.progress ["currentLevel"]);
+                    sceneNeedLoad = "level" + ctrProgressClass.progress["currentLevel"]; //async = SceneManager.LoadSceneAsync ("level" + ctrProgressClass.progress ["currentLevel"]);
 				else
-					async = SceneManager.LoadSceneAsync ("level menu");
+                    sceneNeedLoad = "level menu";
+                    //async = SceneManager.LoadSceneAsync ("level menu");
 		        staticClass.levelRestartedCount = -1;
 		    }
             else if (name == "button play 1") {
 
 				initLevelMenuClass.levelDemands = 1;
 				if (Application.CanStreamedLevelBeLoaded ("level" + ctrProgressClass.progress ["currentLevel"]))
-					async = SceneManager.LoadSceneAsync ("level" + ctrProgressClass.progress ["currentLevel"]);
-				else
-					async = SceneManager.LoadSceneAsync ("level menu");
+                    sceneNeedLoad = "level" + ctrProgressClass.progress["currentLevel"];
+                    //async = SceneManager.LoadSceneAsync ("level" + ctrProgressClass.progress ["currentLevel"]);
+                else
+                    sceneNeedLoad = "level menu"; //async = SceneManager.LoadSceneAsync ("level menu");
                 staticClass.levelRestartedCount = -1;
             }
             else if (name.Substring (0, 5) == "level") {
                 //добавить проверку на гемс
                 if (ctrProgressClass.progress["lastLevel"] >= Convert.ToInt32(name.Substring(5)) - 1)
 			    {
-                    async = SceneManager.LoadSceneAsync("level" + Convert.ToInt32(name.Substring(5)));
-                     
+                    //async = SceneManager.LoadSceneAsync("level" + Convert.ToInt32(name.Substring(5)));
+                    sceneNeedLoad = "level" + Convert.ToInt32(name.Substring(5));
                 }
 			} else if (name == "button next level")
 			{
@@ -272,7 +284,6 @@ public class iClickClass : MonoBehaviour {
 			            || ctrProgressClass.progress["lastLevel"] >= nextLevelNumber)
                 {
                     //rate us
-                    Debug.Log(name);
                     initLevelMenuClass.levelDemands = 0;
                     if (staticClass.rateUsLast < nextLevelNumber - 1 && staticClass.rateUsLevels.Contains(nextLevelNumber - 1))
                     {
@@ -280,13 +291,16 @@ public class iClickClass : MonoBehaviour {
                         sceneCanLoad = false;
                         staticClass.rateUsSceneNext = "level" + nextLevelNumber;
                     } else
-                    async = SceneManager.LoadSceneAsync("level" + nextLevelNumber);
+                        sceneNeedLoad = "level" + nextLevelNumber;
+                    //async = SceneManager.LoadSceneAsync("level" + nextLevelNumber);
 			    }
                 //notGemsForLevel
                 else
                 {
-                        async = SceneManager.LoadSceneAsync("level menu");
-                        staticClass.notGemsForLevel = true;
+                    sceneNeedLoad = "level menu";
+
+                    //async = SceneManager.LoadSceneAsync("level menu");
+                    staticClass.notGemsForLevel = true;
                     }
                 
 
@@ -294,24 +308,32 @@ public class iClickClass : MonoBehaviour {
 		    {
                 Debug.Log(name);
 		        staticClass.rateUsLast = ctrProgressClass.progress["lastLevel"];
-                async = SceneManager.LoadSceneAsync(staticClass.rateUsSceneNext);
+                sceneNeedLoad = staticClass.rateUsSceneNext;
+                //async = SceneManager.LoadSceneAsync(staticClass.rateUsSceneNext);
             }
             else if (name == "button rate us")
             {
                 Debug.Log(name);
                 staticClass.rateUsLast = ctrProgressClass.progress["lastLevel"];
-                async = SceneManager.LoadSceneAsync(staticClass.rateUsSceneNext);
+                sceneNeedLoad = staticClass.rateUsSceneNext;
+                //async = SceneManager.LoadSceneAsync(staticClass.rateUsSceneNext);
             }
             else if (name == "restart after dream")
             {
-                async = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+                sceneNeedLoad = SceneManager.GetActiveScene().name;
+                //async = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
 
             }
 
             //сбрасываем энергию
-            if (staticClass.scenePrev != SceneManager.GetActiveScene().name) lsEnergyClass.energyTake = false;
+            Debug.Log("prev: " + staticClass.scenePrev);
+            Debug.Log("sceneNeedLoad: " + sceneNeedLoad);
+            if (staticClass.scenePrev != sceneNeedLoad) lsEnergyClass.energyTake = false;
 
-		    if (sceneCanLoad)
+            if (sceneNeedLoad != "") async = SceneManager.LoadSceneAsync(sceneNeedLoad);
+
+
+            if (sceneCanLoad)
 		    {
 		        async.allowSceneActivation = false;
 		        yield return StartCoroutine(staticClass.waitForRealTime(0.5F));
@@ -353,7 +375,23 @@ public class iClickClass : MonoBehaviour {
 				transform.GetChild (0).gameObject.SetActive (true);
 				GameObject.Find ("music").GetComponent<AudioSource> ().mute = true;
 			}
-		}
+
+            //fb and vk
+
+            //fb on, vk off
+            if (ctrProgressClass.progress["fb"] == 1)
+            {
+                transform.parent.parent.GetChild(1).gameObject.SetActive(true);
+                transform.parent.parent.GetChild(2).gameObject.SetActive(false);
+            }
+            //fb off, vk on
+            if (ctrProgressClass.progress["vk"] == 1)
+            {
+                transform.parent.parent.GetChild(2).gameObject.SetActive(true);
+                transform.parent.parent.GetChild(1).gameObject.SetActive(false);
+            }
+
+        }
         if (name == "sound button") {
 			if (ctrProgressClass.progress ["sound"] == 1)
 				transform.GetChild (0).gameObject.SetActive (false);
@@ -677,6 +715,12 @@ public class iClickClass : MonoBehaviour {
             yield return new WaitForSeconds(0.2F);
             menu.SetActive(false);
         }
+        else if (name == "exit invite friends menu")
+        {
+            menu = GameObject.Find("/root/static/level menu/vk/invite friends/");
+            menu.SetActive(false);
+            GameObject.Find("/root/static/level menu/button exit level menu").GetComponent<SpriteRenderer>().sortingOrder = 137;
+        }
     }
 
     //public IEnumerator CoroutineCloseMenu(){
@@ -728,7 +772,17 @@ public class iClickClass : MonoBehaviour {
 		ctrFbKiiClass.instance.invite ();
 	}
 
-	void ShowRewardedAd() {
+    void vkInvite()
+    {
+        //ctrFbKiiClass.instance.invite();
+        ctrFbKiiClass.instance.setFriendsForInvite(GameObject.Find("/root/static/level menu/vk/invite friends/"));
+    }
+    void vkInviteFriend()
+    {
+        //ctrFbKiiClass.instance.invite();
+        ctrFbKiiClass.instance.vkInviteFriend(transform.parent.name.Substring(0, transform.parent.name.Length - 7));
+    }
+    void ShowRewardedAd() {
 		ctrAdClass.adStarted = name;
        // if (ctrAdClass.instance == null) ctrAdClass.
 
@@ -782,7 +836,9 @@ public class iClickClass : MonoBehaviour {
 
     public void rateUs()
     {
-        Debug.Log("rate us click");
+        Debug.Log("rate us click: " + transform.GetChild(3).GetComponent<UILabel>().text);
+        if (int.Parse( transform.GetChild(3).GetComponent<UILabel>().text) >= 4) 
+        
 #if UNITY_ANDROID
                 Application.OpenURL("market://details?id=com.evogames.feedthespider");
 #elif UNITY_IPHONE
@@ -805,5 +861,35 @@ public class iClickClass : MonoBehaviour {
         rateUsGO.transform.parent.GetChild(1).localScale = Vector3.zero;
 
         staticClass.sceneLoading = false;
+    }
+
+    public void rateUsStarClick()
+    {
+        Debug.Log("rateUsStarClick: " + name);
+        //enable/disable stars
+        for (int i = 0; i < transform.parent.childCount; i ++)
+        {
+            if (int.Parse(name) >= int .Parse(transform.parent.GetChild(i).name)) transform.parent.GetChild(i).GetChild(1).gameObject.SetActive(true);
+            else transform.parent.GetChild(i).GetChild(1).gameObject.SetActive(false);
+        }
+        //enable rate us button
+        transform.parent.parent.GetChild(1).GetComponent<Collider>().enabled = true;
+        transform.parent.parent.GetChild(1).GetChild(2).gameObject.SetActive(false);
+        transform.parent.parent.GetChild(1).GetChild(3).GetComponent<UILabel>().text = name;
+    }
+
+
+
+
+    public void clickJoinGroup()
+    {
+        Debug.Log("clickJoinGroup");
+        ctrFbKiiClass.instance.clickJoinGroup();
+    }
+
+    public void clickLogout()
+    {
+        Debug.Log("clickLogout");
+        ctrFbKiiClass.instance.clickLogout();
     }
 }

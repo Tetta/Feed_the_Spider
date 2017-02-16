@@ -41,22 +41,26 @@ public class gStarClass : MonoBehaviour {
 		guiStars[1] = GameObject.Find("gui stars").transform.GetChild(1).gameObject;
 		guiStars[2] = GameObject.Find("gui stars").transform.GetChild(2).gameObject;	
 		guiStars [gBerryClass.starsCounter].SetActive (true);
-		gBerryClass.starsCounter ++;
 		Destroy(tempGo);
 		StartCoroutine (destroyStar());
-		collectors.GetComponent<gBonusClass> ().bonusState = "";
-		
+        gBerryClass.starsCounter++;
+        collectors.GetComponent<gBonusClass> ().bonusState = "";
+
+
 	}
 
 	private IEnumerator startStar(){
 		yield return StartCoroutine(staticClass.waitForRealTime(Random.value * 2));
 		GetComponent<Animation> ().Play ("star 4");
 
-		
-	}
+
+    }
 
 	public IEnumerator destroyStar(ctrScreenshotClass buttonEveryplayScript = null){
-		audioCollect.Play ();
+        //disable collector, if starsCounter == 2 (later = 3)
+        if (gBerryClass.starsCounter == 2) GameObject.Find("/default level/gui/bonuses/tween/collectors").GetComponent<Collider>().enabled = false;
+
+        audioCollect.Play ();
 		GetComponent<Collider2D> ().enabled = false;
 		transform.GetChild(0).GetComponent<ParticleSystem> ().Play ();
 		transform.GetChild(1).position = new Vector3 (0, 0, -10000);

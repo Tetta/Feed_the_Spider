@@ -36,19 +36,19 @@ public class initLevelMenuClass : MonoBehaviour {
 		if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
 		coinsLabel.text = ctrProgressClass.progress["coins"].ToString();
 		gemsLabel.text = ctrProgressClass.progress["gems"].ToString();
-		energyLabel.text = ctrProgressClass.progress["energy"].ToString();
+		energyLabel.text = lsEnergyClass.energy.ToString();
 		staticClass.sceneLoading = false;
 		instance = this;
 		if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogScreen("level menu");
 
         //fb off, vk on
-        if (ctrProgressClass.progress["language"] == 2)
+        if (staticClass.socialDefault() == "vk")
 	    {
 	        fb.SetActive(false);
             vk.SetActive(true);
 	    }
         //fb on, vk off
-        else if (ctrProgressClass.progress["language"] == 1)
+        else 
         {
             fb.SetActive(true);
             vk.SetActive(false);

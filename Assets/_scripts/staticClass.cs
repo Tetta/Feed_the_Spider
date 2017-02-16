@@ -461,6 +461,7 @@ public class staticClass
     public static int getLanguage()
     {
 
+        //return 1;
         if (ctrProgressClass.progress["language"] == 0)
         {
             if (Application.systemLanguage.ToString() == "Russian" ||
@@ -485,15 +486,26 @@ public class staticClass
             if (ctrProgressClass.progress["language"] == 2)
             {
                 Localization.language = "Russian";
-                ctrProgressClass.progress["language"] = 2;
+                //ctrProgressClass.progress["language"] = 2;
             }
             else
             {
                 Localization.language = "English";
-                ctrProgressClass.progress["language"] = 1;
+                //ctrProgressClass.progress["language"] = 1;
             }
         }
         return ctrProgressClass.progress["language"];
+    }
+
+    public static string socialDefault()
+    {
+        //return "fb";
+        if (Application.systemLanguage.ToString() == "Russian" ||
+            Application.systemLanguage.ToString() == "Ukrainian" ||
+            Application.systemLanguage.ToString() == "Belarusian"
+        )
+            return "vk";
+        else return "fb";
     }
 
     public static Dictionary<int, int> levelBlocks = new Dictionary<int, int>

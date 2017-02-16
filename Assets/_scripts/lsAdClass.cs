@@ -108,13 +108,13 @@ public class lsAdClass : MonoBehaviour {
 			//if (args.IsCompletedView) {
 				//Debug.Log ("args.IsCompletedView: " + args.IsCompletedView);
 				if (name == "button ad energy") {
-					GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "finish", "energy", 1);
-					ctrProgressClass.progress ["energyTime"] -= 5 * lsEnergyClass.costEnergy;
+					//GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "finish", "energy", 1);
+					//ctrProgressClass.progress ["energyTime"] -= 5 * lsEnergyClass.costEnergy;
 					//ctrProgressClass.progress ["energy"] += 5;
 					energyGO.SendMessage("OnApplicationPause", false);
 				} else if (name == "button ad coins") {
 					Debug.Log ("111");
-					GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "finish", "coins", 1);
+					//GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "finish", "coins", 1);
 					Debug.Log ("222");
 					ctrProgressClass.progress ["coins"] += 70;
 					Debug.Log ("333");
@@ -124,7 +124,7 @@ public class lsAdClass : MonoBehaviour {
 					Debug.Log ("555");
 
 				} else if (name == "button ad telek") {
-					GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "finish", "telek", 1);
+					//GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "finish", "telek", 1);
 					ctrProgressClass.progress ["coins"] += int.Parse(coinsAdReward.transform.GetChild(0).GetComponent<UILabel>().text.Substring(1));
 					coinsAdReward.SetActive(true);
 

@@ -58,11 +58,13 @@ public class ctrAnalyticsClass: MonoBehaviour
 
     }
 
-    public static void sendEvent(string nameEvent, Dictionary<string, string> attributes, long purchase = 0)
+    public static void sendEvent(string nameEvent, Dictionary<string, string> attributes2, long purchase = 0)
     {
         //LocalyticsUnity.Localytics.TagEvent(nameEvent, attributes);
         string str = "";
         str += nameEvent + "\n";
+
+        Dictionary<string, string> attributes = new Dictionary<string, string> (attributes2);
         attributes.Add("level", ctrProgressClass.progress["lastLevel"].ToString());
         attributes.Add("session number", ctrProgressClass.progress["sessionCount"].ToString());
         attributes.Add("social id", ctrFbKiiClass.userId);
@@ -165,7 +167,7 @@ public class ctrAnalyticsClass: MonoBehaviour
                 new Dictionary<string, string>
                 {
                     {"coins", ctrProgressClass.progress["coins"].ToString()},
-                    {"energy", ctrProgressClass.progress["energy"].ToString()}
+                    {"energy", lsEnergyClass.energy.ToString()}
                 });
             ctrProgressClass.progress["sessionStart"] = (int) DateTime.Now.TotalSeconds();
             ctrProgressClass.progress["sessionEnd"] = (int) DateTime.Now.TotalSeconds();
@@ -176,6 +178,7 @@ public class ctrAnalyticsClass: MonoBehaviour
 
             if (ctrProgressClass.progress["firstLaunch"] == 0)
             {
+                ctrProgressClass.progress["dailyBonus"] = (int)DateTime.UtcNow.TotalSeconds();
                 sendEvent("First Launch", new Dictionary<string, string>());
                 ctrProgressClass.progress["firstLaunch"] = 1;
             }
@@ -280,11 +283,15 @@ public class ctrAnalyticsClass: MonoBehaviour
 
         //energy notifer
         lsEnergyClass.checkEnergy(true);
-        if (ctrProgressClass.progress["energy"] < lsEnergyClass.maxEnergy && !lsEnergyClass.energyInfinity)
+        if (lsEnergyClass.energy < lsEnergyClass.maxEnergy && !lsEnergyClass.energyInfinity)
         {
-            var start = new DateTime(2015, 1, 1).AddSeconds(ctrProgressClass.progress["energyTime"]);
-            var end = start.AddSeconds((lsEnergyClass.maxEnergy - ctrProgressClass.progress["energy"]) * lsEnergyClass.costEnergy);
-            delay = end - DateTime.UtcNow;
+            //var start = new DateTime(2015, 1, 1).AddSeconds(ctrProgressClass.progress["energyTime"]);
+            //var end = start.AddSeconds((lsEnergyClass.maxEnergy - lsEnergyClass.energy) * lsEnergyClass.costEnergy);
+            //delay = end - DateTime.UtcNow;
+            delay = new TimeSpan(0,0,
+                ctrProgressClass.progress["energyTime"] + lsEnergyClass.maxEnergy*lsEnergyClass.costEnergy -
+                    (int) DateTime.Now.TotalSeconds());
+            Debug.Log("notifer energy delay: " + delay);
             LocalNotification.SendNotification(3, delay,"", Localization.Get("notiferTitleEnergy"));
 
         }

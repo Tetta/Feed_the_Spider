@@ -232,7 +232,7 @@ public class mBoosterClass : MonoBehaviour {
             //if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins") ctrProgressClass.progress[bonusName] += bonusCount;
             if (bonusName == "energy") {
                 ctrProgressClass.progress["energyTime"] -= bonusCount * lsEnergyClass.costEnergy;
-                ctrProgressClass.progress["energy"] += bonusCount;
+                lsEnergyClass.energy += bonusCount;
 				//если находимся на карте, то перекрашиваем полоску энергии
 
 				if (GameObject.Find ("root/static/energy/energy line") != null) {

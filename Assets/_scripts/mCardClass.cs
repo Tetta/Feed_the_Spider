@@ -264,7 +264,7 @@ public class mCardClass : MonoBehaviour {
 				if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins") ctrProgressClass.progress[bonusName] += bonusCount;
 				else if (bonusName == "energy") {
 					ctrProgressClass.progress["energyTime"] -= bonusCount * lsEnergyClass.costEnergy;
-					ctrProgressClass.progress["energy"] += bonusCount;
+                    lsEnergyClass.energy += bonusCount;
 				}
 				else {
 					if (ctrProgressClass.progress[bonusName] == 0) ctrProgressClass.progress[bonusName] = 1;

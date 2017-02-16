@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using Facebook.Unity;
 
 public class ctrlDailyBonusClass : MonoBehaviour {
 
@@ -28,7 +29,11 @@ public class ctrlDailyBonusClass : MonoBehaviour {
 				if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
 				DateTime dailyBonus = new DateTime(1970, 1, 1, 0, 0, 0, 0);
 				dailyBonus = dailyBonus.AddSeconds(System.Convert.ToInt64(ctrProgressClass.progress["dailyBonus"]));
-				if (now.ToShortDateString() != dailyBonus.ToShortDateString()) {
+                //Debug.Log("now: " + now.ToShortDateString());
+                //Debug.Log("dailyBonus: " + dailyBonus.ToShortDateString());
+                //Debug.Log("realTime: " + realTime);
+                //Debug.Log("TotalSeconds: " + DateTime.UtcNow.TotalSeconds());
+                if (now.ToShortDateString() != dailyBonus.ToShortDateString()) {
 					//показать окно daily bonus
 					dailyBonusMenu.SetActive(true);
 

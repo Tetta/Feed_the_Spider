@@ -149,6 +149,9 @@ handOnGem, "Try to complete the challenge!", "Попробуй пройти ис
 fbConnect, "Connect", "Подключиться"
 fbInvite, "Invite", "Пригласить"
 fbBestGamers, "Best gamers", "Лучшие игроки"
+socialJoinGroup, "Join the group", "Присоединиться к группе"
+socialLogout, "Logout", "Выйти"
+
 
 sale0Free, "Пакет новичка!", "Beginner pack!", "Пакет новичка!"
 sale1Free, "Luck for spider!", "Удача паука!"

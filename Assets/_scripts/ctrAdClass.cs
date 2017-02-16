@@ -105,9 +105,9 @@ public class ctrAdClass: MonoBehaviour {
 #endif
 
     void setReward() {
-        if (adStarted == "ad energy") {
-			ctrProgressClass.progress ["energyTime"] -= 1 * lsEnergyClass.costEnergy;
-			//energyGO
+        if (adStarted == "button ad energy") {
+			lsEnergyClass.energy = 1;
+            //energyGO
 			GameObject.Find ("root/static/energy").SendMessage ("OnApplicationPause", false);
 		} else if (adStarted == "ad coins") {
 			ctrProgressClass.progress ["coins"] += 50;
@@ -177,7 +177,7 @@ public class ctrAdClass: MonoBehaviour {
             }
 		    else
             {
-                if (SceneManager.GetActiveScene().name != "level menu" && SceneManager.GetActiveScene().name != "menu" && staticClass.levelAdViewed == 0 && ctrProgressClass.progress["energy"] != 0) flag = true;
+                if (SceneManager.GetActiveScene().name != "level menu" && SceneManager.GetActiveScene().name != "menu" && staticClass.levelAdViewed == 0 && lsEnergyClass.energy != 0) flag = true;
 
             }
             adsAttributes["name"] = "level";

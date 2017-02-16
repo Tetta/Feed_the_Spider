@@ -25,5 +25,8 @@ namespace com.playGenesis.VkUnityPlugin
 		public Action<VKRequest> CallBackFunction;
 		public object[] data;
 		public bool needsToBeeConfirmed;
-	}
+
+        public bool customParam = false;
+
+    }
 }

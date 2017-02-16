@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
@@ -177,6 +178,7 @@ public class lsLevelMenuClass: MonoBehaviour {
 		//all average score = 10500
 		if (initLevelMenuClass.levelDemands == 0) score1 = Mathf.RoundToInt(2000 * starsCount + 3000 - 100 * timeLevel);
         else score1 = ctrProgressClass.progress["score" + lvlNumber + "_1"];
+	    if (score1 < 0) score1 = 0;
         if (levelProgress == 2 || levelProgress == 3) score2 = 3000;
 
         Transform scoreAll = levelMenu.transform.GetChild(0).GetChild(4).GetChild(1);
@@ -196,8 +198,9 @@ public class lsLevelMenuClass: MonoBehaviour {
 			//D/ebug.Log ("scoreFinal: " + scoreFinal);
 			//D/ebug.Log (ctrProgressClass.progress["score" + lvlNumber + "_1"] + ctrProgressClass.progress["score" + lvlNumber + "_2"]);
 			int coinsAdd = Mathf.RoundToInt(((scoreFinal - (ctrProgressClass.progress["score" + lvlNumber + "_1"] + ctrProgressClass.progress["score" + lvlNumber + "_2"]))* percent)/100 /100);
-			scoreAll.GetChild(2).GetChild(1).GetComponent<UILabel>().text = coinsAdd.ToString();
-			ctrProgressClass.progress["coins"] += coinsAdd;
+            if (coinsAdd < 0) coinsAdd = 0;
+            scoreAll.GetChild(2).GetChild(1).GetComponent<UILabel>().text = coinsAdd.ToString();
+		    ctrProgressClass.progress["coins"] += coinsAdd;
 
             if (coinsAdd > 0) ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "income", "level" }, { "coins", coinsAdd.ToString() } });
             ctrStatsClass.logEvent ("coins", "free", "level" + lvlNumber, coinsAdd);
@@ -213,7 +216,22 @@ public class lsLevelMenuClass: MonoBehaviour {
 		if (ctrProgressClass.progress["score" + lvlNumber + "_1"] < score1) ctrProgressClass.progress["score" + lvlNumber + "_1"] = score1;
 		if (ctrProgressClass.progress["score" + lvlNumber + "_2"] < score2) ctrProgressClass.progress["score" + lvlNumber + "_2"] = score2;
 		ctrProgressClass.saveProgress();
+        
+        //if tutorial booster == 0 and coins > 400 
+        //or tutorialAdCoins
+	    bool tutorialAdCoins = ctrProgressClass.progress["tutorialAdCoins"] == 0 &&
+	                           new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(ctrProgressClass.progress["adCoinsDate"]) <
+	                           DateTime.Now && ctrProgressClass.progress["adCoinsDate"] != 0;
+        if ((ctrProgressClass.progress["tutorialBuy"] == 0 && ctrProgressClass.progress["coins"] >= 400) || tutorialAdCoins)
+        {
+            Debug.Log("tutorialAdCoins: " + ctrProgressClass.progress["tutorialAdCoins"]);
+            GameObject handGO = Instantiate(hand, new Vector2(0, 0), Quaternion.identity);
+            handGO.transform.parent = GameObject.Find("/default level/gui").transform;
+            handGO.transform.localScale = new Vector3(-1, 1, 1);
+            handGO.transform.localPosition = new Vector3(-345, -945, 0);
+            handGO.transform.rotation = Quaternion.Euler(0, 0, 109);
 
+        }
         //анимация очков в grid
         for (int i = 0; i <= 100; i += 5) {
 			scoreLvl.text = (Mathf.Round(score1 * i / 100)).ToString();
@@ -226,17 +244,7 @@ public class lsLevelMenuClass: MonoBehaviour {
 			}
 		}
 
-        //if tutorial booster == 0 and coins > 400 
-        //or tutorialAdCoins
-        if ((ctrProgressClass.progress["tutorialBuy"] == 0 && ctrProgressClass.progress["coins"] >= 400) || ctrProgressClass.progress["tutorialAdCoins"] == 0)
-        {
-            GameObject handGO = Instantiate(hand, new Vector2(0, 0), Quaternion.identity);
-            handGO.transform.parent = GameObject.Find("/default level/gui").transform;
-            handGO.transform.localScale = new Vector3(-1, 1, 1);
-            handGO.transform.localPosition = new Vector3(-345, -945, 0);
-            handGO.transform.rotation = Quaternion.Euler(0, 0, 109);
 
-        }
 
         //анимация звезды
         if (starsCount >= 2) {

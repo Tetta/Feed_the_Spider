@@ -37,6 +37,7 @@ public class AdCoinsTimerClass : MonoBehaviour {
         else if (startDate.AddSeconds(ctrProgressClass.progress["adCoinsDate"]) < DateTime.Now)
         {
             //tutotial
+            //off cloud
             if (ctrProgressClass.progress["tutorialAdCoins"] == 1) hand.transform.GetChild(1).gameObject.SetActive(false);
             if (ctrProgressClass.progress["tutorialAdCoins"] < 2)
             {

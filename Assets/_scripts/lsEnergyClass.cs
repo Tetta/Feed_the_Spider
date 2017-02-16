@@ -31,6 +31,36 @@ public class lsEnergyClass : MonoBehaviour {
     public static bool energyTake = false;
     public static int costEnergyForCoins = 10 * 15;
 
+    public static int energy
+    {
+        get
+        {
+            var e =
+                Mathf.CeilToInt(((int) DateTime.Now.TotalSeconds() - ctrProgressClass.progress["energyTime"])/costEnergy);
+            if (e > maxEnergy) e = maxEnergy;
+            if (e < 0) e = 0;
+            return e;
+        }
+        set
+        {
+            Debug.Log("energy v: " + value);
+            int energyTime = ctrProgressClass.progress["energyTime"];
+            int now = (int)DateTime.Now.TotalSeconds();
+
+            //if energyTime very small
+            if (energyTime < now - maxEnergy * costEnergy)
+                ctrProgressClass.progress["energyTime"] = now - maxEnergy * costEnergy;
+
+            //checkEnergy(true);
+            ctrProgressClass.progress["energyTime"] += -costEnergy * value;
+            //checkEnergy(true);
+            //if energyTime > now
+            if (energyTime > now) ctrProgressClass.progress["energyTime"] = now;
+
+            ctrProgressClass.saveProgress();
+        }
+    }
+
     // Use this for initialization
     void Start () {
         costEnergy = 60 * 15;
@@ -51,7 +81,7 @@ public class lsEnergyClass : MonoBehaviour {
 		OnApplicationPause(false);
         if (energyMenuState == "energy" && ctrProgressClass.progress["tutorialEnergy"] == 1) OnClick();
         //energy tutorial
-        else if (ctrProgressClass.progress["tutorialEnergy"] == 0 && ctrProgressClass.progress["energy"]== 0) hand.SetActive(true);
+        else if (ctrProgressClass.progress["tutorialEnergy"] == 0 && energy == 0) hand.SetActive(true);
         
 
         //если бесконечная энергия на день
@@ -81,7 +111,7 @@ public class lsEnergyClass : MonoBehaviour {
         energyInfinityCheck();
 
         //выключаем labels таймеров, если max energy
-        if (ctrProgressClass.progress["energy"] >= maxEnergy)
+        if (energy >= maxEnergy)
         {
             transform.GetChild(8).gameObject.SetActive(false);
             energyMenu.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
@@ -101,12 +131,12 @@ public class lsEnergyClass : MonoBehaviour {
 
 	public IEnumerator Coroutine(){
 		int mod = checkEnergy(true);
-		energyLabel.text = (ctrProgressClass.progress["energy"]).ToString();
+		energyLabel.text = energy.ToString();
 
-		energyLine.fillAmount = 1 - (float) ctrProgressClass.progress["energy"] / maxEnergy;
+		energyLine.fillAmount = 1 - (float) energy / maxEnergy;
 		if (energyInfinity)
 			energyLine.fillAmount = 1;
-		if (ctrProgressClass.progress ["energy"] >= maxEnergy || energyInfinity)
+		if (energy >= maxEnergy || energyInfinity)
 			plus.SetActive (false);
 		else 
 			plus.SetActive (true);
@@ -119,28 +149,30 @@ public class lsEnergyClass : MonoBehaviour {
 	}
 
     public static int checkEnergy(bool flag) {
-		if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
+        //Debug.Log("checkEnergy: " + flag);
+
+        if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
         int mod = 0;
-        if (ctrProgressClass.progress["energy"] < maxEnergy) {
-            //var startDate = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+        int energyTime = ctrProgressClass.progress["energyTime"];
+        int now = (int)DateTime.Now.TotalSeconds();
 
-
-            //число секунд с 01.01.2015
-            int now = (int)(DateTime.UtcNow - new DateTime(2015, 1, 1)).TotalSeconds;
-            int deltaEnergy = Mathf.CeilToInt((now - ctrProgressClass.progress["energyTime"]) / costEnergy);
-            ctrProgressClass.progress["energy"] += deltaEnergy;
-            mod = (now - ctrProgressClass.progress["energyTime"]) % costEnergy;
-            ctrProgressClass.progress["energyTime"] = now - mod;
-            if (ctrProgressClass.progress["energy"] > maxEnergy) ctrProgressClass.progress["energy"] = maxEnergy;
-		}
-		if (flag) {
+        if (energyTime + maxEnergy * costEnergy > now)
+        {
+            //total seconds for next energy
+            mod = (now - energyTime) % costEnergy;
+        }
+        if (flag) {
 			//ctrProgressClass.saveProgress();
-			if (maxEnergy <= ctrProgressClass.progress["energy"] && GameObject.Find("energy") != null) GameObject.Find("energy").SendMessage("stopCoroutineEnergyMenu");
+			if (maxEnergy <= energy && GameObject.Find("energy") != null) GameObject.Find("energy").SendMessage("stopCoroutineEnergyMenu");
 			return mod;
 		} else {
-			if (ctrProgressClass.progress["energy"] > 0) {
-				ctrProgressClass.progress["energy"] --;
-			    energyTake = true;
+			if (energy > 0) {
+                Debug.Log("energy --");
+                if (int.Parse(SceneManager.GetActiveScene().name.Substring(5)) > 5)
+                    energy = -1;
+			    //ctrProgressClass.progress["energyTime"] += costEnergy;
+			    //checkEnergy(true);
+                energyTake = true;
 
                 ctrProgressClass.saveProgress();
 				return 1;
@@ -183,14 +215,14 @@ public class lsEnergyClass : MonoBehaviour {
 		else seconds.text = modSec.ToString();
 
         //стоимость восстановления
-        int cost = costEnergyForCoins*(maxEnergy - ctrProgressClass.progress["energy"]) -(int) (((float) mod/costEnergy)*costEnergyForCoins);
+        int cost = costEnergyForCoins*(maxEnergy - energy) -(int) (((float) mod/costEnergy)*costEnergyForCoins);
         //int cost = costEnergy - mod;
         //for energy tutorial
         buttonRestoreEnergy.transform.GetChild(2).gameObject.SetActive(true);
         buttonRestoreEnergy.transform.GetChild(3).gameObject.SetActive(true);
         buttonRestoreEnergy.transform.GetChild(5).gameObject.SetActive(false);
 
-        if (maxEnergy > ctrProgressClass.progress["energy"])
+        if (maxEnergy > energy)
         {
             if (ctrProgressClass.progress["tutorialEnergy"] == 1)
                 buttonRestoreEnergy.transform.GetChild(2).GetComponent<UILabel>().text = cost.ToString();
@@ -231,7 +263,7 @@ public class lsEnergyClass : MonoBehaviour {
 		if (ctrProgressClass.progress["complect"] == 0) {
 			lsEnergyClass.checkEnergy(true);
 			
-            if (ctrProgressClass.progress["energy"] == 0 && !lsEnergyClass.energyInfinity) {
+            if (energy == 0 && !lsEnergyClass.energyInfinity) {
 				//нотифер, поправить с новым плагином
 				//AndroidNotificationManager.instance.ScheduleLocalNotification(Localization.Get("notiferTitleEnergy"), Localization.Get("notiferMessageEnergy"), lsEnergyClass.costEnergy * lsEnergyClass.maxEnergy);
 				lsEnergyClass.energyMenuState = "energy";
@@ -250,12 +282,12 @@ public class lsEnergyClass : MonoBehaviour {
     {
         energyLabel.text = maxEnergy.ToString();
         ctrProgressClass.progress["energyTime"] = 0;
-        ctrProgressClass.progress["energy"] = maxEnergy;
+        energy = maxEnergy;
         buttonRestoreEnergy.transform.GetChild(2).GetComponent<UILabel>().text = "0";
         StartCoroutine("CoroutineEnergyMenu");
         if (ctrProgressClass.progress["tutorialEnergy"] == 1)
         {
-            var costCurrent = costEnergyForCoins * (maxEnergy - ctrProgressClass.progress["energy"]) - (int)(((float)checkEnergy(true) / costEnergy) * costEnergyForCoins);
+            var costCurrent = costEnergyForCoins * (maxEnergy - energy) - (int)(((float)checkEnergy(true) / costEnergy) * costEnergyForCoins);
 
             ctrProgressClass.progress["coins"] -= costCurrent;
             ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "decome", "energy" }, { "coins", (-costCurrent).ToString() } });
@@ -274,7 +306,7 @@ public class lsEnergyClass : MonoBehaviour {
         //добавить запрос на покупку в маркет
         energyLabel.text = maxEnergy.ToString();
         ctrProgressClass.progress["energyTime"] = 0;
-        ctrProgressClass.progress["energy"] = maxEnergy;
+        energy = maxEnergy;
         ctrProgressClass.progress["energyInfinity"] = (int) DateTime.Now.AddDays(1).TotalSeconds();
         //for test
         //ctrProgressClass.progress["energyInfinity"] = (int)DateTime.Now.AddSeconds(15).TotalSeconds();
