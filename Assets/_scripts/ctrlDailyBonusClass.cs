@@ -87,7 +87,7 @@ public class ctrlDailyBonusClass : MonoBehaviour {
         //шансы на картах
         Dictionary<string, int> portionsGreen = new Dictionary<string, int>();
         Dictionary<string, int> portionsCountGreen = new Dictionary<string, int>();
-
+        openingCards.Clear();
 
         portionsGreen["webs"] = 30; portionsGreen["teleports"] = 26;
         portionsGreen["collectors"] = 24; portionsGreen["hints"] = 20;

@@ -134,7 +134,7 @@ public class mBoosterClass : MonoBehaviour {
         portionsPurple["collectors"] = 30; portionsPurple["hints"] = 40;
         portionsCountPurple["webs"] = 4; portionsCountPurple["teleports"] = 4;
         portionsCountPurple["collectors"] = 3; portionsCountPurple["hints"] = 3;
-
+        openingCards.Clear();
         if (currentBoosterColor == "boostersWhite")
         {
             openingCards.Add(new KeyValuePair<string, int>("coins", 50));
@@ -198,7 +198,7 @@ public class mBoosterClass : MonoBehaviour {
             }
             Shuffle(openingCards);
         }
-
+        Debug.Log("openingCards.Count: " + openingCards.Count);
         for (int i = 0; i < 5; i++) {
             //название карты и количество
 			string bonusName = openingCards[i].Key;

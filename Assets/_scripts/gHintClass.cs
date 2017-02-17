@@ -116,7 +116,7 @@ public class gHintClass : MonoBehaviour {
                 Debug.Log("isDream: " + isDream);
                 if (isDream)
 			    {
-                    RaycastHit2D hit = Physics2D.Raycast(actions[counter].id, -Vector2.up, 100, LayerMask.GetMask("game", "berry", "sluggish"));
+                    RaycastHit2D hit = Physics2D.Raycast(actions[counter].id, -Vector2.up, 100, LayerMask.GetMask("game", "berry", "sluggish", "groot chains"));
                     if (hit.collider != null)
 			        {
 			            Debug.Log(hit.collider.name);

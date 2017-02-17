@@ -55,8 +55,9 @@ public class lsGiftClass : MonoBehaviour {
         portionsCountGreen["webs"] = 2; portionsCountGreen["teleports"] = 2;
         portionsCountGreen["collectors"] = 2; portionsCountGreen["hints"] = 1;
 
+        openingCards.Clear();
 
-	    if (name == "gift7")
+        if (name == "gift7")
 	    {
             openingCards.Add(new KeyValuePair<string, int>("webs", 2));
             openingCards.Add(new KeyValuePair<string, int>("coins", 100));

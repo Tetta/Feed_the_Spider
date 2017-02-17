@@ -96,12 +96,14 @@ public class myPackerPolicy : UnityEditor.Sprites.IPackerPolicy
 
 				entry.atlasName = ParseAtlasName(ti.spritePackingTag);
 				entry.packingMode = GetPackingMode(ti.spritePackingTag, tis.spriteMeshType);
-				entry.anisoLevel = ti.anisoLevel;
-				//Debug.Log (entry.packingMode);
+                //anisoLevel не важен
+                //entry.anisoLevel = ti.anisoLevel;
+                entry.anisoLevel = 0;
+                //Debug.Log (entry.packingMode);
 
-				entries.Add(entry);
+                entries.Add(entry);
 				/*
-				if (entry.sprite.name == "blik 1" || entry.sprite.name == "cactus 1") {
+				if (entry.sprite.name == "button icon pause" || entry.sprite.name == "button icon music") {
 					Debug.Log (entry.sprite.name);
 					Debug.Log (entry.settings.format);
 					Debug.Log (entry.settings.colorSpace);
@@ -112,11 +114,11 @@ public class myPackerPolicy : UnityEditor.Sprites.IPackerPolicy
 					Debug.Log (entry.atlasName);
 					Debug.Log (entry.packingMode);
 					Debug.Log (entry.anisoLevel );
+                    Debug.Log(entry.settings.generateMipMaps);
 
-
-				}
-
-				*/
+                }
+                */
+				
 			}
 
 			Resources.UnloadAsset(ti);

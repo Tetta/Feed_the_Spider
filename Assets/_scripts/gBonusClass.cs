@@ -102,13 +102,16 @@ public class gBonusClass : MonoBehaviour {
 			//} else if (bonusState == "collectors wait click") {
 			//		StartCoroutine(coroutineCollectorDisable());
 			} else {
-				tempGo2 = Instantiate(prefab, new Vector2(0, 0), Quaternion.identity) as GameObject;
-				tempGo2.transform.parent = GameObject.Find("root").transform;
-				tempGo2.transform.localScale = new Vector3(1, 1, 1);
-				tempGo2.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
-			}
 
-			bonusState = "";
+                tempGo2 = Instantiate(prefab, new Vector2(0, 0), Quaternion.identity) as GameObject;
+				tempGo2.transform.parent = GameObject.Find("root").transform;
+				tempGo2.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                tempGo2.transform.localScale = new Vector3(1, 1, 1);
+                
+
+            }
+
+            bonusState = "";
 		}
 
 
