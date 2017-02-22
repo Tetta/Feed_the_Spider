@@ -81,43 +81,79 @@ public class iClickClass : MonoBehaviour {
 		//если хватает монет и не проходил туториал, показываем hand
 		if (name == "button market" && ctrProgressClass.progress ["coins"] >= 400 && ctrProgressClass.progress ["tutorialBuy"] == 0) {
 			transform.GetChild (0).gameObject.SetActive (true);
-		} else if (name == "booster 1" && ctrProgressClass.progress ["coins"] >= 400 && ctrProgressClass.progress ["boosters"] == 0 && ctrProgressClass.progress ["tutorialBuy"] <= 1) {
-			transform.GetChild (0).gameObject.SetActive (true);
-		} else if  (name == "open booster" && ctrProgressClass.progress ["boosters"] >= 1 && ctrProgressClass.progress ["tutorialBuy"] <= 2 ) {
-			transform.GetChild (0).gameObject.SetActive (true);
+		} else if (name == "booster_white_1" && ctrProgressClass.progress["coins"] >= 400 &&
+		           ctrProgressClass.progress["boostersWhite"] == 0 && ctrProgressClass.progress["tutorialBuy"] <= 1)
+	    {
+	        transform.GetChild(0).gameObject.SetActive(true);
+	    }
+	    else if (name == "tab inventory" && ctrProgressClass.progress["boostersWhite"] >= 1 &&
+	             ctrProgressClass.progress["tutorialBuy"] <= 2 && !GetComponent<UIToggle>().value)
+	    {
+	        transform.GetChild(0).gameObject.SetActive(true);
+	    } else if  (name == "boostersWhite" && ctrProgressClass.progress ["boostersWhite"] >= 1 && ctrProgressClass.progress ["tutorialBuy"] <= 3 ) {
+			transform.GetChild (1).gameObject.SetActive (true);
 		}
+        else if (name == "label coins")
+        {
+            GetComponent<UILabel>().text = ctrProgressClass.progress["coins"].ToString();
+        }
 
-	}
+
+    }
 
 	void clickTutorialBuy() {
         Debug.Log("clickTutorialBuy");
-        if (transform.GetChild (0).gameObject.activeSelf) {
+        if (transform.FindChild("hand").gameObject.activeSelf) {
             Debug.Log(name);
-            transform.GetChild (0).gameObject.SetActive (false);
-			if (name == "button market")  ctrProgressClass.progress ["tutorialBuy"] = 1;
-            if (name == "booster 1")
+            transform.FindChild("hand").gameObject.SetActive (false);
+            if (name == "button market")
+            {
+                ctrProgressClass.progress ["tutorialBuy"] = 1;
+                marketClass.instance.transform.GetChild(0).GetComponent<UIToggle>().Set(true);
+                marketClass.instance.transform.GetChild(1).GetComponent<UIToggle>().Set(false);
+            }
+            if (name == "booster_white_1")
             {
                 ctrProgressClass.progress ["tutorialBuy"] = 2;
                 ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, string> { { "name", "buy booster" } });
+                marketClass.instance.transform.GetChild(1).SendMessage("checkTutorialBuy");
 
             }
+            if (name == "tab inventory")
+            {
+                ctrProgressClass.progress["tutorialBuy"] = 3;
+            }
             //if (transform.parent.name == "open booster")  ctrProgressClass.progress ["tutorialBuy"] = 3;
-
+            if (name == "boostersWhite")
+            {
+                ctrProgressClass.progress["tutorialBuy"] = 4;
+            }
+            
             ctrProgressClass.saveProgress ();
-			if (name == "booster 1")
-				GameObject.Find ("preview icon/button/open booster").SendMessage ("checkTutorialBuy");
+			//if (name == "booster 1")
+			//	GameObject.Find ("preview icon/button/open booster").SendMessage ("checkTutorialBuy");
 		}
 	}
 
     void buyCardForCoins() {
-        int amount = 1;
-        int cost = 400;
-		GetComponent<AudioSource> ().Play ();
+        int amount = 0;
+        int cost = 0;
+        if (name == "booster_white_1")
+        {
+            amount = 1;
+            cost = 400;
+        }
+        else
+        {
+            amount = 10;
+            cost = 3200;
+        }
+        GetComponent<AudioSource> ().Play ();
 		if (ctrProgressClass.progress["coins"] < cost) transform.GetChild(1).GetComponent<Animator>().Play("alpha disable");
         else {
-			//GoogleAnalyticsV4.instance.LogEvent("Purchase for coins", "purchase", "booster", 1);
-            //переделать
-		    var nameItem = name;
+
+
+            var nameItem = name;
             ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "decome", nameItem }, { "coins", (-cost).ToString() } });
 
             ctrProgressClass.progress["coins"] -= cost;
@@ -126,13 +162,15 @@ public class iClickClass : MonoBehaviour {
 
             marketClass.instance.boostersLabel[0].text = ctrProgressClass.progress["boostersWhite"].ToString();
             //marketClass.instance.boostersLabel[1].text = ctrProgressClass.progress["boostersGreen"].ToString();
-           // marketClass.instance.boostersLabel[2].text = ctrProgressClass.progress["boostersBlue"].ToString();
+            // marketClass.instance.boostersLabel[2].text = ctrProgressClass.progress["boostersBlue"].ToString();
             //marketClass.instance.boostersLabel[3].text = ctrProgressClass.progress["boostersPurple"].ToString();
             //marketClass.instance.boostersLabel.GetComponent<AudioSource> ().Play ();
             //marketClass.instance.boostersLabel.GetComponent<Animator> ().Play("button");
             //marketClass.instance.boostersLabel.transform.GetChild(0).GetComponent<ParticleSystem> ().Stop();
             //marketClass.instance.boostersLabel.transform.GetChild(0).GetComponent<ParticleSystem> ().Play();
 
+            //change label coins
+            GameObject.Find("/market/shop/market menu/bars/coins/label coins").GetComponent<UILabel>().text = ctrProgressClass.progress["coins"].ToString();
 
         }
     }

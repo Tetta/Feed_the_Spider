@@ -213,11 +213,11 @@ public class UIToggle : UIWidgetContainer
 		}
 	}
 
-	/// <summary>
-	/// Check or uncheck on click.
-	/// </summary>
+    /// <summary>
+    /// Check or uncheck on click.
+    /// </summary>
 
-	void OnClick () { if (enabled && isColliderEnabled && UICamera.currentTouchID != -2) value = !value; }
+    public void OnClick () { if (enabled && isColliderEnabled && UICamera.currentTouchID != -2) value = !value; }
 
 	/// <summary>
 	/// Fade out or fade in the active sprite and notify the OnChange event listener.

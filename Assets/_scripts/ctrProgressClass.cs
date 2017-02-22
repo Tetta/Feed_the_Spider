@@ -119,7 +119,7 @@ public class ctrProgressClass {
         {"hints",99},{"webs",99},{"collectors",99},{"teleports",99},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
 		{"everyplay",0},{"firstPurchase",1},{"fb",0},{"vk",0},
 
-        {"boostersWhite",110 }, {"boostersGreen",220 }, {"boostersBlue",330 }, {"boostersPurple",110 },
+        {"boostersWhite",0 }, {"boostersGreen",220 }, {"boostersBlue",330 }, {"boostersPurple",110 },
         {"berryRare", 2 }, {"hatRare",2},{"skinRare", 4},
 
         {"sale", 0},{"saleDate", 0}, {"adCoinsDate", 0},

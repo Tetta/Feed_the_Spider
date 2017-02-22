@@ -13,9 +13,14 @@ public class gBonusClass : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
-		transform.GetChild(0).GetComponent<UILabel>().text = ctrProgressClass.progress[name].ToString();
+
 
 	}
+
+    void OnEnable()
+    {
+        transform.GetChild(0).GetComponent<UILabel>().text = ctrProgressClass.progress[name].ToString();
+    }
 	
 	// Update is called once per frame
 	void Update () {

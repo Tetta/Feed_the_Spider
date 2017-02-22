@@ -224,6 +224,10 @@ public class mBoosterClass : MonoBehaviour {
 			card.SetActive (true);
 			card.transform.GetChild(0).gameObject.SetActive (false);
 			card.transform.GetChild(1).gameObject.SetActive (true);
+
+            //card colors
+            //if (currentBoosterColor)
+
 			//поворот карты
 			if (i == 0) card.transform.rotation = Quaternion.Euler(0, 0, 4); else if (i == 2) card.transform.rotation = Quaternion.Euler(0, 0, -5); else if (i == 3) card.transform.rotation = Quaternion.Euler(0, 0, -12); else if (i == 4) card.transform.rotation = Quaternion.Euler(0, 0, 13);
 
@@ -274,6 +278,19 @@ public class mBoosterClass : MonoBehaviour {
         marketClass.instance.boostersLabel[1].text = ctrProgressClass.progress["boostersGreen"].ToString();
         marketClass.instance.boostersLabel[2].text = ctrProgressClass.progress["boostersBlue"].ToString();
         marketClass.instance.boostersLabel[3].text = ctrProgressClass.progress["boostersPurple"].ToString();
+
+        //change bonuses labels on level
+        var bonusesGO = GameObject.Find("/default level/gui/bonuses/");
+        if (bonusesGO != null)
+        {
+            Debug.Log(bonusesGO.transform.GetChild(0).name);
+            Debug.Log(bonusesGO.transform.GetChild(0).GetChild(3).name);
+            Debug.Log(bonusesGO.transform.GetChild(0).GetChild(3).GetChild(0).name);
+            bonusesGO.transform.GetChild(0).GetChild(3).GetChild(0).GetComponent<UILabel>().text = ctrProgressClass.progress[bonusesGO.transform.GetChild(0).GetChild(3).name].ToString();
+            bonusesGO.transform.GetChild(0).GetChild(4).GetChild(0).GetComponent<UILabel>().text = ctrProgressClass.progress[bonusesGO.transform.GetChild(0).GetChild(4).name].ToString();
+            bonusesGO.transform.GetChild(0).GetChild(5).GetChild(0).GetComponent<UILabel>().text = ctrProgressClass.progress[bonusesGO.transform.GetChild(0).GetChild(5).name].ToString();
+            bonusesGO.transform.GetChild(0).GetChild(6).GetChild(0).GetComponent<UILabel>().text = ctrProgressClass.progress[bonusesGO.transform.GetChild(0).GetChild(6).name].ToString();
+        }
 
         ctrProgressClass.saveProgress();
         //убираем бустер
