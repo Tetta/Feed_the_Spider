@@ -47,12 +47,14 @@ public class gBonusClass : MonoBehaviour {
 	void OnPress(bool flag) {
 		if (!flag && bonusState == "") {
 			if (ctrProgressClass.progress [name] > 0) {
+                if (ctrProgressClass.progress["tutorialBonus"] != 0) staticClass.isTimePlay = Time.timeScale;
+                Time.timeScale = 0;
                 //off tutorial bonus
                 if (ctrProgressClass.progress["tutorialBonus"] == 0) {
                     if (GameObject.Find("/default level/gui/tutorial bonus(Clone)") != null)
                         GameObject.Find("/default level/gui/tutorial bonus(Clone)").SetActive(false);
                     ctrProgressClass.progress["tutorialBonus"] = 1;
-                    ctrAnalyticsClass.sendEvent("Tutorial", new System.Collections.Generic.Dictionary<string, string> { { "name", "use bonus" } });
+                    ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, string> { { "name", "use bonus" } });
 
                 }
 
@@ -138,8 +140,7 @@ public class gBonusClass : MonoBehaviour {
 	}
 
 	IEnumerator coroutineBonusPictureEnable() {
-        staticClass.isTimePlay = Time.timeScale;
-        Time.timeScale = 0;
+
 
         yield return StartCoroutine(staticClass.waitForRealTime(0.5F));
 		//yield return new WaitForSeconds(0.5F);

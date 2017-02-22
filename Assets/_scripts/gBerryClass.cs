@@ -162,7 +162,9 @@ public class gBerryClass : MonoBehaviour {
 	    {
             GameObject tutorialHintGO = Instantiate(tutorialHint, new Vector2(0, 0), Quaternion.identity) as GameObject;
             //position hand
-            tutorialHintGO.transform.GetChild(0).transform.localPosition = GameObject.Find("/default level/gui/bonuses").transform.localPosition + new Vector3(50, 110, 0);
+	        var bonusesGO = GameObject.Find("/default level/gui/bonuses");
+            bonusesGO.GetComponent<UIWidget>().Update();
+            tutorialHintGO.transform.GetChild(0).transform.localPosition = bonusesGO.transform.localPosition + new Vector3(50, 110, 0);
             staticClass.isTimePlay = Time.timeScale;
             Time.timeScale = 0;
 
@@ -189,7 +191,9 @@ public class gBerryClass : MonoBehaviour {
             }
             GameObject tutorialBonusGO = Instantiate(tutorialBonus, new Vector2(0, 0), Quaternion.identity) as GameObject;
             //position hand
-            tutorialBonusGO.transform.GetChild(0).transform.localPosition = GameObject.Find("/default level/gui/bonuses").transform.localPosition + new Vector3(195, 80, 0);
+	        var bonusesGO = GameObject.Find("/default level/gui/bonuses");
+            bonusesGO.GetComponent<UIWidget>().Update();
+            tutorialBonusGO.transform.GetChild(0).transform.localPosition = bonusesGO.transform.localPosition + new Vector3(195, 80, 0);
             staticClass.isTimePlay = Time.timeScale;
             Time.timeScale = 0;
             
@@ -202,7 +206,10 @@ public class gBerryClass : MonoBehaviour {
         {
             GameObject tutorialDreamGO = Instantiate(tutorialDream, new Vector2(0, 0), Quaternion.identity) as GameObject;
             //position hand
-            tutorialDreamGO.transform.GetChild(0).transform.localPosition = GameObject.Find("/default level/gui/dream").transform.localPosition + new Vector3(-88, -88, 0);
+            var dreamButton = GameObject.Find("/default level/gui/dream");
+            dreamButton.GetComponent<UIWidget>().Update();
+            tutorialDreamGO.transform.GetChild(0).transform.localPosition = dreamButton.transform.localPosition + new Vector3(-88, -88, 0);
+
             //icon ad disable
             GameObject.Find("/default level/gui/dream").transform.GetChild(0).gameObject.SetActive(false);
             GameObject.Find("/default level/gui/dream").transform.GetChild(1).gameObject.SetActive(true);
@@ -595,6 +602,12 @@ public class gBerryClass : MonoBehaviour {
 		//	Everyplay.StopRecording ();
 	}
 
+    public void OnApplicationPause(bool flag)
+    {
+        if (!flag)
+        {
+            Time.timeScale = staticClass.isTimePlay;
+        }
+    }
 
-		
 }

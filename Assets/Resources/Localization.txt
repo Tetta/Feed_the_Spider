@@ -90,9 +90,16 @@ marketBerryBonus, "Collect the complete collection of berries!", "Собери �
 marketBerryBonus2, "Get an additional 1    every day!", "Получай дополнительно 1    каждый день!"
 marketFindInBooster, "Find in booster!", "Найди в бустере!"
 marketBoostersDescription, "Booster is a set of 5 random cards of four types of rarity:\n\ncommon - coins, energy, power-ups\nuncommon - berries\nrare - hats\nepic - skins", "Бустер это набор из 5 случайных карт  четырех типов редкости: \n\nобычные - монеты, энергия, бонусы\nнеобычные - ягоды\nредкие - шапки\nэпические - скины"
-marketBoosters, "Boosters", "Бустеры"
-marketOpenBooster, "Open", "Открыть"
+
 marketBestValue, "Best\nvalue!", "Лучшая\nцена!"
+marketSpecialOffer, "Special offer", "Специальное предложение"
+
+shop, "Shop", "Магазин"
+inventory, "Inventory", "Инвентарь"
+boosters, "Boosters", "Бустеры"
+bonuses, "Bonuses", "Бонусы"
+
+open, "Open", "Открыть"
 
 ad, "ad", "реклама"
 free, "free", "бесплатно"
@@ -153,13 +160,18 @@ socialJoinGroup, "Join the group", "Присоединиться к группе
 socialLogout, "Logout", "Выйти"
 
 
-sale0Free, "Пакет новичка!", "Beginner pack!", "Пакет новичка!"
+sale0Free, "Beginner pack!", "Пакет новичка!"
 sale1Free, "Luck for spider!", "Удача паука!"
 sale2Free, "Unprecedented generosity!", "Небывалая щедрость!"
 sale3Free, "Heaven's Blessing!", "Благословение небес!"
 sale0Payers, "Successful deal!", "Удачная сделка!"
 sale1Payers, "Impressive sale!", "Внушительная распродажа!"
 sale2Payers, "Super offer!", "Супер предложение!"
+
+saleFreeDesc, "Contains: \n 3 green boosters \n 1 blue booster \n 1 purple booster", "Содержит:\n 3 зеленых бустера\n 1 синиий бустер\n 1 фиолетовый бустер"
+sale0PayersDesc, "30% discount", "30% скидка"
+sale1PayersDesc, "50% discount", "50% скидка"
+sale2PayersDesc, "70% discount", "70% скидка"
 
 rateUs0, "liked the game?", "Понравилась игра?"
 rateUs, "Rate us!", "Оцените нас!"

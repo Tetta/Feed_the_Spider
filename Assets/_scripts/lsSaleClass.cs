@@ -10,6 +10,7 @@ public class lsSaleClass : MonoBehaviour {
     public GameObject rewardMenu;
     public GameObject saleMenu;
     public GameObject hand;
+    public GameObject withoutSale;
     public UILabel hours;
     public UILabel minutes;
     public UILabel seconds;
@@ -39,13 +40,14 @@ public class lsSaleClass : MonoBehaviour {
         if (timerStartSale < DateTime.Now)
         {
             //tutotial
-            if (ctrProgressClass.progress["tutorialSale"] == 1) if (hand != null) hand.transform.GetChild(1).gameObject.SetActive(false);
+            if (ctrProgressClass.progress["tutorialSale"] == 1)
+                if (hand != null) hand.transform.GetChild(1).gameObject.SetActive(false);
             if (ctrProgressClass.progress["tutorialSale"] < 2)
             {
                 if (hand != null) hand.SetActive(true);
                 ctrProgressClass.progress["tutorialSale"]++;
             }
-            
+
             Debug.Log("sale enable");
             //off all sales
             for (int i = 0; i < transform.GetChild(0).childCount; i++)
@@ -54,16 +56,30 @@ public class lsSaleClass : MonoBehaviour {
                 if (i < 3) transform.GetChild(1).GetChild(i).gameObject.SetActive(false);
             }
 
-            transform.GetChild(ctrProgressClass.progress["firstPurchase"]).GetChild(ctrProgressClass.progress["sale"]).gameObject.SetActive(true);
-            if (saleMenu != null) saleMenu.transform.GetChild(0).GetChild(ctrProgressClass.progress["firstPurchase"]).GetChild(ctrProgressClass.progress["sale"]).gameObject.SetActive(true);
+            transform.GetChild(ctrProgressClass.progress["firstPurchase"])
+                .GetChild(ctrProgressClass.progress["sale"])
+                .gameObject.SetActive(true);
+            if (saleMenu != null)
+                saleMenu.transform.GetChild(0)
+                    .GetChild(ctrProgressClass.progress["firstPurchase"])
+                    .GetChild(ctrProgressClass.progress["sale"])
+                    .gameObject.SetActive(true);
             transform.GetChild(0).gameObject.SetActive(true);
 
             transform.GetChild(1).gameObject.SetActive(true);
             transform.GetChild(2).gameObject.SetActive(true);
+            if (withoutSale != null) withoutSale.SetActive(false);
 
             if (GetComponent<BoxCollider>() != null) GetComponent<BoxCollider>().enabled = true;
             ctrProgressClass.saveProgress();
             StartCoroutine(updateTimeCoroutine());
+        }
+        else
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
+            transform.GetChild(1).gameObject.SetActive(false);
+            transform.GetChild(2).gameObject.SetActive(false);
+            if (withoutSale != null) withoutSale.SetActive(true);
         }
 
     }
@@ -103,6 +119,7 @@ public class lsSaleClass : MonoBehaviour {
             transform.GetChild(0).gameObject.SetActive(false);
             transform.GetChild(1).gameObject.SetActive(false);
             transform.GetChild(2).gameObject.SetActive(false);
+            if (withoutSale != null) withoutSale.SetActive(true);
             if (GetComponent<BoxCollider>() != null) GetComponent<BoxCollider>().enabled = false;
             if (hand != null) hand.SetActive(false);
         }

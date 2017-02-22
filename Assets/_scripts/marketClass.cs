@@ -10,7 +10,7 @@ public class marketClass : MonoBehaviour {
 
 
     public static marketClass instance = null;
-    public UILabel boostersLabel;
+    public List <UILabel> boostersLabel;
     public GameObject openBoosterMenu;
     public GameObject boosterMenu;
 	public Transform cardsAll;
@@ -55,12 +55,15 @@ public class marketClass : MonoBehaviour {
 		AndroidInAppPurchaseManager.Client.Connect();
         */
 
-        
-        //boostersLabel.text = ctrProgressClass.progress["boosters"].ToString();
+        instance.boostersLabel[0].text = ctrProgressClass.progress["boostersWhite"].ToString();
+        instance.boostersLabel[1].text = ctrProgressClass.progress["boostersGreen"].ToString();
+        instance.boostersLabel[2].text = ctrProgressClass.progress["boostersBlue"].ToString();
+        instance.boostersLabel[3].text = ctrProgressClass.progress["boostersPurple"].ToString();
 
-		gameObject.SetActive (false);
+        gameObject.SetActive (false);
     }
-        void OnPress(bool isPressed) {
+
+    void OnPress(bool isPressed) {
             if (!isPressed) {
                 //запрос на покупку
                 Debug.Log("click buy " + name);

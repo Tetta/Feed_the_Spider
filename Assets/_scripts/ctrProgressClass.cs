@@ -201,6 +201,11 @@ public class ctrProgressClass {
         progress["fb"] = fb;
         progress["dailyBonus"] = (int)DateTime.UtcNow.TotalSeconds();
 
+        marketClass.instance.boostersLabel[0].text = progress["boostersWhite"].ToString();
+        marketClass.instance.boostersLabel[1].text = progress["boostersGreen"].ToString();
+        marketClass.instance.boostersLabel[2].text = progress["boostersBlue"].ToString();
+        marketClass.instance.boostersLabel[3].text = progress["boostersPurple"].ToString();
+
         saveProgress();
 	}
 

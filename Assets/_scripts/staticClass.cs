@@ -180,7 +180,7 @@ public class staticClass
 		levels[74, 0] = 1;
 		levels[74, 1] = 9;
 		levels[75, 0] = 0;
-		levels[75, 1] = 6;
+		levels[75, 1] = 7;
 		//----------------------------
 		levels[76, 0] = 2;
 		levels[76, 1] = 10;

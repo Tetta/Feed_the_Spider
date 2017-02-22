@@ -55,7 +55,14 @@ public class gHintClass : MonoBehaviour {
             GameObject.Find("default level/gui/camera for ui clicking").GetComponent<Camera>().cullingMask &= ~(1 << LayerMask.NameToLayer("UI"));
 
             GameObject.Find("default level/gui/Main Camera").GetComponent<Camera>().cullingMask &= ~(1 << LayerMask.NameToLayer("UI"));
-            GameObject.Find("default level/gui/dream/ui").gameObject.SetActive(true);
+            var dreamUI = GameObject.Find("default level/gui/dream/ui");
+            dreamUI.SetActive(true);
+            dreamUI.transform.parent.GetComponent<UIWidget>().Update();
+            dreamUI.transform.parent.GetComponent<UIWidget>().UpdateAnchors();
+            dreamUI.transform.GetChild(0).GetComponent<UIWidget>().Update();
+            dreamUI.transform.GetChild(1).GetComponent<UIWidget>().Update();
+            dreamUI.transform.GetChild(0).GetComponent<UIWidget>().UpdateAnchors();
+            dreamUI.transform.GetChild(1).GetComponent<UIWidget>().UpdateAnchors();
 
         }
         else
@@ -1032,7 +1039,7 @@ public class gHintClass : MonoBehaviour {
 
 		actions[0].id = new Vector3(0.6171875F, 0.6347656F, 0F); //sluggish
 		actions[0].frame = 80;
-		actions[0].mouse = new Vector3(0.8593749F, 1.276042F, 0F);
+		actions[0].mouse = new Vector3(0.8393749F, 1.276042F, 0F);
 		actions[1].id = new Vector3(0.2695313F, -0.328125F, 0F); //cloud
 		actions[1].frame = 100;
 		actions[1].mouse = new Vector3(0F, 0F, 0F);
@@ -1424,7 +1431,7 @@ public class gHintClass : MonoBehaviour {
         actions[2].frame = 53;
         actions[2].mouse = new Vector3(0.07494152F, -1.569087F, 0F);
         actions[3].id = new Vector3(-0.001953125F, -0.2363281F, 0F); //cloud
-        actions[3].frame = 24;
+        actions[3].frame = 27;
         actions[3].mouse = new Vector3(0F, 0F, 0F);
     }
 
@@ -2484,7 +2491,7 @@ public class gHintClass : MonoBehaviour {
 		actions[8].frame = 50;
 		actions[8].mouse = new Vector3(-0.01041666F, -0.390625F, 0F);
 		actions[9].id = new Vector3(0.7558594F, 1.027344F, 0F); //web
-		actions[9].frame = 240;
+		actions[9].frame = 300;
 		actions[9].mouse = new Vector3(0F, 0F, 0F);
 		actions[10].id = new Vector3(-0.5976563F, -0.3105469F, 0F); //groot
 		actions[10].frame = 40;
@@ -3214,10 +3221,10 @@ public class gHintClass : MonoBehaviour {
 		actions[3].frame = 32;
 		actions[3].mouse = new Vector3(0F, 0F, 0F);
 		actions[4].id = new Vector3(0.6699219F, 1.070313F, 0F); //web
-		actions[4].frame = 92;
+		actions[4].frame = 95;
 		actions[4].mouse = new Vector3(0F, 0F, 0F);
 		actions[5].id = new Vector3(-0.4160156F, 0.7929688F, 0F); //web
-		actions[5].frame = 30;
+		actions[5].frame = 13;
 		actions[5].mouse = new Vector3(0F, 0F, 0F);
 		actions[6].id = new Vector3(-0.4160156F, 0.7929688F, 0F); //web
 		actions[6].frame = 90;
@@ -3258,7 +3265,7 @@ public class gHintClass : MonoBehaviour {
 		actions[4].frame = 0;
 		actions[4].mouse = new Vector3(0F, 0F, 0F);
 		actions[5].id = new Vector3(0.4863281F, -1.591123F, -0.01953125F); //yeti body
-		actions[5].frame = 215;
+		actions[5].frame = 250;
 		actions[5].mouse = new Vector3(0F, 0F, 0F);
 		actions[6].id = new Vector3(0.4863281F, -1.591123F, -0.01953125F); //yeti body
 		actions[6].frame = 0;

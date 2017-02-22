@@ -117,17 +117,21 @@ public class iClickClass : MonoBehaviour {
         else {
 			//GoogleAnalyticsV4.instance.LogEvent("Purchase for coins", "purchase", "booster", 1);
             //переделать
-		    var nameItem = "booster1";
+		    var nameItem = name;
             ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "decome", nameItem }, { "coins", (-cost).ToString() } });
 
             ctrProgressClass.progress["coins"] -= cost;
-            ctrProgressClass.progress["boosters"] += amount;
+            ctrProgressClass.progress["boostersWhite"] += amount;
             ctrProgressClass.saveProgress();
-            marketClass.instance.boostersLabel.text = ctrProgressClass.progress["boosters"].ToString();
-			marketClass.instance.boostersLabel.GetComponent<AudioSource> ().Play ();
-			marketClass.instance.boostersLabel.GetComponent<Animator> ().Play("button");
-			marketClass.instance.boostersLabel.transform.GetChild(0).GetComponent<ParticleSystem> ().Stop();
-			marketClass.instance.boostersLabel.transform.GetChild(0).GetComponent<ParticleSystem> ().Play();
+
+            marketClass.instance.boostersLabel[0].text = ctrProgressClass.progress["boostersWhite"].ToString();
+            //marketClass.instance.boostersLabel[1].text = ctrProgressClass.progress["boostersGreen"].ToString();
+           // marketClass.instance.boostersLabel[2].text = ctrProgressClass.progress["boostersBlue"].ToString();
+            //marketClass.instance.boostersLabel[3].text = ctrProgressClass.progress["boostersPurple"].ToString();
+            //marketClass.instance.boostersLabel.GetComponent<AudioSource> ().Play ();
+            //marketClass.instance.boostersLabel.GetComponent<Animator> ().Play("button");
+            //marketClass.instance.boostersLabel.transform.GetChild(0).GetComponent<ParticleSystem> ().Stop();
+            //marketClass.instance.boostersLabel.transform.GetChild(0).GetComponent<ParticleSystem> ().Play();
 
 
         }

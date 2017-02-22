@@ -23,22 +23,8 @@ public class initClass : MonoBehaviour {
 	void Start ()
 	{
 
-        //AndroidGoogleAnalytics.Instance.EnableAdvertisingIdCollection (true);
-        //AndroidGoogleAnalytics.Instance.StartTracking ();
-        /*
-		GoogleAnalyticsV4.instance.LogScreen ("start");
-		GoogleAnalyticsV4.instance.LogScreen("q" + new TimingHitBuilder().GetCampaignName());
-		GoogleAnalyticsV4.instance.LogScreen("w" + new TimingHitBuilder().GetCampaignContent());
-		GoogleAnalyticsV4.instance.LogScreen("e" + new TimingHitBuilder().GetCampaignID());
-		GoogleAnalyticsV4.instance.LogScreen("r" + new TimingHitBuilder().GetCampaignSource());
-		Debug.Log ("source: " + new TimingHitBuilder().GetCampaignSource());
-		Debug.Log ("Cname: " + new TimingHitBuilder().GetCampaignName());
-		Debug.Log ("content: " + new TimingHitBuilder().GetCampaignContent());
-		Debug.Log ("id: " + new TimingHitBuilder().GetCampaignID());
-		Debug.Log ("t: " + GoogleAnalyticsV4.TIMING_HIT);
-		*/
-        //for test 
-        //Application.targetFrameRate = -1;
+        //for test iPad
+        Application.targetFrameRate = 60;
 #if UNITY_STANDALONE_WIN
 			Screen.SetResolution(575, 1024, false);
 #endif
@@ -82,32 +68,6 @@ public class initClass : MonoBehaviour {
 
 
 			GameObject.Find("settings folder").transform.GetChild(0).gameObject.SetActive(false);
-            //
-            //push
-            // bug GameThrive.Init("0e3f3ad6-c7ee-11e4-9aca-47e056863935", "660292827653", HandleNotification);
-            /*
-			GoogleCloudMessageService.instance.InitPushNotifications ();
-			//AndroidNotificationManager.instance.ScheduleLocalNotification(Localization.Get("notiferTitleDay"), "notiferTitleDay", 600);
-			//AndroidNotificationManager.instance.OnNotificationIdLoaded += OnNotificationIdLoaded;
-			//AndroidNotificationManager.instance.LocadAppLaunchNotificationId();
-
-			List<LocalNotificationTemplate> PendingNotifications;
-			PendingNotifications = AndroidNotificationManager.instance.LoadPendingNotifications();
-            //для нотифера внизу отключен, чтоб не было warning bool flagNotifer = false;
-            if (PendingNotifications != null) { 
-				foreach (var PendingNotification in PendingNotifications) {
-					if (PendingNotification.title == Localization.Get("notiferTitleDay")) {
-						if (PendingNotification.fireDate.Day == DateTime.Now.Day) {
-							AndroidNotificationManager.instance.CancelLocalNotification(PendingNotification.id);
-							AndroidNotificationManager.instance.ScheduleLocalNotification(Localization.Get("notiferTitleDay"), Localization.Get("notiferMessageDay"), 60 * 60 * 24);
-						}
-						//flagNotifer = true; //для нотифера внизу отключен, чтоб не было warning
-					}
-				}
-			}
-*/
-            //bug!!!
-            //if (!flagNotifer) AndroidNotificationManager.instance.ScheduleLocalNotification(Localization.Get("notiferTitleDay"), Localization.Get("notiferMesssageDay"), 60 * 60 * 24);
 
 		    staticClass.rateUsLast = ctrProgressClass.progress["lastLevel"];
 
@@ -124,14 +84,6 @@ public class initClass : MonoBehaviour {
 		staticClass.currentSkinAnimator.transform.GetChild (1).GetChild (0).gameObject.GetComponent<AudioSource> ().Play();
 		//market
 		market.SetActive(true);
-
-		/*
-		if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) {
-			achievements.SetActive(true);
-			leaderboards.SetActive(true);
-			googlePlus.SetActive(false);
-		} else if (ctrProgressClass.progress["googlePlay"] == 1) GooglePlayConnection.instance.connect ();
-		*/
 
 		staticClass.sceneLoading = false;
 

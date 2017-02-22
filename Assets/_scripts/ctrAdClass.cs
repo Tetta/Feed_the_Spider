@@ -183,35 +183,39 @@ public class ctrAdClass: MonoBehaviour {
             adsAttributes["name"] = "level";
             adsAttributes["type"] = "skippable";
 		    if (flag)
+		    {
+		        Debug.Log("need ShowLevelAd");
 		        if (isAdReady())
 		        {
 		            ctrAdClass.adStarted = "level";
 		            if (adsAttributes["provider"] == "Unity Ads")
 		            {
-                        var options = new ShowOptions { resultCallback = HandleShowResultUnityAds };
-                        Advertisement.Show("video", options);
-                    }
+		                var options = new ShowOptions {resultCallback = HandleShowResultUnityAds};
+		                Advertisement.Show("video", options);
+		            }
 		            else
 		            {
-                        Debug.Log("ShowLevelAd AdMob Show");
-
+		                Debug.Log("ShowLevelAd AdMob Show");
+		                //pause level
+		                staticClass.isTimePlay = Time.timeScale;
+		                Time.timeScale = 0;
 		                interstitialAdMob.Show();
 		            }
 
-                    //GameObject.Find("default level/gui/pause").SendMessage("OnPress", false);
-                }
-                else
+		            //GameObject.Find("default level/gui/pause").SendMessage("OnPress", false);
+		        }
+		        else
 		        {
-                    adsAttributes["loading"] = "failed";
-                    adsAttributes["status"] = "failed";
-                    Debug.Log("ShowLevelAd fail");
-                    ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
-                }
+		            adsAttributes["loading"] = "failed";
+		            adsAttributes["status"] = "failed";
+		            Debug.Log("ShowLevelAd fail");
+		            ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
+		        }
+
+		    }
 
 
-            
-
-        }
+		}
 #endif
 
     }

@@ -51,7 +51,8 @@ public class UICameraTool : EditorWindow
 		{
 			if (mask == 0)
 			{
-				layers.Add("Nothing");
+                Debug.Log("nothing");
+                layers.Add("Nothing");
 			}
 			else if (mask == -1)
 			{

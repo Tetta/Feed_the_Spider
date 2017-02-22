@@ -309,7 +309,7 @@ public class lsLevelMenuClass: MonoBehaviour {
 		if (name == "complete menu") {
 			//обработка кнопки "Назад" на Android
 			if (Input.GetButtonDown ("Cancel")) {
-				transform.GetChild(6).SendMessage ("OnPress", false);
+				transform.GetChild(9).SendMessage ("OnPress", false);
 			}
 		}
 	}

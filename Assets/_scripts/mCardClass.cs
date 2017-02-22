@@ -148,10 +148,10 @@ public class mCardClass : MonoBehaviour {
                 ctrProgressClass.saveProgress();
 
 				//выключаем get booster
-				transform.parent.parent.GetChild(1).GetChild(1).gameObject.SetActive(false);
+				//transform.parent.parent.GetChild(1).GetChild(1).gameObject.SetActive(false);
             }
-            else
-				transform.parent.parent.GetChild(1).GetChild(1).gameObject.SetActive(true);
+            //else
+				//transform.parent.parent.GetChild(1).GetChild(1).gameObject.SetActive(true);
 			
         }
     }

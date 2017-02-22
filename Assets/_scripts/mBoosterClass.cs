@@ -46,9 +46,15 @@ public class mBoosterClass : MonoBehaviour {
     }
 
     void OnEnable() {
+        
         //delete cards in booster
-		transform.GetChild(2).DestroyChildren();
-		/*
+        for (int i = 0; i < transform.GetChild(2).childCount; i++)
+        {
+            Destroy(transform.GetChild(2).GetChild(i).gameObject);
+
+
+        }
+        /*
 		//default cards
 		for (int i = 0; i < 5; i++) {
 			if (cardIcons[i].childCount != 0) Destroy(cardIcons[i].GetChild(0).gameObject);
@@ -63,7 +69,7 @@ public class mBoosterClass : MonoBehaviour {
 
         }
 		*/
-        
+
         exitOpenBoosterMenu.localPosition = new Vector3(0, 0, -10000);
         buttonOpenBooster.SetActive(false);
         //показываем бустер
@@ -97,7 +103,7 @@ public class mBoosterClass : MonoBehaviour {
 		//for (int i = 0; i < 5; i++) cards[i].SetActive(false);
 
         
-        GameObject card = new GameObject();
+        GameObject card;
         //GameObject bonusesTemp = GameObject.Instantiate(GameObject.Find("bonuses temp"), new Vector2(0, 0), Quaternion.identity) as GameObject;
         //bonusesTemp.transform.parent = giftMenu.transform.GetChild(0).GetChild(2);
         //bonusesTemp.transform.localScale = new Vector3(1, 1, 1);
@@ -204,12 +210,13 @@ public class mBoosterClass : MonoBehaviour {
 			string bonusName = openingCards[i].Key;
 			int bonusCount = openingCards[i].Value;
             Debug.Log(bonusName + " " + bonusCount);
-            
+
             //копируем карту
+            //card.transform.parent = transform.GetChild(2);
             if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins")
-                card = Instantiate(cardsAll.FindChild(bonusName + "_" + bonusCount).gameObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+                card = Instantiate(cardsAll.FindChild(bonusName + "_" + bonusCount).gameObject, transform.GetChild(2));
             else
-                card = Instantiate(cardsAll.FindChild(bonusName).gameObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+                card = Instantiate(cardsAll.FindChild(bonusName).gameObject, transform.GetChild(2));
 
             card.transform.parent = transform.GetChild(2) ;
 			card.transform.localScale = new Vector2(1, 1);
@@ -262,7 +269,12 @@ public class mBoosterClass : MonoBehaviour {
 
         ctrProgressClass.progress[currentBoosterColor]--;
         buttonOpenBooster.transform.GetChild(1).GetComponent<UILabel>().text = ctrProgressClass.progress[currentBoosterColor].ToString();
-        marketClass.instance.boostersLabel.text = ctrProgressClass.progress[currentBoosterColor].ToString();
+
+        marketClass.instance.boostersLabel[0].text = ctrProgressClass.progress["boostersWhite"].ToString();
+        marketClass.instance.boostersLabel[1].text = ctrProgressClass.progress["boostersGreen"].ToString();
+        marketClass.instance.boostersLabel[2].text = ctrProgressClass.progress["boostersBlue"].ToString();
+        marketClass.instance.boostersLabel[3].text = ctrProgressClass.progress["boostersPurple"].ToString();
+
         ctrProgressClass.saveProgress();
         //убираем бустер
         transform.GetChild(0).gameObject.SetActive(false);
@@ -298,8 +310,8 @@ public class mBoosterClass : MonoBehaviour {
 
     public static void setOpeningCardUncommon( string itemName, ref List<KeyValuePair<string, int>> openingCards)
     {
-        int number = UnityEngine.Random.Range(2, 5);
-        if (number == ctrProgressClass.progress[itemName + "Rare"]) number = UnityEngine.Random.Range(2, 5);
+        int number = UnityEngine.Random.Range(2, 6);
+        if (number == ctrProgressClass.progress[itemName + "Rare"]) number = UnityEngine.Random.Range(2, 6);
         if (number == ctrProgressClass.progress[itemName + "Rare"]) ctrProgressClass.progress[itemName + "Rare"] = 0;
         int i = 1;
         for (i = 1; i <= 5; i++)
