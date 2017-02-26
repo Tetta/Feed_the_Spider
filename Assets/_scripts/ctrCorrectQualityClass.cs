@@ -16,10 +16,6 @@ public class ctrCorrectQualityClass : MonoBehaviour {
     void SetCorrectQuality() {
         int width = Screen.height>Screen.width?Screen.height:Screen.width;
 		QualitySettings.SetQualityLevel (1, true);
-		//D/ebug.Log (Screen.dpi);
-        
-        //string[] names = QualitySettings.names;
-        //int i = 0;
 
      
 //#if UNITY_ANDROID
