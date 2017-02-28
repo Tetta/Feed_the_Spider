@@ -1,7 +1,7 @@
 {
     "group": "VKSdk",
     "libs": [],
-    "frameworks": ["SafariServices.framework","Security.framework"],
+    "frameworks": ["SafariServices.framework","Security.framework","libsqlite3.tbd"],
     "librarysearchpaths":[],
     "frameworksearchpaths":["VKSdk"],
     "headerpaths": ["VKSdk"],
