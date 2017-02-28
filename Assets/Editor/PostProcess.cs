@@ -24,9 +24,6 @@ public class PbxModifier
 
 			proj.SetBuildProperty (target, "ENABLE_BITCODE", "false");
 			proj.SetBuildProperty (target, "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES", "yes");
-           string file = proj.FindFileGuidByProjectPath("Libraries/Plugins/iOS/KiiIOSSocialNetworkConnector.mm"); 
-            var flags = proj.GetCompileFlagsForFile(target, file);
-            flags.Add("-fno-objc-arc");
 			proj.AddFrameworkToProject (target, "CoreData.framework", false);
             proj.SetCompileFlagsForFile(target, file, flags);
 
@@ -42,7 +39,6 @@ public class PbxModifier
 <key>NSCameraUsageDescription</key>
 <string>This app requires access to the camera</string>			
 <key>LSApplicationQueriesSchemes</key>");
-			
             // Write to file
             File.WriteAllText(plistPath, txt);
 
