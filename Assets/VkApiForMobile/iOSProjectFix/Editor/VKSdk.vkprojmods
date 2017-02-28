@@ -1,7 +1,7 @@
 {
     "group": "VKSdk",
     "libs": [],
-    "frameworks": ["SafariServices.framework","Security.framework","libsqlite3.tbd"],
+    "frameworks": ["SafariServices.framework","Security.framework"],
     "librarysearchpaths":[],
     "frameworksearchpaths":["VKSdk"],
     "headerpaths": ["VKSdk"],
@@ -19,5 +19,5 @@
     "folders": [],
     "excludes": ["^.*.meta$", "^.*.mdown$", "^.*.pdf$"],
     "compiler_flags": [],
-    "linker_flags": []
+    "linker_flags": ["-lsqlite3","-lz"]
 }

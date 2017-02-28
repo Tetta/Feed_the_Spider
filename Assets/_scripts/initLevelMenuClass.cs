@@ -39,7 +39,7 @@ public class initLevelMenuClass : MonoBehaviour {
 		energyLabel.text = lsEnergyClass.energy.ToString();
 		staticClass.sceneLoading = false;
 		instance = this;
-		if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogScreen("level menu");
+		//if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogScreen("level menu");
 
         //fb off, vk on
         if (staticClass.socialDefault() == "vk")

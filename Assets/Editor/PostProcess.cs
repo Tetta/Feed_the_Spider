@@ -22,10 +22,9 @@ public class PbxModifier
 
             string target = proj.TargetGuidByName("Unity-iPhone"); 
 
-			proj.SetBuildProperty (target, "ENABLE_BITCODE", "false");
 			proj.SetBuildProperty (target, "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES", "yes");
 
-			proj.WriteToFile(projPath);
+			//proj.WriteToFile(projPath);
 
 
             string plistPath = path + "/Info.plist";
