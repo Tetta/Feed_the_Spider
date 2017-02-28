@@ -25,7 +25,6 @@ public class PbxModifier
 			proj.SetBuildProperty (target, "ENABLE_BITCODE", "false");
 			proj.SetBuildProperty (target, "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES", "yes");
 			proj.AddFrameworkToProject (target, "CoreData.framework", false);
-            proj.SetCompileFlagsForFile(target, file, flags);
 
             File.WriteAllText(projPath, proj.WriteToString());
 
