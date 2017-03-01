@@ -193,16 +193,7 @@ extern "C" {
         [[AppsFlyerTracker sharedTracker] registerUninstall:tokenData];
     }
     
-    char* cStringCopy(const char* string)
-    {
-        if (string == NULL)
-            return NULL;
-        
-        char* res = (char*)malloc(strlen(string) + 1);
-        strcpy(res, string);
-        
-        return res;
-    }
+    char* cStringCopy(const char* string);
     
     const char *mGetAppsFlyerId () {
         NSString *afid = [[AppsFlyerTracker sharedTracker] getAppsFlyerUID];

@@ -13,7 +13,7 @@ public class ctrStatsClass : MonoBehaviour {
 
 
 	public static void logEvent(string category, string action, string label, int counter) {
-		if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent (category, action, label, counter);
+		//if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogEvent (category, action, label, counter);
         /*
         Flurry.Instance.LogEvent(category, new Dictionary<string, string>
 			{

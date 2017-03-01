@@ -98,7 +98,7 @@ public class gBerryClass : MonoBehaviour {
 		if (back == null) back = GameObject.Find("back rock");
 		if (back == null) back = GameObject.Find("back ice rigidbody");
 		if (back == null) back = GameObject.Find("back desert");
-		if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogScreen(SceneManager.GetActiveScene().name);
+		//if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogScreen(SceneManager.GetActiveScene().name);
 		//Everyplay
 		buttonEveryplayScript = GameObject.Find("/default level/gui/button everyplay").GetComponent<ctrScreenshotClass>();
 
@@ -569,12 +569,12 @@ public class gBerryClass : MonoBehaviour {
 
         //вызов complete menu, передача полученныx очков (float timeLevel, bool gem, int starsCount, int lvlNumber)
         completeMenu.GetComponent<lsLevelMenuClass>().completeMenuEnable(Time.timeSinceLevelLoad, flagGemGetting, starsCounter, lvlNumber);
-		if (GoogleAnalyticsV4.instance != null) {
-			if (initLevelMenuClass.levelDemands == 0)
-				GoogleAnalyticsV4.instance.LogEvent ("Level", SceneManager.GetActiveScene ().name, starsCounter + " stars", 1);
-			else
-				GoogleAnalyticsV4.instance.LogEvent ("Level", SceneManager.GetActiveScene ().name, "Challenge", 1);
-		}
+//		if (GoogleAnalyticsV4.instance != null) {
+//			if (initLevelMenuClass.levelDemands == 0)
+//				GoogleAnalyticsV4.instance.LogEvent ("Level", SceneManager.GetActiveScene ().name, starsCounter + " stars", 1);
+//			else
+//				GoogleAnalyticsV4.instance.LogEvent ("Level", SceneManager.GetActiveScene ().name, "Challenge", 1);
+		//}
     }
 
     public void endLevel(bool result, string taskStatus = "fail")

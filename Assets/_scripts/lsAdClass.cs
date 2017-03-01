@@ -27,9 +27,9 @@ public class lsAdClass : MonoBehaviour {
 
         if (Advertisement.IsReady ("rewardedVideo")) {
 			//Unity Ads start
-			if (name == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "start", "energy", 1);
-			if (name == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "start", "coins", 1);
-			if (name == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "start", "telek", 1);
+			//if (name == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "start", "energy", 1);
+			//if (name == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "start", "coins", 1);
+			//if (name == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "start", "telek", 1);
 			var options = new ShowOptions { resultCallback = HandleShowResult };
 			Advertisement.Show ("rewardedVideo", options);
 
@@ -37,20 +37,20 @@ public class lsAdClass : MonoBehaviour {
             ctrAdClass.instance.interstitialAdMob.Show();
 
             //Admob start
-            if (name == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "start", "energy", 1);
-			if (name == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "start", "coins", 1);
-			if (name == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "start", "telek", 1);
+            //if (name == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "start", "energy", 1);
+			//if (name == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "start", "coins", 1);
+			//if (name == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "start", "telek", 1);
 
 			//ad dont ready Unity Ads
-			if (name == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "energy", 1);
-			if (name == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "coins", 1);
-			if (name == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "telek", 1);
+			//if (name == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "energy", 1);
+			//if (name == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "coins", 1);
+			//if (name == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Unity", "dont ready", "telek", 1);
 		} 
 		else {
             //ad dont ready Admob
-            if (name == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "energy", 1);
-			if (name == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "coins", 1);
-			if (name == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "telek", 1);
+            //if (name == "button ad energy") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "energy", 1);
+			//if (name == "button ad coins") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "coins", 1);
+			//if (name == "button ad telek") GoogleAnalyticsV4.instance.LogEvent("Ad Admob", "dont ready", "telek", 1);
 
 			if (name != "button ad telek")  adDontReadyMenu.SetActive (true);
 		}
@@ -68,17 +68,17 @@ public class lsAdClass : MonoBehaviour {
 		case ShowResult.Finished:
 			//Debug.Log ("The ad was successfully shown.");
 			if (name == "button ad energy") {
-				GoogleAnalyticsV4.instance.LogEvent("Ad", "finish", "energy", 1);
+				//GoogleAnalyticsV4.instance.LogEvent("Ad", "finish", "energy", 1);
 				ctrProgressClass.progress ["energyTime"] -= 5 * lsEnergyClass.costEnergy;
 				//ctrProgressClass.progress ["energy"] += 5;
 				energyGO.SendMessage("OnApplicationPause", false);
 			} else if (name == "button ad coins") {
-				GoogleAnalyticsV4.instance.LogEvent("Ad", "finish", "coins", 1);
+				//GoogleAnalyticsV4.instance.LogEvent("Ad", "finish", "coins", 1);
 				ctrProgressClass.progress ["coins"] += 70;
 				coinsLabel.text = ctrProgressClass.progress ["coins"].ToString ();
 				ctrStatsClass.logEvent ("coins", "ad_coins", "level" + ctrProgressClass.progress["lastLevel"].ToString(), 70);
 			} else if (name == "button ad telek") {
-				GoogleAnalyticsV4.instance.LogEvent("Ad", "finish", "telek", 1);
+				//GoogleAnalyticsV4.instance.LogEvent("Ad", "finish", "telek", 1);
 				ctrProgressClass.progress ["coins"] += int.Parse(coinsAdReward.transform.GetChild(0).GetComponent<UILabel>().text.Substring(1));
 				coinsAdReward.SetActive(true);
 				gameObject.SetActive (false);
