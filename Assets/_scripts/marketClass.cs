@@ -90,6 +90,20 @@ public class marketClass : MonoBehaviour {
             instance.GetComponent<Purchaser>().BuyProductID("com.evogames.feedthespider.chapter");
 #endif
     }
+
+
+    public static void buyEnergy()
+    {
+
+        //запрос на покупку
+        Debug.Log("buyEnergy");
+#if UNITY_IOS
+            instance.GetComponent<Purchaser>().BuyProductID("com.mysterytag.spider.energy_for_day");
+#else
+        instance.GetComponent<Purchaser>().BuyProductID("com.evogames.feedthespider.energy_for_day");
+#endif
+    }
+
     /*
 
         //подтверждение покупки товара
@@ -250,11 +264,17 @@ public class marketClass : MonoBehaviour {
                 initLevelMenuClass.instance.unlockСhapterMenu.SetActive(false);
                 attr["revenue"] = "99";
                 break;
-                //case "booster_sale":
-                //ctrProgressClass.progress["firstPurchase"] = 1;
-                //marketClass.instance.sale.SetActive(false);
+            //case "booster_sale":
+            //ctrProgressClass.progress["firstPurchase"] = 1;
+            //marketClass.instance.sale.SetActive(false);
 
-                //break;
+            //break;
+            case "energy_for_day":
+                GameObject.Find("energy").GetComponent<lsEnergyClass>().buyEnergyReward();
+
+                GameObject.Find("energy menu/panel with anim/energy").GetComponent<lsEnergyClass>().buyEnergyReward();
+                attr["revenue"] = "99";
+                break;
         }
         ctrProgressClass.progress["sale"] = 0;
         ctrProgressClass.progress["saleDate"] = 0;

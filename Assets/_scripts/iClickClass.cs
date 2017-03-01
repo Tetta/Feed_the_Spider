@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using System.Xml.Schema;
 using UnityEngine.SceneManagement;
 
 public class iClickClass : MonoBehaviour {
@@ -179,8 +180,7 @@ public class iClickClass : MonoBehaviour {
 
     public IEnumerator CoroutineLoadLevel() {
 		if (!staticClass.sceneLoading) {
-
-			Time.timeScale = 0;
+            Time.timeScale = 0;
 		    bool sceneCanLoad = true;
 
             Debug.Log(name);
@@ -582,7 +582,7 @@ public class iClickClass : MonoBehaviour {
                 marketClass.instance.openBoosterMenu.transform.GetChild(1).GetChild(1).GetChild(0).GetChild(0).FindChild(name).gameObject.SetActive(true);
 
                 marketClass.instance.openBoosterMenu.SetActive(true);
-                marketClass.instance.boosterMenu.SetActive(false);
+                //marketClass.instance.boosterMenu.SetActive(false);
 
                 //if (Everyplay.IsRecordingSupported () && !Everyplay.IsRecording() && ctrProgressClass.progress["everyplay"] == 1)
 				//	Everyplay.StartRecording ();
@@ -653,8 +653,10 @@ public class iClickClass : MonoBehaviour {
         else if (name == "exit energy menu")
         {
             menu = GameObject.Find("energy menu");
+            Debug.Log(menu.name);
+            Debug.Log(menu.transform.parent.name);
             GameObject.Find("energy menu").transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
-            yield return new WaitForSeconds(0.2F);
+            yield return StartCoroutine(staticClass.waitForRealTime(0.2F));
             GameObject.Find("energy").SendMessage("stopCoroutineEnergyMenu");
             menu.SetActive(false);
             /*
@@ -934,4 +936,15 @@ public class iClickClass : MonoBehaviour {
         Debug.Log("clickLogout");
         ctrFbKiiClass.instance.clickLogout();
     }
+
+    public void clickTabCompleteMenu()
+    {
+        GameObject.Find("/default level/gui/complete menu").GetComponent<lsLevelMenuClass>().clickTabCompleteMenu(name);
+    }
+
+    public void closeCompleteMenu()
+    {
+        GameObject.Find("/default level/gui/complete menu/camera for menu").SetActive(false);
+    }
+
 }

@@ -15,6 +15,16 @@ lsEnergyRestoreForCoins, "Restore all energy", "Восстановить всю 
 lsInfiniteEnergy, "Unlimit energy for a day", "Бесконечная энергия на день"
 
 lsEnergyMenu3, "Advertising is not ready. Try later!", "Реклама не готова. Попробуйте позже!"
+lsEnergyRestore, "Restore energy", "Восстановление энергии"
+lsEnergyRestore2, "Restore 1 energy", "Восстановить 1 энергию"
+lsEnergyRestore3, "Watch ADS to restore 1 energy", "Посмотреть рекламу, чтобы восстановить 1 энергию"
+lsEnergyRestore4, "Watch", "Посмотреть"
+lsEnergyInfinity, "Infinity energy", "Бесконечная энергия"
+lsEnergyInfinity2, "    Get             energy", "Получи             энергию"
+lsEnergyInfinity3, "Energy drink to get infinity energy for a day", "Энергетический напиток дает бесконечную энергию на весь день"
+
+
+
 lsCoinsMenu, "Want to see advertisements", "Хочешь посмотреть рекламу"
 lsCoinsMenu2, " and get 70   ?", " и получить 70   ?"
 lsAdCoinsReward, "You got a reward!", "Киносеанс удался!"
@@ -24,6 +34,8 @@ lsUnlockChapterMenu3, "Collect gems", "Собрать кристаллы"
 
 lsRewardForCardsMenu, "Daily bonuses for a collection of cards!", "Ежедневные бонусы за коллекцию карт!"
 lsRewardForCardsMenu2, "Pick up", "Забрать"
+
+lsLevelMenu, "To complete this mission:", "Для прохождения миссии:"
 
 marketNotCoinsMenu, "Not enought coins!", "Недостаточно монет!"
 marketThanksMenu, "Thanks!", "Спасибо!"
@@ -47,7 +59,7 @@ completeMenuBonusGem1, "Bonus first gem:", "Бонус за первый кри�
 completeMenuBonusGem2, "Bonus second gem:", "Бонус за второй кристалл:"
 completeMenuLevelScore, "Level score:", "Очки за уровень:" 
 completeMenuChallengeScore, "Challenge score:", "Очки за испытание:"
-completeMenuScoreAll, "Final score:", "Общий счет:"
+completeMenuScoreAll, "Total score:", "Общий счет:"
 Bonus, "Bonus!", "Бонус!"
 spiderSkin1, "Yellow", "Желтый"
 spiderSkin2, "Donatello", "Донателло"
@@ -69,7 +81,8 @@ teleport, "Whirlwind", "Ветерок"
 web, "Web", "Паутинка"
 wand, "Wand", "Палочка"
 
-
+normal, "Normal", "Испытание"
+challenge, "Challenge", "Испытание"
 
 
 marketDefaultSkin, "Primary skin", "Стандартный скин"
@@ -85,9 +98,9 @@ marketSkinBonus, "Collect the complete collection of skins!", "Собери по
 marketSkinBonus2, "Get acceleration energy recovery for 2 minutes!", "Получи ускорение восстановления энергии на 2 минуты!"
 marketSkinBonus3, "Accelerates energy recovery by ", "Ускоряет восстановление энергии на "
 marketHatBonus, "Collect the complete collection of hats!", "Собери полную коллекцию шапок!"
-marketHatBonus2, "Get +100%   !", "Получи +100%   !"
+marketHatBonus2, "Get +100%     !", "Получи +100%     !"
 marketBerryBonus, "Collect the complete collection of berries!", "Собери полную коллекцию ягод!"
-marketBerryBonus2, "Get an additional 1    every day!", "Получай дополнительно 1    каждый день!"
+marketBerryBonus2, "Get an additional 1      every day!", "Получай дополнительно 1       каждый день!    "
 marketFindInBooster, "Find in booster!", "Найди в бустере!"
 marketBoostersDescription, "Booster is a set of 5 random cards of four types of rarity:\n\ncommon - coins, energy, power-ups\nuncommon - berries\nrare - hats\nepic - skins", "Бустер это набор из 5 случайных карт  четырех типов редкости: \n\nобычные - монеты, энергия, бонусы\nнеобычные - ягоды\nредкие - шапки\nэпические - скины"
 

@@ -98,8 +98,11 @@ public class lsGiftClass : MonoBehaviour {
             card.SetActive (true);
 			card.transform.GetChild(0).gameObject.SetActive (false);
 			card.transform.GetChild(1).gameObject.SetActive (true);
-			//позиция карты
-			if (i == 0) card.transform.localPosition = new Vector3(-355, 7, -2); else if (i == 1) card.transform.localPosition = new Vector3(0, 7, -2); else if (i == 2) card.transform.localPosition = new Vector3(355, 7, -2); 
+            card.transform.GetChild(1).GetChild(0).GetComponent<UISprite>().color = new Color32(154, 138, 123, 255);
+
+
+            //позиция карты
+            if (i == 0) card.transform.localPosition = new Vector3(-355, 7, -2); else if (i == 1) card.transform.localPosition = new Vector3(0, 7, -2); else if (i == 2) card.transform.localPosition = new Vector3(355, 7, -2); 
 
 			//сохранение результата
 			if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins") ctrProgressClass.progress[bonusName] += bonusCount;

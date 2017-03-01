@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: e0d159cf40ee59c47bb0caa5d15ee11c
+timeCreated: 1488171042
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Penta
+  fontNames:
+  - Penta
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

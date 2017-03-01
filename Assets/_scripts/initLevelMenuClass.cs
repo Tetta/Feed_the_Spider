@@ -11,7 +11,8 @@ public class initLevelMenuClass : MonoBehaviour {
 
     public UILabel coinsLabel;
 	public UILabel gemsLabel;
-	public UILabel energyLabel;
+	//public UILabel energyLabel;
+    public Transform energySegments;
 
     public GameObject fb;
     public GameObject vk;
@@ -36,7 +37,14 @@ public class initLevelMenuClass : MonoBehaviour {
 		if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
 		coinsLabel.text = ctrProgressClass.progress["coins"].ToString();
 		gemsLabel.text = ctrProgressClass.progress["gems"].ToString();
-		energyLabel.text = lsEnergyClass.energy.ToString();
+        //Debug.Log("lsEnergyClass.energy: " + lsEnergyClass.energy);
+	    //for (int i = 1; i <= 5; i++)
+	    //{
+        //    if (lsEnergyClass.energy >= i ) energySegments.GetChild(i - 1).gameObject.SetActive(true);
+        //    else energySegments.GetChild(i - 1).gameObject.SetActive(false);
+        //}
+
+	    //energyLabel.text = lsEnergyClass.energy.ToString();
 		staticClass.sceneLoading = false;
 		instance = this;
 		if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogScreen("level menu");

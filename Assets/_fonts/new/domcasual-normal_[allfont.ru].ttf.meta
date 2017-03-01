@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 70f4c48d5923e4c47b8ea4616087eea4
+timeCreated: 1488171042
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: DomCasual
+  fontNames:
+  - DomCasual
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -9,11 +9,16 @@ public class ctrProgressClass {
 
 	static public void saveProgress() {
         Debug.Log("saveProgress");
+	    //progress["level6"] = 0;
+        //progress["score6_1"] = 0;
+        //progress["score6_2"] = 0;
+
         string strProgress = "";
 		foreach (var item in progress ) {
 			if (progressDefault.ContainsKey(item.Key)) if (progress[item.Key] != progressDefault[item.Key]) strProgress += item.Key + "=" + item.Value + ";";
 		}
-		PlayerPrefs.SetString("progress", strProgress);
+
+        PlayerPrefs.SetString("progress", strProgress);
 		PlayerPrefs.Save();
 	}
 

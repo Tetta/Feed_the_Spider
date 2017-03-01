@@ -214,11 +214,11 @@ public class mBoosterClass : MonoBehaviour {
             //копируем карту
             //card.transform.parent = transform.GetChild(2);
             if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins")
-                card = Instantiate(cardsAll.FindChild(bonusName + "_" + bonusCount).gameObject, transform.GetChild(2));
+                card = Instantiate(cardsAll.FindChild(bonusName + "_" + bonusCount).gameObject, new Vector3(0,0,0), Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5))),transform.GetChild(2));
             else
-                card = Instantiate(cardsAll.FindChild(bonusName).gameObject, transform.GetChild(2));
+                card = Instantiate(cardsAll.FindChild(bonusName).gameObject, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5))), transform.GetChild(2));
 
-            card.transform.parent = transform.GetChild(2) ;
+            //card.transform.parent = transform.GetChild(2) ;
 			card.transform.localScale = new Vector2(1, 1);
 			card.name = "card" + (i + 1);
 			card.SetActive (true);
@@ -226,12 +226,47 @@ public class mBoosterClass : MonoBehaviour {
 			card.transform.GetChild(1).gameObject.SetActive (true);
 
             //card colors
-            //if (currentBoosterColor)
+            if (currentBoosterColor == "boostersWhite") card.transform.GetChild(1).GetChild(0).GetComponent<UISprite>().color = new Color32(154, 138, 123, 255);// new Color(154, 138, 123, 1);
+            if (currentBoosterColor == "boostersGreen") card.transform.GetChild(1).GetChild(0).GetComponent<UISprite>().color = new Color32(58, 112, 78, 255);
+            if (currentBoosterColor == "boostersBlue") card.transform.GetChild(1).GetChild(0).GetComponent<UISprite>().color = new Color32(58, 67, 112, 255);
+            
+            //поворот карты
+            if (i == 0) card.transform.rotation = Quaternion.Euler(0, 0, 4); else if (i == 2) card.transform.rotation = Quaternion.Euler(0, 0, -5); else if (i == 3) card.transform.rotation = Quaternion.Euler(0, 0, -12); else if (i == 4) card.transform.rotation = Quaternion.Euler(0, 0, 13);
 
-			//поворот карты
-			if (i == 0) card.transform.rotation = Quaternion.Euler(0, 0, 4); else if (i == 2) card.transform.rotation = Quaternion.Euler(0, 0, -5); else if (i == 3) card.transform.rotation = Quaternion.Euler(0, 0, -12); else if (i == 4) card.transform.rotation = Quaternion.Euler(0, 0, 13);
 
-			/*
+            //layers start
+            card.layer = LayerMask.NameToLayer("card" + (i + 1));
+            ChangeLayersRecursively(card.transform, "card" + (i + 1));
+            var sprites = card.transform.GetComponentsInChildren<SpriteRenderer>(true);
+            foreach (var sprite in sprites)
+            {
+                sprite.sortingLayerName = "card" + (i + 1);
+            }
+            var panels = card.transform.GetComponentsInChildren<UIPanel>(true);
+            foreach (var panel in panels)
+            {
+                panel.sortingLayerName = "card" + (i + 1);
+                //panel.sortingOrder = 167;
+                //panel.depth = 5 - i;
+            }
+            //card.transform.GetComponentInChildren<ParticleSystem>(true).GetComponent<Renderer>().sortingLayerName = "card" + (i + 1);
+            var pss = card.transform.GetComponentsInChildren<ParticleSystem>(true);
+            foreach (var ps in pss)
+            {
+                ps.GetComponent<Renderer>().sortingLayerName = "card" + (i + 1);
+
+            }
+            card.AddComponent<UIPanel>().sortingLayerName = "card" + (i + 1);
+            card.GetComponent<UIPanel>().sortingOrder = 5 - i;
+            card.GetComponent<UIPanel>().depth = 5 - i;
+            card.AddComponent<UIWidget>().depth = 170 - i;
+
+
+            card.transform.localPosition = new Vector3(Mathf.CeilToInt(UnityEngine.Random.Range(-30, 30)), Mathf.CeilToInt(UnityEngine.Random.Range(-30, 30)), 0);
+            Debug.Log(card.transform.rotation);
+            //layers end
+
+            /*
 			//иконка
             icon = Instantiate(icons.FindChild(bonusName).gameObject, icons.FindChild(bonusName).transform.position + cards[i].transform.position, Quaternion.identity) as GameObject;
 			icon.transform.parent = cardIcons[i];
@@ -239,7 +274,7 @@ public class mBoosterClass : MonoBehaviour {
             icon.transform.localPosition = new Vector3(icon.transform.localPosition.x, icon.transform.localPosition.y, 0);
             icon.SetActive(true);
             */
-			//сохранение результата
+            //сохранение результата
             //if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins") ctrProgressClass.progress[bonusName] += bonusCount;
             if (bonusName == "energy") {
                 ctrProgressClass.progress["energyTime"] -= bonusCount * lsEnergyClass.costEnergy;
@@ -262,14 +297,14 @@ public class mBoosterClass : MonoBehaviour {
             if (initLevelMenuClass.instance != null) {
 				if (initLevelMenuClass.instance.coinsLabel != null)
 					initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress ["coins"].ToString ();
-				if (initLevelMenuClass.instance.energyLabel != null)
-					initLevelMenuClass.instance.energyLabel.text = ctrProgressClass.progress ["energy"].ToString ();
+				//if (initLevelMenuClass.instance.energyLabel != null)
+				//	initLevelMenuClass.instance.energyLabel.text = ctrProgressClass.progress ["energy"].ToString ();
 			}
 			
  
         }
-		GetComponent<Animator> ().Rebind ();
-		GetComponent<Animator>().Play("card enable");
+		//GetComponent<Animator> ().Rebind ();
+		//GetComponent<Animator>().Play("card enable");
 
         ctrProgressClass.progress[currentBoosterColor]--;
         buttonOpenBooster.transform.GetChild(1).GetComponent<UILabel>().text = ctrProgressClass.progress[currentBoosterColor].ToString();
@@ -356,5 +391,12 @@ public class mBoosterClass : MonoBehaviour {
             list[n] = value;
         }
     }
-
+    void ChangeLayersRecursively(Transform trans, String name)
+    {
+        foreach (Transform child in trans)
+        {
+            child.gameObject.layer = LayerMask.NameToLayer(name);
+            ChangeLayersRecursively(child, name);
+        }
+    }
 }

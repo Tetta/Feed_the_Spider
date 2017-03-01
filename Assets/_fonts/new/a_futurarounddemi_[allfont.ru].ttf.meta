@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: ef0827f7fe107804892432e48267d297
+timeCreated: 1488171764
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: a_FuturaRoundDemi
+  fontNames:
+  - a_FuturaRoundDemi
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

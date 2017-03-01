@@ -109,7 +109,8 @@ public class ctrAdClass: MonoBehaviour {
 			lsEnergyClass.energy = 1;
             //energyGO
 			GameObject.Find ("root/static/energy").SendMessage ("OnApplicationPause", false);
-		} else if (adStarted == "ad coins") {
+            GameObject.Find("energy menu/panel with anim/energy").SendMessage("OnApplicationPause", false);
+        } else if (adStarted == "ad coins") {
 			ctrProgressClass.progress ["coins"] += 50;
             //coinsLabel
             AdCoinsTimerClass.counter++;

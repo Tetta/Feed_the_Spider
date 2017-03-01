@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Runtime.Remoting.Messaging;
 
 
 public class mCardClass : MonoBehaviour {
@@ -192,20 +193,31 @@ public class mCardClass : MonoBehaviour {
 
     void openCard(bool isPressed) {
 
-		if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open") && !GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open epic")) {
-			if (transform.childCount > 4) {
-				GetComponent<Animator> ().Play ("card open epic");
-				transform.GetChild(6).GetComponent<AudioSource> ().Play ();
-					
-			} else GetComponent<Animator>().Play("card open");
-			GetComponent<AudioSource> ().Play ();
+        if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open") &&
+            !GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open epic"))
+        {
+            if (transform.childCount > 4)
+            {
+                GetComponent<Animator>().Play("card open epic");
+                transform.GetChild(6).GetComponent<AudioSource>().Play();
+
+            }
+            else GetComponent<Animator>().Play("card open");
+            GetComponent<AudioSource>().Play();
             mBoosterClass.counterOpenCard++;
-            if (mBoosterClass.counterOpenCard >= 5) {
-            	transform.parent.parent.parent.parent.FindChild("exit open booster menu").localPosition = new Vector3(0, 0, -1);
-				//if (ctrProgressClass.progress["boosters"] > 0) transform.parent.parent.parent.parent.FindChild("button open booster").gameObject.SetActive(true);
+            if (mBoosterClass.counterOpenCard >= 5)
+            {
+                transform.parent.parent.parent.parent.FindChild("exit open booster menu").localPosition = new Vector3(
+                    0, 0, -1);
+                //if (ctrProgressClass.progress["boosters"] > 0) transform.parent.parent.parent.parent.FindChild("button open booster").gameObject.SetActive(true);
                 mBoosterClass.counterOpenCard = 0;
             }
         }
+        else
+        {
+            transform.localPosition  = new Vector3(2000, 2000, 0);
+        }
+          
         
     }
 
@@ -295,11 +307,13 @@ public class mCardClass : MonoBehaviour {
 
 	}
 	private IEnumerator startCard(){
-		yield return StartCoroutine(staticClass.waitForRealTime(UnityEngine.Random.value * 2));
-		if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open") && !GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open epic")) GetComponent<Animator> ().Play ("card idle");
+        //yield return StartCoroutine(staticClass.waitForRealTime(UnityEngine.Random.value * 2));
+        yield return null;
+        //if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open") && !GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open epic")) GetComponent<Animator> ().Play ("card idle");
+        //if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open") && !GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open epic")) GetComponent<Animator>().Play("card idle", -1, UnityEngine.Random.Range(-1, 1));
+        GetComponent<Animator>().PlayInFixedTime("card idle", -1, UnityEngine.Random.Range(0, 10));
 
-
-	}
+}
 
 
 
