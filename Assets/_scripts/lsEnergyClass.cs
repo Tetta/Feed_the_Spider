@@ -75,7 +75,7 @@ public class lsEnergyClass : MonoBehaviour {
         {
             //добавляем 5ю энергию
             maxEnergy = 5;
-            backBar.width = 362;
+            backBar.width = 324;
             energySegments.GetChild(9).gameObject.SetActive(true);
         }
         Debug.Log("maxEnergy: " + maxEnergy);
