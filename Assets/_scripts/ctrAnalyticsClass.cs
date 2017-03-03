@@ -148,6 +148,7 @@ public class ctrAnalyticsClass: MonoBehaviour
         if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
         if (ctrProgressClass.progress["sessionEnd"] < (int) DateTime.Now.AddSeconds(-sessionTimeout).TotalSeconds())
         {
+            lsEnergyClass.checkEnergy(true);
             if (ctrProgressClass.progress["sessionStart"] != 0)
             {
                 sendEvent("Session End", new Dictionary<string, string>
@@ -158,22 +159,25 @@ public class ctrAnalyticsClass: MonoBehaviour
                                       ctrProgressClass.progress["sessionStart"])/60F*100)/100F).ToString()
                     },
                     {"level play count", ctrProgressClass.progress["levelPlayCount"].ToString()},
-                    {"win count", ctrProgressClass.progress["winCount"].ToString()}
+                    {"win count", ctrProgressClass.progress["winCount"].ToString()},
+                    {"energy count", lsEnergyClass.energy.ToString()}
                 });
             }
             Debug.Log("startSession");
-            lsEnergyClass.checkEnergy(true);
+
+            ctrProgressClass.progress["sessionStart"] = (int)DateTime.Now.TotalSeconds();
+            ctrProgressClass.progress["sessionEnd"] = (int)DateTime.Now.TotalSeconds();
+            ctrProgressClass.progress["sessionCount"]++;
+            ctrProgressClass.progress["levelPlayCount"] = 0;
+            ctrProgressClass.progress["winCount"] = 0;
+
             sendEvent("Session Start",
                 new Dictionary<string, string>
                 {
                     {"coins", ctrProgressClass.progress["coins"].ToString()},
                     {"energy", lsEnergyClass.energy.ToString()}
                 });
-            ctrProgressClass.progress["sessionStart"] = (int) DateTime.Now.TotalSeconds();
-            ctrProgressClass.progress["sessionEnd"] = (int) DateTime.Now.TotalSeconds();
-            ctrProgressClass.progress["sessionCount"]++;
-            ctrProgressClass.progress["levelPlayCount"] = 0;
-            ctrProgressClass.progress["winCount"] = 0;
+
             sendCustomDimension(5, getGroup(ctrProgressClass.progress["sessionCount"], ctrAnalyticsClass.sessionGroups)); //sessionCount
 
             if (ctrProgressClass.progress["firstLaunch"] == 0)

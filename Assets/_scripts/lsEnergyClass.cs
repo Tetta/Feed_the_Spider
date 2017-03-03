@@ -231,7 +231,7 @@ public class lsEnergyClass : MonoBehaviour {
     }
 
     public IEnumerator CoroutineEnergyMenu(){
-		int mod = checkEnergy(true);
+        int mod = checkEnergy(true);
         int modMin = Mathf.CeilToInt((costEnergy - mod) / 60);
         if (modMin < 10) minutes.text = "0" + modMin.ToString();
         else minutes.text = modMin.ToString();
@@ -248,6 +248,7 @@ public class lsEnergyClass : MonoBehaviour {
         //buttonRestoreEnergy.transform.GetChild(3).gameObject.SetActive(true);
         //buttonRestoreEnergy.transform.GetChild(5).gameObject.SetActive(false);
 
+
         if (maxEnergy > energy)
         {
             //if (ctrProgressClass.progress["tutorialEnergy"] == 1)
@@ -255,10 +256,11 @@ public class lsEnergyClass : MonoBehaviour {
             //if energy tutorial
             //else
             //{
-                //buttonRestoreEnergy.transform.GetChild(2).gameObject.SetActive(false);
-                //buttonRestoreEnergy.transform.GetChild(3).gameObject.SetActive(false);
-                //buttonRestoreEnergy.transform.GetChild(5).gameObject.SetActive(true);
+            //buttonRestoreEnergy.transform.GetChild(2).gameObject.SetActive(false);
+            //buttonRestoreEnergy.transform.GetChild(3).gameObject.SetActive(false);
+            //buttonRestoreEnergy.transform.GetChild(5).gameObject.SetActive(true);
             //}
+            if (buttonAdEnergy != null) buttonAdEnergy.transform.GetChild(2).gameObject.SetActive(false);
         }
         else
         {
