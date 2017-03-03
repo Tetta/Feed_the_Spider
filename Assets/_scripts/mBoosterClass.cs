@@ -233,38 +233,8 @@ public class mBoosterClass : MonoBehaviour {
             //поворот карты
             if (i == 0) card.transform.rotation = Quaternion.Euler(0, 0, 4); else if (i == 2) card.transform.rotation = Quaternion.Euler(0, 0, -5); else if (i == 3) card.transform.rotation = Quaternion.Euler(0, 0, -12); else if (i == 4) card.transform.rotation = Quaternion.Euler(0, 0, 13);
 
+            addLayerToCard(ref  card,  i);
 
-            //layers start
-            card.layer = LayerMask.NameToLayer("card" + (i + 1));
-            ChangeLayersRecursively(card.transform, "card" + (i + 1));
-            var sprites = card.transform.GetComponentsInChildren<SpriteRenderer>(true);
-            foreach (var sprite in sprites)
-            {
-                sprite.sortingLayerName = "card" + (i + 1);
-            }
-            var panels = card.transform.GetComponentsInChildren<UIPanel>(true);
-            foreach (var panel in panels)
-            {
-                panel.sortingLayerName = "card" + (i + 1);
-                //panel.sortingOrder = 167;
-                //panel.depth = 5 - i;
-            }
-            //card.transform.GetComponentInChildren<ParticleSystem>(true).GetComponent<Renderer>().sortingLayerName = "card" + (i + 1);
-            var pss = card.transform.GetComponentsInChildren<ParticleSystem>(true);
-            foreach (var ps in pss)
-            {
-                ps.GetComponent<Renderer>().sortingLayerName = "card" + (i + 1);
-
-            }
-            card.AddComponent<UIPanel>().sortingLayerName = "card" + (i + 1);
-            card.GetComponent<UIPanel>().sortingOrder = 5 - i;
-            card.GetComponent<UIPanel>().depth = 5 - i;
-            card.AddComponent<UIWidget>().depth = 170 - i;
-
-
-            card.transform.localPosition = new Vector3(Mathf.CeilToInt(UnityEngine.Random.Range(-30, 30)), Mathf.CeilToInt(UnityEngine.Random.Range(-30, 30)), 0);
-            Debug.Log(card.transform.rotation);
-            //layers end
 
             /*
 			//иконка
@@ -290,7 +260,7 @@ public class mBoosterClass : MonoBehaviour {
             }
             else {
                 ctrProgressClass.progress[bonusName] += bonusCount;
-                if (bonusName == "coins") ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "income", "booster" }, { "coins", bonusCount.ToString() } });
+                if (bonusName == "coins") ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail 1", "booster" }, { "coins", bonusCount.ToString() } });
 
 
             }
@@ -391,12 +361,48 @@ public class mBoosterClass : MonoBehaviour {
             list[n] = value;
         }
     }
-    void ChangeLayersRecursively(Transform trans, String name)
+    static void ChangeLayersRecursively(Transform trans, String name)
     {
         foreach (Transform child in trans)
         {
             child.gameObject.layer = LayerMask.NameToLayer(name);
             ChangeLayersRecursively(child, name);
         }
+    }
+
+
+    public static void addLayerToCard(ref GameObject card, int i)
+    {
+        //layers start
+        card.layer = LayerMask.NameToLayer("card" + (i + 1));
+        ChangeLayersRecursively(card.transform, "card" + (i + 1));
+        var sprites = card.transform.GetComponentsInChildren<SpriteRenderer>(true);
+        foreach (var sprite in sprites)
+        {
+            sprite.sortingLayerName = "card" + (i + 1);
+        }
+        var panels = card.transform.GetComponentsInChildren<UIPanel>(true);
+        foreach (var panel in panels)
+        {
+            panel.sortingLayerName = "card" + (i + 1);
+            //panel.sortingOrder = 167;
+            //panel.depth = 5 - i;
+        }
+        //card.transform.GetComponentInChildren<ParticleSystem>(true).GetComponent<Renderer>().sortingLayerName = "card" + (i + 1);
+        var pss = card.transform.GetComponentsInChildren<ParticleSystem>(true);
+        foreach (var ps in pss)
+        {
+            ps.GetComponent<Renderer>().sortingLayerName = "card" + (i + 1);
+
+        }
+        card.AddComponent<UIPanel>().sortingLayerName = "card" + (i + 1);
+        card.GetComponent<UIPanel>().sortingOrder = 5 - i;
+        card.GetComponent<UIPanel>().depth = 5 - i;
+        card.AddComponent<UIWidget>().depth = 170 - i;
+
+
+        card.transform.localPosition = new Vector3(Mathf.CeilToInt(UnityEngine.Random.Range(-30, 30)), Mathf.CeilToInt(UnityEngine.Random.Range(-30, 30)), 0);
+        Debug.Log(card.transform.rotation);
+        //layers end
     }
 }

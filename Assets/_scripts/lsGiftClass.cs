@@ -88,13 +88,16 @@ public class lsGiftClass : MonoBehaviour {
 
 
             //копируем карту
-            card = Instantiate(marketClass.instance.cardsAll.FindChild(bonusName + "_" + bonusCount).gameObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            card = Instantiate(marketClass.instance.cardsAll.FindChild(bonusName + "_" + bonusCount).gameObject, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5)))) as GameObject;
 			card.GetComponent<mCardClass>().functionPress = "openCardGift";
 			card.transform.parent = giftMenu.transform.GetChild(0).GetChild(0);
 			card.transform.localScale = new Vector2(1, 1);
 			card.name = "card" + (i + 1);
 	        card.layer = 5;
             ChangeLayersRecursively(card.transform, "UI");
+
+            mBoosterClass.addLayerToCard(ref card, i);
+
             card.SetActive (true);
 			card.transform.GetChild(0).gameObject.SetActive (false);
 			card.transform.GetChild(1).gameObject.SetActive (true);
@@ -102,11 +105,11 @@ public class lsGiftClass : MonoBehaviour {
 
 
             //позиция карты
-            if (i == 0) card.transform.localPosition = new Vector3(-355, 7, -2); else if (i == 1) card.transform.localPosition = new Vector3(0, 7, -2); else if (i == 2) card.transform.localPosition = new Vector3(355, 7, -2); 
+            //if (i == 0) card.transform.localPosition = new Vector3(-355, 7, -2); else if (i == 1) card.transform.localPosition = new Vector3(0, 7, -2); else if (i == 2) card.transform.localPosition = new Vector3(355, 7, -2); 
 
 			//сохранение результата
 			if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins") ctrProgressClass.progress[bonusName] += bonusCount;
-            if (bonusName == "coins") ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "income", "chest" }, { "coins", bonusCount.ToString() } });
+            if (bonusName == "coins") ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail 1", "chest" }, { "coins", bonusCount.ToString() } });
 
             initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress ["coins"].ToString ();
 

@@ -74,8 +74,9 @@ public class lsEnergyClass : MonoBehaviour {
         if (flag)
         {
             //добавляем 5ю энергию
-            maxEnergy ++;
+            maxEnergy = 5;
             backBar.width = 362;
+            energySegments.GetChild(9).gameObject.SetActive(true);
         }
         Debug.Log("maxEnergy: " + maxEnergy);
 
@@ -322,7 +323,7 @@ public class lsEnergyClass : MonoBehaviour {
             var costCurrent = costEnergyForCoins * (maxEnergy - energy) - (int)(((float)checkEnergy(true) / costEnergy) * costEnergyForCoins);
 
             ctrProgressClass.progress["coins"] -= costCurrent;
-            ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "decome", "energy" }, { "coins", (-costCurrent).ToString() } });
+            ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail 1", "energy" }, { "coins", (-costCurrent).ToString() } });
 
         }
         else

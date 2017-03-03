@@ -81,7 +81,8 @@ public class gBerryClass : MonoBehaviour {
 			int levels = staticClass.levels[Convert.ToInt32(SceneManager.GetActiveScene().name.Substring(5)), 1];
 			if (levels >= 1 && levels <=99) {
 				GameObject.Find("gui timer").GetComponent<UILabel>().enabled = true;
-				guiTimer = GameObject.Find("gui timer 2").GetComponent<UILabel>();
+                GameObject.Find("gui timer/shine timer").GetComponent<UI2DSprite>().enabled = true;
+                guiTimer = GameObject.Find("gui timer 2").GetComponent<UILabel>();
 				guiTimer.enabled = true;
 				if (levels - staticClass.timer < 10)
 					guiTimer.text = 

@@ -251,8 +251,13 @@ public class mCardClass : MonoBehaviour {
 
 			}
 		}
+        else
+        {
+            if (name == "card3") transform.parent.parent.parent.GetChild(1).GetComponent<iClickClass>().closeMenu();
+            transform.localPosition = new Vector3(2000, 2000, 0);
+        }
 
-	}
+    }
 
 	void openCardDaily(bool isPressed) {
 		if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open")) {
@@ -290,8 +295,12 @@ public class mCardClass : MonoBehaviour {
 				StartCoroutine (openCardDailyAnother());
 			}
 		}
+        else
+        {
+            transform.localPosition = new Vector3(2000, 2000, 0);
+        }
 
-	}
+    }
 
 	private IEnumerator openCardDailyAnother(){
 		yield return StartCoroutine(staticClass.waitForRealTime(0.7F));

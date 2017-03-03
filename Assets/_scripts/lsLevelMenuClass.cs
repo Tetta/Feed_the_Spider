@@ -251,7 +251,7 @@ public class lsLevelMenuClass : MonoBehaviour
 
             if (coinsAdd > 0)
                 ctrAnalyticsClass.sendEvent("Coins",
-                    new Dictionary<string, string> {{"income", "level"}, {"coins", coinsAdd.ToString()}});
+                    new Dictionary<string, string> {{ "detail 1", "level"}, {"coins", coinsAdd.ToString()}});
             ctrStatsClass.logEvent("coins", "free", "level" + lvlNumber, coinsAdd);
 
             //сохранение очков в Kii
@@ -276,6 +276,7 @@ public class lsLevelMenuClass : MonoBehaviour
             ctrProgressClass.progress["score" + lvlNumber + "_2"] = score2;
         ctrProgressClass.saveProgress();
 
+        //hand
         //if tutorial booster == 0 and coins > 400 
         //or tutorialAdCoins
         bool tutorialAdCoins = ctrProgressClass.progress["tutorialAdCoins"] == 0 &&
@@ -286,9 +287,13 @@ public class lsLevelMenuClass : MonoBehaviour
         {
             Debug.Log("tutorialAdCoins: " + ctrProgressClass.progress["tutorialAdCoins"]);
             GameObject handGO = Instantiate(hand, new Vector2(0, 0), Quaternion.identity);
-            handGO.transform.parent = GameObject.Find("/default level/gui").transform;
+            handGO.transform.parent = GameObject.Find("/default level/gui/complete menu").transform;
+            handGO.transform.GetChild(0).GetChild(0).gameObject.layer = LayerMask.NameToLayer("Water");
+            handGO.transform.GetChild(0).GetChild(1).gameObject.layer = LayerMask.NameToLayer("Water");
+            handGO.transform.GetChild(0).GetChild(2).gameObject.layer = LayerMask.NameToLayer("Water");
+
             handGO.transform.localScale = new Vector3(-1, 1, 1);
-            handGO.transform.localPosition = new Vector3(-345, -790, 0);
+            handGO.transform.localPosition = new Vector3(-328, -739, 0);
             handGO.transform.rotation = Quaternion.Euler(0, 0, 109);
             handGO.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 165;
             handGO.transform.GetChild(0).GetChild(1).GetComponent<SpriteRenderer>().sortingOrder = 165;
@@ -454,7 +459,7 @@ public class lsLevelMenuClass : MonoBehaviour
             {
                 web.SetActive(true);
                 web.transform.GetChild(0).GetComponent<UILabel>().text = (levelDemands - 100).ToString();
-                web.transform.GetChild(1).GetComponent<UILabel>().text = (levelDemands - 100).ToString();
+                //web.transform.GetChild(1).GetComponent<UILabel>().text = (levelDemands - 100).ToString();
 
             }
             else if (levelDemands == 201)

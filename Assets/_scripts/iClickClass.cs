@@ -79,8 +79,11 @@ public class iClickClass : MonoBehaviour {
     }
 
 	void checkTutorialBuy() {
-		//если хватает монет и не проходил туториал, показываем hand
-		if (name == "button market" && ctrProgressClass.progress ["coins"] >= 400 && ctrProgressClass.progress ["tutorialBuy"] == 0) {
+		Debug.Log("checkTutorialBuy: " + name + ", step: " + ctrProgressClass.progress["tutorialBuy"]);
+        if (GetComponent<UIToggle>() != null) Debug.Log(GetComponent<UIToggle>().value);
+        Debug.Log(ctrProgressClass.progress["boostersWhite"]);
+        //если хватает монет и не проходил туториал, показываем hand
+        if (name == "button market" && ctrProgressClass.progress ["coins"] >= 400 && ctrProgressClass.progress ["tutorialBuy"] == 0) {
 			transform.GetChild (0).gameObject.SetActive (true);
 		} else if (name == "booster_white_1" && ctrProgressClass.progress["coins"] >= 400 &&
 		           ctrProgressClass.progress["boostersWhite"] == 0 && ctrProgressClass.progress["tutorialBuy"] <= 1)
@@ -155,7 +158,7 @@ public class iClickClass : MonoBehaviour {
 
 
             var nameItem = name;
-            ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "decome", nameItem }, { "coins", (-cost).ToString() } });
+            ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail 1", nameItem }, { "coins", (-cost).ToString() } });
 
             ctrProgressClass.progress["coins"] -= cost;
             ctrProgressClass.progress["boostersWhite"] += amount;
@@ -186,7 +189,12 @@ public class iClickClass : MonoBehaviour {
             Debug.Log(name);
             
             if (name == "button play" || name == "button play 0" || name == "button play 1" || name == "level" || name == "button next level") {
-				if (!lsEnergyClass.checkLoadLevelEnergy ()) {
+                if ((name == "button play 0" || name == "button play 1") && transform.GetChild(1).name == "icon restart" &&
+                    transform.GetChild(1).gameObject.activeSelf)
+                {
+                    
+                } else 
+                if (!lsEnergyClass.checkLoadLevelEnergy ()) {
 					yield return StartCoroutine (staticClass.waitForRealTime (100F));
 				}
 			}
@@ -920,6 +928,10 @@ public class iClickClass : MonoBehaviour {
         transform.parent.parent.GetChild(1).GetComponent<Collider>().enabled = true;
         transform.parent.parent.GetChild(1).GetChild(2).gameObject.SetActive(false);
         transform.parent.parent.GetChild(1).GetChild(3).GetComponent<UILabel>().text = name;
+
+        //disable hand
+        transform.parent.parent.parent.GetChild(5).gameObject.SetActive(false);
+
     }
 
 

@@ -30,9 +30,9 @@ public class initClass : MonoBehaviour {
 #endif
         Debug.Log("start menu: " + Time.realtimeSinceStartup);
 
-		if (ctrProgressClass.progress.Count == 0) {
+		//if (ctrProgressClass.progress.Count == 0) {
 			Time.maximumDeltaTime = 0.9F;
-			ctrProgressClass.getProgress ();
+            if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress ();
 			staticClass.initLevels ();
 
 			//опции
@@ -44,9 +44,11 @@ public class initClass : MonoBehaviour {
 				GameObject.Find (Localization.language).transform.GetChild(0).gameObject.SetActive (true);
 			else
                 GameObject.Find (Localization.language).transform.GetChild(0).gameObject.SetActive (true);
-		    //ctrProgressClass.progress["language"] = 1;
-			//everyplay
-			if (ctrProgressClass.progress ["everyplay"] == 1) {
+
+
+            //ctrProgressClass.progress["language"] = 1;
+            //everyplay
+            if (ctrProgressClass.progress ["everyplay"] == 1) {
 			//	Everyplay.SetDisableSingleCoreDevices (true);
 			//	Everyplay.SetMaxRecordingMinutesLength(10);
 				//Everyplay.SetLowMemoryDevice (true);
@@ -71,7 +73,7 @@ public class initClass : MonoBehaviour {
 
 		    staticClass.rateUsLast = ctrProgressClass.progress["lastLevel"];
 
-		}
+		//}
 
 
 

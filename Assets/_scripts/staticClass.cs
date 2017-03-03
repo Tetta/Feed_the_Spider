@@ -214,7 +214,7 @@ public class staticClass
 		levels[90, 1] = 8;
 		levels[91, 0] = 3;
 		levels[91, 1] = 204;
-		levels[92, 0] = 3;
+		levels[92, 0] = 2;
 		levels[92, 1] = 11;
 		levels[93, 0] = 1;
 		levels[93, 1] = 0;
@@ -358,8 +358,12 @@ public class staticClass
     //включаем текущую ягоду и выключаем все остальные
     public static void changeBerry()
     {
-        if (GameObject.Find("root/berry") == null) return;
-        Transform berry = GameObject.Find("root/berry").transform;
+        Transform berry = new RectTransform();
+        if (GameObject.Find("root/berry") != null) berry = GameObject.Find("root/berry").transform;
+        else if (GameObject.Find("root/sluggish/sluggish physics/berry") != null) berry = GameObject.Find("root/sluggish/sluggish physics/berry").transform;
+        else return;
+        //if (GameObject.Find("root/berry") == null) return;
+        //Transform berry = GameObject.Find("root/berry").transform;
         for (int i = 0; i < 5; i++)
         {
             if (berry.GetChild(i).name == staticClass.currentBerry)

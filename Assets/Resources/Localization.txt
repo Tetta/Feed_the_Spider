@@ -4,10 +4,10 @@ SPIDER,SPIDER,ПАУЧОК
 lsStars,"Collect stars: ", "Соберите звезд: "
 lsTime,"Beat the time", "Успейте за время"
 lsWeb,"Use web: ", "Используйте \nпаутинку: "
-lsSluggish,"Don't use sluggish", "Не используйте \nлизуна"
-lsDestroyer,"Don't use destroyer", "Не используйте \nразрушителя"
-lsYeti,"Don't use yeti", "Не используйте \nйети"
-lsGroot,"Don't use flo", "Не используйте \nфло"
+lsSluggish,"Don't use Sluggish", "Не используйте \nЛизуна"
+lsDestroyer,"Don't use Destroyer", "Не используйте \nРазрушителя"
+lsYeti,"Don't use Yeti", "Не используйте \nЙети"
+lsGroot,"Don't use Flo", "Не используйте \nФло"
 lsEnergyMenu, "Next energy:", "Следующая энергия:"
 lsEnergyMenu2, "Supply of energy to get through all the levels!", "Запаситесь энергией, чтобы пройти все уровни!"
 
@@ -28,9 +28,10 @@ lsEnergyInfinity3, "Energy drink to get infinity energy for a day", "Энерг�
 lsCoinsMenu, "Want to see advertisements", "Хочешь посмотреть рекламу"
 lsCoinsMenu2, " and get 70   ?", " и получить 70   ?"
 lsAdCoinsReward, "You got a reward!", "Киносеанс удался!"
-lsUnlockChapterMenu, "You don't have enough crystals.", "У вас недостаточно кристаллов."
+lsUnlockChapterMenu, "You don't have enough keys.", "У вас недостаточно ключей."
 lsUnlockChapterMenu2, "You want to buy the next chapter?", "Хотите приобрести следующую главу?"
-lsUnlockChapterMenu3, "Collect gems", "Собрать кристаллы"
+lsUnlockChapterMenu3, "Collect keys", "Собрать ключи"
+lsUnlockChapterMenu4, "Open chapter", "Открыть главу"
 
 lsRewardForCardsMenu, "Daily bonuses for a collection of cards!", "Ежедневные бонусы за коллекцию карт!"
 lsRewardForCardsMenu2, "Pick up", "Забрать"
@@ -150,11 +151,15 @@ destroyer, "Destroyer", "Разрушитель"
 yeti, "Yeti", "Йети"
 flo, "Flo", "Фло"
 
+settings, "Settings", "Настройки"
 loading, "Loading...", "Загрузка..."
+
+sound, "Sound", "Звук"
+music, "Music", "Музыка"
 
 exitGame, "Are you sure you want to quit?", "Вы уверены, что хотите выйти?"
 
-optionsProgressReset, "Reset game", "Сброс прогресса"
+optionsProgressReset, "Reset progress", "Сброс прогресса"
 optionsProgressResetDesc1, "Are you sure you want to reset your progress?", "Уверены, что хотите сбросить игровой прогресс?"
 
 optionsProgressResetDesc2, "Hold 'yes' button for 3 seconds to reset.", "Удерживайте 'да' в течении 3 секунд для сброса прогресса."
@@ -186,7 +191,7 @@ sale0PayersDesc, "30% discount", "30% скидка"
 sale1PayersDesc, "50% discount", "50% скидка"
 sale2PayersDesc, "70% discount", "70% скидка"
 
-rateUs0, "liked the game?", "Понравилась игра?"
+rateUs0, "Liked the game?", "Понравилась игра?"
 rateUs, "Rate us!", "Оцените нас!"
 rateUs2, "Rate", "Оценить"
 rateUs3, "Remind me later", "Напомнить позже"
