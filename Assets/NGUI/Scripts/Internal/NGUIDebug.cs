@@ -55,13 +55,14 @@ public class NGUIDebug : MonoBehaviour
 
 	static void LogString (string text)
 	{
-		if (Application.isPlaying)
+        if (Application.isPlaying)
 		{
 			if (mLines.Count > 20) mLines.RemoveAt(0);
 			mLines.Add(text);
 			CreateInstance();
 		}
 		else Debug.Log(text);
+        
 	}
 
 	/// <summary>

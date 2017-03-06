@@ -1955,8 +1955,10 @@ public class UICamera : MonoBehaviour
 	void ProcessEvents ()
 	{
 		current = this;
-		NGUIDebug.debugRaycast = debug;
-        
+		//my changing
+        //NGUIDebug.debugRaycast = debug;
+	    NGUIDebug.debugRaycast = false;
+
         // Process touch events first
         if (useTouch) ProcessTouches();
 		else if (useMouse) ProcessMouse();
