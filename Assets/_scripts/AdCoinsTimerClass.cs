@@ -79,7 +79,7 @@ public class AdCoinsTimerClass : MonoBehaviour {
         else
         {
             transform.GetChild(2).gameObject.SetActive(false);
-            GetComponent<iClickClass>().functionPressButton = "ShowRewardedAd";
+            GetComponent<iClickClass>().functionPressButton = "openMenu";
         }
         // остановка выполнения функции
         yield return StartCoroutine(staticClass.waitForRealTime(1));

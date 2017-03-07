@@ -542,7 +542,7 @@ public class iClickClass : MonoBehaviour {
 
 
     void openMenu() {
-        //D/ebug.Log("openMenu: " + name);
+        Debug.Log("openMenu: " + name);
         GameObject menu = null;
         //if (name == "button market") marketClass.instance.gameObject.SetActive(true);
 		if (name == "button market") {
@@ -612,7 +612,12 @@ public class iClickClass : MonoBehaviour {
             GameObject.Find("/root/static/button sale/hand").SetActive(false);
             ctrProgressClass.saveProgress();
             //sale menu
-            transform.parent.GetChild(15).gameObject.SetActive(true);
+            transform.parent.GetChild(14).gameObject.SetActive(true);
+        }
+        else if (name == "ad coins")
+        {
+            //coins menu
+            transform.parent.GetChild(20).gameObject.SetActive(true);
         }
     }
     public void closeMenu() {
@@ -773,6 +778,10 @@ public class iClickClass : MonoBehaviour {
             menu.SetActive(false);
             GameObject.Find("/root/static/level menu/button exit level menu").GetComponent<SpriteRenderer>().sortingOrder = 137;
         }
+        else if (name == "exit dream menu")
+        {
+            GameObject.Find("default level/gui/dream menu").transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
 
     //public IEnumerator CoroutineCloseMenu(){
@@ -876,8 +885,13 @@ public class iClickClass : MonoBehaviour {
         else
         {
             //for publish ShowRewardedAd
-            ShowRewardedAd();
-            //gHintClass.initDream();
+            if (name == "dream")
+                GameObject.Find("default level/gui/dream menu").transform.GetChild(0).gameObject.SetActive(true);
+            else
+            {
+                GameObject.Find("default level/gui/dream menu").transform.GetChild(0).gameObject.SetActive(false);
+                ShowRewardedAd();
+            } //gHintClass.initDream();
         }
     }
 

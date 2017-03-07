@@ -246,11 +246,87 @@ public class marketClass : MonoBehaviour {
         {
             case "booster_green_1":
                 ctrProgressClass.progress["boostersGreen"] += 1;
-                attr["revenue"] = "139";
+                attr["revenue"] = "199";
                 break;
             case "booster_blue_1":
                 ctrProgressClass.progress["boostersBlue"] += 1;
-                attr["revenue"] = "349";
+                attr["revenue"] = "499";
+                break;
+            case "booster_purple_1":
+                ctrProgressClass.progress["boostersPurple"] += 1;
+                attr["revenue"] = "999";
+                break;
+            case "booster_green_10":
+                ctrProgressClass.progress["boostersGreen"] += 10;
+                attr["revenue"] = "1499";
+                break;
+            case "booster_blue_10":
+                ctrProgressClass.progress["boostersBlue"] += 10;
+                attr["revenue"] = "2999";
+                break;
+            case "booster_purple_10":
+                ctrProgressClass.progress["boostersPurple"] += 10;
+                attr["revenue"] = "5999";
+                break;
+            case "sale_1_free":
+                ctrProgressClass.progress["boostersGreen"] += 3;
+                ctrProgressClass.progress["boostersBlue"] += 1;
+                ctrProgressClass.progress["boostersPurple"] += 1;
+                attr["revenue"] = "499";
+                break;
+            case "sale_2_free":
+                ctrProgressClass.progress["boostersGreen"] += 3;
+                ctrProgressClass.progress["boostersBlue"] += 1;
+                ctrProgressClass.progress["boostersPurple"] += 1;
+                attr["revenue"] = "299";
+                break;
+            case "sale_3_free":
+                ctrProgressClass.progress["boostersGreen"] += 3;
+                ctrProgressClass.progress["boostersBlue"] += 1;
+                ctrProgressClass.progress["boostersPurple"] += 1;
+                attr["revenue"] = "199";
+                break;
+            case "sale_4_free":
+                ctrProgressClass.progress["boostersGreen"] += 3;
+                ctrProgressClass.progress["boostersBlue"] += 1;
+                ctrProgressClass.progress["boostersPurple"] += 1;
+                attr["revenue"] = "99";
+                break;
+            case "sale_1_green_payers":
+                ctrProgressClass.progress["boostersGreen"] += 10;
+                attr["revenue"] = "999";
+                break;
+            case "sale_1_blue_payers":
+                ctrProgressClass.progress["boostersBlue"] += 10;
+                attr["revenue"] = "1999";
+                break;
+            case "sale_1_purple_payers":
+                ctrProgressClass.progress["boostersPurple"] += 10;
+                attr["revenue"] = "3999";
+                break;
+            case "sale_2_green_payers":
+                ctrProgressClass.progress["boostersGreen"] += 10;
+                attr["revenue"] = "749";
+                break;
+            case "sale_2_blue_payers":
+                ctrProgressClass.progress["boostersBlue"] += 10;
+                attr["revenue"] = "1499";
+                break;
+            case "sale_2_purple_payers":
+                ctrProgressClass.progress["boostersPurple"] += 10;
+                attr["revenue"] = "2999";
+                break;
+            case "sale_3_green_payers":
+                ctrProgressClass.progress["boostersGreen"] += 10;
+                attr["revenue"] = "449";
+                break;
+            case "sale_3_blue_payers":
+                ctrProgressClass.progress["boostersBlue"] += 10;
+                attr["revenue"] = "899";
+                break;
+            case "sale_3_purple_payers":
+                ctrProgressClass.progress["boostersPurple"] += 10;
+                attr["revenue"] = "1799";
                 break;
             case "chapter":
                 foreach (var block in staticClass.levelBlocks)
@@ -282,6 +358,10 @@ public class marketClass : MonoBehaviour {
         ctrProgressClass.progress["firstPurchase"] = 1;
         ctrProgressClass.progress["paymentCount"] ++;
         ctrProgressClass.saveProgress();
+        instance.boostersLabel[0].text = ctrProgressClass.progress["boostersWhite"].ToString();
+        instance.boostersLabel[1].text = ctrProgressClass.progress["boostersGreen"].ToString();
+        instance.boostersLabel[2].text = ctrProgressClass.progress["boostersBlue"].ToString();
+        instance.boostersLabel[3].text = ctrProgressClass.progress["boostersPurple"].ToString();
         //marketClass.instance.boostersLabel.text = ctrProgressClass.progress["boosters"].ToString();
         //marketClass.instance.boostersLabel.GetComponent<AudioSource>().Play();
         //marketClass.instance.boostersLabel.GetComponent<Animator>().Play("button");

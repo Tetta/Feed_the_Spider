@@ -50,7 +50,8 @@ public class ctrAdClass: MonoBehaviour {
 #if UNITY_ANDROID || UNITY_IOS
 	    if (adStarted == "ad coins" && ctrProgressClass.progress["tutorialAdCoins"] < 2)
 	    {
-	        ctrProgressClass.progress["tutorialAdCoins"] = 2;
+            Debug.Log("tutorialAdCoins < 2");
+            ctrProgressClass.progress["tutorialAdCoins"] = 2;
             GameObject.Find("/root/static/ad coins/hand").SetActive(false);
         }
 
@@ -119,7 +120,7 @@ public class ctrAdClass: MonoBehaviour {
             GameObject.Find ("root/static/coins/coinsLabel").GetComponent<UILabel> ().text = ctrProgressClass.progress ["coins"].ToString ();
             GameObject.Find("root/static/reward menu").SetActive(true);
             ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string>{ { "detail 1", "video" }, { "coins", "50"} });
-		} else if (adStarted == "dream")
+		} else if (adStarted == "dreamShowAd")
         {
             staticClass.levelAdViewed = 1;
                 //сохраняем dream

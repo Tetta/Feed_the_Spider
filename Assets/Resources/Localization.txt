@@ -24,9 +24,10 @@ lsEnergyInfinity2, "                 Get             cheerfulness", "Получ�
 lsEnergyInfinity3, "Energy drink to get infinity cheerfulness for a day", "Энергетический напиток дает бесконечную бодрость на весь день"
 
 
-
-lsCoinsMenu, "Want to see advertisements", "Хочешь посмотреть рекламу"
-lsCoinsMenu2, " and get 70   ?", " и получить 70   ?"
+lsCoinsMenu, "Watch ads", "Посмотри рекламу"
+lsCoinsMenu2, "  and get 50      !", "и получи 50      !"
+//lsCoinsMenu, "Want to see advertisements", "Хочешь посмотреть рекламу"
+//lsCoinsMenu2, " and get 70   ?", " и получить 70   ?"
 lsAdCoinsReward, "You got a reward!", "Киносеанс удался!"
 lsUnlockChapterMenu, "You don't have enough keys.", "У вас недостаточно ключей."
 lsUnlockChapterMenu2, "You want to buy the next chapter?", "Хотите приобрести следующую главу?"
@@ -150,6 +151,8 @@ sluggish, "Sluggish", "Лизун"
 destroyer, "Destroyer", "Разрушитель"
 yeti, "Yeti", "Йети"
 flo, "Flo", "Фло"
+dream, "Dreaming", "Вещий сон"
+dreamMenu1, "View ads to get a video hint 'Dreaming' for this level\n\n 'Dreaming' is saved for each level", "Посмотреть рекламу, чтобы получить видео подсказку 'Вещий сон' для этого уровня\n\n 'Вещий сон' сохраняется для каждого уровня"
 
 settings, "Settings", "Настройки"
 loading, "Loading...", "Загрузка..."

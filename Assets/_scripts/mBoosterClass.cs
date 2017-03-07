@@ -146,11 +146,11 @@ public class mBoosterClass : MonoBehaviour {
             openingCards.Add(new KeyValuePair<string, int>("coins", 50));
             var max = 5;
             Debug.Log("tutorialBuy:" + ctrProgressClass.progress["tutorialBuy"]);
-            if (ctrProgressClass.progress["tutorialBuy"] < 3)
+            if (ctrProgressClass.progress["tutorialBuy"] < 5)
             {
                 setOpeningCardUncommon("berry", ref openingCards);
                 max = 4;
-                ctrProgressClass.progress["tutorialBuy"] = 3;
+                ctrProgressClass.progress["tutorialBuy"] = 5;
                 ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, string> { { "name", "open booster" } });
 
             }

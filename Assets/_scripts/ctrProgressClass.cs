@@ -54,7 +54,7 @@ public class ctrProgressClass {
 
 
     static private Dictionary<string, int> progressDefault = new Dictionary<string, int>{
-		{"googlePlay",0}, {"lastLevel",0}, {"currentLevel",1},{"coins",0},{"gems",0},{"energyTime",0},{"energy",0},{"energyInfinity",0},
+		{"googlePlay",0}, {"lastLevel",0}, {"currentLevel",1},{"coins",100},{"gems",0},{"energyTime",0},{"energy",0},{"energyInfinity",0},
         {"hints",0},{"webs",0},{"collectors",0},{"teleports",0},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
 		{"everyplay",0},{"firstPurchase",0},{"fb",0},{"vk",0},
         {"boostersWhite",0 }, {"boostersGreen",0 }, {"boostersBlue",0 }, {"boostersPurple",0 },
@@ -210,6 +210,12 @@ public class ctrProgressClass {
         marketClass.instance.boostersLabel[1].text = progress["boostersGreen"].ToString();
         marketClass.instance.boostersLabel[2].text = progress["boostersBlue"].ToString();
         marketClass.instance.boostersLabel[3].text = progress["boostersPurple"].ToString();
+	    staticClass.currentBerry = "berry1";
+        staticClass.changeBerry();
+        staticClass.currentHat = "hat1";
+        staticClass.changeHat();
+        staticClass.currentSkin = "skin1";
+        staticClass.changeSkin();
 
         saveProgress();
 	}

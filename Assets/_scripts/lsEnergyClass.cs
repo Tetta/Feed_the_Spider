@@ -115,6 +115,7 @@ public class lsEnergyClass : MonoBehaviour {
         StopAllCoroutines();
         StartCoroutine("Coroutine");
         if (energyMenu.activeSelf) StartCoroutine("CoroutineEnergyMenu");
+        if (energyMenu.activeSelf) StartCoroutine("updateTimeEnergyCoroutine");
     }
 
 
