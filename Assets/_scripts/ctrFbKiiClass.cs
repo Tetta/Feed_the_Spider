@@ -1148,14 +1148,14 @@ public class ctrFbKiiClass : MonoBehaviour {
 
 
 
-    public void clickJoinGroup()
+    public void clickJoinGroup(string url)
     {
 
         if (ctrProgressClass.progress["vk"] == 1)
         {
             VKRequest r = new VKRequest
             {
-                url = "groups.join?group_id=139520787",
+                url = url,
                 //url = "users.get?user_ids=" + userId + "&photo_50",
                 CallBackFunction = onGroupResult
             };

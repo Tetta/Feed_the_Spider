@@ -17,10 +17,11 @@ public class marketClass : MonoBehaviour {
 	//public GameObject camera;
 
 	public GameObject sale;
-	
-		//init google market -> purchase -> OnProductPurchаsed (consume) -> OnProductConsumed
-	
-     
+    public GameObject iconBoosterAnim;
+
+    //init google market -> purchase -> OnProductPurchаsed (consume) -> OnProductConsumed
+
+
 
     // Use this for initialization
     void Start() {
@@ -72,6 +73,8 @@ public class marketClass : MonoBehaviour {
 #else
             instance.GetComponent<Purchaser>().BuyProductID("com.evogames.feedthespider." + name);
 #endif
+            GetComponent<Animator>().Play("button");
+            GetComponent<AudioSource>().Play();
             //if (name == "booster_3" && ctrProgressClass.progress ["firstPurchase"] == 0) 		
             //    AndroidInAppPurchaseManager.Client.Purchase ("booster_sale");
             //else
@@ -241,92 +244,112 @@ public class marketClass : MonoBehaviour {
         itemId = itemId.Substring(22);
 #else
         itemId = itemId.Substring(27);
-#endif 
+#endif
+        int animBuyBooster = -1;
         switch (itemId)
         {
             case "booster_green_1":
                 ctrProgressClass.progress["boostersGreen"] += 1;
                 attr["revenue"] = "199";
+                animBuyBooster = 1;
                 break;
             case "booster_blue_1":
                 ctrProgressClass.progress["boostersBlue"] += 1;
                 attr["revenue"] = "499";
+                animBuyBooster = 2;
                 break;
             case "booster_purple_1":
                 ctrProgressClass.progress["boostersPurple"] += 1;
                 attr["revenue"] = "999";
+                animBuyBooster = 3;
                 break;
             case "booster_green_10":
                 ctrProgressClass.progress["boostersGreen"] += 10;
                 attr["revenue"] = "1499";
+                animBuyBooster = 5;
                 break;
             case "booster_blue_10":
                 ctrProgressClass.progress["boostersBlue"] += 10;
                 attr["revenue"] = "2999";
+                animBuyBooster = 6;
                 break;
             case "booster_purple_10":
                 ctrProgressClass.progress["boostersPurple"] += 10;
                 attr["revenue"] = "5999";
+                animBuyBooster = 7;
                 break;
             case "sale_1_free":
                 ctrProgressClass.progress["boostersGreen"] += 3;
                 ctrProgressClass.progress["boostersBlue"] += 1;
                 ctrProgressClass.progress["boostersPurple"] += 1;
                 attr["revenue"] = "499";
+                animBuyBooster = 8;
                 break;
             case "sale_2_free":
                 ctrProgressClass.progress["boostersGreen"] += 3;
                 ctrProgressClass.progress["boostersBlue"] += 1;
                 ctrProgressClass.progress["boostersPurple"] += 1;
                 attr["revenue"] = "299";
+                animBuyBooster = 8;
                 break;
             case "sale_3_free":
                 ctrProgressClass.progress["boostersGreen"] += 3;
                 ctrProgressClass.progress["boostersBlue"] += 1;
                 ctrProgressClass.progress["boostersPurple"] += 1;
                 attr["revenue"] = "199";
+                animBuyBooster = 8;
                 break;
             case "sale_4_free":
                 ctrProgressClass.progress["boostersGreen"] += 3;
                 ctrProgressClass.progress["boostersBlue"] += 1;
                 ctrProgressClass.progress["boostersPurple"] += 1;
                 attr["revenue"] = "99";
+                animBuyBooster = 8;
                 break;
             case "sale_1_green_payers":
                 ctrProgressClass.progress["boostersGreen"] += 10;
                 attr["revenue"] = "999";
+                animBuyBooster = 5;
                 break;
             case "sale_1_blue_payers":
                 ctrProgressClass.progress["boostersBlue"] += 10;
                 attr["revenue"] = "1999";
+                animBuyBooster = 6;
                 break;
             case "sale_1_purple_payers":
                 ctrProgressClass.progress["boostersPurple"] += 10;
                 attr["revenue"] = "3999";
+                animBuyBooster = 7;
                 break;
             case "sale_2_green_payers":
                 ctrProgressClass.progress["boostersGreen"] += 10;
                 attr["revenue"] = "749";
+                animBuyBooster = 5;
                 break;
             case "sale_2_blue_payers":
                 ctrProgressClass.progress["boostersBlue"] += 10;
                 attr["revenue"] = "1499";
+                animBuyBooster = 6;
                 break;
             case "sale_2_purple_payers":
                 ctrProgressClass.progress["boostersPurple"] += 10;
                 attr["revenue"] = "2999";
+                animBuyBooster = 7;
                 break;
             case "sale_3_green_payers":
                 ctrProgressClass.progress["boostersGreen"] += 10;
                 attr["revenue"] = "449";
+                animBuyBooster = 5;
                 break;
             case "sale_3_blue_payers":
                 ctrProgressClass.progress["boostersBlue"] += 10;
                 attr["revenue"] = "899";
+                animBuyBooster = 6;
                 break;
             case "sale_3_purple_payers":
                 ctrProgressClass.progress["boostersPurple"] += 10;
                 attr["revenue"] = "1799";
+                animBuyBooster = 7;
                 break;
             case "chapter":
                 foreach (var block in staticClass.levelBlocks)
@@ -372,6 +395,37 @@ public class marketClass : MonoBehaviour {
 
         ctrAnalyticsClass.sendCustomDimension(2, ctrAnalyticsClass.getGroup(ctrProgressClass.progress["paymentCount"], ctrAnalyticsClass.paymentGroups)); //paymentCount
         ctrAnalyticsClass.sendCustomDimension(3, ctrAnalyticsClass.getGroup(ctrProgressClass.progress["revenue"], ctrAnalyticsClass.revenueGroups)); //revenue
+
+
+        //anim
+        if (animBuyBooster != -1)
+        {
+            if (marketClass.instance.gameObject.activeSelf)
+                StartCoroutine(buyBoosterAnimEnd(false));
+            marketClass.instance.iconBoosterAnim.transform.GetChild(animBuyBooster).gameObject.SetActive(true);
+
+
+            marketClass.instance.iconBoosterAnim.GetComponent<Animator>().Play("booster buy");
+            if (marketClass.instance.gameObject.activeSelf)
+                StartCoroutine(buyBoosterAnimEnd(true));
+        }
+    
+
     }
 
+
+
+
+
+    public IEnumerator buyBoosterAnimEnd(bool flag)
+{
+    if (flag) yield return StartCoroutine(staticClass.waitForRealTime(0.5F));
+    for (int i = 0; i < 8; i++)
+    {
+        //off all
+        marketClass.instance.iconBoosterAnim.transform.GetChild(i).gameObject.SetActive(false);
+    }
+
+    yield return null;
+}
 }

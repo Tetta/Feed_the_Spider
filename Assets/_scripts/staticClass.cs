@@ -442,7 +442,7 @@ public class staticClass
             this.duration = duration;
         }
     }
-    
+    /*
     static public Dictionary<string, saleTimer> sales = new Dictionary<string, saleTimer>
     {
       {"sale_0_free", new saleTimer(new TimeSpan(48, 0, 0), new TimeSpan(24, 0, 0))},
@@ -454,9 +454,9 @@ public class staticClass
       {"sale_2_payers", new saleTimer(new TimeSpan(72, 0, 0), new TimeSpan(8, 0, 0))},
 
     };
-    
+    */
     //for test
-    /*
+    
     static public Dictionary<string, saleTimer> sales = new Dictionary<string, saleTimer>
     {
       {"sale_0_free", new saleTimer(new TimeSpan(0, 0, 5), new TimeSpan(0, 0, 30))},
@@ -468,7 +468,7 @@ public class staticClass
       {"sale_2_payers", new saleTimer(new TimeSpan(0, 0, 5), new TimeSpan(0, 0, 30))},
 
     };
-    */
+    
 
     public static int getLanguage()
     {

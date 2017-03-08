@@ -120,6 +120,7 @@ public class ctrAdClass: MonoBehaviour {
             GameObject.Find ("root/static/coins/coinsLabel").GetComponent<UILabel> ().text = ctrProgressClass.progress ["coins"].ToString ();
             GameObject.Find("root/static/reward menu").SetActive(true);
             ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string>{ { "detail 1", "video" }, { "coins", "50"} });
+            initLevelMenuClass.instance.coinsMenu.SetActive(false);
 		} else if (adStarted == "dreamShowAd")
         {
             staticClass.levelAdViewed = 1;

@@ -153,7 +153,8 @@ yeti, "Yeti", "Йети"
 flo, "Flo", "Фло"
 dream, "Dreaming", "Вещий сон"
 dreamMenu1, "View ads to get a video hint 'Dreaming' for this level\n\n 'Dreaming' is saved for each level", "Посмотреть рекламу, чтобы получить видео подсказку 'Вещий сон' для этого уровня\n\n 'Вещий сон' сохраняется для каждого уровня"
-
+disableLevelMenu1, "Closed level", "Закрытый уровень"
+disableLevelMenu2, "To open this level,\n feed the Spider in the previous", "Чтобы открыть этот уровень,\n накорми Паучка в предыдущем"
 settings, "Settings", "Настройки"
 loading, "Loading...", "Загрузка..."
 
@@ -178,6 +179,8 @@ fbConnect, "Connect", "Подключиться"
 fbInvite, "Invite", "Пригласить"
 fbBestGamers, "Best gamers", "Лучшие игроки"
 socialJoinGroup, "Join the group", "Присоединиться к группе"
+socialJoinGroup2, "Join the group\nFeed the Spider", "Присоединиться к группе\nFeed the Spider"
+socialJoinGroup3, "Join the group VK Games", "Присоединиться к группе VK Games"
 socialLogout, "Logout", "Выйти"
 
 

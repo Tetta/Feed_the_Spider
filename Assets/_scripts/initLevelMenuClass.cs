@@ -8,6 +8,9 @@ public class initLevelMenuClass : MonoBehaviour {
 	public static initLevelMenuClass instance = null;
     public GameObject unlockСhapterMenu;
     public GameObject rewardForCardsMenu;
+    public GameObject disableLevelMenu;
+    public GameObject saleMenu;
+    public GameObject coinsMenu;
 
     public UILabel coinsLabel;
 	public UILabel gemsLabel;

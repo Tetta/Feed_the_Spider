@@ -176,10 +176,32 @@ public class iClickClass : MonoBehaviour {
             //change label coins
             GameObject.Find("/market/shop/market menu/bars/coins/label coins").GetComponent<UILabel>().text = ctrProgressClass.progress["coins"].ToString();
 
-        }
+            //anim booster
+
+            StartCoroutine(buyBoosterAnimEnd(false));
+
+            if (name == "booster_white_1")
+		        marketClass.instance.iconBoosterAnim.transform.GetChild(0).gameObject.SetActive(true);
+		    else
+                marketClass.instance.iconBoosterAnim.transform.GetChild(4).gameObject.SetActive(true);
+
+            marketClass.instance.iconBoosterAnim.GetComponent<Animator>().Play("booster buy");
+            StartCoroutine(buyBoosterAnimEnd(true));
+		}
     }
 
 
+    public IEnumerator buyBoosterAnimEnd(bool flag)
+    {
+        if (flag) yield return StartCoroutine(staticClass.waitForRealTime(0.5F));
+        for (int i = 0; i < 8; i++)
+        {
+            //off all
+            marketClass.instance.iconBoosterAnim.transform.GetChild(i).gameObject.SetActive(false);
+        }
+
+        yield return null;
+    }
 
     public IEnumerator CoroutineLoadLevel() {
 		if (!staticClass.sceneLoading) {
@@ -612,12 +634,12 @@ public class iClickClass : MonoBehaviour {
             GameObject.Find("/root/static/button sale/hand").SetActive(false);
             ctrProgressClass.saveProgress();
             //sale menu
-            transform.parent.GetChild(14).gameObject.SetActive(true);
+            initLevelMenuClass.instance.saleMenu.SetActive(true);
         }
         else if (name == "ad coins")
         {
             //coins menu
-            transform.parent.GetChild(20).gameObject.SetActive(true);
+           initLevelMenuClass.instance.coinsMenu.SetActive(true);
         }
     }
     public void closeMenu() {
@@ -781,6 +803,10 @@ public class iClickClass : MonoBehaviour {
         else if (name == "exit dream menu")
         {
             GameObject.Find("default level/gui/dream menu").transform.GetChild(0).gameObject.SetActive(false);
+        }
+        else if (name == "exit disable level menu")
+        {
+            initLevelMenuClass.instance.disableLevelMenu.SetActive(false);
         }
     }
 
@@ -953,8 +979,10 @@ public class iClickClass : MonoBehaviour {
 
     public void clickJoinGroup()
     {
-        Debug.Log("clickJoinGroup");
-        ctrFbKiiClass.instance.clickJoinGroup();
+        string url = "groups.join?group_id=139520787";
+        if (name == "group button 2") url = "groups.join?group_id=78616012";
+        Debug.Log("clickJoinGroup: " + url);
+        ctrFbKiiClass.instance.clickJoinGroup(url);
     }
 
     public void clickLogout()

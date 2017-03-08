@@ -120,7 +120,7 @@ public class ctrProgressClass {
 
     };
 	static private Dictionary<string, int> progressCheat = new Dictionary<string, int>{
-		{"googlePlay",0}, {"lastLevel",99}, {"currentLevel",1},{"coins",1000},{"gems",200},{"energyTime", 0},{"energy",4}, {"energyInfinity", 0},
+		{"googlePlay",0}, {"lastLevel",99}, {"currentLevel",1},{"coins",10000},{"gems",200},{"energyTime", 0},{"energy",4}, {"energyInfinity", 0},
         {"hints",99},{"webs",99},{"collectors",99},{"teleports",99},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
 		{"everyplay",0},{"firstPurchase",1},{"fb",0},{"vk",0},
 

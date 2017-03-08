@@ -49,7 +49,7 @@ public class lsLevelClass : MonoBehaviour {
                 transform.GetChild(2).GetChild(i).GetComponent<SpriteRenderer>().material = materialInactive;
             }
             //off for tests (разрешает прыгать на закрытые острова)
-            GetComponent<Collider>().enabled = false;
+            //GetComponent<Collider>().enabled = false;
         }
 
         if (levelProgress == 0 || levelProgress == 2) {
@@ -76,27 +76,45 @@ public class lsLevelClass : MonoBehaviour {
 
 
 	void OnClick() {
-		//разрешаем прыгать на все острова (раскомментить потом)
-		int lastLevel = ctrProgressClass.progress["lastLevel"];
-		if (ctrProgressClass.progress["currentLevel"] == level) {
-			GameObject.Find("root/spider").transform.GetChild(0).GetComponent<Animator>().Play("spider jump");
-			GameObject.Find("root/spider").SendMessage("selectLevelMenuCorourine");
+        //разрешаем прыгать на все острова (раскомментить потом)
+	    if (islandInactive.activeSelf)
+	    {
+            Debug.Log("click on inactive island");
+            initLevelMenuClass.instance.disableLevelMenu.SetActive(true);
 
-		} else {
-			//разрешаем прыгать на все острова (раскомментить потом)
-			if ((prevLevel == 0 && lastLevel + 1 >= level) || (prevLevel != 0 && lastLevel >= prevLevel)) {
-				ctrProgressClass.progress["currentLevel"] = level;
-				ctrProgressClass.saveProgress();
-				//туториал для 2го уровня (убираем)
-				if (level == 2) {
-					if (GetComponent<Animator> ().enabled == true) {
-						GetComponent<Animator> ().enabled = false;
-						transform.GetChild (4).gameObject.SetActive (false);
-					}
-				}
-				GameObject.Find("root/spider").SendMessage("clickLevel", transform.GetChild(0).localPosition + transform.localPosition + transform.parent.localPosition);
-			}
-		}
+        }
+	    else
+	    {
+
+	        int lastLevel = ctrProgressClass.progress["lastLevel"];
+	        if (ctrProgressClass.progress["currentLevel"] == level)
+	        {
+	            GameObject.Find("root/spider").transform.GetChild(0).GetComponent<Animator>().Play("spider jump");
+	            GameObject.Find("root/spider").SendMessage("selectLevelMenuCorourine");
+
+	        }
+	        else
+	        {
+	            //разрешаем прыгать на все острова (раскомментить потом)
+	            if ((prevLevel == 0 && lastLevel + 1 >= level) || (prevLevel != 0 && lastLevel >= prevLevel))
+	            {
+	                ctrProgressClass.progress["currentLevel"] = level;
+	                ctrProgressClass.saveProgress();
+	                //туториал для 2го уровня (убираем)
+	                if (level == 2)
+	                {
+	                    if (GetComponent<Animator>().enabled == true)
+	                    {
+	                        GetComponent<Animator>().enabled = false;
+	                        transform.GetChild(4).gameObject.SetActive(false);
+	                    }
+	                }
+	                GameObject.Find("root/spider")
+	                    .SendMessage("clickLevel",
+	                        transform.GetChild(0).localPosition + transform.localPosition + transform.parent.localPosition);
+	            }
+	        }
+	    }
 
 	}
 
