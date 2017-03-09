@@ -27,6 +27,7 @@ public class ctrAnalyticsClass: MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        if (!Debug.isDebugBuild) Debug.logger.logEnabled = false;
         Debug.Log("ctrAnalyticsClass start");
         LocalNotification.CancelAllNotifications();
         try
@@ -278,12 +279,29 @@ public class ctrAnalyticsClass: MonoBehaviour
             var type = ctrProgressClass.progress["firstPurchase"] == 1 ? "Payers" : "Free";
             LocalNotification.SendNotification(1, delay, "", Localization.Get("notiferTitleSale") + Localization.Get("sale" + ctrProgressClass.progress["sale"] + type));
         }
-
         //daily notifer
         delay = DateTime.Parse("12:00:00") - DateTime.Now;
         if (delay < new TimeSpan(0)) delay = DateTime.Parse("12:00:00").AddDays(1) - DateTime.Now;
+        Debug.Log("daily notifer: " + delay);
         LocalNotification.SendNotification(2, delay, "", Localization.Get("notiferTitleDay"));
 
+        //daily 3 notifer
+        delay = DateTime.Parse("12:00:00") - DateTime.Now;
+        if (delay < new TimeSpan(0)) delay = DateTime.Parse("12:00:00").AddDays(3) - DateTime.Now;
+        Debug.Log("daily notifer 3: " + delay);
+        LocalNotification.SendNotification(4, delay, "", Localization.Get("notiferTitleDay3"));
+
+        //daily 7 notifer
+        delay = DateTime.Parse("12:00:00") - DateTime.Now;
+        if (delay < new TimeSpan(0)) delay = DateTime.Parse("12:00:00").AddDays(7) - DateTime.Now;
+        Debug.Log("daily notifer 7: " + delay);
+        LocalNotification.SendNotification(5, delay, "", Localization.Get("notiferTitleDay7"));
+
+        //daily 14 notifer
+        delay = DateTime.Parse("12:00:00") - DateTime.Now;
+        if (delay < new TimeSpan(0)) delay = DateTime.Parse("12:00:00").AddDays(14) - DateTime.Now;
+        Debug.Log("daily notifer 14: " + delay);
+        LocalNotification.SendNotification(6, delay, "", Localization.Get("notiferTitleDay14"));
 
         //energy notifer
         lsEnergyClass.checkEnergy(true);

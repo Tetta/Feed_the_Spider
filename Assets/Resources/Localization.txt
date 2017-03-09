@@ -50,8 +50,13 @@ marketComplect, "Exellent set", "Отличный комплект"
 marketComplectDesc, "Exellent set - desc", "Отличный комплект - описание"
 
 notiferTitleSale, "Big sale! ", "Большая распродажа! "
-notiferTitleDay, "Spider bored without you!", "Паучок скучает без вас!"
 notiferTitleEnergy, "Сheerfulness restored!", "Бодрость восстановилась!"
+notiferTitleDay, "Spider has a gift for you!", "Паучок зовёт! У него есть для тебя подарок!"
+notiferTitleDay3, "Visit the Spider! He has already become bored!", "Проведай Паучка! Он уже успел соскучиться!"
+notiferTitleDay7, "Ahead is still so much interesting, come quickly!", "Впереди ещё столько интересного, заходи скорее!"
+notiferTitleDay14, "There are still so many berries not collected!", "Ещё такое огромное количество ягод не собрано!"
+
+
 
 dailyBunus, "Daily bonus!", "Ежедневный бонус!"
 dailyBunus2, "Choose one card!", "Выбери одну карту!"
@@ -85,7 +90,7 @@ wand, "Wand", "Палочка"
 
 normal, "Normal", "Испытание"
 challenge, "Challenge", "Испытание"
-
+pause, "Pause", "Пауза"
 
 marketDefaultSkin, "Primary skin", "Стандартный скин"
 marketDefaultBerry, "Primary berry", "Стандартная ягода"

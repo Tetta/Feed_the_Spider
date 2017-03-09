@@ -99,7 +99,7 @@ public class myPackerPolicy : UnityEditor.Sprites.IPackerPolicy
                 //anisoLevel не важен
                 //entry.anisoLevel = ti.anisoLevel;
                 entry.anisoLevel = 0;
-                //Debug.Log (entry.packingMode);
+                Debug.Log (entry.settings.generateMipMaps);
 
                 entries.Add(entry);
 				/*

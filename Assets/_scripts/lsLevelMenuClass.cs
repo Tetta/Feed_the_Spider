@@ -28,7 +28,7 @@ public class lsLevelMenuClass : MonoBehaviour
 
     private int tabCounter = 0;
 
-    void setDefault()
+    public void setDefault()
     {
         // to default
         levelMenu.transform.GetChild(0).GetChild(0).GetComponent<UIToggle>().value = true;

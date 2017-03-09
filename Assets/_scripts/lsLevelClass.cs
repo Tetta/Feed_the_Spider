@@ -63,10 +63,10 @@ public class lsLevelClass : MonoBehaviour {
 
 		
         //туториал для 2го уровня (добавляем)
-		if (level == 2) {
-			if (lastLevel == 1 && ctrProgressClass.progress ["currentLevel"] == 1) {
+		if (level == 5) {
+			if (lastLevel == 4 && ctrProgressClass.progress ["currentLevel"] == 4) {
 				GetComponent<Animator> ().enabled = true;
-				transform.GetChild (4).gameObject.SetActive (true);
+				//transform.GetChild (4).gameObject.SetActive (true);
 			}
 		}
 

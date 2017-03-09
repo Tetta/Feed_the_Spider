@@ -83,6 +83,7 @@ public class initLevelMenuClass : MonoBehaviour {
             staticClass.showRewardCardsMenuHints != 0 || staticClass.showRewardCardsMenuTeleports != 0)
         {
             List<Transform> bonuses = new List<Transform>();
+            
             rewardForCardsMenu.SetActive(true);
             if (staticClass.showRewardCardsMenuCollectors != 0)
             {
@@ -116,6 +117,7 @@ public class initLevelMenuClass : MonoBehaviour {
                 tr.gameObject.SetActive(true);
                 bonuses.Add(tr);
             }
+            
             if (bonuses.Count == 1)
             {
                 bonuses[0].localPosition = new Vector3(16, 41, 0);
@@ -134,6 +136,14 @@ public class initLevelMenuClass : MonoBehaviour {
                 bonuses[0].localPosition = new Vector3(-203, -48, 0);
                 bonuses[1].localPosition = new Vector3(8, 57, 0);
                 bonuses[2].localPosition = new Vector3(229, 54, 0);
+            }
+            if (bonuses.Count == 4)
+            {
+                //Debug.Log("bonuses.Count == 4");
+                //bonuses[0].localPosition = new Vector3(-247, -44, 0);
+                //bonuses[1].localPosition = new Vector3(101, 77, 0);
+                //bonuses[2].localPosition = new Vector3(110, 32, 0);
+                //bonuses[3].localPosition = new Vector3(311, 26, 0);
             }
             staticClass.showRewardCardsMenuCollectors = 0;
             staticClass.showRewardCardsMenuWebs = 0;

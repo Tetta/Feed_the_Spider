@@ -222,7 +222,6 @@ public class gBerryClass : MonoBehaviour {
             if (GameObject.Find("/default level/gui/tutorial") != null) GameObject.Find("/default level/gui/tutorial").transform.localScale = Vector3.zero;
         }
 
-
     }
 
 
@@ -272,20 +271,21 @@ public class gBerryClass : MonoBehaviour {
 
 	void Awake () {
 		Time.timeScale = 1;
+	    staticClass.isTimePlay = 1;
 
 
 
-		//для записи подсказки (потом удалить)
-		/*
-		gRecHintClass.recHintState = 0;
-		gRecHintClass.counter = 0;
-		gRecHintClass.rec = "";
-		*/
-		//
+	    //для записи подсказки (потом удалить)
+	    /*
+        gRecHintClass.recHintState = 0;
+        gRecHintClass.counter = 0;
+        gRecHintClass.rec = "";
+        */
+	    //
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 
 		       //acceleration start
         if (Time.time - t > 0.02F) {
@@ -335,9 +335,15 @@ public class gBerryClass : MonoBehaviour {
 					GameObject.Find ("button market exit").SendMessage ("OnPress", false);
 			} else if (!completeMenu.activeSelf && !pauseMenu.activeSelf) {
 				pauseMenu.SetActive (true);
-				staticClass.isTimePlay = Time.timeScale;
-				Time.timeScale = 0;
-			} else if (pauseMenu.activeSelf) {
+
+                pauseMenu.GetComponent<lsLevelMenuClass>().setContent2();
+                if (initLevelMenuClass.levelDemands == 0) pauseMenu.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
+                else pauseMenu.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
+                staticClass.isTimePlay = Time.timeScale;
+                Time.timeScale = 0;
+
+            }
+            else if (pauseMenu.activeSelf) {
 				pauseMenu.SetActive (false);
 				Time.timeScale = staticClass.isTimePlay;
 			}
@@ -605,6 +611,7 @@ public class gBerryClass : MonoBehaviour {
 
     public void OnApplicationPause(bool flag)
     {
+        Debug.Log("OnApplicationPause: " + staticClass.isTimePlay);
         if (!flag)
         {
             Time.timeScale = staticClass.isTimePlay;

@@ -111,7 +111,10 @@ public class ctrAdClass: MonoBehaviour {
             //energyGO
 			GameObject.Find ("root/static/energy").SendMessage ("OnApplicationPause", false);
             GameObject.Find("energy menu/panel with anim/energy").SendMessage("OnApplicationPause", false);
-        } else if (adStarted == "ad coins") {
+            if (marketClass.instance.gameObject.activeSelf) GameObject.Find("/market/shop/market menu/bars/energy").SendMessage("OnApplicationPause", false);
+
+        }
+        else if (adStarted == "ad coins") {
 			ctrProgressClass.progress ["coins"] += 50;
             //coinsLabel
             AdCoinsTimerClass.counter++;
@@ -168,11 +171,16 @@ public class ctrAdClass: MonoBehaviour {
 
 	    public void ShowLevelAd(string buttonName) {
 #if UNITY_ANDROID || UNITY_IOS
-		if (ctrProgressClass.progress["firstPurchase"] == 0 && ctrProgressClass.progress["currentLevel"] >= 5 && (
+        Debug.Log("ShowLevelAd: " + buttonName);
+        if (ctrProgressClass.progress["firstPurchase"] == 0 && ctrProgressClass.progress["currentLevel"] >= 5 && (
             !staticClass.rateUsLevels.Contains(ctrProgressClass.progress["currentLevel"])
             ))
 		{
-		    bool flag = false;
+            bool flag = false;
+            if ((initLevelMenuClass.levelDemands == 0 && buttonName == "button play 0") ||
+                    (initLevelMenuClass.levelDemands == 1 && buttonName == "button play 1"))
+                buttonName = "restart";
+		    if (staticClass.levelRestartedCount < 2) staticClass.levelAdViewed = 0;
             if (buttonName == "restart")
 		    {
 		        var mod = (1 + staticClass.levelRestartedCount) % 3;
@@ -180,12 +188,23 @@ public class ctrAdClass: MonoBehaviour {
             }
 		    else
             {
+                //if (buttonName == "button next level" ||
+               //     (initLevelMenuClass.levelDemands == 0 && buttonName == "button play 1") ||
+                //    (initLevelMenuClass.levelDemands == 1 && buttonName == "button play 0")     )
+                //    staticClass.levelAdViewed = 0;
                 if (SceneManager.GetActiveScene().name != "level menu" && SceneManager.GetActiveScene().name != "menu" && staticClass.levelAdViewed == 0 && lsEnergyClass.energy != 0) flag = true;
 
             }
             adsAttributes["name"] = "level";
             adsAttributes["type"] = "skippable";
-		    if (flag)
+            Debug.Log("ShowLevelAd levelRestartedCount: " + staticClass.levelRestartedCount);
+            Debug.Log("ShowLevelAd flag: " + flag);
+            Debug.Log("ShowLevelAd scene: " + SceneManager.GetActiveScene().name);
+            Debug.Log("ShowLevelAd levelDemands: " + initLevelMenuClass.levelDemands);
+            Debug.Log("ShowLevelAd staticClass.levelAdViewed: " + staticClass.levelAdViewed);
+            Debug.Log("ShowLevelAd lsEnergyClass.energy: " + lsEnergyClass.energy);
+
+            if (flag)
 		    {
 		        Debug.Log("need ShowLevelAd");
 		        if (isAdReady())

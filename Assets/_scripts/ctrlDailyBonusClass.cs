@@ -59,7 +59,6 @@ public class ctrlDailyBonusClass : MonoBehaviour {
 				        staticClass.showRewardCardsMenuHints++;
 
 				    }
-
                     ctrProgressClass.saveProgress();
 				}
 

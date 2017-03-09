@@ -17,7 +17,7 @@ public class AdCoinsTimerClass : MonoBehaviour {
     public static int counter = 0;
     public static DateTime timer = DateTime.Now.AddSeconds(60 * 5);
     public static int interval = 60 * 5;
-    public static int firstInterval = 60 * 2;
+    public static int firstInterval = 60 * 4;
 
 
 

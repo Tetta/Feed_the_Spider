@@ -25,8 +25,9 @@ public class marketClass : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-		
-		//дальше, если market
+		Debug.Log("Start market");
+		if (GetComponent<Purchaser>() != null) GetComponent<Purchaser>().Start();
+        //дальше, если market
 		if (ctrProgressClass.progress.Count == 0) {
             ctrProgressClass.getProgress();
         }

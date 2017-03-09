@@ -282,6 +282,8 @@ public class iClickClass : MonoBehaviour {
                 if (staticClass.scenePrev.Substring(0, 5) == "level")
                 {
                     //rate us
+                    Debug.Log("staticClass.rateUsLast: " + staticClass.rateUsLast);
+                    Debug.Log("int.Parse(staticClass.scenePrev.Substring(5): " + int.Parse(staticClass.scenePrev.Substring(5)));
                     if (staticClass.rateUsLast < int.Parse(staticClass.scenePrev.Substring(5)) &&
                         staticClass.rateUsLevels.Contains(int.Parse(staticClass.scenePrev.Substring(5)) ))
                     {
@@ -317,23 +319,32 @@ public class iClickClass : MonoBehaviour {
 				
 			} else if (name == "button play 0") {
 
-				initLevelMenuClass.levelDemands = 0;
-				if (Application.CanStreamedLevelBeLoaded ("level" + ctrProgressClass.progress ["currentLevel"]))
+                
+                if (Application.CanStreamedLevelBeLoaded ("level" + ctrProgressClass.progress ["currentLevel"]))
                     sceneNeedLoad = "level" + ctrProgressClass.progress["currentLevel"]; //async = SceneManager.LoadSceneAsync ("level" + ctrProgressClass.progress ["currentLevel"]);
 				else
                     sceneNeedLoad = "level menu";
-                    //async = SceneManager.LoadSceneAsync ("level menu");
-		        staticClass.levelRestartedCount = -1;
-		    }
+
+                if (sceneNeedLoad == SceneManager.GetActiveScene().name && initLevelMenuClass.levelDemands == 1)
+
+                    staticClass.levelRestartedCount = -1;
+
+                initLevelMenuClass.levelDemands = 0;
+
+            }
             else if (name == "button play 1") {
 
-				initLevelMenuClass.levelDemands = 1;
 				if (Application.CanStreamedLevelBeLoaded ("level" + ctrProgressClass.progress ["currentLevel"]))
                     sceneNeedLoad = "level" + ctrProgressClass.progress["currentLevel"];
                     //async = SceneManager.LoadSceneAsync ("level" + ctrProgressClass.progress ["currentLevel"]);
                 else
                     sceneNeedLoad = "level menu"; //async = SceneManager.LoadSceneAsync ("level menu");
-                staticClass.levelRestartedCount = -1;
+                if (sceneNeedLoad == SceneManager.GetActiveScene().name && initLevelMenuClass.levelDemands == 0)
+
+                    staticClass.levelRestartedCount = -1;
+
+                initLevelMenuClass.levelDemands = 1;
+
             }
             else if (name.Substring (0, 5) == "level") {
                 //добавить проверку на гемс
@@ -587,7 +598,11 @@ public class iClickClass : MonoBehaviour {
 		} else if (name == "pause") {
 			menu = transform.parent.GetChild (1).gameObject;
 			menu.SetActive (true);
-			staticClass.isTimePlay = Time.timeScale;
+            Debug.Log(menu.GetComponent<lsLevelMenuClass>());
+            menu.GetComponent<lsLevelMenuClass>().setContent2();
+            if (initLevelMenuClass.levelDemands == 0) menu.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
+            else menu.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
+            staticClass.isTimePlay = Time.timeScale;
 			Time.timeScale = 0;
 		} else if (name == "play") {
 			menu = GameObject.Find ("pause menu");

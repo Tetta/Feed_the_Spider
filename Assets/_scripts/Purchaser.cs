@@ -35,8 +35,9 @@ namespace CompleteProject
         private static string kProductNameGooglePlaySubscription = "gof.feedthespider";
         //private static string kProductNameGooglePlaySubscription = "com.unity3d.subscription.original";
 
-        void Start()
+        public void Start()
         {
+            Debug.Log("m_StoreController: " + m_StoreController);
             // If we haven't set up the Unity Purchasing reference
             if (m_StoreController == null)
             {
