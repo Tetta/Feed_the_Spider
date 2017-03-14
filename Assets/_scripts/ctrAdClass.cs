@@ -48,10 +48,10 @@ public class ctrAdClass: MonoBehaviour {
     public void ShowRewardedAd()
 	{
 #if UNITY_ANDROID || UNITY_IOS
-	    if (adStarted == "ad coins" && ctrProgressClass.progress["tutorialAdCoins"] < 2)
+	    if (adStarted == "ad coins" && ctrProgressClass.progress["tutorialAdCoins"] < 3)
 	    {
-            Debug.Log("tutorialAdCoins < 2");
-            ctrProgressClass.progress["tutorialAdCoins"] = 2;
+            Debug.Log("tutorialAdCoins < 3");
+            ctrProgressClass.progress["tutorialAdCoins"] = 3;
             GameObject.Find("/root/static/ad coins/hand").SetActive(false);
         }
 
@@ -61,7 +61,6 @@ public class ctrAdClass: MonoBehaviour {
         adsAttributes["type"] = "rewarded";
         Debug.Log("click ShowRewardedAd");
         adsAttributes["provider"] = "Unity Ads";
-
         if (isAdReady())
 	    {
 
@@ -75,7 +74,7 @@ public class ctrAdClass: MonoBehaviour {
             adsAttributes["status"] = "failed";
             ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
             //adDontReadyMenu
-            GameObject.Find("root/static").transform.GetChild(7).gameObject.SetActive(true);
+            if (initLevelMenuClass.instance != null) initLevelMenuClass.instance.adDontReadyMenu.SetActive(true);
         }
 	
 #endif
@@ -109,7 +108,7 @@ public class ctrAdClass: MonoBehaviour {
         if (adStarted == "button ad energy") {
 			lsEnergyClass.energy = 1;
             //energyGO
-			GameObject.Find ("root/static/energy").SendMessage ("OnApplicationPause", false);
+			if (GameObject.Find("root/static/energy") != null) GameObject.Find ("root/static/energy").SendMessage ("OnApplicationPause", false);
             GameObject.Find("energy menu/panel with anim/energy").SendMessage("OnApplicationPause", false);
             if (marketClass.instance.gameObject.activeSelf) GameObject.Find("/market/shop/market menu/bars/energy").SendMessage("OnApplicationPause", false);
 
@@ -165,8 +164,17 @@ public class ctrAdClass: MonoBehaviour {
             adsAttributes["provider"] = "Unity Ads";
             return true;
 	    }
+
+        //admob
+        RequestInterstitial();
+#if UNITY_ANDROID
+        Advertisement.Initialize("1275461", true);
+#elif UNITY_IPHONE
+        Advertisement.Initialize("1275214", true);
 #endif
-	        return false;
+
+#endif
+        return false;
 	    }
 
 	    public void ShowLevelAd(string buttonName) {

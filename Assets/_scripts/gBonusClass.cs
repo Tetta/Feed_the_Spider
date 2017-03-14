@@ -34,7 +34,7 @@ public class gBonusClass : MonoBehaviour {
 				tempGo1.transform.parent = GameObject.Find("root/spider/" + staticClass.currentSkin).transform;
 				tempGo1.transform.position = GameObject.Find("spider").transform.position; 
 				tempGo1.transform.localScale = new Vector3(1, 1, 1);
-				tempGo1.GetComponent<Animator>().Play ("teleport enabled");
+				//tempGo1.GetComponent<Animator>().Play ("teleport enabled");
 				transform.GetChild(1).GetComponent<AudioSource> ().Play ();
 
 			}
@@ -95,7 +95,7 @@ public class gBonusClass : MonoBehaviour {
             GameObject.Find("bonuses pictures").transform.GetChild(6).gameObject.SetActive(false);
             GameObject.Find("bonuses pictures").transform.GetChild(7).gameObject.SetActive(false);
             GameObject.Find("bonuses pictures").transform.GetChild(8).gameObject.SetActive(false);
-            Time.timeScale = staticClass.isTimePlay;
+            if (bonusState == "webs wait click") Time.timeScale = staticClass.isTimePlay;
 
         }
 
@@ -109,7 +109,7 @@ public class gBonusClass : MonoBehaviour {
 			//} else if (bonusState == "collectors wait click") {
 			//		StartCoroutine(coroutineCollectorDisable());
 			} else {
-
+                Debug.Log("tempGo2");
                 tempGo2 = Instantiate(prefab, new Vector2(0, 0), Quaternion.identity) as GameObject;
 				tempGo2.transform.parent = GameObject.Find("root").transform;
 				tempGo2.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -126,25 +126,31 @@ public class gBonusClass : MonoBehaviour {
 	
 	
 	IEnumerator coroutineTeleportDisable() {
-		Animator spiderAnimator = GameObject.Find ("root/spider/" + staticClass.currentSkin).GetComponent<Animator>();
-		//yield return new WaitForSeconds(0.3F);
-		//tempGo1.GetComponent<Animator>().Play ("teleport disabled");
+        //yield return new WaitForSeconds(0.2F);
+        Animator spiderAnimator = GameObject.Find ("root/spider/" + staticClass.currentSkin).GetComponent<Animator>();
+        spiderAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
+        //yield return new WaitForSeconds(0.3F);
+        tempGo1.GetComponent<Animator>().Play ("teleport disabled");
 		spiderAnimator.Play ("spider disabled");
-		yield return StartCoroutine(staticClass.waitForRealTime(0.2F));
+		yield return StartCoroutine(staticClass.waitForRealTime(0.3F));
 		GameObject.Find ("root/spider").transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		GameObject.Find ("root/spider").GetComponent<Rigidbody2D> ().isKinematic = true;
-		//tempGo1.GetComponent<Animator>().Play ("teleport enabled");
+        //tempGo1.GetComponent<Animator>().Play ("teleport enabled");
 		//yield return StartCoroutine(waitForRealTime(0.2F));
 		if (Time.timeScale == 1)
 			spiderAnimator.Play ("spider enabled");
 		else GameObject.Find ("root/spider/" + staticClass.currentSkin).transform.localScale = new Vector3 (1, 1, 1);
-		yield return StartCoroutine(staticClass.waitForRealTime(0.2F));
+		yield return StartCoroutine(staticClass.waitForRealTime(0.3F));
 
 		Destroy(tempGo1);
 		GameObject.Find ("root/spider").GetComponent<Rigidbody2D> ().isKinematic = false;
-	}
+        
+        spiderAnimator.updateMode = AnimatorUpdateMode.Normal;
+        Time.timeScale = staticClass.isTimePlay;
 
-	IEnumerator coroutineBonusPictureEnable() {
+    }
+
+    IEnumerator coroutineBonusPictureEnable() {
 
 
         yield return StartCoroutine(staticClass.waitForRealTime(0.5F));

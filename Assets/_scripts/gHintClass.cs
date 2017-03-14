@@ -114,6 +114,7 @@ public class gHintClass : MonoBehaviour {
 			    if (hint.name == "dream folder")
 			    {
 			        hint.transform.GetChild(0).GetChild(3).gameObject.GetComponent<Animator>().Play("dream");
+                    hint.transform.GetChild(0).GetChild(3).GetChild(0).gameObject.GetComponent<ParticleSystem>().Play();
                     hint.transform.position = hintEndPos;
 
                 }

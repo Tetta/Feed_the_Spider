@@ -159,8 +159,16 @@ public class gBerryClass : MonoBehaviour {
 
         //show tutorial hint
         if (staticClass.levelRestartedCount >= 3 && ctrProgressClass.progress["tutorialHint"] == 0 &&
-	        ctrProgressClass.progress["hints"] > 0 && ctrProgressClass.progress["tutorialDream"] != ctrProgressClass.progress["currentLevel"])
-	    {
+            ctrProgressClass.progress["hints"] > 0 && ctrProgressClass.progress["tutorialDream"] != ctrProgressClass.progress["currentLevel"])
+
+        {
+            var arrowTemp = GameObject.Find("/default level/gui/bonuses/tween/arrow left");
+            if (arrowTemp.activeSelf)
+            {
+                arrowTemp.SendMessage("clickBonusesArrow");
+                arrowTemp.transform.parent.transform.localPosition = new Vector3(160, 0, 0);
+            }
+
             GameObject tutorialHintGO = Instantiate(tutorialHint, new Vector2(0, 0), Quaternion.identity) as GameObject;
             //position hand
 	        var bonusesGO = GameObject.Find("/default level/gui/bonuses");

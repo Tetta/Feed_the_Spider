@@ -168,7 +168,6 @@ public class ctrAnalyticsClass: MonoBehaviour
 
             ctrProgressClass.progress["sessionStart"] = (int)DateTime.Now.TotalSeconds();
             ctrProgressClass.progress["sessionEnd"] = (int)DateTime.Now.TotalSeconds();
-            ctrProgressClass.progress["sessionCount"]++;
             ctrProgressClass.progress["levelPlayCount"] = 0;
             ctrProgressClass.progress["winCount"] = 0;
 
@@ -180,6 +179,7 @@ public class ctrAnalyticsClass: MonoBehaviour
                 });
 
             sendCustomDimension(5, getGroup(ctrProgressClass.progress["sessionCount"], ctrAnalyticsClass.sessionGroups)); //sessionCount
+            ctrProgressClass.progress["sessionCount"]++;
 
             if (ctrProgressClass.progress["firstLaunch"] == 0)
             {

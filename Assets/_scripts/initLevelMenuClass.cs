@@ -11,6 +11,7 @@ public class initLevelMenuClass : MonoBehaviour {
     public GameObject disableLevelMenu;
     public GameObject saleMenu;
     public GameObject coinsMenu;
+    public GameObject adDontReadyMenu;
 
     public UILabel coinsLabel;
 	public UILabel gemsLabel;

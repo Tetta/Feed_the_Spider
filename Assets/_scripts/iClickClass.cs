@@ -757,7 +757,7 @@ public class iClickClass : MonoBehaviour {
         else if (name == "exit energy ad menu")
         {
             GameObject.Find("ad dont ready menu").transform.GetChild(0).GetComponent<Animator>().Play("menu exit");
-            yield return new WaitForSeconds(0.2F);
+            yield return StartCoroutine(staticClass.waitForRealTime(0.2F));
             GameObject.Find("ad dont ready menu").SetActive(false);
         }
         else if (name == "exit coins menu")

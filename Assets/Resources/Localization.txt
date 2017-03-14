@@ -165,6 +165,8 @@ loading, "Loading...", "Загрузка..."
 
 sound, "Sound", "Звук"
 music, "Music", "Музыка"
+sale, "Special offer", "Акция"
+
 
 exitGame, "Are you sure you want to quit?", "Вы уверены, что хотите выйти?"
 

@@ -13,5 +13,7 @@ public class ctrParticleSystem : MonoBehaviour {
 		if (Time.timeScale < 0.01f) {
 			GetComponent<ParticleSystem>().Simulate(Time.unscaledDeltaTime, true, false);
 		}
-	}
+        //else if ( name == "teleport" || name == "stars") GetComponent<ParticleSystem>().Simulate(Time.unscaledDeltaTime, true, false);
+
+    }
 }
