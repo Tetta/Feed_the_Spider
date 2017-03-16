@@ -462,16 +462,25 @@ public class iClickClass : MonoBehaviour {
             //fb and vk
 
             //fb on, vk off
-            if (ctrProgressClass.progress["fb"] == 1)
+            if (ctrProgressClass.progress["fb"] == 1 && Facebook.Unity.FB.IsLoggedIn)
             {
                 transform.parent.parent.GetChild(1).gameObject.SetActive(true);
                 transform.parent.parent.GetChild(2).gameObject.SetActive(false);
+                transform.parent.parent.GetChild(3).gameObject.SetActive(false);
             }
             //fb off, vk on
-            if (ctrProgressClass.progress["vk"] == 1)
+            if (ctrProgressClass.progress["vk"] == 1 && com.playGenesis.VkUnityPlugin.VkApi.VkApiInstance.IsUserLoggedIn)
             {
                 transform.parent.parent.GetChild(2).gameObject.SetActive(true);
                 transform.parent.parent.GetChild(1).gameObject.SetActive(false);
+                transform.parent.parent.GetChild(3).gameObject.SetActive(false);
+            }
+            //ok on
+            if (ctrProgressClass.progress["ok"] == 1 && Odnoklassniki.OK.IsLoggedIn)
+            {
+                transform.parent.parent.GetChild(2).gameObject.SetActive(false);
+                transform.parent.parent.GetChild(1).gameObject.SetActive(false);
+                transform.parent.parent.GetChild(3).gameObject.SetActive(true);
             }
 
         }
@@ -811,8 +820,10 @@ public class iClickClass : MonoBehaviour {
         }
         else if (name == "exit invite friends menu")
         {
-            menu = GameObject.Find("/root/static/level menu/vk/invite friends/");
-            menu.SetActive(false);
+            menu = GameObject.Find("/root/static/level menu/vk_ok/invite friends/");
+            if (menu != null) menu.SetActive(false);
+            menu = GameObject.Find("/root/static/level menu/vk_ok/invite friends ok/");
+            if (menu != null) menu.SetActive(false);
             GameObject.Find("/root/static/level menu/button exit level menu").GetComponent<SpriteRenderer>().sortingOrder = 137;
         }
         else if (name == "exit dream menu")
@@ -861,29 +872,25 @@ public class iClickClass : MonoBehaviour {
 
     }
 
-	void fbConnect() {
-		ctrFbKiiClass.instance.connect ();
+	void socialConnect() {
+		ctrFbKiiClass.instance.connect (name);
 	}
-
-    void vkConnect()
+    void socialInvite()
     {
-        ctrFbKiiClass.instance.connectVK();
+        ctrFbKiiClass.instance.invite(name);
     }
-
-    void fbInvite() {
-		ctrFbKiiClass.instance.invite ();
-	}
-
-    void vkInvite()
-    {
-        //ctrFbKiiClass.instance.invite();
-        ctrFbKiiClass.instance.setFriendsForInvite(GameObject.Find("/root/static/level menu/vk/invite friends/"));
-    }
+    //for vk and ok
     void vkInviteFriend()
     {
-        //ctrFbKiiClass.instance.invite();
-        ctrFbKiiClass.instance.vkInviteFriend(transform.parent.name.Substring(0, transform.parent.name.Length - 7));
+        //ctrFbKiiClass.instance.inviteFriend("vk", transform.parent.name.Substring(0, transform.parent.name.Length - 7));
+
+        if (ctrProgressClass.progress["vk"] == 1)
+            ctrFbKiiClass.instance.inviteFriend("vk", transform.parent.name);
+        if (ctrProgressClass.progress["ok"] == 1)
+            ctrFbKiiClass.instance.inviteFriend("ok", transform.parent.name);
     }
+
+
     void ShowRewardedAd() {
 		ctrAdClass.adStarted = name;
        // if (ctrAdClass.instance == null) ctrAdClass.

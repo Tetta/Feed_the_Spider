@@ -11,32 +11,25 @@ using com.playGenesis.VkUnityPlugin;
 using UnityEngine.SceneManagement;
 using Facebook.MiniJSON;
 
+using Odnoklassniki;
+using Odnoklassniki.HTTP;
 
 public class ctrFbKiiClass : MonoBehaviour {
-	public GameObject fbFriendPhoto;
+	public GameObject photoFriendOnMap;
     public GameObject vkFriend;
 
 
     public static ctrFbKiiClass instance = null;
-	//список друзей Fb: userFbId = picture
-	//public static Dictionary<string, string> friendsPicture = new Dictionary<string, string>();
+
 	//список друзей Fb: userFbId = first_name
 	public static Dictionary<string, string> friendsFirstname = new Dictionary<string, string>();
 
 	public static Dictionary<string, Texture2D> friendsImage = new Dictionary<string, Texture2D>();
-    public static Dictionary<string, Texture2D> friendsImageForVKInvite = new Dictionary<string, Texture2D>();
+    //public static Dictionary<string, Texture2D> friendsImageForVKInvite = new Dictionary<string, Texture2D>();
     public static Texture2D userImage;
 
-	//public static string[,] friends = new string[101, 2];
-	//public struct friendsFbStruct {
-	//	public string id;
-	//	public string first_name;
-  	//	public string picture;
-	//	}
-	//public static  List<friendsFbStruct>  friends = new List<friendsFbStruct>();
-
 	public static string[] friendsIds = null;
-    public static string[] friendsIdsForVKInvite = null;
+    //public static string[] friendsIdsForInvite = null;
     public static string userId = "";
     public static bool isLoginKii = false;
 
@@ -50,10 +43,20 @@ public class ctrFbKiiClass : MonoBehaviour {
 
     public Downloader d;
     public FriendManager friendManagerVK;
-    public List<VKUser> friends = new List<VKUser>();
-    public List<VKUser> friendsForVKInvite = new List<VKUser>();
+    //public List<VKUser> friends = new List<VKUser>();
+    //public List<VKUser> friendsForVKInvite = new List<VKUser>();
+    public List<FriendForInvite> friendsForInvite = new List<FriendForInvite>();
 
-    // Awake function from Unity's MonoBehavior
+    public class FriendForInvite
+    {
+        public string id;
+        public string name;
+        //public Texture2D texture;
+
+
+    }
+
+    // set instance
     void Start() {
 
         if (instance != null) {
@@ -62,232 +65,30 @@ public class ctrFbKiiClass : MonoBehaviour {
         }
         instance = this;
         DontDestroyOnLoad(gameObject);
-        d = VkApi.VkApiInstance.gameObject.GetComponent<Downloader>();
-        friendManagerVK = VkApi.VkApiInstance.gameObject.GetComponent<FriendManager>();
+
 
         ctrProgressClass.getProgress();
-        //fb
-        Debug.Log("Start Kii Class");
+        
+        Debug.Log("socials - Start Kii Class");
         Debug.Log("lang: " + ctrProgressClass.progress["language"]);
 
-        if (staticClass.socialDefault() == "fb")
-        {
-            if (!FB.IsInitialized)
-            {
-                // Initialize the Facebook SDK
-                FB.Init(InitCallback);
-            }
-        }
-        //vk
-        else 
-        {
-            Debug.Log("vk isLogin: " + VkApi.VkApiInstance.IsUserLoggedIn);
-            if (VkApi.VkApiInstance.IsUserLoggedIn && ctrProgressClass.progress["vk"] == 1) {
-                    onLoggedInVK();
-                }
-        }
-    }
-    //fb
-    private void InitCallback() {
-        if (FB.IsInitialized) {
-			Debug.Log("FB.IsInitialized");
-            //for tests
-			//var perms = new List<string>() { "public_profile", "email", "user_friends" };
-			//FB.LogInWithReadPermissions(perms, AuthCallback);
+        initializeSDK();
 
 
-			// Signal an app activation App Event
-            //FB.ActivateApp();
-            // Continue with Facebook SDK
-            // ...
-
-            if (FB.IsLoggedIn && ctrProgressClass.progress["fb"] == 1) {
-                Debug.Log("FB.IsLoggedIn");
-                // AccessToken class will have session details
-                //var aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
-                // Print current access token's User ID
-                // Print current access token's granted permissions
-                onLoginCompleteFB();
-            } 
-
-        } 
-    }
-
-    //vk
-    public void onLoggedInVK()
-    {
-        Debug.Log("onLoggedInVK");
-        try
-        {
-            VkApi.VkApiInstance.LoggedIn -= onLoggedInVK;
-        }
-        catch (System.Exception ex)
-        {
-
-        }
-        userId = VkApi.CurrentToken.user_id;
-
-        VKRequest r = new VKRequest
-        {
-            url = "users.get?user_ids=" + userId + "&fields=photo_100,sex,bdate",
-            //url = "users.get?user_ids=" + userId + "&photo_50",
-            CallBackFunction = OnGotUserInfoVK
-        };
-        VkApi.VkApiInstance.Call(r);
-
-        var request = new VKRequest()
-        {
-            //url = "friends.getAppUsers?user_id=" + userId + "&count=100&fields=photo_100",
-            //CallBackFunction = OnGetFriendsIdsCompleted,
-            url = "apps.getFriendsList?user_id=" + userId + "&type=request&extended=1&count=100&fields=photo_100",
-            CallBackFunction = OnGetFriendsCompleted,
-            customParam = true
-        };
-        VkApi.VkApiInstance.Call(request);
-
-
-        //не установившие приложение
-
-        var request2 = new VKRequest()
-        {
-            url = "apps.getFriendsList?user_id=" + userId + "&type=invite&extended=1&count=100&fields=photo_100",
-            CallBackFunction = OnGetFriendsCompleted,
-            customParam = false
-        };
-        VkApi.VkApiInstance.Call(request2);
-
-        onLoginCompleteVK();
-    }
-
-    public void OnGotUserInfoVK(VKRequest r)
-    {
-        if (r.error != null)
-        {
-            //hande error here
-            Debug.Log(r.error.error_msg);
-            return;
-        }
-
-        //now we need to deserialize response in json from vk server
-        var dict = Json.Deserialize(r.response) as Dictionary<string, object>;
-        var users = (System.Collections.Generic.List<object>)dict["response"];
-        var user = VKUser.Deserialize(users[0]);
-
-        if (!string.IsNullOrEmpty(user.photo_100))
-        {
-            DownloadImage(user.photo_100, user, true);
-        }
-        Debug.Log("user id is " + user.id);
-        //Debug.Log("user name is " + user.first_name);
-        //Debug.Log("user last name is " + user.last_name);
-        Debug.Log("photo " + user.photo_100);
-
-
-        //for analytics - Profiles
-        int age = 0;
-        if (!string.IsNullOrEmpty(user.bdate)) age = Mathf.RoundToInt(      (         (float)( ((DateTime.Now - DateTime.Parse(user.bdate)).TotalDays) )      /365)     );
-        if (age != 0) ctrAnalyticsClass.sendProfileAttribute("age", age.ToString());
-        var gender = "";
-        if (ctrAnalyticsClass.developerIds.Contains(userId))
-            gender = "developer";
-        else if (user.sex == 1)
-            gender = "female";
-        else if (user.sex == 2)
-            gender = "male";
-        
-        if (gender != "") ctrAnalyticsClass.sendProfileAttribute("gender", gender);
-
-        ctrAnalyticsClass.sendProfileAttribute("social id", userId);
-        //for analytics - Dimension
-        if (age != 0) ctrAnalyticsClass.sendCustomDimension(0, ctrAnalyticsClass.getGroup((float) age, ctrAnalyticsClass.ageGroups)); //age
-        if (gender != "") ctrAnalyticsClass.sendCustomDimension(1, gender); //gender
-        ctrAnalyticsClass.sendCustomDimension(6, "VK"); //Authorisation status
-
-
-        if (!string.IsNullOrEmpty(user.first_name)) ctrAnalyticsClass.setCustomerFirstName(user.first_name);
-        if (!string.IsNullOrEmpty(user.last_name)) ctrAnalyticsClass.setCustomerLastName(user.last_name);
-        if (!string.IsNullOrEmpty(user.first_name) || !string.IsNullOrEmpty(user.last_name)) ctrAnalyticsClass.setCustomerFullName(user.first_name + " " + user.last_name);
     }
 
 
-    /*
-	private void OnHideUnity (bool isGameShown)
-	{
-		if (!isGameShown) {
-			// Pause the game - we will need to hide
-			Time.timeScale = 0;
-		} else {
-			// Resume the game - we're getting focus again
-			Time.timeScale = 1;
-		}
-	}
-	*/
 
-    public void connectVK()
-    {
-        Debug.Log("connectVK");
-        VkApi.VkSetts.forceOAuth = false;
-        VkApi.VkApiInstance.LoggedIn += onLoggedInVK;
-        VkApi.VkApiInstance.Login();
-    }
-
-
-    public void connect() {
-        Debug.Log("FB connect");
-        Debug.Log("FB.IsInitialized:" + FB.IsInitialized);
-        if (FB.IsInitialized) {
-            var perms = new List<string>() { "public_profile", "email", "user_friends"};
-            FB.LogInWithReadPermissions(perms, AuthCallback);
-        }
-    }
-
-
-    private void AuthCallback(ILoginResult result) {
-        Debug.Log("FB AuthCallback: " + FB.IsLoggedIn);
-        Debug.Log(result.Error);
-        if (FB.IsLoggedIn) {
-            // AccessToken class will have session details
-            var aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
-            // Print current access token's User ID
-            onLoginCompleteFB();
-            // Print current access token's granted permissions
-
-        }
-
-    }
-
-    private void onLoginCompleteVK()
-    {
-        Debug.Log("onLoginCompleteVK");
-        if (ctrProgressClass.progress["vk"] == 0)
-        {
-            ctrProgressClass.progress["vk"] = 1;
-            ctrProgressClass.saveProgress();
-
-        }
-        //GetPlayerInfo();
-        //GetFriends();
-        StartCoroutine(loginKiiVK());
-        changeUIPanelFriends();
-    }
-
-    private void onLoginCompleteFB() {
-		if (ctrProgressClass.progress ["fb"] == 0) {
-			ctrProgressClass.progress ["fb"] = 1;
-			ctrProgressClass.saveProgress ();
-
-		}
-        GetPlayerInfo();
-        GetFriends();
-        StartCoroutine(loginKiiFB());
-        changeUIPanelFriends();
-
-    }
 
     public static void updateUserScore(string levelName, int score, int lastLevel) {
 		if (isLoginKii && userId != "") {
 			KiiBucket bucket = Kii.Bucket("scores");
-			KiiObject kiiObj = bucket.NewKiiObject(userId);
+
+		    var name = userId;
+            if (ctrProgressClass.progress["vk"] == 1) name = "vk" + userId;
+            if (ctrProgressClass.progress["ok"] == 1) name = "ok" + userId;
+
+            KiiObject kiiObj = bucket.NewKiiObject(name);
 			kiiObj[levelName] = score;
 			kiiObj["lastLevel"] = "level" + lastLevel.ToString();
 			kiiObj.Save((KiiObject savedObj, Exception e) => {
@@ -299,121 +100,9 @@ public class ctrFbKiiClass : MonoBehaviour {
 		}
     }
 
-    IEnumerator loginKiiVK()
-    {
-        yield return StartCoroutine(staticClass.waitForRealTime(0.2F));
-        Debug.Log("loginKiiVK");
-        Debug.Log("userId: " + userId);
-
-        //vk
-        string username = userId;
-        string password = "123ABC";
-
-        KiiUser.LogIn(username, password, (KiiUser user, Exception e) =>
-        {
-            if (e != null)
-            {
-                Debug.Log(e.HelpLink);
-                Debug.Log(e.StackTrace);
-                Debug.Log(e.Message);
-
-                KiiUser.Builder builder;
-                builder = KiiUser.BuilderWithName(userId);
-                //builder.SetEmail("user_123456@example.com");
-                //builder.SetGlobalPhone("+819012345678");
-                KiiUser userNew = builder.Build();
-
-                userNew.Register("123ABC", (KiiUser registeredUser, Exception ee) => {
-                    //user.Register("123ABC", (KiiUser registeredUser, Exception ee) => {
-                    if (ee != null)
-                    {
-                        Debug.Log(ee.HelpLink);
-                        Debug.Log(ee.StackTrace);
-                        Debug.Log(ee.Message);
-                        // handle error
-                        return;
-                    }
-                    else afterLoginKii();
-                });
 
 
-                //return;
-            }
-            else
-            {
-                afterLoginKii();
 
-            }
-        });
-    }
-
-    IEnumerator loginKiiFB() {
-        yield return StartCoroutine(staticClass.waitForRealTime(0.2F));
-        Debug.Log("loginKiiFB");
-
-
-        Dictionary<string, string> accessCredential = new Dictionary<string, string>();
-        accessCredential.Add("accessToken", Facebook.Unity.AccessToken.CurrentAccessToken.TokenString);
-        KiiUser.LoginWithSocialNetwork(accessCredential, KiiCorp.Cloud.Storage.Connector.Provider.FACEBOOK, (KiiUser user, Exception exception) =>
-        {
-            afterLoginKii();
-        });
-    }
-
-    private void afterLoginKii()
-    {
-        Debug.Log("afterLoginKii");
-        //KiiUser.LoginWithSocialNetwork(accessCredential, KiiCorp.Cloud.Storage.Connector.Provider.FACEBOOK, (KiiUser user, Exception exception) => {
-        isLoginKii = true;
-
-        KiiBucket bucket = Kii.Bucket("scores");
-
-        //save user scores
-        KiiObject kiiObj = bucket.NewKiiObject(userId);
-
-        for (int i = 1; i <= 100; i++)
-        {
-            int y = ctrProgressClass.progress["score" + i.ToString() + "_1"] + ctrProgressClass.progress["score" + i.ToString() + "_2"];
-            if (y <= 0) break;
-            kiiObj["level" + i.ToString()] = y;
-            kiiObj["lastLevel"] = "level" + i.ToString();
-
-        }
-        kiiObj["userFbId"] = userId;
-
-        //запись, если есть хотя бы 1 уровень
-        if (kiiObj.Has("level1"))
-        {
-            kiiObj.SaveAllFields(true, (KiiObject savedObj, Exception e) => {
-                if (e != null)
-                {
-                }
-                else
-                {
-                }
-            });
-
-        }
-
-
-        if (friendsIds != null)
-        {
-            KiiQuery query = new KiiQuery(
-            KiiClause.InWithStringValue("_id", friendsIds)
-            );
-            query.Limit = 50;
-            bucket.Query(query, (KiiQueryResult<KiiObject> result, Exception e) => {
-                if (e != null)
-                {
-                    //Debug.LogError("Failed to get friend scores" + e.ToString());
-                    return;
-                }
-                friendsScore = result;
-                setFriendsLastLevel();
-            });
-        }
-
-    }
 
     public static void setFriendsLastLevel() {
 		//Debug.Log ("setFriendsLastLevel");
@@ -436,15 +125,16 @@ public class ctrFbKiiClass : MonoBehaviour {
 			if (friendsLastLevel.ContainsKey(nameLevel)) {
 				string id = friendsLastLevel[nameLevel];
 
-				//Debug.Log ("setFriendImgMap");
+				Debug.Log ("setFriendImgMap id: " + id);
+                Debug.Log("friendsImage.ContainsKey (id): " + friendsImage.ContainsKey(id));
 
-				if (!friendsImage.ContainsKey (id)) {
+                if (!friendsImage.ContainsKey (id)) {
 					// We don't have this players image yet, request it now
 					LoadFriendImgFromID (id, pictureTexture => {
 						if (pictureTexture != null) {
 							friendsImage.Add (id, pictureTexture);
 
-							GameObject newPhoto = Instantiate (ctrFbKiiClass.instance.fbFriendPhoto, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
+							GameObject newPhoto = Instantiate (ctrFbKiiClass.instance.photoFriendOnMap, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
 							newPhoto.transform.GetChild (0).GetComponent<SpriteRenderer> ().sprite = Sprite.Create (pictureTexture, new Rect (0, 0, pictureTexture.width, pictureTexture.height), new Vector2 (0.5F, 0.5F), 1);
 
 							newPhoto.transform.parent = levelIslandGem;
@@ -455,7 +145,7 @@ public class ctrFbKiiClass : MonoBehaviour {
 					});
 				} else {
 				
-					GameObject newPhoto = Instantiate (ctrFbKiiClass.instance.fbFriendPhoto, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
+					GameObject newPhoto = Instantiate (ctrFbKiiClass.instance.photoFriendOnMap, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
 					newPhoto.transform.GetChild (0).GetComponent<SpriteRenderer> ().sprite = Sprite.Create (friendsImage[id], new Rect (0, 0, friendsImage[id].width, friendsImage[id].height), new Vector2 (0.5F, 0.5F), 1);
 
 					newPhoto.transform.parent = levelIslandGem;
@@ -470,23 +160,39 @@ public class ctrFbKiiClass : MonoBehaviour {
 	}
 
 	public static void setBestGamers(Transform levelMenu, int levelNumber) {
-        Debug.Log ("setBestGamers");
+        Debug.Log("socials - setBestGamers");
         Transform socialMenu = levelMenu.GetChild(2);
+        Transform bestGamersMenu;
         if (ctrProgressClass.progress["fb"] == 1 && FB.IsLoggedIn)
-            socialMenu = levelMenu.GetChild(2);
-        else if (ctrProgressClass.progress["vk"] == 1 && VkApi.VkApiInstance.IsUserLoggedIn)
-            socialMenu = levelMenu.GetChild(3);
+	    {
+	        socialMenu = levelMenu.GetChild(2);
+	        bestGamersMenu = socialMenu.GetChild(1);
+
+	    }
+	    else if (ctrProgressClass.progress["vk"] == 1 && VkApi.VkApiInstance.IsUserLoggedIn)
+	    {
+	        socialMenu = levelMenu.GetChild(3);
+            bestGamersMenu = socialMenu.GetChild(1);
+
+        }
+        else if (ctrProgressClass.progress["ok"] == 1 && OK.IsLoggedIn)
+	    {
+	        //doing
+	        socialMenu = levelMenu.GetChild(3);
+            bestGamersMenu = socialMenu.GetChild(3);
+
+        }
         else return;
-        Debug.Log(socialMenu.name);
+	    Debug.Log(socialMenu.name);
 
         //if (ctrProgressClass.progress ["fb"] == 1 && FB.IsLoggedIn) {
 
             //выключаем панель fb login, включаем панель с лучшими игроками, выключаем каждого игрока (всего 3)
             socialMenu.GetChild (0).gameObject.SetActive (false);
-            socialMenu.GetChild (1).gameObject.SetActive (true);
-            socialMenu.GetChild (1).GetChild (0).gameObject.SetActive (false);
-            socialMenu.GetChild (1).GetChild (1).gameObject.SetActive (false);
-			socialMenu.GetChild (1).GetChild (2).gameObject.SetActive (false);
+        bestGamersMenu.gameObject.SetActive (true);
+        bestGamersMenu.GetChild (0).gameObject.SetActive (false);
+        bestGamersMenu.GetChild (1).gameObject.SetActive (false);
+        bestGamersMenu.GetChild (2).gameObject.SetActive (false);
 
 			Dictionary<string, int> scores = new Dictionary<string, int>();
 			if (friendsScore != null)
@@ -507,20 +213,20 @@ public class ctrFbKiiClass : MonoBehaviour {
 			int i = 0;
 			foreach (var score in scores) {
 				if (i < 3) {
-                    socialMenu.GetChild (1).GetChild (i).gameObject.SetActive (true);
+                bestGamersMenu.GetChild (i).gameObject.SetActive (true);
 
 					//photo
 
 					//если юзер
 					if (userId == score.Key) {
-						if (userImage != null) socialMenu.GetChild (1).GetChild (i).GetChild(0).GetComponent<SpriteRenderer> ().sprite = Sprite.Create (userImage, new Rect(0, 0, userImage.width, userImage.height), new Vector2(0.5F, 0.5F), 1);
-                        socialMenu.GetChild (1).GetChild (i).GetChild (1).GetComponent<UILabel> ().text = score.Value.ToString ();
+						if (userImage != null) bestGamersMenu.GetChild (i).GetChild(0).GetComponent<SpriteRenderer> ().sprite = Sprite.Create (userImage, new Rect(0, 0, userImage.width, userImage.height), new Vector2(0.5F, 0.5F), 1);
+                    bestGamersMenu.GetChild (i).GetChild (1).GetComponent<UILabel> ().text = score.Value.ToString ();
 						i++;
 
 					}
 					if (friendsImage.ContainsKey(score.Key)) {
-                        socialMenu.GetChild (1).GetChild (i).GetChild(0).GetComponent<SpriteRenderer> ().sprite = Sprite.Create (friendsImage[score.Key], new Rect(0, 0, friendsImage[score.Key].width, friendsImage[score.Key].height), new Vector2(0.5F, 0.5F), 1);
-                        socialMenu.GetChild (1).GetChild (i).GetChild (1).GetComponent<UILabel> ().text = score.Value.ToString ();
+                    bestGamersMenu.GetChild (i).GetChild(0).GetComponent<SpriteRenderer> ().sprite = Sprite.Create (friendsImage[score.Key], new Rect(0, 0, friendsImage[score.Key].width, friendsImage[score.Key].height), new Vector2(0.5F, 0.5F), 1);
+                    bestGamersMenu.GetChild (i).GetChild (1).GetComponent<UILabel> ().text = score.Value.ToString ();
 						i++;
 
 					
@@ -541,331 +247,30 @@ public class ctrFbKiiClass : MonoBehaviour {
 	
 	}
 
-	public void invite() {
-		if (FB.IsInitialized) {
-			ctrFbRequest.RequestChallenge ();
-			//GetInvitableFriends();
-		}
-	}
-    //-----------------------------------------------------------------------------------------------------------------------------------------------
-	//---------------------------------------------------------- FB GRAPH ---------------------------------------------------------------------------
-	//-----------------------------------------------------------------------------------------------------------------------------------------------
-	public static void GetPlayerInfo() {
-        string queryString = "/me?fields=id,first_name,age_range,gender,picture.width(100).height(100)";
-        FB.API(queryString, HttpMethod.GET, GetPlayerInfoCallback);
-    }
+	public void invite(string social) {
+        Debug.Log("socials - invite: " + social);
 
-    private static void GetPlayerInfoCallback(IGraphResult result) {
-        //Debug.Log("GetPlayerInfoCallback");
-        if (result.Error != null) {
-            //Debug.LogError(result.Error);
-            return;
-        }
-        //Debug.Log(result.RawResult);
- 
-        // Save player name
-        string name;
-        if (result.ResultDictionary.TryGetValue("first_name", out name)) {
-            //GameStateManager.Username = name;
-        }
-        Dictionary<string, object> ageRange;
-        var age = 0F;
-        if (result.ResultDictionary.TryGetValue("age_range", out ageRange))
-        {
-            var d = ageRange["min"];
-            Debug.Log(d.GetType());
-            age = float.Parse( ageRange["min"].ToString());
-        }
-        var gender = "";
-        result.ResultDictionary.TryGetValue("gender", out gender);
+	    if (social == "fb")
+	    {
+	        if (FB.IsInitialized)
+	        {
+	            ctrFbRequest.RequestChallenge();
+	            //GetInvitableFriends();
+	        }
+	    }
+	    else if (social == "vk")
+	    {
+	        ctrFbKiiClass.instance.setFriendsForInvite(GameObject.Find("/root/static/level menu/vk_ok/invite friends/"));
+	    }
+	    else if (social == "ok")
+	    {
+	        ctrFbKiiClass.instance.setFriendsForInvite(GameObject.Find("/root/static/level menu/vk_ok/invite friends ok/"));
 
-        string id;
-        if (result.ResultDictionary.TryGetValue("id", out id)) {
-            userId = id;
-            //GameStateManager.Username = name;
-        }
-        
-		//Fetch player profile picture from the URL returned
-		string playerImgUrl = DeserializePictureURL(result.ResultDictionary);
-		LoadImgFromURL(playerImgUrl, delegate(Texture2D pictureTexture)
-			{
-				// Setup the User's profile picture
-				if (pictureTexture != null)
-				{
-					userImage = pictureTexture;
-				}
-
-				// Redraw the UI
-				//GameStateManager.CallUIRedraw();
-			});
-
-        //for analytics - Profiles
-        
-        if (age != 0) ctrAnalyticsClass.sendProfileAttribute("age", age.ToString());
-        if (ctrAnalyticsClass.developerIds.Contains(userId))
-            gender = "developer";
-        if (gender != "") ctrAnalyticsClass.sendProfileAttribute("gender", gender);
-        
-        ctrAnalyticsClass.sendProfileAttribute("social id", userId);
-        //for analytics - Dimension
-        if (age != 0) ctrAnalyticsClass.sendCustomDimension(0, ctrAnalyticsClass.getGroup((float)age, ctrAnalyticsClass.ageGroups)); //age
-        if (gender != "") ctrAnalyticsClass.sendCustomDimension(1, gender); //gender
-        ctrAnalyticsClass.sendCustomDimension(6, "FB"); //Authorisation status
-
-        string fname;
-        if (result.ResultDictionary.TryGetValue("first_name", out fname)) ctrAnalyticsClass.setCustomerFirstName(fname);
-        string lname;
-        if (result.ResultDictionary.TryGetValue("last_name", out lname)) ctrAnalyticsClass.setCustomerLastName(lname);
-        if (fname != "" || lname != "") ctrAnalyticsClass.setCustomerFullName(fname + " " + lname);
-        string email;
-        if (result.ResultDictionary.TryGetValue("email", out email)) ctrAnalyticsClass.setCustomerEmail(email);
-
-
-    }
-    /*
-	// In the above request it takes two network calls to fetch the player's profile picture.
-	// If we ONLY needed the player's profile picture, we can accomplish this in one call with the /me/picture endpoint.
-	//
-	// Make a Graph API GET call to /me/picture to retrieve a players profile picture in one call
-	// See: https://developers.facebook.com/docs/graph-api/reference/user/picture/
-	public static void GetPlayerPicture()
-	{
-		FB.API(GraphUtil.GetPictureQuery("me", 128, 128), HttpMethod.GET, delegate(IGraphResult result)
-			{
-				Debug.Log("PlayerPictureCallback");
-				if (result.Error != null)
-				{
-					Debug.LogError(result.Error);
-					return;
-				}
-				if (result.Texture ==  null)
-				{
-					Debug.Log("PlayerPictureCallback: No Texture returned");
-					return;
-				}
-
-				// Setup the User's profile picture
-				GameStateManager.UserTexture = result.Texture;
-
-				// Redraw the UI
-				GameStateManager.CallUIRedraw();
-			});
-	}
-	#endregion
-	*/
-    #region Friends
-    // We can fetch information about a player's friends via the Graph API user edge /me/friends
-    // This endpoint returns an array of friends who are also playing the same game.
-    // See: https://developers.facebook.com/docs/graph-api/reference/user/friends
-    //
-    // We can use this data to provide a set of real people to play against, showing names
-    // and pictures of the player's friends to make the experience feel even more personal.
-    //
-    // The /me/friends edge requires an additional permission, user_friends. Without
-    // this permission, the response from the endpoint will be empty. If we know the user has
-    // granted the user_friends permission but we see an empty list of friends returned, then
-    // we know that the user has no friends currently playing the game.
-    //
-    // Note:
-    // In this instance we are making two calls, one to fetch the player's friends who are already playing the game
-    // and another to fetch invitable friends who are not yet playing the game. It can be more performant to batch 
-    // Graph API calls together as Facebook will parallelize independent operations and return one combined result.
-    // See more: https://developers.facebook.com/docs/graph-api/making-multiple-requests
-    //
-    public static void GetFriends() {
-        string queryString = "/me/friends?fields=id,first_name,picture.width(128).height(128)&limit=100";
-        FB.API(queryString, HttpMethod.GET, GetFriendsCallback);
-    }
-
-    private static void GetFriendsCallback(IGraphResult result) {
-        //Debug.Log("GetFriendsCallback");
-        if (result.Error != null) {
-            //Debug.LogError(result.Error);
-            return;
-        }
-        //Debug.Log(result.RawResult);
-
-        // Store /me/friends result
-        object dataList;
-        if (result.ResultDictionary.TryGetValue("data", out dataList)) {
-            CacheFriends((System.Collections.Generic.List<object>)dataList);
-            //var friendsList = (List<object>)dataList;
-            //CacheFriends(friendsList);
-        }
-    }
-
-    // We can fetch information about a player's friends who are not yet playing our game
-    // via the Graph API user edge /me/invitable_friends
-    // See more about Invitable Friends here: https://developers.facebook.com/docs/games/invitable-friends
-    //
-    // The /me/invitable_friends edge requires an additional permission, user_friends.
-    // Without this permission, the response from the endpoint will be empty.
-    //
-    // Edge: https://developers.facebook.com/docs/graph-api/reference/user/invitable_friends
-    // Nodes returned are of the type: https://developers.facebook.com/docs/graph-api/reference/user-invitable-friend/
-    // These nodes have the following fields: profile picture, name, and ID. The ID's returned in the Invitable Friends
-    // response are not Facebook IDs, but rather an invite tokens that can be used in a custom Game Request dialog.
-    //
-    // Note! This is different from the following Graph API:
-    // https://developers.facebook.com/docs/graph-api/reference/user/friends
-    // Which returns the following nodes:
-    // https://developers.facebook.com/docs/graph-api/reference/user/
-    //
-    public static void GetInvitableFriends() {
-        string queryString = "/me/invitable_friends?fields=id,first_name,picture.width(128).height(128)&limit=100";
-        FB.API(queryString, HttpMethod.GET, GetInvitableFriendsCallback);
-    }
-
-    private static void GetInvitableFriendsCallback(IGraphResult result) {
-        //Debug.Log("GetInvitableFriendsCallback");
-        if (result.Error != null) {
-            //Debug.LogError(result.Error);
-            return;
-        }
-        //Debug.Log(result.RawResult);
-
-        // Store /me/invitable_friends result
-        object dataList;
-        if (result.ResultDictionary.TryGetValue("data", out dataList)) {
-            //friends = (List<object>)dataList;
-            //CacheFriends(friends);
-        }
-    }
-
-    private static void CacheFriends(System.Collections.Generic.List<object> newFriends) {
-		int i = 0;
-		friendsIds = new string[newFriends.Count];
-		foreach (Dictionary<string, object> newFriend in newFriends) {
-			
-			string idFriend = newFriend ["id"] as string;
-			//string picture = newFriend ["picture"] as string;
-			string first_name = newFriend ["first_name"] as string;
-			//friendsPicture[idFriend] = picture;
-			friendsFirstname[idFriend] = first_name;
-			//newFriends.
-			//friends.Add("qqq", "www");
-			//friends.Add(new friendsFbStruct() {id = "qqq", first_name = "www", picture = "eee"});
-			//var dd =  friends.Find (x => x.id.Equals("qqq"));
-			//Debug.Log (dd.first_name);
-			//friends[newFriend["id"] as String]["first_name"] = newFriend["first_name"] as String;
-			//friends[newFriend["id"] as String]["picture"] = newFriend["picture"] as String;
-			//Debug.Log ("id friend: " + idFriend);
-			//Debug.Log (idFriend);
-			//Debug.Log (picture);
-			friendsIds.SetValue (idFriend, i);
-			//friendsIds[i] = id;
-			i++;
-		}
-        ctrAnalyticsClass.sendCustomDimension(7, ctrAnalyticsClass.getGroup(friendsIds.Length, ctrAnalyticsClass.friendGroups)); //invites
-
-        //var friend = newFriends[0] as Dictionary<string, object>;
-        //Debug.Log(friend["first_name"] as string);
-        //Debug.Log(friend["id"] as string);
-        /*
-		if (GameStateManager.Friends != null && GameStateManager.Friends.Count > 0)
-		{
-			GameStateManager.Friends.AddRange(newFriends);
-		}
-		else
-		{
-			GameStateManager.Friends = newFriends;
-		}
-		*/
-    }
-    #endregion
-    /*
-	#region Scores
-	// Fetch leaderboard scores from Scores API
-	// Scores API documentation: https://developers.facebook.com/docs/games/scores
-	//
-	// With player scores being written to the Graph API, we now have a data set on
-	// which to build a social leaderboard. By calling the /app/scores endpoint for
-	// your app, with a user access token, you get back a list of the current player's
-	// friends' scores, ordered by score.
-	//
-	public static void GetScores ()
-	{
-		//FB.API("/app/scores?fields=score,user.limit(20)", HttpMethod.GET, GetScoresCallback);
-		FB.API("/app/scores?fields=score,user.limit(20)", HttpMethod.GET, GetScoresCallback);
+	    }
 	}
 
-	private static void GetScoresCallback(IGraphResult result) 
-	{
-		Debug.Log("GetScoresCallback");
-		if (result.Error != null)
-		{
-			Debug.LogError(result.Error);
-			return;
-		}
-		Debug.Log(result.RawResult);
 
-		// Parse scores info
-		var scoresList = new List<object>();
 
-		object scoresh;
-		if (result.ResultDictionary.TryGetValue ("data", out scoresh)) 
-		{
-			scoresList = (List<object>) scoresh;
-		}
-
-		// Parse score data
-		HandleScoresData (scoresList);
-
-		// Redraw the UI
-		GameStateManager.CallUIRedraw();
-	}
-
-	private static void HandleScoresData (List<object> scoresResponse)
-	{
-		var structuredScores = new List<object>();
-		foreach(object scoreItem in scoresResponse) 
-		{
-			// Score JSON format
-			// {
-			//   "score": 4,
-			//   "user": {
-			//      "name": "Chris Lewis",
-			//      "id": "10152646005463795"
-			//   }
-			// }
-
-			var entry = (Dictionary<string,object>) scoreItem;
-			var user = (Dictionary<string,object>) entry["user"];
-			string userId = (string)user["id"];
-
-			if (string.Equals(userId, AccessToken.CurrentAccessToken.UserId))
-			{
-				// This entry is the current player
-				int playerHighScore = GraphUtil.GetScoreFromEntry(entry);
-				Debug.Log("Local players score on server is " + playerHighScore);
-				if (playerHighScore < GameStateManager.Score)
-				{
-					Debug.Log("Locally overriding with just acquired score: " + GameStateManager.Score);
-					playerHighScore = GameStateManager.Score;
-				}
-
-				entry["score"] = playerHighScore.ToString();
-				GameStateManager.HighScore = playerHighScore;
-			}
-
-			structuredScores.Add(entry);
-			if (!GameStateManager.FriendImages.ContainsKey(userId))
-			{
-				// We don't have this players image yet, request it now
-				LoadFriendImgFromID (userId, pictureTexture =>
-					{
-						if (pictureTexture != null)
-						{
-							GameStateManager.FriendImages.Add(userId, pictureTexture);
-							GameStateManager.CallUIRedraw();
-						}
-					});
-			}
-		}
-
-		GameStateManager.Scores = structuredScores;
-	}
-	*/
     #region Friends Img
     // Graph API call to fetch friend picture from user ID returned from FBGraph.GetScores()
     //
@@ -961,98 +366,6 @@ public class ctrFbKiiClass : MonoBehaviour {
 
 
 
-
-
-    //-------------------------------------------VK-----------------------------------------------------
-    /*
-    void OnGetFriendsIdsCompleted(VKRequest arg1)
-    {
-        //проверяем на ошибки
-        if (arg1.error != null)
-        {
-            Debug.Log(arg1.error.error_msg);
-            //FindObjectOfType<GlobalErrorHandler>().Notification.Notify(arg1);
-            return;
-        }
-
-        var dict = Json.Deserialize(arg1.response) as Dictionary<string, object>;
-        List<string> resp2 = new List<string>();
-        try
-        {
-            var resp = (System.Collections.Generic.List<object>)dict["response"];
-            resp2 = new System.Collections.Generic.List<string>();
-            //friendsIdsForVKInviteTemp = resp2;
-            foreach (var item in resp)
-            {
-                resp2.Add(item.ToString());
-            }
-
-            var g = resp.First();
-           var request = new VKRequest()
-            {
-                url = "users.get?user_ids=" + string.Join(",", resp2.ToArray()) + "&count=100&fields=photo_100",
-                CallBackFunction = OnGetFriendsCompleted,
-            };
-            VkApi.VkApiInstance.Call(request);
-        }
-
-        catch (System.Exception ex)
-        {
-
-        }
-
-        
-    }
-    */
-
-    void OnGetFriendsCompleted(VKRequest arg1)
-    {
-        //проверяем на ошибки
-        if (arg1.error != null)
-        {
-            //FindObjectOfType<GlobalErrorHandler>().Notification.Notify(arg1);
-            return;
-        }
-
-        var dict = Json.Deserialize(arg1.response) as Dictionary<string, object>;
-
-        var resp = (Dictionary<string, object>)dict["response"];
-        var items = (List<object>)resp["items"];
-        if (arg1.customParam)
-            friendsIds = new string[items.Count];
-        else
-            friendsIdsForVKInvite = new string[items.Count];
-        var i = 0;
-        if (arg1.customParam) ctrAnalyticsClass.sendCustomDimension(7, ctrAnalyticsClass.getGroup(friendsIds.Length, ctrAnalyticsClass.friendGroups)); //invites
-
-
-        foreach (var item in items)
-        {
-            var friend = VKUser.Deserialize(item);
-            if (arg1.customParam)
-                friends.Add(friend);
-            else
-            
-                friendsForVKInvite.Add(friend);
-
-            if (!string.IsNullOrEmpty(friend.photo_100))
-                {
-                    DownloadImage(friend.photo_100, friend, false);
-                }
-
-            if (arg1.customParam)
-                friendsIds.SetValue(friend.id.ToString(), i);
-            else
-                friendsIdsForVKInvite.SetValue(friend.id.ToString(), i);
-            
-            friendsFirstname[friend.id.ToString()] = friend.first_name;
-            i++;
-
-        }
-        
-
-    }
-
     private void DownloadImage(string url, VKUser user, bool self)
     {
         Action<DownloadRequest> doOnFinish = (d) =>
@@ -1078,75 +391,102 @@ public class ctrFbKiiClass : MonoBehaviour {
     //if player click invite friends - VK
     public void setFriendsForInvite(GameObject go)
     {
-        //Debug.Log("setFriendsForInvite");
+        Debug.Log("socials - setFriendsForInvite: " + go.name);
+
         go.SetActive(true);
-        foreach (var f in friendsForVKInvite)
+        foreach (var f in friendsForInvite)
         {
-            if (go.transform.GetChild(0).GetChild(0).FindChild(f.id + "(Clone)") != null)
+            if (go.transform.GetChild(0).GetChild(0).FindChild(f.id ) != null)
             {
                 //Debug.Log("exist vk friend");
                 continue;
             }
             var friend = Instantiate(vkFriend) as GameObject;
             friend.transform.parent = go.transform.GetChild(0).GetChild(0);
+
             if (friendsImage.ContainsKey(f.id.ToString()))
-                vkFriend.transform.GetChild(0).GetComponent<UITexture>().mainTexture =
+                friend.transform.GetChild(0).GetComponent<UITexture>().mainTexture =
                     friendsImage[f.id.ToString()];
 
             friend.transform.localScale = new Vector3(1, 1, 1);
             friend.transform.localPosition = new Vector3(0, 0, 0);
-            vkFriend.transform.GetChild(0).GetComponent<UIWidget>().depth = 2;
-            vkFriend.transform.GetChild(1).GetComponent<UILabel>().text = f.first_name + " " + f.last_name;
-            vkFriend.name = f.id.ToString();
-            //Debug.Log(vkFriend.name);
-            //vkFriend.name = f.id.ToString();
+
+            friend.transform.GetChild(0).GetComponent<UIWidget>().depth = 2;
+            friend.transform.GetChild(1).GetComponent<UILabel>().text = f.name;
+            friend.name = f.id.ToString();
+
+
+            //orange colors
+            if (ctrProgressClass.progress["ok"] == 1)
+            {
+                friend.transform.GetChild(1).GetComponent<UILabel>().color = new Color32(73, 32, 0, 255);
+                friend.transform.GetChild(2).GetComponent<UI2DSprite>().color = new Color32(213, 93, 1, 255);
+            }
         }
         GameObject.Find("/root/static/level menu/button exit level menu").GetComponent<SpriteRenderer>().sortingOrder = 200;
 
     }
 
-    public void vkInviteFriend(string name)
+    public void inviteFriend(string social, string name)
     {
-        string title = "Play Feed the Spider with me!";
-        string message = "Feed the Spider is cool! Check it out.";
-        Debug.Log(name);
-        VKRequest r2 = new VKRequest()
+        Debug.Log("socials - inviteFriend: " + social + ", id: " + name);
+        if (social == "vk")
         {
-            url = "apps.sendRequest?user_id=" + name + "&text=" + message + "&type=invite&name=" + title,
-            CallBackFunction = OnAppSendRequest
-        };
-        VkApi.VkApiInstance.Call(r2);
+            string title = "Play Feed the Spider with me!";
+            string message = "Feed the Spider is cool! Check it out.";
+            VKRequest r2 = new VKRequest()
+            {
+                url = "apps.sendRequest?user_id=" + name + "&text=" + message + "&type=invite&name=" + title,
+                CallBackFunction = OnInviteFriend,
+                customParam2 = "name"
+            };
+            VkApi.VkApiInstance.Call(r2);
+        }
+        if (social == "ok")
+        {
+            Dictionary<string, string> args = new Dictionary<string, string>();
+            args["text"] = "Join+me+in+this+awesome+game%21";
+            args["uids"] = name;
+            args["devices"] = "Android,IOS";
+            OK.API("sdk.appInvite", Method.GET, args, response =>
+            {
+                Debug.Log(response.Text);
+                if (response.Error == "" && response.Object["count"].ToString() == "1")
+                    OnInviteFriend(name);
+            });
+
+
+        }
     }
 
-    public void changeUIPanelFriends()
+    public virtual void OnInviteFriend<T>(T result)
     {
-        if (ctrProgressClass.progress["fb"] == 1 && SceneManager.GetActiveScene().name == "level menu")
+        string id = "";
+        //vk 
+        if (result.GetType() == typeof(VKRequest))
         {
-            
-            GameObject.Find("/root/static/level menu/facebook").transform.GetChild(0).gameObject.SetActive(false);
-            GameObject.Find("/root/static/level menu/facebook").transform.GetChild(1).gameObject.SetActive(true);
+            VKRequest r = result as VKRequest;
+            if (r.error != null)
+            {
+                Debug.Log(r.error.error_msg);
+                return;
+            }
+            Debug.Log(r.response);
+            id = r.customParam2;
+            GameObject.Find("/root/static/level menu/vk_ok/invite friends/scroll/friends grid/" + id +
+                            "/button ad coins/label get booster").GetComponent<UILabel>().text = "приглашен";
         }
-        if (ctrProgressClass.progress["vk"] == 1 && SceneManager.GetActiveScene().name == "level menu")
+        //ok
+        else
         {
-            GameObject.Find("/root/static/level menu/vk").transform.GetChild(0).gameObject.SetActive(false);
-            GameObject.Find("/root/static/level menu/vk").transform.GetChild(1).gameObject.SetActive(true);
+            id = result.ToString();
+            GameObject.Find("/root/static/level menu/vk_ok/invite friends ok/scroll/friends grid/" + id +
+                "/button ad coins/label get booster").GetComponent<UILabel>().text = "приглашен";
         }
+        //change label text = "приглашен"
+
+
     }
-
-    public virtual void OnAppSendRequest(VKRequest r)
-    {
-        if (r.error != null)
-        {
-            Debug.Log(r.error.error_msg);
-            //GlobalErrorHandler.Instance.Notification.Notify(r);
-            return;
-        }
-        Debug.Log(r.response);
-    
-    }
-
-
-
 
     public void clickJoinGroup(string url)
     {
@@ -1165,7 +505,12 @@ public class ctrFbKiiClass : MonoBehaviour {
         {
             FB.GameGroupJoin("1677948472504355", instance.onGroupResult);
         }
+        if (ctrProgressClass.progress["ok"] == 1)
+        {
+            
+        }
     }
+
 
     public void clickLogout()
     {
@@ -1181,8 +526,28 @@ public class ctrFbKiiClass : MonoBehaviour {
             FB.LogOut();
             GameObject.Find("/settings folder/settings/facebook").SetActive(false);
         }
+        if (ctrProgressClass.progress["ok"] == 1)
+        {
+            OK.Logout();
+            GameObject.Find("/settings folder/settings/ok").SetActive(false);
+        }
+
+        //null static vars
+        friendsFirstname = new Dictionary<string, string>();
+        friendsImage = new Dictionary<string, Texture2D>();
+        friendsIds = null;
+        userId = "";
+        isLoginKii = false;
+        friendsScore = null;
+        friendsLastLevel = new Dictionary<string, string>();
+
+
+
+        friendsForInvite = new List<FriendForInvite>();
+
         ctrProgressClass.progress["fb"] = 0;
         ctrProgressClass.progress["vk"] = 0;
+        ctrProgressClass.progress["ok"] = 0;
         ctrProgressClass.saveProgress();
         
     }
@@ -1190,6 +555,621 @@ public class ctrFbKiiClass : MonoBehaviour {
     public void  onGroupResult<T>(T result)
     {
         Debug.Log("onGroupResult");
+    }
+
+    //------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //init sdk
+    private void initializeSDK()
+    {
+        Debug.Log("socials - initializeSDK");
+        //fb
+        if (staticClass.socialDefault() == "fb")
+        {
+            if (!FB.IsInitialized)
+            {
+                FB.Init(() =>
+                {
+                    onInitializeSDK("fb");
+                }); 
+            }
+        }
+        
+        else
+        {
+            //vk
+            d = VkApi.VkApiInstance.gameObject.GetComponent<Downloader>();
+            friendManagerVK = VkApi.VkApiInstance.gameObject.GetComponent<FriendManager>();
+            onInitializeSDK("vk");
+            
+            //ok
+            OK.Init(initSuccess =>
+            { 
+                if (initSuccess)
+                    onInitializeSDK("ok");
+            });
+        }
+    }
+
+    //after init sdk check if login
+    private void onInitializeSDK(string sdk)
+    {
+        Debug.Log("socials - onInitializeSDK: " + sdk);
+        if (sdk == "fb")
+        {
+            if (FB.IsInitialized)
+            {
+                if (FB.IsLoggedIn && ctrProgressClass.progress["fb"] == 1)
+                    onLogin("fb");
+            }
+        }
+        else if (sdk == "vk")
+        {
+            if (VkApi.VkApiInstance.IsUserLoggedIn && ctrProgressClass.progress["vk"] == 1)
+                onLogin("vk");
+        }
+        else if (sdk == "ok")
+        {
+            if (OK.IsLoggedIn && ctrProgressClass.progress["ok"] == 1)
+                onLogin("ok");
+        }
+    }
+
+    //connect on button click
+    public void connect(string social)
+    {
+        Debug.Log("socials - connect: " + social);
+        switch (social)
+        {
+            case "fb":
+                if (FB.IsInitialized)
+                {
+                    var perms = new List<string>() {"public_profile", "email", "user_friends"};
+                    FB.LogInWithReadPermissions(perms, onLoginFB);
+                }
+                break;
+            case "vk":
+                VkApi.VkSetts.forceOAuth = false;
+                VkApi.VkApiInstance.LoggedIn += onLoginVK;
+                VkApi.VkApiInstance.Login();
+                break;
+            case "ok":
+                OK.Auth(success => onLogin("ok"));
+                break;
+
+        }
+    }
+
+    //after login: request user, friends, save social
+    private void onLogin(string social)
+    {
+        Debug.Log("socials - onLogin: " + social);
+        switch(social)
+            {
+            case "fb":
+                break;
+            case "vk":
+                try
+                {
+                    VkApi.VkApiInstance.LoggedIn -= onLoginVK;
+                }
+                catch (System.Exception ex)
+                {
+
+                }
+                userId = VkApi.CurrentToken.user_id;
+
+                requestFriendsInvite();
+                break;
+            case "ok":
+                //Console.WriteLine("Default case");
+            break;
+        }
+
+
+        requestUser(social);
+        requestFriendsApp(social);
+        //delete other socials
+        ctrProgressClass.progress["fb"] = 0;
+        ctrProgressClass.progress["vk"] = 0;
+        ctrProgressClass.progress["ok"] = 0;
+        ctrProgressClass.progress[social] = 1;
+
+
+        ctrProgressClass.saveProgress();
+
+        changeUIPanelFriends(social);
+    }
+    
+    //change ui panel friends
+    public void changeUIPanelFriends(string social)
+    {
+        if (SceneManager.GetActiveScene().name == "level menu")
+        {
+            if (social == "vk" || social == "ok") social = "vk_ok";
+                GameObject.Find("/root/static/level menu/" + social).transform.GetChild(0).gameObject.SetActive(false);
+            if (ctrProgressClass.progress["vk"] == 1)
+                GameObject.Find("/root/static/level menu/" + social).transform.GetChild(1).gameObject.SetActive(true);
+            if (ctrProgressClass.progress["ok"] == 1)
+                GameObject.Find("/root/static/level menu/" + social).transform.GetChild(3).gameObject.SetActive(true);
+
+        }
+
+    }
+    //action for fb
+    private void onLoginFB(ILoginResult result)
+    {
+        onLogin("fb");
+    }
+    
+    //action for vk
+    private void onLoginVK()
+    {
+        onLogin("vk");
+    }
+
+    private void requestUser(string social)
+    {
+        Debug.Log("socials - requestUser: " + social);
+        switch (social)
+        {
+            case "fb":
+                string queryString = "/me?fields=id,first_name,age_range,gender,picture.width(100).height(100)";
+                FB.API(queryString, HttpMethod.GET, onRequestUser);
+                break;
+            case "vk":
+                VKRequest r = new VKRequest
+                {
+                    url = "users.get?user_ids=" + userId + "&fields=photo_100,sex,bdate",
+                    CallBackFunction = onRequestUser
+                };
+                VkApi.VkApiInstance.Call(r);
+                break;
+            case "ok":
+                string[] fields =  { OKUserInfo.Field.first_name, OKUserInfo.Field.last_name, OKUserInfo.Field.age, OKUserInfo.Field.gender, OKUserInfo.Field.email, OKUserInfo.Field.uid, OKUserInfo.Field.pic128x128};
+                OK.GetCurrentUser(userInfo =>
+                {
+                    onRequestUser(userInfo);
+                }, fields);
+                break;
+
+        }
+
+    }
+
+    private void requestFriendsApp(string social)
+    {
+        Debug.Log("socials - requestFriendsApp: " + social);
+        switch (social)
+        {
+            case "fb":
+                string queryString = "/me/friends?fields=id,first_name,picture.width(128).height(128)&limit=100";
+                FB.API(queryString, HttpMethod.GET, onRequestFriends);
+                break;
+            case "vk":
+                var request = new VKRequest()
+                {
+                    url = "apps.getFriendsList?user_id=" + userId + "&type=request&extended=1&count=100&fields=photo_100",
+                    CallBackFunction = onRequestFriends,
+                    customParam = true
+                };
+                VkApi.VkApiInstance.Call(request);
+                break;
+            case "ok":
+
+
+                OK.API(OKMethod.Friends.get, Method.GET, response =>
+                {
+                    ArrayList uidList = response.Array;
+                    OK.GetAppUsers(appUsers =>
+                    {
+                        KeyValuePair<bool, string[]> kv1 = new KeyValuePair<bool, string[]>(true, appUsers);
+                        //app friends
+                        onRequestFriends(kv1);
+
+                        foreach (string appUser in appUsers)
+                        {
+                            uidList.Remove(appUser);
+                        }
+                        string[] uids = new string[uidList.Count];
+                        for (int i = 0; i < uidList.Count; i++)
+                        {
+                            uids[i] = uidList[i].ToString();
+                        }
+
+                        KeyValuePair<bool, string[]> kv2 = new KeyValuePair<bool, string[]>(false, uids);
+                        //for invite friends
+                        onRequestFriends(kv2);
+                    });
+                });
+
+
+
+               
+                break;
+
+        }
+    }
+
+    //не установившие приложение
+    private void requestFriendsInvite()
+    {
+        var request2 = new VKRequest()
+        {
+            url = "apps.getFriendsList?user_id=" + userId + "&type=invite&extended=1&count=100&fields=photo_100",
+            CallBackFunction = onRequestFriends,
+            customParam = false
+        };
+        VkApi.VkApiInstance.Call(request2);
+    }
+
+    private void onRequestUser <T>(T result)
+    {
+        Debug.Log("socials - onRequestUser: " + result.GetType());
+        //fb
+        if (result.GetType() == typeof(GraphResult))
+        {
+            GraphResult r =  result as GraphResult;
+            //if error
+            if (r.Error != null) return;
+
+            //age
+            Dictionary<string, object> ageRange;
+            var age = 0F;
+            if (r.ResultDictionary.TryGetValue("age_range", out ageRange))
+            {
+                var d = ageRange["min"];
+                age = float.Parse(ageRange["min"].ToString());
+            }
+
+            //gender
+            var gender = "";
+            r.ResultDictionary.TryGetValue("gender", out gender);
+
+            //id
+            r.ResultDictionary.TryGetValue("id", out userId);
+
+            //Fetch player profile picture from the URL returned
+            string playerImgUrl = DeserializePictureURL(r.ResultDictionary);
+
+            //сделать для всех
+            LoadImgFromURL(playerImgUrl, delegate (Texture2D pictureTexture)
+            {
+                // Setup the User's profile picture
+                if (pictureTexture != null)
+                {
+                    userImage = pictureTexture;
+                }
+
+            });
+
+            //for analytics
+            string fname;
+            r.ResultDictionary.TryGetValue("first_name", out fname);
+            string lname;
+            r.ResultDictionary.TryGetValue("last_name", out lname);
+            string email;
+            r.ResultDictionary.TryGetValue("email", out email);
+
+            sendSocialAnalytics(age, gender, "fb", fname, lname, email);
+        }
+
+
+        //vk
+        if (result.GetType() == typeof(VKRequest))
+        {
+            VKRequest r = result as VKRequest;
+            if (r.error != null) return;
+
+            //now we need to deserialize response in json from vk server
+            var dict = Json.Deserialize(r.response) as Dictionary<string, object>;
+            var users = (System.Collections.Generic.List<object>)dict["response"];
+            var user = VKUser.Deserialize(users[0]);
+
+            //убрать
+            if (!string.IsNullOrEmpty(user.photo_100))
+            {
+                DownloadImage(user.photo_100, user, true);
+            }
+
+            //for analytics
+            int age = 0;
+
+            try
+            {
+                if (!string.IsNullOrEmpty(user.bdate))
+                    age = Mathf.RoundToInt(((float) (((DateTime.Now - DateTime.Parse(user.bdate)).TotalDays))/365));
+            }
+            catch (Exception)
+            {
+                
+            }
+            var gender = "";
+            if (user.sex == 1)
+                gender = "female";
+            else if (user.sex == 2)
+                gender = "male";
+
+            sendSocialAnalytics(age, gender, "vk", user.first_name, user.last_name);
+
+        }
+
+        //ok
+        if (result.GetType() == typeof(OKUserInfo))
+        {
+            OKUserInfo r = result as OKUserInfo;
+            if (r.pic128x128 != "") //сделать для всех
+                LoadImgFromURL(r.pic128x128, delegate (Texture2D pictureTexture)
+                {
+                    // Setup the User's profile picture
+                    if (pictureTexture != null)
+                    {
+                        userImage = pictureTexture;
+                    }
+
+                });
+            //for analytics
+            userId = r.uid;
+            sendSocialAnalytics(r.age, r.gender, "ok", r.firstName, r.lastName);
+        }
+
+    }
+
+    private void onRequestFriends<T>(T result)
+    {
+        var social = "";
+        var flagSendAnalytics = false;
+        Debug.Log("socials - onRequestFriends: " + result.GetType());
+        //fb
+        if (result.GetType() == typeof(GraphResult))
+        {
+            social = "fb";
+            GraphResult r = result as GraphResult;
+            //if error
+            if (r.Error != null) return;
+
+            object dataList;
+            if (r.ResultDictionary.TryGetValue("data", out dataList))
+            {
+                List<object> newFriends = (List<object>) dataList;
+                int i = 0;
+                friendsIds = new string[newFriends.Count];
+                foreach (Dictionary<string, object> newFriend in newFriends)
+                {
+
+                    string idFriend = newFriend["id"] as string;
+                    string first_name = newFriend["first_name"] as string;
+
+                    friendsFirstname[idFriend] = first_name;
+
+                    friendsIds.SetValue(idFriend, i);
+
+                    i++;
+                }
+
+            }
+            flagSendAnalytics = true;
+        }
+
+
+        //vk
+        if (result.GetType() == typeof(VKRequest))
+        {
+            social = "vk";
+            VKRequest r = result as VKRequest;
+            if (r.error != null) Debug.Log("socials - onRequestFriends vk: error");
+            if (r.error != null) return;
+
+            var dict = Json.Deserialize(r.response) as Dictionary<string, object>;
+
+            var resp = (Dictionary<string, object>)dict["response"];
+            var items = (List<object>)resp["items"];
+            if (r.customParam)
+                friendsIds = new string[items.Count];
+            //else
+            //friendsIdsForInvite = new string[items.Count];
+            Debug.Log("socials - onRequestFriends vk friends count: " + items.Count);
+            var i = 0;
+            if (r.customParam) flagSendAnalytics = true;
+
+            
+            foreach (var item in items)
+            {
+                var friend = VKUser.Deserialize(item);
+                var f = new FriendForInvite();
+                f.name = friend.last_name + " " + friend.first_name;
+                f.id = friend.id.ToString();
+
+                if (!r.customParam)
+                    //friends.Add(friend);
+                    //else
+
+                    friendsForInvite.Add(f);
+                if (r.customParam)
+                    Debug.Log("f.id: " + f.id);
+
+                    if (!string.IsNullOrEmpty(friend.photo_100))
+                {
+                    DownloadImage(friend.photo_100, friend, false);
+                }
+
+                if (r.customParam)
+                    friendsIds.SetValue(friend.id.ToString(), i);
+                //else
+                    //friendsIdsForInvite.SetValue(friend.id.ToString(), i);
+
+                friendsFirstname[friend.id.ToString()] = friend.first_name;
+                i++;
+
+            }
+
+        }
+
+        //ok
+        if (result.GetType() == typeof(KeyValuePair<bool, string[]>))
+        {
+            social = "ok";
+            KeyValuePair<bool, string[]>?  r = result as KeyValuePair<bool, string[]>?;
+            string[] fields = {OKUserInfo.Field.pic128x128, OKUserInfo.Field.first_name, OKUserInfo.Field.uid, OKUserInfo.Field.last_name };
+            if (r.Value.Key)
+                friendsIds = new string[r.Value.Value.Length];
+            //else
+                //friendsIdsForInvite = new string[r.Value.Value.Length];
+
+            OK.GetInfo(users =>
+            {
+                var i = 0;
+                foreach (var friend in users)
+                {
+                    friendsFirstname[friend.uid] = friend.firstName;
+
+                    if (r.Value.Key)
+                        friendsIds.SetValue(friend.uid, i);
+                    //else
+                        //friendsIdsForInvite.SetValue(friend.uid, i);
+
+                    //load friend icon
+                    LoadImgFromURL(friend.pic128x128, delegate (Texture2D pictureTexture)
+                    {
+                        if (pictureTexture != null)
+                        {
+                            friendsImage[friend.uid] = pictureTexture;
+                        }
+
+                    });
+
+                    var friendOK = new FriendForInvite();
+                    //if (r.customParam)
+                    //    friends.Add(friend);
+                    //else
+                    friendOK.id = friend.uid;
+                    friendOK.name = friend.lastName + " " + friend.firstName;
+
+                    if (!r.Value.Key)
+                        friendsForInvite.Add(friendOK);
+
+                    i++;
+                }
+                if (r.Value.Key) flagSendAnalytics = true;
+                
+            }, r.Value.Value, fields);
+
+        }
+
+        if (flagSendAnalytics) loginKii(social);
+        if (flagSendAnalytics) ctrAnalyticsClass.sendCustomDimension(7, ctrAnalyticsClass.getGroup(friendsIds.Length, ctrAnalyticsClass.friendGroups)); //invites
+    }
+
+    private void loginKii(string social)
+    {
+        Debug.Log("socials - loginKii: " + social);
+        if (social == "fb")
+        {
+            Dictionary<string, string> accessCredential = new Dictionary<string, string>();
+            accessCredential.Add("accessToken", Facebook.Unity.AccessToken.CurrentAccessToken.TokenString);
+            KiiUser.LoginWithSocialNetwork(accessCredential, KiiCorp.Cloud.Storage.Connector.Provider.FACEBOOK, (KiiUser user, Exception exception) =>
+            {
+                onLoginKii("");
+            });
+        }
+        else
+        {
+            //vk or ok
+            string username = social + userId;
+            string password = "123ABC";
+            Debug.Log("socials - kii user: " + username);
+
+            KiiUser.LogIn(username, password, (KiiUser user, Exception e) =>
+            {
+                if (e != null)
+                {
+                    KiiUser.Builder builder;
+                    builder = KiiUser.BuilderWithName(username);
+                    KiiUser userNew = builder.Build();
+
+                    userNew.Register("123ABC", (KiiUser registeredUser, Exception ee) => {
+                        if (ee != null)
+                        return;
+                        else onLoginKii(social);
+                    });
+                }
+                else
+                {
+                    Debug.Log("socials - kii user isset");
+                    onLoginKii(social);
+                }
+            });
+        }
+    }
+
+    private void onLoginKii(string social)
+    {
+        Debug.Log("socials - onLoginKii");
+        isLoginKii = true;
+
+        KiiBucket bucket = Kii.Bucket("scores");
+
+        //save user scores
+        KiiObject kiiObj = bucket.NewKiiObject(social + userId);
+
+        for (int i = 1; i <= 100; i++)
+        {
+            int y = ctrProgressClass.progress["score" + i + "_1"] + ctrProgressClass.progress["score" + i + "_2"];
+            if (y <= 0) break;
+            kiiObj["level" + i] = y;
+            kiiObj["lastLevel"] = "level" + i;
+
+        }
+
+        kiiObj["userFbId"] = userId;
+
+        //запись, если есть хотя бы 1 уровень
+        if (kiiObj.Has("level1"))
+        {
+            kiiObj.SaveAllFields(true, (KiiObject savedObj, Exception e) => {
+            });
+        }
+
+        if (friendsIds != null)
+        {
+            string[] friendsKii = new string [friendsIds.Length];
+            for (int i = 0; i < friendsIds.Length; i++)
+            {
+                friendsKii[i] = social + friendsIds[i];
+            }
+            KiiQuery query = new KiiQuery(
+            KiiClause.InWithStringValue("_id", friendsKii)
+            );
+            query.Limit = 50;
+            bucket.Query(query, (KiiQueryResult<KiiObject> result, Exception e) => {
+                if (e != null)
+                {
+                    return;
+                }
+                friendsScore = result;
+                setFriendsLastLevel();
+            });
+        }
+        if (GameObject.Find("/root/static/level menu") != null) setBestGamers(GameObject.Find("/root/static/level menu").transform, ctrProgressClass.progress["currentLevel"]);
+
+    }
+    private void sendSocialAnalytics(float age, string gender, string social, string fname, string lname, string email = "")
+    {
+        if (age != 0) ctrAnalyticsClass.sendProfileAttribute("age", age.ToString());
+        if (ctrAnalyticsClass.developerIds.Contains(userId))
+            gender = "developer";
+        if (gender != "") ctrAnalyticsClass.sendProfileAttribute("gender", gender);
+
+        ctrAnalyticsClass.sendProfileAttribute("social id", userId);
+        
+        //for analytics - Dimension
+        if (age != 0) ctrAnalyticsClass.sendCustomDimension(0, ctrAnalyticsClass.getGroup((float)age, ctrAnalyticsClass.ageGroups)); //age
+        if (gender != "") ctrAnalyticsClass.sendCustomDimension(1, gender); //gender
+        ctrAnalyticsClass.sendCustomDimension(6, social); //Authorisation status
+
+        if (fname != "") ctrAnalyticsClass.setCustomerFirstName(fname);
+        if (lname != "") ctrAnalyticsClass.setCustomerLastName(lname);
+        if (fname != "" || lname != "") ctrAnalyticsClass.setCustomerFullName(fname + " " + lname);
+        if (email != "") ctrAnalyticsClass.setCustomerEmail(email);
     }
 
 }

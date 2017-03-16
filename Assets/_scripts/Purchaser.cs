@@ -256,7 +256,7 @@ namespace CompleteProject
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
         {
             Debug.Log("ProcessPurchase");
-            marketClass.instance.setRewardForPurchase(args.purchasedProduct.definition.id);
+            marketClass.instance.setRewardForPurchase(args.purchasedProduct.definition.id, args.purchasedProduct.transactionID);
             
             // A consumable product has been purchased by this user.
             /*

@@ -19,14 +19,18 @@ public class ctrAnalyticsClass: MonoBehaviour
     public static List<float> paymentGroups = new List<float> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30 };
     public static List<float> revenueGroups = new List<float> { 0, 0.6F, 1, 1.5F, 2, 3, 5, 10, 20, 30 };
     //public static List<int> levelGroups = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,  };
-    public static List<float> sessionGroups = new List<float> { 1, 2, 3, 4, 5, 10, 25, 50, 100, 200  };
+    public static List<float> sessionGroups = new List<float> { 0, 1, 2, 3, 4, 5, 10, 25, 50, 100, 200  };
     public static List<float> friendGroups = new List<float> { 0, 1, 5, 10, 25, 50, 100 };
 
-    public 
+    void awake()
+    {
+
+    }
 
     // Use this for initialization
     void Start()
     {
+        
         if (!Debug.isDebugBuild) Debug.logger.logEnabled = false;
         Debug.Log("ctrAnalyticsClass start");
         LocalNotification.CancelAllNotifications();
@@ -53,11 +57,6 @@ public class ctrAnalyticsClass: MonoBehaviour
         startSession();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public static void sendEvent(string nameEvent, Dictionary<string, string> attributes2, long purchase = 0)
     {
@@ -67,9 +66,11 @@ public class ctrAnalyticsClass: MonoBehaviour
 
         Dictionary<string, string> attributes = new Dictionary<string, string> (attributes2);
         attributes.Add("level", ctrProgressClass.progress["lastLevel"].ToString());
-        attributes.Add("session number", ctrProgressClass.progress["sessionCount"].ToString());
+        var s = ctrProgressClass.progress["sessionCount"];
+        if (s == 0) s = 1;
+        attributes.Add("session number", s.ToString());
         attributes.Add("social id", ctrFbKiiClass.userId);
-        attributes.Add("gems count", ctrProgressClass.progress["gems"].ToString());
+        attributes.Add("keys count", ctrProgressClass.progress["gems"].ToString());
         foreach (var attr in attributes)
         {
             str += attr.Key + ": " + attr.Value + "\n";
@@ -114,8 +115,10 @@ public class ctrAnalyticsClass: MonoBehaviour
     public void OnApplicationPause(bool flag)
     {
         Debug.Log("OnPause: " + flag);
+        if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
         if (flag)
         {
+
             //pause
             ctrProgressClass.progress["sessionEnd"] = (int) DateTime.Now.TotalSeconds();
             ctrProgressClass.saveProgress();
@@ -125,17 +128,14 @@ public class ctrAnalyticsClass: MonoBehaviour
         }
         else
         {
+            //PlayerPrefs.DeleteKey("progress");
+            //ctrProgressClass.getProgress();
+            //Debug.Log("awake");
+
             startSession();
         }
     }
-/*
-    void OnDestroy()
-    {
-        Debug.Log("Analytics OnDestroy");
-        ctrProgressClass.progress["sessionEnd"] = (int)DateTime.Now.TotalSeconds();
-        ctrProgressClass.saveProgress();
-    }
-*/
+
     void OnApplicationQuit()
     {
         Debug.Log("OnApplicationQuit");
@@ -147,10 +147,14 @@ public class ctrAnalyticsClass: MonoBehaviour
     public void startSession()
     {
         if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
+
+        Debug.Log("session end: " + ctrProgressClass.progress["sessionEnd"]);
+        Debug.Log("session end 2: " + (int)DateTime.Now.AddSeconds(-sessionTimeout).TotalSeconds());
         if (ctrProgressClass.progress["sessionEnd"] < (int) DateTime.Now.AddSeconds(-sessionTimeout).TotalSeconds())
         {
+            ctrProgressClass.progress["sessionCount"]++;
             lsEnergyClass.checkEnergy(true);
-            if (ctrProgressClass.progress["sessionStart"] != 0)
+            if (ctrProgressClass.progress["sessionStart"] > 1)
             {
                 sendEvent("Session End", new Dictionary<string, string>
                 {
@@ -178,9 +182,11 @@ public class ctrAnalyticsClass: MonoBehaviour
                     {"energy", lsEnergyClass.energy.ToString()}
                 });
 
+            Debug.Log("analytics session count: " + ctrProgressClass.progress["sessionCount"]);
+            Debug.Log("analytics groups count: " + ctrAnalyticsClass.sessionGroups.Count);
+            Debug.Log("analytics session group: " + getGroup(ctrProgressClass.progress["sessionCount"], ctrAnalyticsClass.sessionGroups));
             sendCustomDimension(5, getGroup(ctrProgressClass.progress["sessionCount"], ctrAnalyticsClass.sessionGroups)); //sessionCount
-            ctrProgressClass.progress["sessionCount"]++;
-
+            
             if (ctrProgressClass.progress["firstLaunch"] == 0)
             {
                 ctrProgressClass.progress["dailyBonus"] = (int)DateTime.UtcNow.TotalSeconds();

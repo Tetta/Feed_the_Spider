@@ -27,6 +27,6 @@ namespace com.playGenesis.VkUnityPlugin
 		public bool needsToBeeConfirmed;
 
         public bool customParam = false;
-
+        public string  customParam2 = "";
     }
 }

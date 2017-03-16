@@ -516,8 +516,19 @@ public class staticClass
             Application.systemLanguage.ToString() == "Ukrainian" ||
             Application.systemLanguage.ToString() == "Belarusian"
         )
+        {
+            ctrProgressClass.progress["fb"] = 0;
+
             return "vk";
-        else return "fb";
+
+        }
+        else
+        {
+            ctrProgressClass.progress["vk"] = 0;
+            ctrProgressClass.progress["ok"] = 0;
+
+            return "fb";
+        }
     }
 
     public static Dictionary<int, int> levelBlocks = new Dictionary<int, int>

@@ -15,7 +15,7 @@
   <application android:name="com.localytics.android.unity.LocalyticsApplication" android:icon="@drawable/app_icon" android:label="@string/app_name" android:debuggable="true">
     <receiver android:name="net.agasper.unitynotification.UnityNotificationManager">
     </receiver>
-    <meta-data android:name="LOCALYTICS_APP_KEY" android:value="fc631941d160eeb3ae14250-16d5b2ca-e200-11e6-8aad-008cc99655f0" />
+    <meta-data android:name="LOCALYTICS_APP_KEY" android:value="2977d016074e73afa5e6211-d5a72c9a-030b-11e7-d5e1-00b7cfea4d90" />
     <meta-data android:name="LOCALYTICS_PUSH_PROJECT_ID" android:value="\ YOUR_PUSH_PROJECT_ID" />
     <activity android:name="com.localytics.android.unity.LocalyticsUnityPlayerActivity" android:label="@string/app_name" android:launchMode="singleTask" android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale">
       <intent-filter>
@@ -25,6 +25,43 @@
       <meta-data android:name="android.app.lib_name" android:value="unity" />
       <meta-data android:name="unityplayer.ForwardNativeEventsToDalvik" android:value="false" />
     </activity>
+
+
+
+    <!-- ok-->
+    <activity android:name="ru.odnoklassniki.unity.OKAndroidPlugin"
+ android:label="@string/app_name"
+android:hardwareAccelerated="true"
+     
+ android:windowSoftInputMode="adjustResize"
+>
+      <intent-filter>
+        <data android:scheme="okauth" android:host="ok1250265856" />
+      </intent-filter>
+      <meta-data android:name="android.app.lib_name" android:value="unity" />
+      <meta-data android:name="unityplayer.ForwardNativeEventsToDalvik"
+     android:value="true" />
+    </activity>
+    <activity android:name="ru.odnoklassniki.unity.webview.OKWVActivity"
+     android:label="@string/app_name"
+     android:hardwareAccelerated="true"
+     android:windowSoftInputMode="adjustResize"
+>
+      <meta-data android:name="android.app.lib_name" android:value="unity" />
+      <meta-data android:name="unityplayer.ForwardNativeEventsToDalvik"
+     android:value="true" />
+    </activity>
+
+    <!-- ok end -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <activity android:name="com.unity3d.player.VideoPlayer" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|uiMode|touchscreen">
     </activity>
     <receiver android:name="com.kii.cloud.unity.GCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
@@ -41,6 +78,10 @@
       </intent-filter>
     </receiver>
     <activity android:name="com.localytics.android.PushTrackingActivity" />
+
+
+    <activity android:name="ru.odnoklassniki.unity.auth.AppAuthorization"/>
+
     <!-- Localytics Acquisition Tracking -->
     <receiver android:name="com.localytics.android.ReferralReceiver" android:exported="true">
       <intent-filter>
@@ -56,6 +97,12 @@
     <activity android:name="com.facebook.unity.FBUnityCreateGameGroupActivity" />
     <activity android:name="com.facebook.unity.FBUnityJoinGameGroupActivity" />
     <activity android:name="com.facebook.unity.AppInviteDialogActivity" />
+    
+    
+
+
+   
+
     <!--
     <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="fb247277362322080" />
     <provider android:name="com.facebook.FacebookContentProvider" android:authorities="com.facebook.app.FacebookContentProvider247277362322080" android:exported="true" />

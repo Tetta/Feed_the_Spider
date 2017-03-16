@@ -6,10 +6,10 @@ using Facebook.Unity;
 
 public class ctrProgressClass {
 	static public Dictionary<string, int> progress = new Dictionary<string, int>();
+    static public string progressSaved = "";
 
-	static public void saveProgress() {
-        Debug.Log("saveProgress");
-	    //progress["level6"] = 0;
+    static public void saveProgress() {
+        //progress["level6"] = 0;
         //progress["score6_1"] = 0;
         //progress["score6_2"] = 0;
 
@@ -18,13 +18,28 @@ public class ctrProgressClass {
 			if (progressDefault.ContainsKey(item.Key)) if (progress[item.Key] != progressDefault[item.Key]) strProgress += item.Key + "=" + item.Value + ";";
 		}
 
-        PlayerPrefs.SetString("progress", strProgress);
-		PlayerPrefs.Save();
-	}
+        if (progressSaved != strProgress)
+        {
+            Debug.Log("saveProgress");
+            PlayerPrefs.SetString("progress", strProgress);
+            PlayerPrefs.Save();
+            progressSaved = strProgress;
+        }
+    }
 
 	static public void getProgress() {
 
         string strProgress = PlayerPrefs.GetString("progress");
+	    progressSaved = strProgress;
+
+        if (strProgress == "")
+	    {
+            //send analytics dimentions
+            ctrAnalyticsClass.sendCustomDimension(5, "1"); //sessionCount
+            ctrAnalyticsClass.sendCustomDimension(4, "1"); //level
+            ctrAnalyticsClass.sendCustomDimension(2, "0"); //paymentCount
+            ctrAnalyticsClass.sendCustomDimension(3, "0"); //revenue
+        }
 
         progress = new Dictionary<string, int> (progressDefault);
 
@@ -56,7 +71,7 @@ public class ctrProgressClass {
     static private Dictionary<string, int> progressDefault = new Dictionary<string, int>{
 		{"googlePlay",0}, {"lastLevel",0}, {"currentLevel",1},{"coins",100},{"gems",0},{"energyTime",0},{"energy",0},{"energyInfinity",0},
         {"hints",0},{"webs",0},{"collectors",0},{"teleports",0},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
-		{"everyplay",0},{"firstPurchase",0},{"fb",0},{"vk",0},
+		{"everyplay",0},{"firstPurchase",0},{"fb",0},{"vk",0},{"ok",0},
         {"boostersWhite",0 }, {"boostersGreen",0 }, {"boostersBlue",0 }, {"boostersPurple",0 },
         {"berryRare", UnityEngine.Random.Range(2, 6)}, {"hatRare", UnityEngine.Random.Range(2, 6)},{"skinRare", UnityEngine.Random.Range(2, 6)},
 
@@ -69,7 +84,7 @@ public class ctrProgressClass {
 
         {"tutorialEnergy",1}, {"tutorialBuy",0}, {"tutorialHint",0}, {"tutorialBonus",0}, {"tutorialDream",0},  {"tutorialAdCoins",0},  {"tutorialSale",0}, {"tutorialMap",0},
 
-        {"sessionStart",0}, {"sessionEnd",0}, {"sessionCount",1}, {"levelPlayCount",0}, {"winCount",0}, {"firstLaunch", 0}, {"paymentCount", 0}, {"revenue", 0},
+        {"sessionStart",0}, {"sessionEnd",0}, {"sessionCount",0}, {"levelPlayCount",0}, {"winCount",0}, {"firstLaunch", 0}, {"paymentCount", 0}, {"revenue", 0},
 
         {"level1",0},{"level2",0},{"level3",0},{"level4",0},{"level5",0},{"level6",0},{"level7",0},{"level8",0},{"level9",0},{"level10",0},
 		{"level11",0},{"level12",0},{"level13",0},{"level14",0},{"level15",0},{"level16",0},{"level17",0},{"level18",0},{"level19",0},{"level20",0},
@@ -122,7 +137,7 @@ public class ctrProgressClass {
 	static private Dictionary<string, int> progressCheat = new Dictionary<string, int>{
 		{"googlePlay",0}, {"lastLevel",99}, {"currentLevel",1},{"coins",10000},{"gems",200},{"energyTime", 0},{"energy",4}, {"energyInfinity", 0},
         {"hints",99},{"webs",99},{"collectors",99},{"teleports",99},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
-		{"everyplay",0},{"firstPurchase",1},{"fb",0},{"vk",0},
+		{"everyplay",0},{"firstPurchase",1},{"fb",0},{"vk",0},{"ok",0},
 
         {"boostersWhite",0 }, {"boostersGreen",220 }, {"boostersBlue",330 }, {"boostersPurple",110 },
         {"berryRare", 2 }, {"hatRare",2},{"skinRare", 4},
@@ -136,7 +151,7 @@ public class ctrProgressClass {
 
         {"tutorialEnergy",1}, {"tutorialBuy",0}, {"tutorialHint",0}, {"tutorialBonus",0}, {"tutorialDream",0},  {"tutorialAdCoins",0},  {"tutorialSale",0}, {"tutorialMap",0},
 
-        { "sessionStart",0}, {"sessionEnd",0}, {"sessionCount",1}, {"levelPlayCount",0}, {"winCount",0}, {"firstLaunch", 0}, {"paymentCount", 0}, {"revenue", 0},
+        { "sessionStart",0}, {"sessionEnd",0}, {"sessionCount",0}, {"levelPlayCount",0}, {"winCount",0}, {"firstLaunch", 0}, {"paymentCount", 0}, {"revenue", 0},
 
         {"level1",3},{"level2",3},{"level3",3},{"level4",3},{"level5",3},{"level6",3},{"level7",3},{"level8",3},{"level9",3},{"level10",3},
 		{"level11",3},{"level12",3},{"level13",3},{"level14",3},{"level15",3},{"level16",3},{"level17",3},{"level18",3},{"level19",3},{"level20",3},

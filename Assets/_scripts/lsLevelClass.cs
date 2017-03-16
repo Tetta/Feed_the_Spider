@@ -76,8 +76,7 @@ public class lsLevelClass : MonoBehaviour {
 
 
 	void OnClick() {
-        //разрешаем прыгать на все острова (раскомментить потом)
-	    if (islandInactive.activeSelf)
+        if (islandInactive.activeSelf)
 	    {
             Debug.Log("click on inactive island");
             initLevelMenuClass.instance.disableLevelMenu.SetActive(true);

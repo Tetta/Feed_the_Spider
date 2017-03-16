@@ -237,7 +237,7 @@ public class marketClass : MonoBehaviour {
 
         */
 
-    public void setRewardForPurchase(string itemId)
+    public void setRewardForPurchase(string itemId, string transactionId)
     {
 
         var attr = new Dictionary<string, string> {{"category", "shop"}, { "name", itemId }, { "revenue", "100" } };
@@ -247,6 +247,8 @@ public class marketClass : MonoBehaviour {
         itemId = itemId.Substring(27);
 #endif
         int animBuyBooster = -1;
+        attr["transactionId"] = transactionId;
+        
         switch (itemId)
         {
             case "booster_green_1":
@@ -284,6 +286,7 @@ public class marketClass : MonoBehaviour {
                 ctrProgressClass.progress["boostersBlue"] += 1;
                 ctrProgressClass.progress["boostersPurple"] += 1;
                 attr["revenue"] = "499";
+                attr["category"] = "sales";
                 animBuyBooster = 8;
                 break;
             case "sale_2_free":
@@ -291,6 +294,7 @@ public class marketClass : MonoBehaviour {
                 ctrProgressClass.progress["boostersBlue"] += 1;
                 ctrProgressClass.progress["boostersPurple"] += 1;
                 attr["revenue"] = "299";
+                attr["category"] = "sales";
                 animBuyBooster = 8;
                 break;
             case "sale_3_free":
@@ -298,6 +302,7 @@ public class marketClass : MonoBehaviour {
                 ctrProgressClass.progress["boostersBlue"] += 1;
                 ctrProgressClass.progress["boostersPurple"] += 1;
                 attr["revenue"] = "199";
+                attr["category"] = "sales";
                 animBuyBooster = 8;
                 break;
             case "sale_4_free":
@@ -305,51 +310,61 @@ public class marketClass : MonoBehaviour {
                 ctrProgressClass.progress["boostersBlue"] += 1;
                 ctrProgressClass.progress["boostersPurple"] += 1;
                 attr["revenue"] = "99";
+                attr["category"] = "sales";
                 animBuyBooster = 8;
                 break;
             case "sale_1_green_payers":
                 ctrProgressClass.progress["boostersGreen"] += 10;
                 attr["revenue"] = "999";
+                attr["category"] = "sales";
                 animBuyBooster = 5;
                 break;
             case "sale_1_blue_payers":
                 ctrProgressClass.progress["boostersBlue"] += 10;
                 attr["revenue"] = "1999";
+                attr["category"] = "sales";
                 animBuyBooster = 6;
                 break;
             case "sale_1_purple_payers":
                 ctrProgressClass.progress["boostersPurple"] += 10;
                 attr["revenue"] = "3999";
+                attr["category"] = "sales";
                 animBuyBooster = 7;
                 break;
             case "sale_2_green_payers":
                 ctrProgressClass.progress["boostersGreen"] += 10;
                 attr["revenue"] = "749";
+                attr["category"] = "sales";
                 animBuyBooster = 5;
                 break;
             case "sale_2_blue_payers":
                 ctrProgressClass.progress["boostersBlue"] += 10;
                 attr["revenue"] = "1499";
+                attr["category"] = "sales";
                 animBuyBooster = 6;
                 break;
             case "sale_2_purple_payers":
                 ctrProgressClass.progress["boostersPurple"] += 10;
                 attr["revenue"] = "2999";
+                attr["category"] = "sales";
                 animBuyBooster = 7;
                 break;
             case "sale_3_green_payers":
                 ctrProgressClass.progress["boostersGreen"] += 10;
                 attr["revenue"] = "449";
+                attr["category"] = "sales";
                 animBuyBooster = 5;
                 break;
             case "sale_3_blue_payers":
                 ctrProgressClass.progress["boostersBlue"] += 10;
                 attr["revenue"] = "899";
+                attr["category"] = "sales";
                 animBuyBooster = 6;
                 break;
             case "sale_3_purple_payers":
                 ctrProgressClass.progress["boostersPurple"] += 10;
                 attr["revenue"] = "1799";
+                attr["category"] = "sales";
                 animBuyBooster = 7;
                 break;
             case "chapter":
