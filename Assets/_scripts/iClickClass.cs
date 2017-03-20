@@ -64,7 +64,7 @@ public class iClickClass : MonoBehaviour {
     public IEnumerator coroutinePressButtonTransition() {
 		GetComponent<Animator>().Play("button");
 		GetComponent<AudioSource>().Play();
-		yield return StartCoroutine(staticClass.waitForRealTime(0.2F));
+		yield return StartCoroutine(staticClass.waitForRealTime(0.5F));
         GameObject.Find("panel back transition").GetComponent<Animator>().Play("back transition enabled");
         //GameObject.Find("back transition").GetComponent<Animator> ().Play ("back transition exit");
         //yield return StartCoroutine(staticClass.waitForRealTime(0.2F));

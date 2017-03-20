@@ -37,15 +37,19 @@ public class gDestroyerClass : MonoBehaviour {
 	}
 
 	void OnPress(bool isPressed) {
-		//если используется подсказка и объект не подходит, то не нажимается
-		bool flagHintUse = true;
+		Debug.Log("press1: " + isPressed);
+        Debug.Log("press2: " + destroyerState);
+        
+        //если используется подсказка и объект не подходит, то не нажимается
+        bool flagHintUse = true;
 		if (gHintClass.hintState == "pause")
 		if (gHintClass.actions [gHintClass.counter].id != transform.position)
 			flagHintUse = false;
 		if (gHintClass.hintState == "start") flagHintUse = false;
-		//
+        //
+        Debug.Log("press3: " + flagHintUse);
 
-		if (destroyerState == "" && isPressed && flagHintUse) {
+        if (destroyerState == "" && isPressed && flagHintUse) {
 			//tutorial
 			if (ctrProgressClass.progress["currentLevel"] == 14 && gHandClass.handState == "text1") 
 				GameObject.Find("default level/gui/tutorial").GetComponent<gHandClass>().delHand (-1, 0);
@@ -56,7 +60,13 @@ public class gDestroyerClass : MonoBehaviour {
 			gHintClass.checkHint(gameObject);
 			audioClick.Play ();
 
-		}
+            //ps
+            if (gHintClass.hintState == "")
+            {
+                GameObject.Find("/default level/game").transform.GetChild(2).gameObject.SetActive(true);
+                Time.timeScale = 0.2F;
+            }
+        }
 		if (destroyerState == "active" && !isPressed && flagHintUse) {
 			staticClass.useDestroyer = true;
 			gRecHintClass.recHint(transform);
@@ -76,6 +86,13 @@ public class gDestroyerClass : MonoBehaviour {
 			GameObject[] terrains = GameObject.FindGameObjectsWithTag("helper terrain");
 			foreach (GameObject terrainH in terrains) Destroy(terrainH);	
 			audioShot.Play ();
+            //ps
+		    if (gHintClass.hintState == "")
+		    {
+		        GameObject.Find("/default level/game").transform.GetChild(2).gameObject.SetActive(false);
+		        Time.timeScale = 1;
+		    }
+
 		}
 
 

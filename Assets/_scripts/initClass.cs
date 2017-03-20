@@ -26,52 +26,51 @@ public class initClass : MonoBehaviour {
         //for test iPad
         Application.targetFrameRate = 60;
 #if UNITY_STANDALONE_WIN
-			Screen.SetResolution(575, 1024, false);
+    Screen.SetResolution(575, 1024, false);
 #endif
         Debug.Log("start menu: " + Time.realtimeSinceStartup);
 
+        
 		//if (ctrProgressClass.progress.Count == 0) {
-			Time.maximumDeltaTime = 0.9F;
-            if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress ();
-			staticClass.initLevels ();
+		Time.maximumDeltaTime = 0.9F;
+        if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress ();
+		staticClass.initLevels ();
 
-			//опции
-			GameObject.Find ("settings folder").transform.GetChild (0).gameObject.SetActive (true);
+	    
+		//опции
+		GameObject.Find ("settings folder").transform.GetChild (0).gameObject.SetActive (true);
             
-            //language
-		    var l = staticClass.getLanguage();
-            if (l == 2)
-				GameObject.Find (Localization.language).transform.GetChild(0).gameObject.SetActive (true);
-			else
-                GameObject.Find (Localization.language).transform.GetChild(0).gameObject.SetActive (true);
+        //language
+		var l = staticClass.getLanguage();
+        if (l == 2)
+			GameObject.Find (Localization.language).transform.GetChild(0).gameObject.SetActive (true);
+		else
+            GameObject.Find (Localization.language).transform.GetChild(0).gameObject.SetActive (true);
 
 
-            //ctrProgressClass.progress["language"] = 1;
-            //everyplay
-            if (ctrProgressClass.progress ["everyplay"] == 1) {
-			//	Everyplay.SetDisableSingleCoreDevices (true);
-			//	Everyplay.SetMaxRecordingMinutesLength(10);
-				//Everyplay.SetLowMemoryDevice (true);
-			}
-            /*
-            if (!Everyplay.IsRecordingSupported () || ctrProgressClass.progress ["everyplay"] == 0) {
-				ctrProgressClass.progress ["everyplay"] = 0;
-				GameObject.Find ("camera button").transform.GetChild(0).gameObject.SetActive (true);
-				GameObject.Find ("camera button").transform.GetChild(1).gameObject.SetActive (false);
-			}
-            */
-			ctrProgressClass.saveProgress ();
+        //ctrProgressClass.progress["language"] = 1;
+        //everyplay
+        if (ctrProgressClass.progress ["everyplay"] == 1) {
+		//	Everyplay.SetDisableSingleCoreDevices (true);
+		//	Everyplay.SetMaxRecordingMinutesLength(10);
+			//Everyplay.SetLowMemoryDevice (true);
+		}
+        /*
+        if (!Everyplay.IsRecordingSupported () || ctrProgressClass.progress ["everyplay"] == 0) {
+			ctrProgressClass.progress ["everyplay"] = 0;
+			GameObject.Find ("camera button").transform.GetChild(0).gameObject.SetActive (true);
+			GameObject.Find ("camera button").transform.GetChild(1).gameObject.SetActive (false);
+		}
+        */
+		ctrProgressClass.saveProgress ();
 
-			if (ctrProgressClass.progress ["music"] == 0)  GameObject.Find ("music").GetComponent<AudioSource> ().mute = true;
+		if (ctrProgressClass.progress ["music"] == 0)  GameObject.Find ("music").GetComponent<AudioSource> ().mute = true;
 			
 
-			if (ctrProgressClass.progress ["sound"] == 0) AudioListener.pause = true;
+		if (ctrProgressClass.progress ["sound"] == 0) AudioListener.pause = true;
 			
-
-
-			GameObject.Find("settings folder").transform.GetChild(0).gameObject.SetActive(false);
-
-		    staticClass.rateUsLast = ctrProgressClass.progress["lastLevel"];
+		GameObject.Find("settings folder").transform.GetChild(0).gameObject.SetActive(false);
+		staticClass.rateUsLast = ctrProgressClass.progress["lastLevel"];
 
 		//}
 

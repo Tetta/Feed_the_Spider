@@ -39,6 +39,7 @@ namespace GoogleMobileAds
 
         internal static IInterstitialClient BuildInterstitialClient()
         {
+            
             #if UNITY_EDITOR
                 // Testing UNITY_EDITOR first because the editor also responds to the currently
                 // selected platform.

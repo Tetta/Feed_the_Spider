@@ -14,6 +14,7 @@
 
 using System;
 using GoogleMobileAds.Common;
+using UnityEngine;
 
 namespace GoogleMobileAds.Api
 {
@@ -24,6 +25,8 @@ namespace GoogleMobileAds.Api
         // Creates an InterstitialAd.
         public InterstitialAd(string adUnitId)
         {
+            Debug.Log("Admob new InterstitialAd");
+
             client = GoogleMobileAdsClientFactory.BuildInterstitialClient();
             client.CreateInterstitialAd(adUnitId);
 
@@ -31,8 +34,10 @@ namespace GoogleMobileAds.Api
                 {
                     if(this.OnAdLoaded != null)
                     {
+                        Debug.Log("Admob OnAdLoaded");
                         this.OnAdLoaded(this, args);
-                    }
+                    } else Debug.Log("Admob not OnAdLoaded");
+
                 };
 
             this.client.OnAdFailedToLoad += (sender, args) =>
@@ -82,6 +87,7 @@ namespace GoogleMobileAds.Api
         // Loads an InterstitialAd.
         public void LoadAd(AdRequest request)
         {
+            Debug.Log("Admob LoadAd");
             client.LoadAd(request);
         }
 

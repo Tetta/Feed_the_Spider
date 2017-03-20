@@ -473,7 +473,7 @@ public class staticClass
     public static int getLanguage()
     {
 
-        //return 1;
+        //return 2;
         if (ctrProgressClass.progress["language"] == 0)
         {
             if (Application.systemLanguage.ToString() == "Russian" ||

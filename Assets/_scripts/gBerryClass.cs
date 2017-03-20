@@ -122,6 +122,7 @@ public class gBerryClass : MonoBehaviour {
 	        staticClass.levelRestartedCount++;
 	    }
 
+	    var dreamIsset = false;
 	    //dream
             var p = ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"];
         if (staticClass.scenePrev == SceneManager.GetActiveScene().name && !((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 || (p == 2 || p == 3)
@@ -147,7 +148,7 @@ public class gBerryClass : MonoBehaviour {
             dream.transform.GetChild(0).gameObject.SetActive(false);
             dream.transform.GetChild(1).gameObject.SetActive(true);
             dream.GetComponent<BoxCollider>().enabled = true;
-
+            dreamIsset = true;
         }
 
 
@@ -159,7 +160,7 @@ public class gBerryClass : MonoBehaviour {
 
         //show tutorial hint
         if (staticClass.levelRestartedCount >= 3 && ctrProgressClass.progress["tutorialHint"] == 0 &&
-            ctrProgressClass.progress["hints"] > 0 && ctrProgressClass.progress["tutorialDream"] != ctrProgressClass.progress["currentLevel"])
+            ctrProgressClass.progress["hints"] > 0 && ctrProgressClass.progress["tutorialDream"] != ctrProgressClass.progress["currentLevel"] && !dreamIsset)
 
         {
             var arrowTemp = GameObject.Find("/default level/gui/bonuses/tween/arrow left");
@@ -190,7 +191,7 @@ public class gBerryClass : MonoBehaviour {
         if (ctrProgressClass.progress["tutorialDream"] != ctrProgressClass.progress["currentLevel"] && staticClass.levelRestartedCount >= 3 && ctrProgressClass.progress["tutorialBonus"] == 0 &&
 	        ctrProgressClass.progress["hints"] == 0 && gHintClass.hintState == "" &&
             (ctrProgressClass.progress["webs"] > 0 || ctrProgressClass.progress["teleports"] > 0 ||
-	         ctrProgressClass.progress["collectors"] > 0))
+	         ctrProgressClass.progress["collectors"] > 0) && !dreamIsset)
 	    {
 	        var arrowTemp = GameObject.Find("/default level/gui/bonuses/tween/arrow left");
             if (arrowTemp.activeSelf)
@@ -279,18 +280,17 @@ public class gBerryClass : MonoBehaviour {
 
 	void Awake () {
 		Time.timeScale = 1;
-	    staticClass.isTimePlay = 1;
+	    staticClass.isTimePlay =  1;
 
 
-
-	    //для записи подсказки (потом удалить)
-	    /*
+        //для записи подсказки (потом удалить)
+        /*
         gRecHintClass.recHintState = 0;
         gRecHintClass.counter = 0;
         gRecHintClass.rec = "";
         */
-	    //
-	}
+        //
+    }
 
     // Update is called once per frame
     void Update () {

@@ -22,11 +22,6 @@ public class ctrAnalyticsClass: MonoBehaviour
     public static List<float> sessionGroups = new List<float> { 0, 1, 2, 3, 4, 5, 10, 25, 50, 100, 200  };
     public static List<float> friendGroups = new List<float> { 0, 1, 5, 10, 25, 50, 100 };
 
-    void awake()
-    {
-
-    }
-
     // Use this for initialization
     void Start()
     {

@@ -17,15 +17,15 @@ public class lsLevelClass : MonoBehaviour {
 
     //private float maxDistance = 3.5F;
     private int level;
-
+    private bool flagBlock = false;
     // Use this for initialization
-	void Start() {
+    void Start() {
 		level = int.Parse(gameObject.name.Substring(6));
         //levelLabel.text = level.ToString();
         if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
         int levelProgress = ctrProgressClass.progress["level" + level];
         int lastLevel = ctrProgressClass.progress["lastLevel"];
-        bool flagBlock = false;
+        
 
         //камни подарка
         if (stonesGift != null)
@@ -79,7 +79,10 @@ public class lsLevelClass : MonoBehaviour {
         if (islandInactive.activeSelf)
 	    {
             Debug.Log("click on inactive island");
-            initLevelMenuClass.instance.disableLevelMenu.SetActive(true);
+            if (level - 1 == ctrProgressClass.progress["lastLevel"] && flagBlock)
+                initLevelMenuClass.instance.unlockСhapterMenu.SetActive(true);
+            else 
+                initLevelMenuClass.instance.disableLevelMenu.SetActive(true);
 
         }
 	    else

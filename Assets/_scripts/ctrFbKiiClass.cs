@@ -136,26 +136,27 @@ public class ctrFbKiiClass : MonoBehaviour {
 
 							GameObject newPhoto = Instantiate (ctrFbKiiClass.instance.photoFriendOnMap, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
 							newPhoto.transform.GetChild (0).GetComponent<SpriteRenderer> ().sprite = Sprite.Create (pictureTexture, new Rect (0, 0, pictureTexture.width, pictureTexture.height), new Vector2 (0.5F, 0.5F), 1);
-
-							newPhoto.transform.parent = levelIslandGem;
+                            
+                            newPhoto.transform.parent = levelIslandGem;
 							newPhoto.transform.localPosition = new Vector3 (-165, 0, levelIslandGem.localPosition.z);
 							newPhoto.transform.localScale = new Vector3 (1, 1, 1);
-
-						}
+                            if (ctrProgressClass.progress["ok"] == 1) newPhoto.transform.GetChild(0).localScale = new Vector3(0.8F, 0.8F, 1);
+                        }
 					});
 				} else {
 				
 					GameObject newPhoto = Instantiate (ctrFbKiiClass.instance.photoFriendOnMap, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
 					newPhoto.transform.GetChild (0).GetComponent<SpriteRenderer> ().sprite = Sprite.Create (friendsImage[id], new Rect (0, 0, friendsImage[id].width, friendsImage[id].height), new Vector2 (0.5F, 0.5F), 1);
-
-					newPhoto.transform.parent = levelIslandGem;
+                    
+                    newPhoto.transform.parent = levelIslandGem;
 					newPhoto.transform.localPosition = new Vector3 (-165, 0, levelIslandGem.localPosition.z);
 					newPhoto.transform.localScale = new Vector3 (1, 1, 1);
-				
-				}
+                    if (ctrProgressClass.progress["ok"] == 1) newPhoto.transform.GetChild(0).localScale = new Vector3(0.8F, 0.8F, 1);
+
+                }
 
 
-			}
+            }
 		}
 	}
 
@@ -445,10 +446,12 @@ public class ctrFbKiiClass : MonoBehaviour {
         if (social == "ok")
         {
             Dictionary<string, string> args = new Dictionary<string, string>();
-            args["text"] = "Join+me+in+this+awesome+game%21";
+            //args["text"] = "Join+me+in+this+awesome+game%21";
+            args["text"] = "jn";
             args["uids"] = name;
-            args["devices"] = "Android,IOS";
-            OK.API("sdk.appInvite", Method.GET, args, response =>
+            //args["devices"] = "ANDROID,IOS";
+            args["devices"] = "ANDROID";
+            OK.API("friends.appInvite", Method.GET, args, response =>
             {
                 Debug.Log(response.Text);
                 if (response.Error == "" && response.Object["count"].ToString() == "1")
@@ -661,6 +664,7 @@ public class ctrFbKiiClass : MonoBehaviour {
                 requestFriendsInvite();
                 break;
             case "ok":
+                    ctrAdClass.instance.loadAdMyTarget();
                 //Console.WriteLine("Default case");
             break;
         }
@@ -1013,7 +1017,8 @@ public class ctrFbKiiClass : MonoBehaviour {
             if (r.Value.Key)
                 friendsIds = new string[r.Value.Value.Length];
             //else
-                //friendsIdsForInvite = new string[r.Value.Value.Length];
+            //friendsIdsForInvite = new string[r.Value.Value.Length];
+            Debug.Log("socials - onRequestFriends ok app friends: " + r.Value.Key);
 
             OK.GetInfo(users =>
             {
@@ -1049,11 +1054,16 @@ public class ctrFbKiiClass : MonoBehaviour {
 
                     i++;
                 }
-                if (r.Value.Key) flagSendAnalytics = true;
-                
+                if (r.Value.Key)
+                {
+                    loginKii(social);
+                    ctrAnalyticsClass.sendCustomDimension(7, ctrAnalyticsClass.getGroup(friendsIds.Length, ctrAnalyticsClass.friendGroups)); //invites
+                }
+
             }, r.Value.Value, fields);
 
         }
+        Debug.Log("flagSendAnalytics: " + flagSendAnalytics);
 
         if (flagSendAnalytics) loginKii(social);
         if (flagSendAnalytics) ctrAnalyticsClass.sendCustomDimension(7, ctrAnalyticsClass.getGroup(friendsIds.Length, ctrAnalyticsClass.friendGroups)); //invites
