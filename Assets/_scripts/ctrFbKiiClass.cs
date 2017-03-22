@@ -6,6 +6,7 @@ using KiiCorp.Cloud.Storage;
 using KiiCorp.Cloud.Unity;
 using System;
 using System.Linq;
+using System.Security.Policy;
 //using Boo.Lang;
 using com.playGenesis.VkUnityPlugin;
 using UnityEngine.SceneManagement;
@@ -431,10 +432,11 @@ public class ctrFbKiiClass : MonoBehaviour {
     public void inviteFriend(string social, string name)
     {
         Debug.Log("socials - inviteFriend: " + social + ", id: " + name);
+
+        string title = Localization.Get("inviteTitle");
+        string message = Localization.Get("inviteMessage");
         if (social == "vk")
         {
-            string title = "Play Feed the Spider with me!";
-            string message = "Feed the Spider is cool! Check it out.";
             VKRequest r2 = new VKRequest()
             {
                 url = "apps.sendRequest?user_id=" + name + "&text=" + message + "&type=invite&name=" + title,
@@ -447,17 +449,31 @@ public class ctrFbKiiClass : MonoBehaviour {
         {
             Dictionary<string, string> args = new Dictionary<string, string>();
             //args["text"] = "Join+me+in+this+awesome+game%21";
-            args["text"] = "jn";
-            args["uids"] = name;
+            //args["text"] = "jn";
+            //args["uids"] = name;
             //args["devices"] = "ANDROID,IOS";
-            args["devices"] = "ANDROID";
-            OK.API("friends.appInvite", Method.GET, args, response =>
+            //args["devices"] = "ANDROID";
+            //args["note"] = "qwe";
+            //args["sdkToken"] = ;
+            //args["note"] = "%7b%22uid%22%3a%22" + "558511883453" +"%22%2c%22image%22%3a%22http%3a%2f%2f1.png%22%2c%22message%22%3a%22some_text%22%2c%22payload%22%3a%22%22%7d";
+            //name = "534060256361";
+            //name = "537314172230";
+            //long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds * 1000 + 6*60*60*1000;
+            long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds * 1000;
+            //long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            //Debug.Log(unixTimestamp);
+            args["note"] = "{\"uid\":\""+name+ "\",\"image\":\"http://pp.userapi.com/c637727/v637727333/36d5e/LcCzGvznxXA.jpg\",\"message\":\""+ title + " " + message + "\",\"payload\":\"\",\"timestamp\":"+ unixTimestamp + "}";
+
+            //           args["note"] = "%7bimage:qwe,message:sdf,payload:qwe,timestamp:9999999999,uid:558511883453";
+            //OK.API(OKMethod.SDK.getNotes, Method.GET, args, response =>
+            OK.API(OKMethod.SDK.sendNote, Method.GET, args, response =>
+            //OK.API("friends.appInvite", Method.GET, args, response =>
             {
                 Debug.Log(response.Text);
-                if (response.Error == "" && response.Object["count"].ToString() == "1")
+                if (response.Error == "" && int.Parse( response.Object["count"].ToString()) >= 1)
                     OnInviteFriend(name);
             });
-
+            
 
         }
     }
@@ -491,16 +507,20 @@ public class ctrFbKiiClass : MonoBehaviour {
 
     }
 
-    public void clickJoinGroup(string url)
+    public void clickJoinGroup(string url, string name)
     {
-
+        bool flag = false;
+        if (name == "group button") flag = true;
+        GameObject.Find("/settings folder/settings").transform.GetChild(5).gameObject.SetActive(false);
+        GameObject.Find("/settings folder/settings").transform.GetChild(6).gameObject.SetActive(false);
         if (ctrProgressClass.progress["vk"] == 1)
         {
             VKRequest r = new VKRequest
             {
                 url = url,
                 //url = "users.get?user_ids=" + userId + "&photo_50",
-                CallBackFunction = onGroupResult
+                CallBackFunction = onGroupResult,
+                customParam = flag
             };
             VkApi.VkApiInstance.Call(r);
         }
@@ -555,9 +575,38 @@ public class ctrFbKiiClass : MonoBehaviour {
         
     }
 
-    public void  onGroupResult<T>(T result)
+    public void onGroupResult<T>(T result)
     {
-        Debug.Log("onGroupResult");
+        Debug.Log("socials - onGroupResult");
+        var social = "";
+        var flagSendAnalytics = false;
+        Debug.Log("socials - onRequestFriends: " + result.GetType());
+        //fb
+        if (result.GetType() == typeof(IGroupJoinResult))
+        {
+            social = "fb";
+            IGroupJoinResult r = result as IGroupJoinResult;
+            //if error
+            if (r.Error != null) Debug.Log("socials - onGroupResult fb error");
+            if (r.Error != null) return;
+            if (GameObject.Find("/settings folder/settings/vk/group button") != null) GameObject.Find("/settings folder/settings/fb/group button").SetActive(false);
+
+        }
+        else if (result.GetType() == typeof(VKRequest))
+        {
+            social = "vk";
+            VKRequest r = result as VKRequest;
+            if (r.error != null) Debug.Log("socials - onGroupResult vk error: " + r.error.error_msg);
+            if (r.error != null) return;
+            if (r.customParam)
+
+                if (GameObject.Find("/settings folder/settings/vk/group button") != null) GameObject.Find("/settings folder/settings/vk/group button").SetActive(false);
+            else
+                if (GameObject.Find("/settings folder/settings/vk/group button 2") != null) GameObject.Find("/settings folder/settings/vk/group button 2").SetActive(false);
+
+        }
+        if (GameObject.Find("/settings folder/settings/" + social + "/back menu") != null) GameObject.Find("/settings folder/settings/" + social + "/back menu").transform.localPosition += new Vector3(0, -120, 0);
+
     }
 
     //------------------------------------------------------------------------------------------------------------------------------------------------------------

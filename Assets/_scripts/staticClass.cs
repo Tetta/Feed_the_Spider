@@ -548,6 +548,7 @@ public class staticClass
     public static int showRewardCardsMenuTeleports = 0;
     public static int showRewardCardsMenuHints = 0;
 
-
+    public static int adLevelCounter = 0;
+    public static bool needShowAdTiredMenu = false;
 }
 

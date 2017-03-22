@@ -70,8 +70,9 @@ public class lsLevelClass : MonoBehaviour {
 			}
 		}
 
-		//Facebook Friends
-		ctrFbKiiClass.setFriendImgMap("level" + level, transform.GetChild(0));
+        //Facebook Friends
+        if (ctrProgressClass.progress["fb"] == 1 || ctrProgressClass.progress["vk"] == 1 || ctrProgressClass.progress["ok"] == 1)
+            ctrFbKiiClass.setFriendImgMap("level" + level, transform.GetChild(0));
 	}
 
 

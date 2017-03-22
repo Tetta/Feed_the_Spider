@@ -280,7 +280,7 @@ public class gBerryClass : MonoBehaviour {
 
 	void Awake () {
 		Time.timeScale = 1;
-	    staticClass.isTimePlay =  1;
+	    staticClass.isTimePlay = 1;
 
 
         //для записи подсказки (потом удалить)
@@ -623,6 +623,26 @@ public class gBerryClass : MonoBehaviour {
         if (!flag)
         {
             Time.timeScale = staticClass.isTimePlay;
+
+            if (staticClass.needShowAdTiredMenu)
+            {
+
+                Debug.Log("ad tired menu enable");
+                var m =
+                    GameObject.Find("/default level/gui/complete menu").GetComponent<lsLevelMenuClass>().adTiredMenu;
+                var mGO = Instantiate(m);
+                mGO.transform.parent = GameObject.Find("/default level/gui/panel back transition").transform;
+                mGO.transform.localScale = new Vector3(1, 1, 1);
+                mGO.transform.localPosition = new Vector3(0, 0, 0);
+                //disable loading
+                mGO.transform.parent.GetChild(1).localScale = Vector3.zero;
+
+                //spider
+                mGO.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Animator>().Play("spider hi");
+
+                staticClass.adLevelCounter = 0;
+                staticClass.needShowAdTiredMenu = false;
+            }
         }
     }
 

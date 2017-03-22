@@ -23,6 +23,7 @@ public class lsLevelMenuClass : MonoBehaviour
     public GameObject gem2Active;
     public GameObject hand;
     public GameObject rateUsMenu;
+    public GameObject adTiredMenu;
 
     public List<GameObject> completePoints;
 

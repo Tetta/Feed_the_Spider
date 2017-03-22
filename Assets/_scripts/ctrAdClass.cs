@@ -38,8 +38,10 @@ public class ctrAdClass : MonoBehaviour
     private readonly System.Object _syncRoot = new System.Object();
     private Mycom.Target.Unity.Ads.InterstitialAd rewardedMyTarget;
     private Mycom.Target.Unity.Ads.InterstitialAd imgMyTarget;
-    private uint rewardedMyTargetId = 38837;
-    private uint imgMyTargetId = 6481;
+    private uint rewardedMyTargetId = 38837; //test
+    private uint imgMyTargetId = 6481; //test
+    //private uint rewardedMyTargetId = 92420;
+    //private uint imgMyTargetId = 92426;
     public static bool rewardedMyTargetLoaded = false;
     public static bool imgMyTargetLoaded = false;
     public bool needSetRewardMyTarget = false;
@@ -256,7 +258,7 @@ public class ctrAdClass : MonoBehaviour
 
     }
 
-    public void ShowLevelAd(string buttonName)
+    public bool ShowLevelAd(string buttonName)
     {
 #if UNITY_ANDROID || UNITY_IOS
         Debug.Log("ShowLevelAd: " + buttonName);
@@ -306,6 +308,8 @@ public class ctrAdClass : MonoBehaviour
                     ctrAdClass.adStarted = "level";
                     if (ctrProgressClass.progress["ok"] == 1 && OK.IsLoggedIn)
                     {
+                        staticClass.isTimePlay = Time.timeScale;
+                        Time.timeScale = 0;
                         imgMyTarget.Show();
                     }
                     else
@@ -325,6 +329,7 @@ public class ctrAdClass : MonoBehaviour
                             interstitialAdMob.Show();
                         }
                     }
+                    return true;
                     //GameObject.Find("default level/gui/pause").SendMessage("OnPress", false);
                 }
                 else
@@ -340,7 +345,7 @@ public class ctrAdClass : MonoBehaviour
 
         }
 #endif
-
+        return false;
     }
 
     //admob

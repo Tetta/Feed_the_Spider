@@ -88,8 +88,7 @@ teleport, "Whirlwind", "Ветерок"
 web, "Web", "Паутинка"
 wand, "Wand", "Палочка"
 
-normal, "Normal", "Испытание"
-challenge, "Challenge", "Испытание"
+
 pause, "Pause", "Пауза"
 
 marketDefaultSkin, "Primary skin", "Стандартный скин"
@@ -188,6 +187,7 @@ fbBestGamers, "Best gamers", "Лучшие игроки"
 socialJoinGroup, "Join the group", "Присоединиться к группе"
 socialJoinGroup2, "Join the group\nFeed the Spider", "Присоединиться к группе\nFeed the Spider"
 socialJoinGroup3, "Join the group VK Games", "Присоединиться к группе VK Games"
+socialJoinGroup4, "Join the group VK Games?", "Присоединиться к группе VK Games?"
 socialLogout, "Logout", "Выйти"
 
 
@@ -208,3 +208,12 @@ rateUs0, "Liked the game?", "Понравилась игра?"
 rateUs, "Rate us!", "Оцените нас!"
 rateUs2, "Rate", "Оценить"
 rateUs3, "Remind me later", "Напомнить позже"
+
+adTiredMenu, "Are you tired of ads?", "Надоела реклама?"
+adTiredMenu2, "Make any purchase and play without advertising!", "Соверши любую покупку и играй без рекламы!"
+
+normal, "Normal", "Приключение"
+challenge, "Challenge", "Испытание"
+
+inviteTitle, "Play Feed the Spider with me!", "Играй со мной в Feed the Spider!"
+inviteMessage, "Feed the Spider is cool! Check it out!", "Это красочная и увлекательная головоломка!"

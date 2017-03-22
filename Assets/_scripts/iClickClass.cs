@@ -224,7 +224,27 @@ public class iClickClass : MonoBehaviour {
 		    if (name == "button play" || name == "button play 0" || name == "button play 1" || name.Substring(0, 5) == "level" || name == "restart" || name == "button next" || name == "button next level")
 		    {
 		        if (ctrAdClass.instance != null)
-                    ctrAdClass.instance.ShowLevelAd(name);
+		        {
+		            var ad = ctrAdClass.instance.ShowLevelAd(name);
+		            if (ad && name != "restart")
+		            {
+		                staticClass.adLevelCounter++;
+		                if (staticClass.adLevelCounter >= 5)
+		                {
+                            staticClass.needShowAdTiredMenu = true;
+		                    for (int i = 0; i < 15; i++)
+		                    {
+                                yield return StartCoroutine(staticClass.waitForRealTime(1.0F));
+                                if (!staticClass.needShowAdTiredMenu) break;
+                            }
+                            yield return StartCoroutine(staticClass.waitForRealTime(2.0F));
+                            Debug.Log("ad tired menu exit");
+
+
+
+                        }
+                    }
+                }
 		    }
             if (name == "restart" || name == "start level menu")
                 if (GameObject.Find("berry") != null && GameObject.Find("berry").GetComponent<gBerryClass>() != null) GameObject.Find("berry").GetComponent<gBerryClass>().endLevel(false);
@@ -665,6 +685,16 @@ public class iClickClass : MonoBehaviour {
             //coins menu
            initLevelMenuClass.instance.coinsMenu.SetActive(true);
         }
+        else if (name == "group button")
+        {
+            //join group menu 1
+            transform.parent.parent.GetChild(5).gameObject.SetActive(true);
+        }
+        else if (name == "group button 2")
+        {
+            //join group menu 2
+            transform.parent.parent.GetChild(6).gameObject.SetActive(true);
+        }
     }
     public void closeMenu() {
         StartCoroutine(coroutineCloseMenu());
@@ -833,6 +863,10 @@ public class iClickClass : MonoBehaviour {
         else if (name == "exit disable level menu")
         {
             initLevelMenuClass.instance.disableLevelMenu.SetActive(false);
+        }
+        else if (name == "join group menu exit")
+        {
+            GameObject.Find("/settings folder/settings/join group menu").SetActive(false);
         }
     }
 
@@ -1004,7 +1038,7 @@ public class iClickClass : MonoBehaviour {
         string url = "groups.join?group_id=139520787";
         if (name == "group button 2") url = "groups.join?group_id=78616012";
         Debug.Log("clickJoinGroup: " + url);
-        ctrFbKiiClass.instance.clickJoinGroup(url);
+        ctrFbKiiClass.instance.clickJoinGroup(url, name);
     }
 
     public void clickLogout()

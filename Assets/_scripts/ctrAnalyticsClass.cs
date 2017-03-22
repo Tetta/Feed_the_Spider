@@ -26,7 +26,7 @@ public class ctrAnalyticsClass: MonoBehaviour
     void Start()
     {
         
-        if (!Debug.isDebugBuild) Debug.logger.logEnabled = false;
+        //if (!Debug.isDebugBuild) Debug.logger.logEnabled = false;
         Debug.Log("ctrAnalyticsClass start");
         LocalNotification.CancelAllNotifications();
         try
@@ -287,19 +287,19 @@ public class ctrAnalyticsClass: MonoBehaviour
         LocalNotification.SendNotification(2, delay, "", Localization.Get("notiferTitleDay"));
 
         //daily 3 notifer
-        delay = DateTime.Parse("12:00:00") - DateTime.Now;
+        delay = DateTime.Parse("12:00:00").AddDays(2) - DateTime.Now;
         if (delay < new TimeSpan(0)) delay = DateTime.Parse("12:00:00").AddDays(3) - DateTime.Now;
         Debug.Log("daily notifer 3: " + delay);
         LocalNotification.SendNotification(4, delay, "", Localization.Get("notiferTitleDay3"));
 
         //daily 7 notifer
-        delay = DateTime.Parse("12:00:00") - DateTime.Now;
+        delay = DateTime.Parse("12:00:00").AddDays(6) - DateTime.Now;
         if (delay < new TimeSpan(0)) delay = DateTime.Parse("12:00:00").AddDays(7) - DateTime.Now;
         Debug.Log("daily notifer 7: " + delay);
         LocalNotification.SendNotification(5, delay, "", Localization.Get("notiferTitleDay7"));
 
         //daily 14 notifer
-        delay = DateTime.Parse("12:00:00") - DateTime.Now;
+        delay = DateTime.Parse("12:00:00").AddDays(13) - DateTime.Now;
         if (delay < new TimeSpan(0)) delay = DateTime.Parse("12:00:00").AddDays(14) - DateTime.Now;
         Debug.Log("daily notifer 14: " + delay);
         LocalNotification.SendNotification(6, delay, "", Localization.Get("notiferTitleDay14"));
