@@ -52,6 +52,7 @@ public class ctrAdClass : MonoBehaviour
     public static bool rewardedMyTargetLoaded = false;
     public static bool imgMyTargetLoaded = false;
     public bool needSetRewardMyTarget = false;
+    public static long timeFailed = 0; //for analytics only
 
     public void Start()
     {
@@ -120,7 +121,7 @@ public class ctrAdClass : MonoBehaviour
             //if loading failed, send analytics event
             adsAttributes["loading"] = "failed";
             adsAttributes["status"] = "failed";
-            ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
+            if (isTimeToSendFailedAdAnalytics()) ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
             //adDontReadyMenu
             if (initLevelMenuClass.instance != null) initLevelMenuClass.instance.adDontReadyMenu.SetActive(true);
         }
@@ -344,7 +345,7 @@ public class ctrAdClass : MonoBehaviour
                     adsAttributes["loading"] = "failed";
                     adsAttributes["status"] = "failed";
                     Debug.Log("ShowLevelAd fail");
-                    ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
+                    if (isTimeToSendFailedAdAnalytics()) ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
                 }
 
             }
@@ -454,6 +455,7 @@ public class ctrAdClass : MonoBehaviour
                     rewardedMyTarget.AdDisplayed += OnAdDisplayedMyTarget;
                     rewardedMyTarget.AdVideoCompleted += OnAdVideoCompletedMyTarget;
                     rewardedMyTarget.AdLoadCompleted += OnLoadCompletedMyTarget;
+                    rewardedMyTarget.AdLoadFailed += OnAdLoadFailedMyTarget;
                     rewardedMyTarget.Load();
                 }
             }
@@ -478,6 +480,7 @@ public class ctrAdClass : MonoBehaviour
                     imgMyTarget.AdDisplayed += OnAdDisplayedMyTarget2;
                     imgMyTarget.AdVideoCompleted += OnAdVideoCompletedMyTarget2;
                     imgMyTarget.AdLoadCompleted += OnLoadCompletedMyTarget2;
+                    imgMyTarget.AdLoadFailed += OnAdLoadFailedMyTarget;
                     imgMyTarget.Load();
                 }
             }
@@ -558,7 +561,14 @@ public class ctrAdClass : MonoBehaviour
 
         //instance.loadAdMyTarget();
     }
+    private static void OnAdLoadFailedMyTarget(Object sender, EventArgs eventArgs)
+    {
+        Debug.Log("OnAdLoadFailedMyTarget");
+        instance.adsAttributes["loading"] = "failed";
+        instance.adsAttributes["status"] = "failed";
+        if (isTimeToSendFailedAdAnalytics()) ctrAnalyticsClass.sendEvent("Advertisment", instance.adsAttributes);
 
+    }
 
     public void OnApplicationPause(bool flag)
     {
@@ -574,6 +584,18 @@ public class ctrAdClass : MonoBehaviour
 
         }
 
+    }
+
+
+    public static bool isTimeToSendFailedAdAnalytics()
+    {
+        //5 minutes
+        if (timeFailed < DateTime.Now.AddMinutes(-5).TotalSeconds())
+        {
+            timeFailed = DateTime.Now.TotalSeconds();
+            return true;
+        }
+        return false;
     }
 
 }
