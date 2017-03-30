@@ -270,11 +270,19 @@ public class mBoosterClass : MonoBehaviour {
 				//if (initLevelMenuClass.instance.energyLabel != null)
 				//	initLevelMenuClass.instance.energyLabel.text = ctrProgressClass.progress ["energy"].ToString ();
 			}
-			
- 
+
+            //change bonuses labels
+
+                if (bonusName == "hints")    GameObject.Find("booster menu/bonuses/hints").transform.GetChild(0).GetComponent<UILabel>().text = ctrProgressClass.progress["hints"].ToString();
+                if (bonusName == "webs") GameObject.Find("booster menu/bonuses/webs").transform.GetChild(0).GetComponent<UILabel>().text = ctrProgressClass.progress["webs"].ToString();
+                if (bonusName == "teleports") GameObject.Find("booster menu/bonuses/teleports").transform.GetChild(0).GetComponent<UILabel>().text = ctrProgressClass.progress["teleports"].ToString();
+                if (bonusName == "collectors") GameObject.Find("booster menu/bonuses/collectors").transform.GetChild(0).GetComponent<UILabel>().text = ctrProgressClass.progress["collectors"].ToString();
+
+
+
         }
-		//GetComponent<Animator> ().Rebind ();
-		//GetComponent<Animator>().Play("card enable");
+        //GetComponent<Animator> ().Rebind ();
+        //GetComponent<Animator>().Play("card enable");
 
         ctrProgressClass.progress[currentBoosterColor]--;
         buttonOpenBooster.transform.GetChild(1).GetComponent<UILabel>().text = ctrProgressClass.progress[currentBoosterColor].ToString();

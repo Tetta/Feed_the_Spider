@@ -3,6 +3,7 @@ using System.Collections;
 //using UnionAssets.FLE;
 using System.Collections.Generic;
 using CompleteProject;
+using Odnoklassniki.HTTP;
 
 public class marketClass : MonoBehaviour {
 
@@ -239,7 +240,7 @@ public class marketClass : MonoBehaviour {
 
     public void setRewardForPurchase(string itemId, string transactionId)
     {
-
+        Debug.Log("setRewardForPurchase");
         var attr = new Dictionary<string, string> {{"category", "shop"}, { "name", itemId }, { "revenue", "100" } };
 #if UNITY_IOS
         itemId = itemId.Substring(22);
@@ -248,7 +249,8 @@ public class marketClass : MonoBehaviour {
 #endif
         int animBuyBooster = -1;
         attr["transactionId"] = transactionId;
-        
+        attr["name"] = itemId;
+
         switch (itemId)
         {
             case "booster_green_1":
@@ -372,7 +374,12 @@ public class marketClass : MonoBehaviour {
                 {
                     if (ctrProgressClass.progress["lastLevel"] < block.Key)
                     {
+                        Debug.Log(block.Key);
+                        Debug.Log(block.Value);
                         ctrProgressClass.progress["lastLevel"] = block.Key;
+                        if (GameObject.Find("/root/root/blocks/block " + block.Value) != null) GameObject.Find("/root/root/blocks/block " + block.Value).SetActive(false);
+                        if (GameObject.Find("level " + block.Key) != null) GameObject.Find("level " + block.Key).GetComponent<lsLevelClass>().block = null;
+                        if (GameObject.Find("level " + block.Key) != null) GameObject.Find("level " + block.Key).GetComponent<lsLevelClass>().Start();
                         break;
                     }
                 }
@@ -385,12 +392,14 @@ public class marketClass : MonoBehaviour {
 
             //break;
             case "energy_for_day":
-                GameObject.Find("energy").GetComponent<lsEnergyClass>().buyEnergyReward();
+                if (GameObject.Find("energy") != null) GameObject.Find("energy").GetComponent<lsEnergyClass>().buyEnergyReward();
 
-                GameObject.Find("energy menu/panel with anim/energy").GetComponent<lsEnergyClass>().buyEnergyReward();
+                if (GameObject.Find("energy menu/panel with anim/energy") != null) GameObject.Find("energy menu/panel with anim/energy").GetComponent<lsEnergyClass>().buyEnergyReward();
                 attr["revenue"] = "99";
                 break;
         }
+
+
         ctrProgressClass.progress["sale"] = 0;
         ctrProgressClass.progress["saleDate"] = 0;
         lsSaleClass.setTimerSale();
@@ -401,19 +410,56 @@ public class marketClass : MonoBehaviour {
         instance.boostersLabel[1].text = ctrProgressClass.progress["boostersGreen"].ToString();
         instance.boostersLabel[2].text = ctrProgressClass.progress["boostersBlue"].ToString();
         instance.boostersLabel[3].text = ctrProgressClass.progress["boostersPurple"].ToString();
-        //marketClass.instance.boostersLabel.text = ctrProgressClass.progress["boosters"].ToString();
-        //marketClass.instance.boostersLabel.GetComponent<AudioSource>().Play();
-        //marketClass.instance.boostersLabel.GetComponent<Animator>().Play("button");
-        //marketClass.instance.boostersLabel.transform.GetChild(0).GetComponent<ParticleSystem>().Stop();
-        //marketClass.instance.boostersLabel.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
 
-        ctrAnalyticsClass.sendEvent("Revenue", attr, long.Parse( attr["revenue"]));
+
+        //off sales if sale
+        Debug.Log("category: " + attr["category"]);
+        if (attr["category"] == "sales")
+        {
+            GameObject.Find("button sale").GetComponent<lsSaleClass>().OnEnable();
+            //if on map
+            if (GameObject.Find("sale menu") != null) GameObject.Find("sale menu").SetActive(false);
+            marketClass.instance.gameObject.SetActive(true);
+        }
+
+
+
+
+        Debug.Log("revenue old: " + attr["revenue"]);
+        long revenue = Mathf.FloorToInt(int.Parse(attr["revenue"]) * 0.7F);
+        attr["revenue"] = Mathf.FloorToInt(revenue/100) + "," + (revenue%100);
+        //attr["revenue"] = int
+        Debug.Log("revenue int: " + revenue);
+        Debug.Log("revenue str: " + attr["revenue"]);
+
+        string revenueForOk = Mathf.FloorToInt(revenue / 100) + "." + (revenue % 100);
+        //send OK sdk.reportPayment
+        
+        if (ctrFbKiiClass.instance.source != "0" && ctrProgressClass.progress["ok"] == 1 && Odnoklassniki.OK.IsLoggedIn)
+        {
+            Debug.Log("send sdk.reportPayment");
+            Dictionary<string, string> args = new Dictionary<string, string>();
+            args["trx_id"] = attr["transactionId"];
+            args["amount"] = revenueForOk;
+            args["currency"] = "USD";
+            Odnoklassniki.OK.API(Odnoklassniki.OKMethod.SDK.reportPayment, Method.GET, args, response =>
+            {
+                Debug.Log("response sdk.reportPayment");
+                Debug.Log(response.Text);
+            });
+        }
 
         ctrAnalyticsClass.sendCustomDimension(2, ctrAnalyticsClass.getGroup(ctrProgressClass.progress["paymentCount"], ctrAnalyticsClass.paymentGroups)); //paymentCount
         ctrAnalyticsClass.sendCustomDimension(3, ctrAnalyticsClass.getGroup(ctrProgressClass.progress["revenue"], ctrAnalyticsClass.revenueGroups)); //revenue
 
+        ctrAnalyticsClass.sendEvent("Revenue", attr, revenue);
+
+
+
 
         //anim
+        Debug.Log("animBuyBooster: " + animBuyBooster);
+        
         if (animBuyBooster != -1)
         {
             if (marketClass.instance.gameObject.activeSelf)
@@ -435,8 +481,8 @@ public class marketClass : MonoBehaviour {
 
     public IEnumerator buyBoosterAnimEnd(bool flag)
 {
-    if (flag) yield return StartCoroutine(staticClass.waitForRealTime(0.5F));
-    for (int i = 0; i < 8; i++)
+    if (flag) yield return StartCoroutine(staticClass.waitForRealTime(0.4F));
+    for (int i = 0; i < 9; i++)
     {
         //off all
         marketClass.instance.iconBoosterAnim.transform.GetChild(i).gameObject.SetActive(false);
@@ -444,4 +490,8 @@ public class marketClass : MonoBehaviour {
 
     yield return null;
 }
+
+
+
+
 }

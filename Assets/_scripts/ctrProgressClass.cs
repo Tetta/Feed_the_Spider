@@ -33,7 +33,9 @@ public class ctrProgressClass {
 	    progressSaved = strProgress;
 
         if (strProgress == "")
-	    {
+        {
+            LocalyticsUnity.Localytics.LoggingEnabled = true;
+
             //send analytics dimentions
             ctrAnalyticsClass.sendCustomDimension(5, "1"); //sessionCount
             ctrAnalyticsClass.sendCustomDimension(4, "1"); //level

@@ -459,13 +459,13 @@ public class staticClass
     /*
     static public Dictionary<string, saleTimer> sales = new Dictionary<string, saleTimer>
     {
-      {"sale_0_free", new saleTimer(new TimeSpan(0, 0, 5), new TimeSpan(0, 0, 30))},
+      {"sale_0_free", new saleTimer(new TimeSpan(0, 0, 10), new TimeSpan(0, 0, 3330))},
       {"sale_1_free", new saleTimer(new TimeSpan(0, 0, 20), new TimeSpan(0, 0, 30))},
       {"sale_2_free", new saleTimer(new TimeSpan(0, 0, 20), new TimeSpan(0, 0, 30))},
       {"sale_3_free", new saleTimer(new TimeSpan(0, 1, 20), new TimeSpan(0, 0, 30))},
-      {"sale_0_payers", new saleTimer(new TimeSpan(0, 0, 5), new TimeSpan(0, 0, 30))},
+      {"sale_0_payers", new saleTimer(new TimeSpan(0, 0, 5), new TimeSpan(0, 0, 3330))},
       {"sale_1_payers", new saleTimer(new TimeSpan(0, 0, 5), new TimeSpan(0, 0, 30))},
-      {"sale_2_payers", new saleTimer(new TimeSpan(0, 0, 5), new TimeSpan(0, 0, 30))},
+      {"sale_2_payers", new saleTimer(new TimeSpan(0, 0, 10), new TimeSpan(0, 0, 30))},
 
     };
     */

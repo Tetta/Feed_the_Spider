@@ -53,14 +53,15 @@ public class LevelUpPanel : MonoBehaviour {
 		string description = string.Format("WOW! I reached level {0}!", level);
 		if (OK.IsLoggedIn)
 		{
-			OK.OpenPhotoDialog(uploadResponse => {
+			//OK.OpenPhotoDialog(uploadResponse => {
 				Debug.Log("Photo uploaded!");
 				OK.OpenPublishDialog(PublishCallback, new List<OKMedia>()
 				{
 					OKMedia.Photo(texture),
 					OKMedia.Text(description)
 				});
-			}, () => {
+/*
+        }, () => {
 				OK.OpenPublishDialog(PublishCallback, new List<OKMedia>()
 				{
 					OKMedia.Photo(texture),
@@ -68,6 +69,7 @@ public class LevelUpPanel : MonoBehaviour {
 				});
 			},
 			texture, description);
+            */
 		}
 		Close();
 	}

@@ -10,6 +10,7 @@ public class lsLevelClass : MonoBehaviour {
     public GameObject gem1Inactive;
     public GameObject gem2Inactive;
     public Material materialInactive;
+    public Material materialDefault;
     public GameObject block;
     public Transform stonesGift;
 
@@ -19,8 +20,9 @@ public class lsLevelClass : MonoBehaviour {
     private int level;
     private bool flagBlock = false;
     // Use this for initialization
-    void Start() {
-		level = int.Parse(gameObject.name.Substring(6));
+    public void Start() {
+        flagBlock = false;
+        level = int.Parse(gameObject.name.Substring(6));
         //levelLabel.text = level.ToString();
         if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
         int levelProgress = ctrProgressClass.progress["level" + level];
@@ -35,21 +37,38 @@ public class lsLevelClass : MonoBehaviour {
                 }
         //убираем или нет блокировку
         if (block != null)
+        {
             if (int.Parse(block.name.Substring(6)) <= ctrProgressClass.progress["gems"] || lastLevel >= level)
                 block.SetActive(false);
             else flagBlock = true;
+        }
 
-        if (!((prevLevel == 0 && lastLevel + 1 >= level) || (prevLevel != 0 && lastLevel >= prevLevel)) || flagBlock) {
-            
+        if (!((prevLevel == 0 && lastLevel + 1 >= level) || (prevLevel != 0 && lastLevel >= prevLevel)) || flagBlock)
+        {
+
             islandInactive.SetActive(true);
             //белый остров
             transform.GetChild(1).GetComponent<SpriteRenderer>().material = materialInactive;
             //белые камни
-            for (int i = 0; i < transform.GetChild(2).childCount; i ++) {
+            for (int i = 0; i < transform.GetChild(2).childCount; i++)
+            {
                 transform.GetChild(2).GetChild(i).GetComponent<SpriteRenderer>().material = materialInactive;
             }
             //off for tests (разрешает прыгать на закрытые острова)
             //GetComponent<Collider>().enabled = false;
+        }
+        else
+        {
+            islandInactive.SetActive(false);
+            
+            //обычный остров
+            transform.GetChild(1).GetComponent<SpriteRenderer>().material = materialDefault;
+            //обычные камни
+            for (int i = 0; i < transform.GetChild(2).childCount; i++)
+            {
+                transform.GetChild(2).GetChild(i).GetComponent<SpriteRenderer>().material = materialDefault;
+            }
+            
         }
 
         if (levelProgress == 0 || levelProgress == 2) {

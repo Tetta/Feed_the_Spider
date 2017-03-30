@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using Odnoklassniki;
+
 //D:\Programs\AndroidSDK\platform-tools\adb logcat ActivityManager:I gof.feedthespider/com.unity3d.player.UnityPlayerNativeActivity:D *:S
 //
 // hash 2jmj7l5rSw0yVb/vlWAYkK/YBwk=
@@ -30,9 +32,9 @@ public class initClass : MonoBehaviour {
 #endif
         Debug.Log("start menu: " + Time.realtimeSinceStartup);
 
-        
-		//if (ctrProgressClass.progress.Count == 0) {
-		Time.maximumDeltaTime = 0.9F;
+	    //ctrProgressClass.progress["lastLevel"] = 75;
+        //if (ctrProgressClass.progress.Count == 0) {
+        Time.maximumDeltaTime = 0.9F;
         if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress ();
 		staticClass.initLevels ();
 

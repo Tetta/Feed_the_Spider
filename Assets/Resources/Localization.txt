@@ -217,3 +217,8 @@ challenge, "Challenge", "Испытание"
 
 inviteTitle, "Play Feed the Spider with me!", "Играй со мной в Feed the Spider!"
 inviteMessage, "Feed the Spider is cool! Check it out!", "Это красочная и увлекательная головоломка!"
+
+officialGroup, "Official group", "Официальная группа"
+aboutGame, "About the game", "Об игре"
+shareWithFriends, "Share with friends", "Поделиться с друзьями"
+share, "Share", "Опубликовать"

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Purchasing;
+using UnityEngine.Purchasing.Security;
 
 // Placing the Purchaser class in the CompleteProject namespace allows it to interact with ScoreManager, 
 // one of the existing Survival Shooter scripts.
@@ -256,8 +257,81 @@ namespace CompleteProject
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
         {
             Debug.Log("ProcessPurchase");
-            marketClass.instance.setRewardForPurchase(args.purchasedProduct.definition.id, args.purchasedProduct.transactionID);
-            
+            bool validPurchase = true; // Presume valid for platforms with no R.V.
+            string transactionId = "";
+            // Unity IAP's validation logic is only included on these platforms.
+#if UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
+            // Prepare the validator with the secrets we prepared in the Editor
+            // obfuscation window.
+            var validator = new CrossPlatformValidator(GooglePlayTangle.Data(), AppleTangle.Data(), Application.bundleIdentifier);
+
+            try
+            {
+
+
+                var result = validator.Validate(args.purchasedProduct.receipt);
+                Debug.Log("Receipt is valid. Contents:");
+                foreach (IPurchaseReceipt productReceipt in result)
+                {
+                    Debug.Log(productReceipt.productID);
+                    Debug.Log(productReceipt.purchaseDate);
+                    Debug.Log(productReceipt.transactionID);
+                    transactionId = productReceipt.transactionID;
+
+                    GooglePlayReceipt google = productReceipt as GooglePlayReceipt;
+                    if (null != google)
+                    {
+                        // This is Google's Order ID.
+                        // Note that it is null when testing in the sandbox
+                        // because Google's sandbox does not provide Order IDs.
+                        Debug.Log(google.transactionID);
+                        Debug.Log(google.purchaseState);
+                        Debug.Log(google.purchaseToken);
+                        transactionId = google.transactionID;
+                    }
+
+                    AppleInAppPurchaseReceipt apple = productReceipt as AppleInAppPurchaseReceipt;
+                    if (null != apple)
+                    {
+                        Debug.Log(apple.originalTransactionIdentifier);
+                        Debug.Log(apple.subscriptionExpirationDate);
+                        Debug.Log(apple.cancellationDate);
+                        Debug.Log(apple.quantity);
+                        transactionId = apple.originalTransactionIdentifier;
+
+                    }
+
+                    marketClass.instance.setRewardForPurchase(productReceipt.productID, transactionId);
+                }
+
+            }
+            catch (IAPSecurityException)
+            {
+                Debug.Log("Invalid receipt, not unlocking content");
+                validPurchase = false;
+            }
+#endif
+
+            if (validPurchase)
+            {
+                // Unlock the appropriate content here.
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             // A consumable product has been purchased by this user.
             /*
             if (String.Equals(args.purchasedProduct.definition.id, kProductIDConsumable, StringComparison.Ordinal))
@@ -290,6 +364,7 @@ namespace CompleteProject
             // saving purchased products to the cloud, and when that save is delayed. 
             return PurchaseProcessingResult.Complete;
         }
+
 
 
         public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)

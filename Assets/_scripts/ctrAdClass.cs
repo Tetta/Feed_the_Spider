@@ -38,10 +38,17 @@ public class ctrAdClass : MonoBehaviour
     private readonly System.Object _syncRoot = new System.Object();
     private Mycom.Target.Unity.Ads.InterstitialAd rewardedMyTarget;
     private Mycom.Target.Unity.Ads.InterstitialAd imgMyTarget;
-    private uint rewardedMyTargetId = 38837; //test
-    private uint imgMyTargetId = 6481; //test
-    //private uint rewardedMyTargetId = 92420;
-    //private uint imgMyTargetId = 92426;
+    //private uint rewardedMyTargetId = 38837; //test
+    //private uint imgMyTargetId = 6481; //test
+
+#if UNITY_ANDROID
+    private uint rewardedMyTargetId = 92777; 
+    private uint imgMyTargetId = 92774;
+#elif UNITY_IPHONE
+    private uint rewardedMyTargetId = 92793; 
+    private uint imgMyTargetId = 92790; 
+
+#endif
     public static bool rewardedMyTargetLoaded = false;
     public static bool imgMyTargetLoaded = false;
     public bool needSetRewardMyTarget = false;
@@ -438,7 +445,7 @@ public class ctrAdClass : MonoBehaviour
                         CustomParams =
                         {
                             // Задаем возраст
-                            Age = 35,
+                            Age = 30,
                             // Задаем пол
                             Gender = GenderEnum.Female
                         }

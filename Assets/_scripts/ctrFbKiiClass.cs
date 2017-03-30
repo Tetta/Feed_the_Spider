@@ -11,9 +11,10 @@ using System.Security.Policy;
 using com.playGenesis.VkUnityPlugin;
 using UnityEngine.SceneManagement;
 using Facebook.MiniJSON;
-
+using JsonOrg;
 using Odnoklassniki;
 using Odnoklassniki.HTTP;
+
 
 public class ctrFbKiiClass : MonoBehaviour {
 	public GameObject photoFriendOnMap;
@@ -56,6 +57,8 @@ public class ctrFbKiiClass : MonoBehaviour {
 
 
     }
+
+    public string source = "0";
 
     // set instance
     void Start() {
@@ -526,11 +529,22 @@ public class ctrFbKiiClass : MonoBehaviour {
         }
         if (ctrProgressClass.progress["fb"] == 1)
         {
-            FB.GameGroupJoin("1677948472504355", instance.onGroupResult);
+            //FB.GameGroupJoin("1677948472504355", instance.onGroupResult);
+            //FB.API("1411218055568852", instance.onGroupResult);
+            var wwwForm = new WWWForm();
+            wwwForm.AddField("member", userId);
+            //wwwForm.AddField("access_token", Facebook.Unity.AccessToken.CurrentAccessToken.TokenString);
+            FB.API("400521690334115/likes", HttpMethod.GET, instance.onGroupResult);
+
+            //FB.API("400521690334115/subscribed_apps", HttpMethod.GET);
+            //FB.API("400521690334115/members", HttpMethod.POST, instance.onGroupResult, wwwForm);
+
+            //FB.API("1411218055568852/members", HttpMethod.POST, instance.onGroupResult, wwwForm);
+            //FB.API("1677948472504355/members?member=" + userId, HttpMethod.GET, instance.onGroupResult);
         }
         if (ctrProgressClass.progress["ok"] == 1)
         {
-            
+            //OKMedia.App()
         }
     }
 
@@ -547,7 +561,7 @@ public class ctrFbKiiClass : MonoBehaviour {
         if (ctrProgressClass.progress["fb"] == 1)
         {
             FB.LogOut();
-            GameObject.Find("/settings folder/settings/facebook").SetActive(false);
+            GameObject.Find("/settings folder/settings/fb").SetActive(false);
         }
         if (ctrProgressClass.progress["ok"] == 1)
         {
@@ -582,14 +596,15 @@ public class ctrFbKiiClass : MonoBehaviour {
         var flagSendAnalytics = false;
         Debug.Log("socials - onRequestFriends: " + result.GetType());
         //fb
-        if (result.GetType() == typeof(IGroupJoinResult))
+        if (result.GetType() == typeof(GraphResult))
         {
             social = "fb";
-            IGroupJoinResult r = result as IGroupJoinResult;
+            GraphResult r = result as GraphResult;
             //if error
-            if (r.Error != null) Debug.Log("socials - onGroupResult fb error");
+            if (r.Error != null) Debug.Log("socials - onGroupResult fb error: " + r.RawResult);
             if (r.Error != null) return;
-            if (GameObject.Find("/settings folder/settings/vk/group button") != null) GameObject.Find("/settings folder/settings/fb/group button").SetActive(false);
+            Debug.Log("socials - onGroupResult fb: " + r.RawResult);
+            //if (GameObject.Find("/settings folder/settings/fb/group button") != null) GameObject.Find("/settings folder/settings/fb/group button").SetActive(false);
 
         }
         else if (result.GetType() == typeof(VKRequest))
@@ -598,17 +613,48 @@ public class ctrFbKiiClass : MonoBehaviour {
             VKRequest r = result as VKRequest;
             if (r.error != null) Debug.Log("socials - onGroupResult vk error: " + r.error.error_msg);
             if (r.error != null) return;
-            if (r.customParam)
 
-                if (GameObject.Find("/settings folder/settings/vk/group button") != null) GameObject.Find("/settings folder/settings/vk/group button").SetActive(false);
-            else
-                if (GameObject.Find("/settings folder/settings/vk/group button 2") != null) GameObject.Find("/settings folder/settings/vk/group button 2").SetActive(false);
+            if (r.customParam)
+            {
+                if (GameObject.Find("/settings folder/settings/vk/group button") != null)
+                    GameObject.Find("/settings folder/settings/vk/group button").SetActive(false);
+            }
+            else {
+                if (GameObject.Find("/settings folder/settings/vk/group button 2") != null)
+                GameObject.Find("/settings folder/settings/vk/group button 2").SetActive(false);
+            }
 
         }
         if (GameObject.Find("/settings folder/settings/" + social + "/back menu") != null) GameObject.Find("/settings folder/settings/" + social + "/back menu").transform.localPosition += new Vector3(0, -120, 0);
 
     }
 
+    public void share()
+    {
+        /*mediatopic.post нужны права PUBLISH_TO_STREAM
+        string media = "{\"media\": [{\"type\": \"text\",\"text\": \"my text\"},{\"type\": \"topic\",\"topicId\": \"66736579256464\",\"group\": \"true\"}]}";
+        Dictionary<string, string> args1 = new Dictionary<string, string>();
+        args1["attachment"] = media;
+        OK.API("mediatopic.post", Method.GET, args1, response =>
+        {
+            Debug.Log("-----------------------");
+            Debug.Log(response.Text);
+        });
+        */
+        Debug.Log("share click");
+
+        string media = "{\"media\": [{\"type\": \"text\",\"text\": \"Feed the Spider - интересная игра!\"},{\"type\": \"topic\",\"topicId\": \"66736745848976\",\"group\": \"true\"}]}";
+        //string media = "{\"media\": [{\"type\": \"topic\",\"topicId\": \"66736745848976\",\"group\": \"true\"}]}";
+        Dictionary<string, string> args1 = new Dictionary<string, string>();
+        args1["attachment"] = media;
+        args1["app"] = OK.AppId;
+
+        OK.API("sdk.post", Method.GET, args1, response =>
+        {
+            Debug.Log(response.Text);
+            GameObject.Find("/settings folder/settings/share menu").SetActive(false);
+        });
+    }
     //------------------------------------------------------------------------------------------------------------------------------------------------------------
     //init sdk
     private void initializeSDK()
@@ -661,6 +707,59 @@ public class ctrFbKiiClass : MonoBehaviour {
         }
         else if (sdk == "ok")
         {
+
+
+
+
+
+            //getInstallSource
+            OK.GetInstallSource(source =>
+            {
+                //source = "1"; //for test
+                if (source != "0" && !OK.IsLoggedIn && !VkApi.VkApiInstance.IsUserLoggedIn)
+                {
+                    OK.Auth(success => onLogin("ok"));
+                }
+                else if (source != "0")
+                {
+
+                    //send stats launch
+                    long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds * 1000;
+
+                    ArrayList innerStats = new ArrayList()
+                    {
+                      new Hashtable()
+                      {
+                        {"id", "launch"},
+                        {"time", unixTimestamp},
+                        {"type", "status"},
+                        {"data", new ArrayList() {
+                            "1"
+                          }
+                        }
+                      }
+                    };
+
+                    Hashtable stats = new Hashtable()
+                    {
+                      {"time", unixTimestamp},
+                      {"version", "0.0.6"},
+                      {"stats", innerStats}
+                    };
+
+                    var args = new Dictionary<string, string>()
+                    {
+                      { "stats", Odnoklassniki.HTTP.JSON.Encode(stats) }
+                    };
+                    OK.API("sdk.reportStats", args, r =>
+                    {
+                        Debug.Log("........................");
+                        Debug.Log(r.Text);
+                    });
+                }
+            });
+
+
             if (OK.IsLoggedIn && ctrProgressClass.progress["ok"] == 1)
                 onLogin("ok");
         }
@@ -675,7 +774,7 @@ public class ctrFbKiiClass : MonoBehaviour {
             case "fb":
                 if (FB.IsInitialized)
                 {
-                    var perms = new List<string>() {"public_profile", "email", "user_friends"};
+                    var perms = new List<string>() {"public_profile", "email", "user_friends", "manage_pages", "publish_pages" , "publish_actions" };
                     FB.LogInWithReadPermissions(perms, onLoginFB);
                 }
                 break;

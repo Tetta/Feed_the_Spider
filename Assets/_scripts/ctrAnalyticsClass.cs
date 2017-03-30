@@ -13,7 +13,7 @@ public class ctrAnalyticsClass: MonoBehaviour
 
 
     public static List<string> developerIds = new List<string>
-    { "15779554", "303171231", "4929221", "786955", "305568333", "51066050", "212234350", "100009826471037","100007730714188", "100004274864226", "790297741122714" };
+    { "15779554", "303171231", "4929221", "786955", "305568333", "51066050", "212234350", "100009826471037","100007730714188", "100004274864226", "790297741122714", "558610410993", "572497357200", "582889450510" };
 
     public static List<float> ageGroups = new List<float> { 0, 10, 18, 24, 35, 56 };
     public static List<float> paymentGroups = new List<float> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30 };
@@ -147,7 +147,6 @@ public class ctrAnalyticsClass: MonoBehaviour
         Debug.Log("session end 2: " + (int)DateTime.Now.AddSeconds(-sessionTimeout).TotalSeconds());
         if (ctrProgressClass.progress["sessionEnd"] < (int) DateTime.Now.AddSeconds(-sessionTimeout).TotalSeconds())
         {
-            ctrProgressClass.progress["sessionCount"]++;
             lsEnergyClass.checkEnergy(true);
             if (ctrProgressClass.progress["sessionStart"] > 1)
             {
@@ -165,6 +164,9 @@ public class ctrAnalyticsClass: MonoBehaviour
             }
             Debug.Log("startSession");
 
+            ctrProgressClass.progress["sessionCount"]++;
+            sendCustomDimension(5, getGroup(ctrProgressClass.progress["sessionCount"], ctrAnalyticsClass.sessionGroups)); //sessionCount
+
             ctrProgressClass.progress["sessionStart"] = (int)DateTime.Now.TotalSeconds();
             ctrProgressClass.progress["sessionEnd"] = (int)DateTime.Now.TotalSeconds();
             ctrProgressClass.progress["levelPlayCount"] = 0;
@@ -180,7 +182,6 @@ public class ctrAnalyticsClass: MonoBehaviour
             Debug.Log("analytics session count: " + ctrProgressClass.progress["sessionCount"]);
             Debug.Log("analytics groups count: " + ctrAnalyticsClass.sessionGroups.Count);
             Debug.Log("analytics session group: " + getGroup(ctrProgressClass.progress["sessionCount"], ctrAnalyticsClass.sessionGroups));
-            sendCustomDimension(5, getGroup(ctrProgressClass.progress["sessionCount"], ctrAnalyticsClass.sessionGroups)); //sessionCount
             
             if (ctrProgressClass.progress["firstLaunch"] == 0)
             {

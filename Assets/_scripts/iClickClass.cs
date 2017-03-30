@@ -695,6 +695,11 @@ public class iClickClass : MonoBehaviour {
             //join group menu 2
             transform.parent.parent.GetChild(6).gameObject.SetActive(true);
         }
+        else if (name == "share button")
+        {
+            //share menu
+            transform.parent.parent.GetChild(7).gameObject.SetActive(true);
+        }
     }
     public void closeMenu() {
         StartCoroutine(coroutineCloseMenu());
@@ -867,6 +872,10 @@ public class iClickClass : MonoBehaviour {
         else if (name == "join group menu exit")
         {
             GameObject.Find("/settings folder/settings/join group menu").SetActive(false);
+        }
+        else if (name == "share menu exit")
+        {
+            GameObject.Find("/settings folder/settings/share menu").SetActive(false);
         }
     }
 
@@ -1056,5 +1065,18 @@ public class iClickClass : MonoBehaviour {
     {
         GameObject.Find("/default level/gui/complete menu/camera for menu").SetActive(false);
     }
+    public void okGroupUrl()
+    {
+        Application.OpenURL("https://ok.ru/group/53192970862736");
+    }
+    public void okGroupInfoUrl()
+    {
+        Application.OpenURL("https://ok.ru/group/53192970862736/topic/66736745848976");
+    }
 
+    public void shareClick()
+    {
+        Debug.Log("clickLogout");
+        ctrFbKiiClass.instance.share();
+    }
 }
