@@ -450,8 +450,10 @@ public class ctrFbKiiClass : MonoBehaviour {
         }
         if (social == "ok")
         {
-            Dictionary<string, string> args = new Dictionary<string, string>();
+            //Dictionary<string, string> args = new Dictionary<string, string>();
+
             //args["text"] = "Join+me+in+this+awesome+game%21";
+
             //args["text"] = "jn";
             //args["uids"] = name;
             //args["devices"] = "ANDROID,IOS";
@@ -462,22 +464,89 @@ public class ctrFbKiiClass : MonoBehaviour {
             //name = "534060256361";
             //name = "537314172230";
             //long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds * 1000 + 6*60*60*1000;
-            long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds * 1000;
+            //long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds * 1000;
             //long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
             //Debug.Log(unixTimestamp);
-            args["note"] = "{\"uid\":\""+name+ "\",\"image\":\"http://pp.userapi.com/c637727/v637727333/36d5e/LcCzGvznxXA.jpg\",\"message\":\""+ title + " " + message + "\",\"payload\":\"\",\"timestamp\":"+ unixTimestamp + "}";
+            //args["note"] = "{\"uid\":\""+name+ "\",\"image\":\"http://pp.userapi.com/c637727/v637727333/36d5e/LcCzGvznxXA.jpg\",\"message\":\""+ title + " " + message + "\",\"payload\":\"\",\"timestamp\":"+ unixTimestamp + "}";
+
+            //long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds ;
+            long unixTimestamp = (long)DateTime.UtcNow.TotalSeconds() * 1000;
+
+            //get notes
+            OK.API(OKMethod.SDK.getNotes, response =>
+            {
+                Debug.Log("getNotes");
+                Debug.Log(response.Text);
+            });
+
+            /*
+            //reset note
+            var args1 = new Dictionary<string, string>()
+                    {
+                      { "timestamp", Odnoklassniki.HTTP.JSON.Encode(unixTimestamp) }
+                    };
+            OK.API(OKMethod.SDK.resetNotes, Method.GET, args1, response =>
+            {
+                Debug.Log("resetNotes");
+                Debug.Log(response.Text);
+            });
+            */
+
+            //send note
+            Hashtable note = new Hashtable()
+                    {
+                      {"uid", name},
+                      {"image", "http://pp.userapi.com/c637727/v637727333/36d5e/LcCzGvznxXA.jpg"},
+                      {"message", title + " " + message},
+                      {"payload", ""},
+                      {"timestamp", unixTimestamp}
+                    };
+
+            var args = new Dictionary<string, string>()
+                    {
+                      { "note", Odnoklassniki.HTTP.JSON.Encode(note) }
+                    };
+            /*
+                        OK.API("sdk.reportStats", args, r =>
+                        {
+                            Debug.Log("........................");
+                            Debug.Log(r.Text);
+                        });
+
+            */
+
+            /*
 
             //           args["note"] = "%7bimage:qwe,message:sdf,payload:qwe,timestamp:9999999999,uid:558511883453";
             //OK.API(OKMethod.SDK.getNotes, Method.GET, args, response =>
-            OK.API(OKMethod.SDK.sendNote, Method.GET, args, response =>
+            OK.API(OKMethod.SDK.sendNote, Method.POST, args, response =>
             //OK.API("friends.appInvite", Method.GET, args, response =>
             {
+                Debug.Log("sendNote");
                 Debug.Log(response.Text);
                 if (response.Error == "" && int.Parse( response.Object["count"].ToString()) >= 1)
                     OnInviteFriend(name);
             });
+            */
+            /*
+             * OK.API(OKMethod.SDK.sendNote, args, response =>
+            //OK.API("friends.appInvite", Method.GET, args, response =>
+            {
+                Debug.Log("sendNote");
+                Debug.Log(response.Text);
+                if (response.Error == "" && int.Parse(response.Object["count"].ToString()) >= 1)
+                    OnInviteFriend(name);
+            });
+            */
+            OK.API("sdk.sendNote", args, response =>
+            //OK.API("friends.appInvite", Method.GET, args, response =>
+            {
+                Debug.Log("sendNote");
+                Debug.Log(response.Text);
+                if (response.Error == "" && int.Parse(response.Object["count"].ToString()) >= 1)
+                    OnInviteFriend(name);
+            });
             
-
         }
     }
 
@@ -713,11 +782,17 @@ public class ctrFbKiiClass : MonoBehaviour {
 
 
             //getInstallSource
-            //OK.GetInstallSource(source =>
-            //{
-                source = "1"; //for test
-                if (source != "0" && !OK.IsLoggedIn && !VkApi.VkApiInstance.IsUserLoggedIn)
+            OK.GetInstallSource(source =>
+            {
+                //source = "1"; //for test
+                Debug.Log(".......................................................................................");
+                Debug.Log(source);
+                Debug.Log(OK.IsLoggedIn);
+                Debug.Log(VkApi.VkApiInstance.IsUserLoggedIn);
+
+                if (source != "0" && !OK.IsLoggedIn && !(VkApi.VkApiInstance.IsUserLoggedIn && ctrProgressClass.progress["vk"] == 1))
                 {
+                    Debug.Log("OK.Auth, user from OK");
                     OK.Auth(success => onLogin("ok"));
                 }
                 else if (source != "0")
@@ -757,10 +832,10 @@ public class ctrFbKiiClass : MonoBehaviour {
                         Debug.Log(r.Text);
                     });
                 }
-            //});
+            });
 
 
-            if (OK.IsLoggedIn && ctrProgressClass.progress["ok"] == 1)
+            if (OK.IsLoggedIn )
                 onLogin("ok");
         }
     }
@@ -838,7 +913,7 @@ public class ctrFbKiiClass : MonoBehaviour {
         if (SceneManager.GetActiveScene().name == "level menu")
         {
             if (social == "vk" || social == "ok") social = "vk_ok";
-                GameObject.Find("/root/static/level menu/" + social).transform.GetChild(0).gameObject.SetActive(false);
+            GameObject.Find("/root/static/level menu/" + social).transform.GetChild(0).gameObject.SetActive(false);
             if (ctrProgressClass.progress["vk"] == 1)
                 GameObject.Find("/root/static/level menu/" + social).transform.GetChild(1).gameObject.SetActive(true);
             if (ctrProgressClass.progress["ok"] == 1)

@@ -210,6 +210,7 @@ public class ctrProgressClass {
         var firstLaunch = progress["firstLaunch"];
         var vk = progress["vk"];
         var fb = progress["fb"];
+        var ok = progress["ok"];
 
         //сброс прогресса
         progress = new Dictionary<string, int> (progressDefault);
@@ -221,6 +222,7 @@ public class ctrProgressClass {
         progress["firstLaunch"] = firstLaunch;
         progress["vk"] = vk;
         progress["fb"] = fb;
+        progress["ok"] = ok;
         progress["dailyBonus"] = (int)DateTime.UtcNow.TotalSeconds();
 
         marketClass.instance.boostersLabel[0].text = progress["boostersWhite"].ToString();

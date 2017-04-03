@@ -25,6 +25,7 @@ public class AdCoinsTimerClass : MonoBehaviour {
     void Start () {
 
         DateTime startDate = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+        Debug.Log("adCoinsDate: " + startDate.AddSeconds(ctrProgressClass.progress["adCoinsDate"]));
 
         //first time
         if (ctrProgressClass.progress["adCoinsDate"] == 0)
