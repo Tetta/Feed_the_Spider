@@ -525,9 +525,18 @@ public class ctrAdClass : MonoBehaviour
         instance.adsAttributes["loading"] = "loaded";
         instance.needSetRewardMyTarget = true;
         instance.adsAttributes["status"] = "viewed";
+        //instance.setReward();
+        instance.StartCoroutine(instance.coroutineSetReward());
 
         ctrAnalyticsClass.sendEvent("Advertisment", instance.adsAttributes);
         instance.loadAdMyTarget();
+    }
+
+    public IEnumerator coroutineSetReward()
+    {
+
+        yield return StartCoroutine(staticClass.waitForRealTime(0.5F));
+        setReward();
     }
 
     //img
@@ -573,6 +582,7 @@ public class ctrAdClass : MonoBehaviour
     public void OnApplicationPause(bool flag)
     {
         Debug.Log("ctrAdClass OnPause: " + flag);
+        /*
         if (instance != null && !flag)
         {
             if (instance.needSetRewardMyTarget)
@@ -583,7 +593,7 @@ public class ctrAdClass : MonoBehaviour
 
 
         }
-
+        */
     }
 
 

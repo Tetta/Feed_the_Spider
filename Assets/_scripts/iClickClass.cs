@@ -872,6 +872,12 @@ public class iClickClass : MonoBehaviour {
         else if (name == "join group menu exit")
         {
             GameObject.Find("/settings folder/settings/join group menu").SetActive(false);
+
+        }
+        else if (name == "join group menu 2 exit")
+        {
+            GameObject.Find("/settings folder/settings/join group menu 2").SetActive(false);
+
         }
         else if (name == "share menu exit")
         {

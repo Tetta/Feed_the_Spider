@@ -713,9 +713,9 @@ public class ctrFbKiiClass : MonoBehaviour {
 
 
             //getInstallSource
-            OK.GetInstallSource(source =>
-            {
-                //source = "1"; //for test
+            //OK.GetInstallSource(source =>
+            //{
+                source = "1"; //for test
                 if (source != "0" && !OK.IsLoggedIn && !VkApi.VkApiInstance.IsUserLoggedIn)
                 {
                     OK.Auth(success => onLogin("ok"));
@@ -757,7 +757,7 @@ public class ctrFbKiiClass : MonoBehaviour {
                         Debug.Log(r.Text);
                     });
                 }
-            });
+            //});
 
 
             if (OK.IsLoggedIn && ctrProgressClass.progress["ok"] == 1)
