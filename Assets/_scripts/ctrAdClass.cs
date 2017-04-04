@@ -160,10 +160,10 @@ public class ctrAdClass : MonoBehaviour
             lsEnergyClass.energy = 1;
             //energyGO
             if (GameObject.Find("root/static/energy") != null)
-                GameObject.Find("root/static/energy").SendMessage("OnApplicationPause", false);
-            GameObject.Find("energy menu/panel with anim/energy").SendMessage("OnApplicationPause", false);
+                GameObject.Find("root/static/energy").SendMessage("OnApplicationFocus", true);
+            GameObject.Find("energy menu/panel with anim/energy").SendMessage("OnApplicationFocus", true);
             if (marketClass.instance.gameObject.activeSelf)
-                GameObject.Find("/market/shop/market menu/bars/energy").SendMessage("OnApplicationPause", false);
+                GameObject.Find("/market/shop/market menu/bars/energy").SendMessage("OnApplicationFocus", true);
 
         }
         else if (adStarted == "ad coins")
@@ -579,7 +579,7 @@ public class ctrAdClass : MonoBehaviour
 
     }
 
-    public void OnApplicationPause(bool flag)
+    public void OnApplicationFocus(bool flag)
     {
         Debug.Log("ctrAdClass OnPause: " + flag);
         /*

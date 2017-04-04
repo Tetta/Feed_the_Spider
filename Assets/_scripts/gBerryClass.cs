@@ -617,10 +617,10 @@ public class gBerryClass : MonoBehaviour {
 		//	Everyplay.StopRecording ();
 	}
 
-    public void OnApplicationPause(bool flag)
+    public void OnApplicationFocus(bool flag)
     {
-        Debug.Log("OnApplicationPause: " + staticClass.isTimePlay);
-        if (!flag)
+        Debug.Log("OnApplicationFocus: " + staticClass.isTimePlay);
+        if (flag)
         {
             Time.timeScale = staticClass.isTimePlay;
 

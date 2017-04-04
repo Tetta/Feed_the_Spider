@@ -71,7 +71,7 @@ public class lsAdClass : MonoBehaviour {
 				//GoogleAnalyticsV4.instance.LogEvent("Ad", "finish", "energy", 1);
 				ctrProgressClass.progress ["energyTime"] -= 5 * lsEnergyClass.costEnergy;
 				//ctrProgressClass.progress ["energy"] += 5;
-				energyGO.SendMessage("OnApplicationPause", false);
+				energyGO.SendMessage("OnApplicationFocus", false);
 			} else if (name == "button ad coins") {
 				//GoogleAnalyticsV4.instance.LogEvent("Ad", "finish", "coins", 1);
 				ctrProgressClass.progress ["coins"] += 70;
@@ -111,7 +111,7 @@ public class lsAdClass : MonoBehaviour {
 					//GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "finish", "energy", 1);
 					//ctrProgressClass.progress ["energyTime"] -= 5 * lsEnergyClass.costEnergy;
 					//ctrProgressClass.progress ["energy"] += 5;
-					energyGO.SendMessage("OnApplicationPause", false);
+					energyGO.SendMessage("OnApplicationFocus", true);
 				} else if (name == "button ad coins") {
 					Debug.Log ("111");
 					//GoogleAnalyticsV4.instance.LogEvent("Ad Vungle", "finish", "coins", 1);

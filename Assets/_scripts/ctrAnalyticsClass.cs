@@ -107,11 +107,11 @@ public class ctrAnalyticsClass: MonoBehaviour
         }
     }
 
-    public void OnApplicationPause(bool flag)
+    public void OnApplicationFocus(bool flag)
     {
         Debug.Log("OnPause: " + flag);
         if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
-        if (flag)
+        if (!flag)
         {
 
             //pause

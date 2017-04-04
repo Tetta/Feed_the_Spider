@@ -89,7 +89,7 @@ public class lsEnergyClass : MonoBehaviour {
         for (int e = 2; e <= 5; e++) if (ctrProgressClass.progress["skin" + e] < 1) flag = false;
         if (flag) costEnergy -= 120;
 
-		OnApplicationPause(false);
+		OnApplicationFocus(true);
         if (energyMenuState == "energy" && ctrProgressClass.progress["tutorialEnergy"] == 1) OnClick();
         //energy tutorial
         else if (ctrProgressClass.progress["tutorialEnergy"] == 0 && energy == 0) hand.SetActive(true);
@@ -208,8 +208,8 @@ public class lsEnergyClass : MonoBehaviour {
 
 	}
 
-	public void OnApplicationPause(bool flag) {
-		if (!flag) { 
+	public void OnApplicationFocus(bool flag) {
+		if (flag) { 
 			if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
 			//StopCoroutine("Coroutine");
 			StopAllCoroutines();
