@@ -496,7 +496,8 @@ public class ctrFbKiiClass : MonoBehaviour {
             Hashtable note = new Hashtable()
                     {
                       {"uid", name},
-                      {"image", "http://pp.userapi.com/c637727/v637727333/36d5e/LcCzGvznxXA.jpg"},
+                      //{"image", "http://pp.userapi.com/c637727/v637727333/36d5e/LcCzGvznxXA.jpg"},
+                      {"image", "http://pp.userapi.com/c639517/v639517235/f390/lxmBHLosYT8.jpg"},
                       {"message", title + " " + message},
                       {"payload", ""},
                       {"timestamp", unixTimestamp}
@@ -538,8 +539,17 @@ public class ctrFbKiiClass : MonoBehaviour {
                     OnInviteFriend(name);
             });
             */
-            OK.API("sdk.sendNote", args, response =>
-            //OK.API("friends.appInvite", Method.GET, args, response =>
+            var args2 = new Dictionary<string, string>()
+                    {
+                      {"uids", name},
+
+{"devices", "ANDROID,IOS"}
+                     // {"text", title + " " + message}
+
+        };
+            //OK.API("sdk.appSuggest", args2, response =>
+            //OK.API("sdk.sendNote", args, response =>
+            OK.API("sdk.appInvite",  args2, response =>
             {
                 Debug.Log("sendNote");
                 Debug.Log(response.Text);
