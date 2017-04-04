@@ -3,7 +3,7 @@
     "libs": [],
     "frameworks": ["SafariServices.framework","Security.framework"],
     "librarysearchpaths":[],
-    "frameworksearchpaths":["VKSdk"],
+    "frameworksearchpaths":["VKSdk","FacebookSDK/Plugins/iOS/"],
     "headerpaths": ["VKSdk"],
     "files":
         ["VKSdk/PGUtilities.h",
