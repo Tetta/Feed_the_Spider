@@ -21,6 +21,7 @@ public class gStarClass : MonoBehaviour {
 		if (collectors.GetComponent<gBonusClass> ().bonusState == "collectors wait click") {
             GameObject.Find("bonuses pictures").transform.GetChild(8).gameObject.SetActive(false);
             Time.timeScale = staticClass.isTimePlay;
+            Debug.Log("Time.timeScale: " + Time.timeScale);
             collectors.transform.GetChild(1).GetComponent<AudioSource> ().Play ();
 
 			GameObject tempGo = Instantiate(collectors.transform.GetChild(2).gameObject, new Vector2(0, 0), Quaternion.identity) as GameObject;

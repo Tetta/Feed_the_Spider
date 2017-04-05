@@ -32,9 +32,11 @@ public class initLevelMenuClass : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Time.maximumDeltaTime = 0.9F;
-		Time.timeScale = 1;
-		//temp
-		staticClass.initLevels();
+		if (staticClass.applicationFocus) Time.timeScale = 1;
+        Debug.Log("Time.timeScale: " + Time.timeScale);
+
+        //temp
+        staticClass.initLevels();
 		//temp
 		//coinsLabel = coins;
 		//gemsLabel = gems;

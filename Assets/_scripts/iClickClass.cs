@@ -206,7 +206,8 @@ public class iClickClass : MonoBehaviour {
     public IEnumerator CoroutineLoadLevel() {
 		if (!staticClass.sceneLoading) {
             Time.timeScale = 0;
-		    bool sceneCanLoad = true;
+            Debug.Log("Time.timeScale: " + Time.timeScale);
+            bool sceneCanLoad = true;
 
             Debug.Log(name);
             
@@ -244,6 +245,7 @@ public class iClickClass : MonoBehaviour {
 
                         }
                     }
+                    
                 }
 		    }
             if (name == "restart" || name == "start level menu")
@@ -612,19 +614,22 @@ public class iClickClass : MonoBehaviour {
 			marketClass.instance.gameObject.SetActive (true);
 			staticClass.isTimePlay = Time.timeScale;
 			Time.timeScale = 0;
-		/*
-		} else if (name == "next level menu") {
-			menu = GameObject.Find ("level menu");
-			menu.SetActive (false);
-			menu = transform.parent.parent.GetChild (3).gameObject;
-			menu.SetActive (true);
-		} else if (name == "prev level menu") {
-			menu = GameObject.Find ("level menu 2");
-			menu.SetActive (false);
-			menu = transform.parent.parent.GetChild (2).gameObject;
-			menu.SetActive (true);
-		*/
-		} else if (name == "pause") {
+            Debug.Log("Time.timeScale: " + Time.timeScale);
+
+            /*
+            } else if (name == "next level menu") {
+                menu = GameObject.Find ("level menu");
+                menu.SetActive (false);
+                menu = transform.parent.parent.GetChild (3).gameObject;
+                menu.SetActive (true);
+            } else if (name == "prev level menu") {
+                menu = GameObject.Find ("level menu 2");
+                menu.SetActive (false);
+                menu = transform.parent.parent.GetChild (2).gameObject;
+                menu.SetActive (true);
+            */
+        }
+        else if (name == "pause") {
 			menu = transform.parent.GetChild (1).gameObject;
 			menu.SetActive (true);
             Debug.Log(menu.GetComponent<lsLevelMenuClass>());
@@ -633,13 +638,18 @@ public class iClickClass : MonoBehaviour {
             else menu.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
             staticClass.isTimePlay = Time.timeScale;
 			Time.timeScale = 0;
-		} else if (name == "play") {
+            Debug.Log("Time.timeScale: " + Time.timeScale);
+
+        }
+        else if (name == "play") {
 			menu = GameObject.Find ("pause menu");
 			menu.SetActive (false);
 			Time.timeScale = staticClass.isTimePlay;
+            Debug.Log("Time.timeScale: " + Time.timeScale);
 
 
-		} else if (name == "exit energy menu")
+        }
+        else if (name == "exit energy menu")
 			GameObject.Find ("energyLabel").SendMessage ("stopCoroutineEnergyMenu");
 		else if (name == "button settings")
 			GameObject.Find ("settings folder").transform.GetChild (0).gameObject.SetActive (true);
@@ -739,6 +749,7 @@ public class iClickClass : MonoBehaviour {
             yield return StartCoroutine(staticClass.waitForRealTime(0.2F));
             menu.SetActive(false);
             Time.timeScale = staticClass.isTimePlay;
+            Debug.Log("Time.timeScale: " + Time.timeScale);
 
             //if (gYetiClass.yetiState == "")
             //Time.timeScale = 1;
@@ -782,6 +793,8 @@ public class iClickClass : MonoBehaviour {
             marketClass.instance.gameObject.SetActive(false);
             //marketClass.instance.camera.SetActive (false);
             Time.timeScale = staticClass.isTimePlay;
+            Debug.Log("Time.timeScale: " + Time.timeScale);
+
         }
         else if (name == "exit open booster menu")
         {

@@ -65,6 +65,8 @@ public class gDestroyerClass : MonoBehaviour {
             {
                 GameObject.Find("/default level/game").transform.GetChild(2).gameObject.SetActive(true);
                 Time.timeScale = 0.2F;
+                Debug.Log("Time.timeScale: " + Time.timeScale);
+
             }
         }
 		if (destroyerState == "active" && !isPressed && flagHintUse) {
@@ -91,9 +93,11 @@ public class gDestroyerClass : MonoBehaviour {
 		    {
 		        GameObject.Find("/default level/game").transform.GetChild(2).gameObject.SetActive(false);
 		        Time.timeScale = 1;
-		    }
+                Debug.Log("Time.timeScale: " + Time.timeScale);
 
-		}
+            }
+
+        }
 
 
 		

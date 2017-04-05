@@ -554,10 +554,13 @@ public class staticClass
     public static bool applicationFocus = true;
     public static void setApplicationFocus(bool flag)
     {
+        Debug.Log("setApplicationFocus: " + flag);
         if (flag)
         {
             applicationFocus = true;
             Time.timeScale = isTimePlay;
+
+            if (GameObject.Find("/root/berry")) GameObject.Find("/root/berry").GetComponent<gBerryClass>().showAdTiredMenu();
         }
         else
         {
@@ -565,6 +568,8 @@ public class staticClass
             isTimePlay = Time.timeScale;
             Time.timeScale = 0;
         }
+        Debug.Log("Time.timeScale: " + Time.timeScale);
+
     }
 }
 

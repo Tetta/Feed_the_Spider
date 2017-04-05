@@ -54,6 +54,8 @@ public class gBonusClass : MonoBehaviour {
 			if (ctrProgressClass.progress [name] > 0) {
                 if (ctrProgressClass.progress["tutorialBonus"] != 0) staticClass.isTimePlay = Time.timeScale;
                 Time.timeScale = 0;
+                Debug.Log("Time.timeScale: " + Time.timeScale);
+
                 //off tutorial bonus
                 if (ctrProgressClass.progress["tutorialBonus"] == 0) {
                     if (GameObject.Find("/default level/gui/tutorial bonus(Clone)") != null)
@@ -95,7 +97,13 @@ public class gBonusClass : MonoBehaviour {
             GameObject.Find("bonuses pictures").transform.GetChild(6).gameObject.SetActive(false);
             GameObject.Find("bonuses pictures").transform.GetChild(7).gameObject.SetActive(false);
             GameObject.Find("bonuses pictures").transform.GetChild(8).gameObject.SetActive(false);
-            if (bonusState == "webs wait click") Time.timeScale = staticClass.isTimePlay;
+	        if (bonusState == "webs wait click")
+	        {
+	            Time.timeScale = staticClass.isTimePlay;
+                Debug.Log("Time.timeScale: " + Time.timeScale);
+
+            }
+
 
         }
 
@@ -147,6 +155,8 @@ public class gBonusClass : MonoBehaviour {
         
         spiderAnimator.updateMode = AnimatorUpdateMode.Normal;
         Time.timeScale = staticClass.isTimePlay;
+        Debug.Log("Time.timeScale: " + Time.timeScale);
+
 
     }
 

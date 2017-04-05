@@ -16,10 +16,12 @@ public class ctrCorrectQualityClass : MonoBehaviour {
     void SetCorrectQuality() {
         int width = Screen.height>Screen.width?Screen.height:Screen.width;
 		QualitySettings.SetQualityLevel (1, true);
+#if UNITY_IOS
+        if (width > 1024) width = 1024;
+#endif
 
-     
-//#if UNITY_ANDROID
-		if (width > 1024) {
+        //#if UNITY_ANDROID
+        if (width > 1024) {
 			//full res
 			QualitySettings.SetQualityLevel (2, true);
 		} else if (width > 512) {

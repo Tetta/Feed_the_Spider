@@ -177,6 +177,7 @@ public class gBerryClass : MonoBehaviour {
             tutorialHintGO.transform.GetChild(0).transform.localPosition = bonusesGO.transform.localPosition + new Vector3(50, 110, 0);
             staticClass.isTimePlay = Time.timeScale;
             Time.timeScale = 0;
+            Debug.Log("Time.timeScale: " + Time.timeScale);
 
             //off level tutorial
             if (GameObject.Find("/default level/gui/tutorial") != null) GameObject.Find("/default level/gui/tutorial").transform.localScale = Vector3.zero;
@@ -206,7 +207,8 @@ public class gBerryClass : MonoBehaviour {
             tutorialBonusGO.transform.GetChild(0).transform.localPosition = bonusesGO.transform.localPosition + new Vector3(195, 80, 0);
             staticClass.isTimePlay = Time.timeScale;
             Time.timeScale = 0;
-            
+            Debug.Log("Time.timeScale: " + Time.timeScale);
+
             //off level tutorial
             if (GameObject.Find("/default level/gui/tutorial") != null) GameObject.Find("/default level/gui/tutorial").transform.localScale = Vector3.zero;
         }
@@ -226,6 +228,7 @@ public class gBerryClass : MonoBehaviour {
 
             staticClass.isTimePlay = Time.timeScale;
             Time.timeScale = 0;
+            Debug.Log("Time.timeScale: " + Time.timeScale);
 
             //off level tutorial
             if (GameObject.Find("/default level/gui/tutorial") != null) GameObject.Find("/default level/gui/tutorial").transform.localScale = Vector3.zero;
@@ -240,7 +243,8 @@ public class gBerryClass : MonoBehaviour {
         if (gHintClass.hintState == "start" && gHintClass.counter <= gHintClass.actions.Length - 1) {
 				if (fixedCounter - gHintClass.fixedFrameCountLast == gHintClass.actions [gHintClass.counter].frame) { 
 					Time.timeScale = 0;
-					gHintClass.hint.GetComponent<AudioSource> ().Play ();
+                    Debug.Log("Time.timeScale: " + Time.timeScale);
+                    gHintClass.hint.GetComponent<AudioSource> ().Play ();
 
 
 
@@ -279,9 +283,11 @@ public class gBerryClass : MonoBehaviour {
 	}
 
 	void Awake () {
-		Time.timeScale = 1;
+
+        if (staticClass.applicationFocus) Time.timeScale = 1;
 	    staticClass.isTimePlay = 1;
 
+        Debug.Log("Time.timeScale: " + Time.timeScale);
 
         //для записи подсказки (потом удалить)
         /*
@@ -349,13 +355,16 @@ public class gBerryClass : MonoBehaviour {
                 else pauseMenu.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
                 staticClass.isTimePlay = Time.timeScale;
                 Time.timeScale = 0;
+                Debug.Log("Time.timeScale: " + Time.timeScale);
 
             }
             else if (pauseMenu.activeSelf) {
 				pauseMenu.SetActive (false);
 				Time.timeScale = staticClass.isTimePlay;
-			}
-		}
+                Debug.Log("Time.timeScale: " + Time.timeScale);
+
+            }
+        }
 
 
 
@@ -617,12 +626,11 @@ public class gBerryClass : MonoBehaviour {
 		//	Everyplay.StopRecording ();
 	}
 
-    public void OnApplicationFocus(bool flag)
+
+    
+    public void showAdTiredMenu()
     {
-        Debug.Log("OnApplicationFocus: " + staticClass.isTimePlay);
-        if (flag)
-        {
-            Time.timeScale = staticClass.isTimePlay;
+
 
             if (staticClass.needShowAdTiredMenu)
             {
@@ -643,7 +651,8 @@ public class gBerryClass : MonoBehaviour {
                 staticClass.adLevelCounter = 0;
                 staticClass.needShowAdTiredMenu = false;
             }
-        }
+        
     }
+    
 
 }

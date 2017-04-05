@@ -91,16 +91,18 @@ public class initClass : MonoBehaviour {
 		staticClass.sceneLoading = false;
 
 		Time.timeScale = 1;
-		//listen for GooglePlayConnection events
-		//off (new plugin)
-		//GooglePlayConnection.instance.addEventListener (GooglePlayConnection.PLAYER_CONNECTED, OnPlayerConnected);
-		//GooglePlayConnection.instance.addEventListener (GooglePlayConnection.PLAYER_DISCONNECTED, OnPlayerDisconnected);
-		//if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogScreen("menu");
+        Debug.Log("Time.timeScale: " + Time.timeScale);
 
-	}
+        //listen for GooglePlayConnection events
+        //off (new plugin)
+        //GooglePlayConnection.instance.addEventListener (GooglePlayConnection.PLAYER_CONNECTED, OnPlayerConnected);
+        //GooglePlayConnection.instance.addEventListener (GooglePlayConnection.PLAYER_DISCONNECTED, OnPlayerDisconnected);
+        //if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogScreen("menu");
 
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update () {
 		y++;
 		if (y == 1) Debug.Log("Update menu: " + Time.realtimeSinceStartup);
 

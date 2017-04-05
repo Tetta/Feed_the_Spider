@@ -274,14 +274,19 @@ public class ctrAdClass : MonoBehaviour
     {
 #if UNITY_ANDROID || UNITY_IOS
         Debug.Log("ShowLevelAd: " + buttonName);
-        if (ctrProgressClass.progress["firstPurchase"] == 0 && ctrProgressClass.progress["currentLevel"] >= 5 && (
-                !staticClass.rateUsLevels.Contains(ctrProgressClass.progress["currentLevel"])
-            ))
+
+        //if OK, ad rate /2
+        float r = UnityEngine.Random.value;
+        if (OK.IsLoggedIn && ctrProgressClass.progress["ok"] == 1 && r > 0.5F) return false;
+
+
+
+        if (ctrProgressClass.progress["firstPurchase"] == 0 && ctrProgressClass.progress["currentLevel"] >= 5 && (!staticClass.rateUsLevels.Contains(ctrProgressClass.progress["currentLevel"])))
         {
             bool flag = false;
 
             if (((initLevelMenuClass.levelDemands == 0 && buttonName == "button play 0") ||
-                 (initLevelMenuClass.levelDemands == 1 && buttonName == "button play 1")) &&
+                    (initLevelMenuClass.levelDemands == 1 && buttonName == "button play 1")) &&
                 SceneManager.GetActiveScene().name != "level menu")
                 buttonName = "restart";
             if (staticClass.levelRestartedCount < 2) staticClass.levelAdViewed = 0;
@@ -315,6 +320,7 @@ public class ctrAdClass : MonoBehaviour
             if (flag)
             {
                 Debug.Log("need ShowLevelAd");
+                //staticClass.setApplicationFocus(false); for test
                 if (isAdReady())
                 {
                     ctrAdClass.adStarted = "level";
@@ -322,6 +328,7 @@ public class ctrAdClass : MonoBehaviour
                     {
                         staticClass.isTimePlay = Time.timeScale;
                         Time.timeScale = 0;
+                        Debug.Log("Time.timeScale: " + Time.timeScale);
                         imgMyTarget.Show();
                     }
                     else
@@ -338,6 +345,7 @@ public class ctrAdClass : MonoBehaviour
                             //pause level
                             staticClass.isTimePlay = Time.timeScale;
                             Time.timeScale = 0;
+                            Debug.Log("Time.timeScale: " + Time.timeScale);
                             interstitialAdMob.Show();
                         }
                     }
@@ -563,11 +571,11 @@ public class ctrAdClass : MonoBehaviour
     private static void OnAdDisplayedMyTarget2(Object sender, EventArgs eventArgs)
     {
         Debug.Log("OnAdDisplayedMyTarget2");
+        staticClass.setApplicationFocus(false);
         imgMyTargetLoaded = false;
         instance.adsAttributes["loading"] = "loaded";
         ctrAnalyticsClass.sendEvent("Advertisment", instance.adsAttributes);
         instance.loadAdMyTarget();
-        staticClass.setApplicationFocus(false);
 
     }
 

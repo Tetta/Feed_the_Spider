@@ -17,7 +17,9 @@ public class gHandClass : MonoBehaviour {
 		level = SceneManager.GetActiveScene().name;
 		if (initLevelMenuClass.levelDemands != 1 && gHintClass.hintState == "") {
 			Time.timeScale = 0;
-			if (transform.childCount > 2) transform.GetChild (2).gameObject.SetActive(true);
+            Debug.Log("Time.timeScale: " + Time.timeScale);
+
+            if (transform.childCount > 2) transform.GetChild (2).gameObject.SetActive(true);
 
 			if (level == "level1" || level == "level14" || level == "level16" || level == "level28" || level == "level37" || level == "level39")
 				StartCoroutine (addHand (1, 0));
@@ -41,7 +43,9 @@ public class gHandClass : MonoBehaviour {
 			if (gYetiClass.yetiState == "")
 				Time.timeScale = 1;
 		} else Time.timeScale = 1;
-		yield return StartCoroutine(staticClass.waitForRealTime(timeWait));
+        Debug.Log("Time.timeScale: " + Time.timeScale);
+
+        yield return StartCoroutine(staticClass.waitForRealTime(timeWait));
 
 		description.SetActive (true);
 		hand.SetActive (true);

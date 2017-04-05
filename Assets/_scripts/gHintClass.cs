@@ -39,7 +39,9 @@ public class gHintClass : MonoBehaviour {
 	        Time.maximumDeltaTime = 0.02F;
 
 	        Time.timeScale = 0;
-	        GameObject.Find("bonuses pictures").transform.GetChild(0).gameObject.SetActive(true);
+            Debug.Log("Time.timeScale: " + Time.timeScale);
+
+            GameObject.Find("bonuses pictures").transform.GetChild(0).gameObject.SetActive(true);
 	        GameObject.Find("bonuses pictures").transform.GetChild(1).gameObject.SetActive(true);
 	        StartCoroutine(coroutineBonusPictureEnable(1));
 
@@ -49,6 +51,8 @@ public class gHintClass : MonoBehaviour {
             hint = GameObject.Find("dream folder");
             Time.maximumDeltaTime = 0.02F;
             Time.timeScale = 0;
+            Debug.Log("Time.timeScale: " + Time.timeScale);
+
             GameObject.Find("bonuses pictures").transform.GetChild(0).gameObject.SetActive(true);
             GameObject.Find("bonuses pictures").transform.GetChild(5).gameObject.SetActive(true);
             StartCoroutine(coroutineBonusPictureEnable(5));
@@ -151,6 +155,8 @@ public class gHintClass : MonoBehaviour {
         ctrProgressClass.saveProgress();
         gHintClass.hintState = "enable dream picture";
         Time.timeScale = 1;
+        Debug.Log("Time.timeScale: " + Time.timeScale);
+
         gHintClass.counter = 0;
         gHintClass.isDream = true;
         staticClass.scenePrev = SceneManager.GetActiveScene().name;
@@ -185,7 +191,9 @@ public class gHintClass : MonoBehaviour {
 				transform.GetChild (0).GetComponent<UILabel> ().text = ctrProgressClass.progress [name].ToString ();
 				ctrProgressClass.saveProgress ();
 				Time.timeScale = 1;
-				hintState = "enable bonus picture";
+                Debug.Log("Time.timeScale: " + Time.timeScale);
+
+                hintState = "enable bonus picture";
 				counter = 0;
 				staticClass.scenePrev = SceneManager.GetActiveScene ().name;
 				SceneManager.LoadScene (SceneManager.GetActiveScene().name);
@@ -201,8 +209,9 @@ public class gHintClass : MonoBehaviour {
 
 			if (actions[counter].id == obj.transform.position) {
 				Time.timeScale = 1;
+                Debug.Log("Time.timeScale: " + Time.timeScale);
 
-				if (flag) return actions[counter].mouse;
+                if (flag) return actions[counter].mouse;
 				//hint.transform.position = new Vector3(-4, 0, 0);
 
 				if (obj.name == "destroyer" || obj.name == "groot") {
@@ -230,19 +239,20 @@ public class gHintClass : MonoBehaviour {
 					GameObject.Find ("root/berry").SendMessage ("FixedUpdate");
 					
 				Time.timeScale = 1;
-			
-			} //else {
-				//return new Vector3 (-100, -100, -100);
-				//gHintClass.hintState = "";
-				//hint.transform.position = new Vector3(-4, 0, 0);
-			//} 
-		//}	else if (hintState == "start" && !flag) {
-			//return new Vector3 (-100, -100, -100);
-			//Time.timeScale = 1;
+                Debug.Log("Time.timeScale: " + Time.timeScale);
 
-			//hintState = "";
-			//hint.transform.position = new Vector3(-4, 0, 0);
-		}
+            } //else {
+              //return new Vector3 (-100, -100, -100);
+              //gHintClass.hintState = "";
+              //hint.transform.position = new Vector3(-4, 0, 0);
+              //} 
+              //}	else if (hintState == "start" && !flag) {
+              //return new Vector3 (-100, -100, -100);
+              //Time.timeScale = 1;
+
+            //hintState = "";
+            //hint.transform.position = new Vector3(-4, 0, 0);
+        }
 
 
 		return Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
@@ -262,9 +272,11 @@ public class gHintClass : MonoBehaviour {
 		hintState = "start";
 		time = Time.unscaledTime;
 		Time.timeScale = 1;
-	}
+        Debug.Log("Time.timeScale: " + Time.timeScale);
 
-	Vector3 сalculateBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3) {
+    }
+
+    Vector3 сalculateBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3) {
 
 		float u = 1 - t;
 		float tt = t*t;

@@ -60,7 +60,8 @@ public class gYetiClass : MonoBehaviour {
 					item.GetComponent<Rigidbody2D> ().isKinematic = true;
 				}
 				Time.timeScale = 0;
-				yetiBlow.SetActive (true);
+                Debug.Log("Time.timeScale: " + Time.timeScale);
+                yetiBlow.SetActive (true);
 				yetiZzz.SetActive (false);
 				yetiSleep.SetActive (false);
 
@@ -80,7 +81,8 @@ public class gYetiClass : MonoBehaviour {
 				}
 				spider.GetComponent<Rigidbody2D> ().isKinematic = false;
 				Time.timeScale = 1;
-				yetiBlow.SetActive (false);
+                Debug.Log("Time.timeScale: " + Time.timeScale);
+                yetiBlow.SetActive (false);
 				yetiZzz.SetActive (true);
 				yetiSleep.SetActive (true);
 				backYeti.SetActive (false);
