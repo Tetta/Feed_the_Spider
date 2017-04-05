@@ -550,5 +550,21 @@ public class staticClass
 
     public static int adLevelCounter = 0;
     public static bool needShowAdTiredMenu = false;
+
+    public static bool applicationFocus = true;
+    public static void setApplicationFocus(bool flag)
+    {
+        if (flag)
+        {
+            applicationFocus = true;
+            Time.timeScale = isTimePlay;
+        }
+        else
+        {
+            applicationFocus = false;
+            isTimePlay = Time.timeScale;
+            Time.timeScale = 0;
+        }
+    }
 }
 

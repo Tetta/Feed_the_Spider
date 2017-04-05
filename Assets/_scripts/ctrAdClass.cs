@@ -53,6 +53,7 @@ public class ctrAdClass : MonoBehaviour
     public static bool imgMyTargetLoaded = false;
     public bool needSetRewardMyTarget = false;
     public static long timeFailed = 0; //for analytics only
+    public static bool adDisplayed; 
 
     public void Start()
     {
@@ -144,6 +145,7 @@ public class ctrAdClass : MonoBehaviour
             case ShowResult.Skipped:
                 adsAttributes["status"] = "skip";
                 break;
+
             case ShowResult.Failed:
                 adsAttributes["status"] = "failed";
                 break;
@@ -244,13 +246,15 @@ public class ctrAdClass : MonoBehaviour
                 adsAttributes["provider"] = "AdMob";
                 return true;
             }
+
+#if !UNITY_IOS
             else if (adsAttributes["type"] == "skippable" && Advertisement.IsReady("video"))
             {
                 RequestInterstitial(true);
                 adsAttributes["provider"] = "Unity Ads";
                 return true;
             }
-
+#endif
             //admob
 
 
@@ -403,6 +407,7 @@ public class ctrAdClass : MonoBehaviour
         adsAttributes["loading"] = "loaded";
         Debug.Log("HandleInterstitialOpened event received my");
         //RequestInterstitial();
+        staticClass.setApplicationFocus(false);
     }
 
     public void HandleInterstitialClosed(object sender, EventArgs args)
@@ -412,6 +417,9 @@ public class ctrAdClass : MonoBehaviour
 
         Debug.Log("HandleInterstitialClosed event received my");
         RequestInterstitial();
+        adDisplayed = false;
+        staticClass.setApplicationFocus(true);
+
     }
 
     public void HandleInterstitialLeftApplication(object sender, EventArgs args)
@@ -515,7 +523,6 @@ public class ctrAdClass : MonoBehaviour
         Debug.Log("OnAdDisplayedMyTarget");
         rewardedMyTargetLoaded = false;
         instance.adsAttributes["loading"] = "loaded";
-
     }
 
     public static void OnAdVideoCompletedMyTarget(Object sender, EventArgs eventArgs)
@@ -560,11 +567,15 @@ public class ctrAdClass : MonoBehaviour
         instance.adsAttributes["loading"] = "loaded";
         ctrAnalyticsClass.sendEvent("Advertisment", instance.adsAttributes);
         instance.loadAdMyTarget();
+        staticClass.setApplicationFocus(false);
+
     }
 
     private static void OnAdVideoCompletedMyTarget2(Object sender, EventArgs eventArgs)
     {
         Debug.Log("OnAdVideoCompletedMyTarget2");
+        staticClass.setApplicationFocus(true);
+
         //imgMyTargetLoaded = false;
         //ctrAnalyticsClass.sendEvent("Advertisment", instance.adsAttributes);
 
@@ -579,22 +590,6 @@ public class ctrAdClass : MonoBehaviour
 
     }
 
-    public void OnApplicationFocus(bool flag)
-    {
-        Debug.Log("ctrAdClass OnPause: " + flag);
-        /*
-        if (instance != null && !flag)
-        {
-            if (instance.needSetRewardMyTarget)
-            {
-                setReward();
-                instance.needSetRewardMyTarget = false;
-            }
-
-
-        }
-        */
-    }
 
 
     public static bool isTimeToSendFailedAdAnalytics()

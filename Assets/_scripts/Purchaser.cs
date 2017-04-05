@@ -267,7 +267,10 @@ namespace CompleteProject
 
             try
             {
-
+                Debug.Log(args.purchasedProduct.metadata.isoCurrencyCode);
+                Debug.Log(args.purchasedProduct.metadata.localizedPrice);
+                Debug.Log(args.purchasedProduct.metadata.localizedPriceString);
+               
 
                 var result = validator.Validate(args.purchasedProduct.receipt);
                 Debug.Log("Receipt is valid. Contents:");
@@ -287,7 +290,8 @@ namespace CompleteProject
                         Debug.Log(google.transactionID);
                         Debug.Log(google.purchaseState);
                         Debug.Log(google.purchaseToken);
-                        transactionId = google.transactionID;
+                        if (transactionId == "" || transactionId == null) transactionId = google.transactionID;
+                        if (transactionId == "" || transactionId == null) transactionId = google.purchaseToken;
                     }
 
                     AppleInAppPurchaseReceipt apple = productReceipt as AppleInAppPurchaseReceipt;
@@ -301,7 +305,7 @@ namespace CompleteProject
 
                     }
 
-                    marketClass.instance.setRewardForPurchase(productReceipt.productID, transactionId);
+                    marketClass.instance.setRewardForPurchase(productReceipt.productID, transactionId, args.purchasedProduct.metadata.isoCurrencyCode, args.purchasedProduct.metadata.localizedPrice);
                 }
 
             }

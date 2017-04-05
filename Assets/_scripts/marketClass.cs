@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 //using UnionAssets.FLE;
 using System.Collections.Generic;
@@ -238,7 +239,7 @@ public class marketClass : MonoBehaviour {
 
         */
 
-    public void setRewardForPurchase(string itemId, string transactionId)
+    public void setRewardForPurchase(string itemId, string transactionId, string currency, decimal price)
     {
         Debug.Log("setRewardForPurchase");
         var attr = new Dictionary<string, string> {{"category", "shop"}, { "name", itemId }, { "revenue", "100" } };
@@ -432,16 +433,20 @@ public class marketClass : MonoBehaviour {
         Debug.Log("revenue int: " + revenue);
         Debug.Log("revenue str: " + attr["revenue"]);
 
-        string revenueForOk = Mathf.FloorToInt(revenue / 100) + "." + (revenue % 100);
+        //string revenueForOk = Mathf.FloorToInt(revenue / 100) + "." + (revenue % 100);
+        string revenueForOk = price.ToString().Replace(",", ".");
         //send OK sdk.reportPayment
-        
+
         if (ctrFbKiiClass.instance.source != "0" && ctrProgressClass.progress["ok"] == 1 && Odnoklassniki.OK.IsLoggedIn)
         {
             Debug.Log("send sdk.reportPayment");
             Dictionary<string, string> args = new Dictionary<string, string>();
             args["trx_id"] = attr["transactionId"];
+            if (args["trx_id"].Length > 128)  args["trx_id"] = args["trx_id"].Substring(0, 128);
+            //args["amount"] = revenueForOk;
             args["amount"] = revenueForOk;
-            args["currency"] = "USD";
+            //args["currency"] = "USD";
+            args["currency"] = currency;
             Odnoklassniki.OK.API(Odnoklassniki.OKMethod.SDK.reportPayment, Method.GET, args, response =>
             {
                 Debug.Log("response sdk.reportPayment");

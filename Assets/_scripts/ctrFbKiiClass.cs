@@ -657,9 +657,10 @@ public class ctrFbKiiClass : MonoBehaviour {
         friendsScore = null;
         friendsLastLevel = new Dictionary<string, string>();
 
+        userImage = null;
 
+    friendsForInvite = new List<FriendForInvite>();
 
-        friendsForInvite = new List<FriendForInvite>();
 
         ctrProgressClass.progress["fb"] = 0;
         ctrProgressClass.progress["vk"] = 0;
@@ -799,6 +800,7 @@ public class ctrFbKiiClass : MonoBehaviour {
                 Debug.Log(source);
                 Debug.Log(OK.IsLoggedIn);
                 Debug.Log(VkApi.VkApiInstance.IsUserLoggedIn);
+                instance.source = source;
 
                 if (source != "0" && !OK.IsLoggedIn && !(VkApi.VkApiInstance.IsUserLoggedIn && ctrProgressClass.progress["vk"] == 1))
                 {
