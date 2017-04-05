@@ -859,8 +859,10 @@ public class ctrFbKiiClass : MonoBehaviour {
         switch (social)
         {
             case "fb":
+                Debug.Log("socials - connect: " + social + " step 1");
                 if (FB.IsInitialized)
                 {
+                    Debug.Log("socials - connect: " + social + " step 2");
                     var perms = new List<string>() {"public_profile", "email", "user_friends", "manage_pages", "publish_pages" , "publish_actions" };
                     FB.LogInWithReadPermissions(perms, onLoginFB);
                 }

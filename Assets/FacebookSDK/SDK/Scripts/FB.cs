@@ -314,6 +314,7 @@ namespace Facebook.Unity
             IEnumerable<string> permissions = null,
             FacebookDelegate<ILoginResult> callback = null)
         {
+            Debug.Log("socials - connect step 3");
             FacebookImpl.LogInWithReadPermissions(permissions, callback);
         }
 

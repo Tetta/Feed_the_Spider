@@ -32,7 +32,7 @@ public class initLevelMenuClass : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Time.maximumDeltaTime = 0.9F;
-		if (staticClass.applicationFocus) Time.timeScale = 1;
+		Time.timeScale = 1;
         Debug.Log("Time.timeScale: " + Time.timeScale);
 
         //temp
