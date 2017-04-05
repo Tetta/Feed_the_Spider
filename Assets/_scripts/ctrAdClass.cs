@@ -497,6 +497,8 @@ public class ctrAdClass : MonoBehaviour
                     imgMyTarget.AdVideoCompleted += OnAdVideoCompletedMyTarget2;
                     imgMyTarget.AdLoadCompleted += OnLoadCompletedMyTarget2;
                     imgMyTarget.AdLoadFailed += OnAdLoadFailedMyTarget;
+                    imgMyTarget.AdDismissed += OnAdDismissedMyTarget2;
+
                     imgMyTarget.Load();
                 }
             }
@@ -598,7 +600,12 @@ public class ctrAdClass : MonoBehaviour
 
     }
 
+    private static void OnAdDismissedMyTarget2(Object sender, EventArgs eventArgs)
+    {
+        Debug.Log("OnAdDismissedMyTarget2");
+        staticClass.setApplicationFocus(true);
 
+    }
 
     public static bool isTimeToSendFailedAdAnalytics()
     {
