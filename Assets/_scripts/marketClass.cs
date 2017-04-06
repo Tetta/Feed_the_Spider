@@ -418,6 +418,7 @@ public class marketClass : MonoBehaviour {
         if (attr["category"] == "sales")
         {
             GameObject.Find("button sale").GetComponent<lsSaleClass>().OnEnable();
+            if (instance.isActiveAndEnabled) GameObject.Find("market menu/sale/button sale").GetComponent<lsSaleClass>().OnEnable();
             //if on map
             if (GameObject.Find("sale menu") != null) GameObject.Find("sale menu").SetActive(false);
             marketClass.instance.gameObject.SetActive(true);
