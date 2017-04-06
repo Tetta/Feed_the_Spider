@@ -18,6 +18,8 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+using UnityEngine;
+
 namespace Facebook.Unity.Mobile.Android
 {
     using System;
@@ -102,6 +104,7 @@ namespace Facebook.Unity.Mobile.Android
             IEnumerable<string> permissions,
             FacebookDelegate<ILoginResult> callback)
         {
+            Debug.Log("step 4");
             MethodArguments args = new MethodArguments();
             args.AddCommaSeparatedList(AndroidFacebook.LoginPermissionsKey, permissions);
             var loginCall = new JavaMethodCall<ILoginResult>(this, "LoginWithReadPermissions");
@@ -331,6 +334,7 @@ namespace Facebook.Unity.Mobile.Android
 
             public override void Call(MethodArguments args = null)
             {
+                Debug.Log("step 5");
                 MethodArguments paramsCopy;
                 if (args == null)
                 {

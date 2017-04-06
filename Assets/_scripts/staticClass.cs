@@ -2,8 +2,9 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine.SceneManagement;
 
-	/*
+/*
 		stars = 0 - 3;
 		--------------
 		none = 0;
@@ -559,7 +560,12 @@ public class staticClass
         {
             applicationFocus = true;
             Time.timeScale = isTimePlay;
-
+            if (SceneManager.GetActiveScene().name == "level menu")
+            {
+                Time.timeScale = 1;
+                isTimePlay = 1;
+            }
+            
             if (GameObject.Find("/root/berry")) GameObject.Find("/root/berry").GetComponent<gBerryClass>().showAdTiredMenu();
         }
         else

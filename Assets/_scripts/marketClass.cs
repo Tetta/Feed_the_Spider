@@ -428,7 +428,7 @@ public class marketClass : MonoBehaviour {
 
         Debug.Log("revenue old: " + attr["revenue"]);
         long revenue = Mathf.FloorToInt(int.Parse(attr["revenue"]) * 0.7F);
-        attr["revenue"] = Mathf.FloorToInt(revenue/100) + "," + (revenue%100);
+        attr["revenue"] = Mathf.FloorToInt(revenue/100) + "." + (revenue%100);
         //attr["revenue"] = int
         Debug.Log("revenue int: " + revenue);
         Debug.Log("revenue str: " + attr["revenue"]);

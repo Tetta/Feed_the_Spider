@@ -9,7 +9,7 @@ public class loadingClass : MonoBehaviour {
 	IEnumerator Start() {
 	//void Start() {
 		Debug.Log("start: " + Time.realtimeSinceStartup);
-		Application.backgroundLoadingPriority = ThreadPriority.Normal;
+		Application.backgroundLoadingPriority = ThreadPriority.High;
 		AsyncOperation async = SceneManager.LoadSceneAsync("menu");
 
 		//Text label = GetComponent<Text>();
