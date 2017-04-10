@@ -577,5 +577,38 @@ public class staticClass
         Debug.Log("Time.timeScale: " + Time.timeScale);
 
     }
+
+    static public Dictionary<string, float> VAT = new Dictionary<string, float>
+    {
+      {"RUB", 0.18F},
+      {"USD", 0.18F}
+
+    };
+
+    static public Dictionary<string, string> prices = new Dictionary<string, string>
+    {
+      {"booster_green_1", ""},
+      {"booster_blue_1", ""},
+      {"booster_purple_1", ""},
+      {"booster_green_10", ""},
+      {"booster_blue_10", ""},
+      {"booster_purple_10", ""},
+      {"sale_1_free", ""},
+      {"sale_2_free", ""},
+      {"sale_3_free", ""},
+      {"sale_4_free", ""},
+      {"sale_1_green_payers", ""},
+      {"sale_1_blue_payers", ""},
+      {"sale_1_purple_payers", ""},
+      {"sale_2_green_payers", ""},
+      {"sale_2_blue_payers", ""},
+      {"sale_2_purple_payers", ""},
+      {"sale_3_green_payers", ""},
+      {"sale_3_blue_payers", ""},
+      {"sale_3_purple_payers", ""},
+      {"energy_for_day", ""},
+      {"chapter", ""}
+
+    };
 }
 

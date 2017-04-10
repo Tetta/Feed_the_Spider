@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Purchasing;
+using UnityEngine.Purchasing.Extension;
 using UnityEngine.Purchasing.Security;
+using UnityEngine.Purchasing.Default;
 
 // Placing the Purchaser class in the CompleteProject namespace allows it to interact with ScoreManager, 
 // one of the existing Survival Shooter scripts.
 namespace CompleteProject
 {
+
+
+
     // Deriving the Purchaser class from IStoreListener enables it to receive messages from Unity Purchasing.
     public class Purchaser : MonoBehaviour, IStoreListener
     {
         private static IStoreController m_StoreController;          // The Unity Purchasing system.
         private static IExtensionProvider m_StoreExtensionProvider; // The store-specific Purchasing subsystems.
-
+        
         // Product identifiers for all products capable of being purchased: 
         // "convenience" general identifiers for use with Purchasing, and their store-specific identifier 
         // counterparts for use with and outside of Unity Purchasing. Define store-specific identifiers 
@@ -59,7 +65,6 @@ namespace CompleteProject
 
             // Create a builder, first passing in a suite of Unity provided stores.
             var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
-
             // Add a product to sell / restore by way of its identifier, associating the general identifier
             // with its store-specific identifiers.
 #if UNITY_IOS
@@ -123,6 +128,8 @@ namespace CompleteProject
             // Kick off the remainder of the set-up with an asynchrounous call, passing the configuration 
             // and this class' instance. Expect a response either in OnInitialized or OnInitializeFailed.
             UnityPurchasing.Initialize(this, builder);
+
+
         }
 
 
@@ -244,6 +251,33 @@ namespace CompleteProject
             m_StoreController = controller;
             // Store specific subsystem, for accessing device-specific store features.
             m_StoreExtensionProvider = extensions;
+
+
+            //controller.products.all.First().metadata.localizedPrice
+            foreach (var product in controller.products.all)
+            {
+                Debug.Log(product.metadata.localizedPrice);
+                Debug.Log(product.metadata.isoCurrencyCode);
+                Debug.Log(product.metadata.localizedDescription);
+                Debug.Log(product.metadata.localizedPriceString);
+                Debug.Log(product.metadata.localizedTitle);
+                //Debug.Log(product.metadata.);
+
+                //Debug.Log(product.WithStoreSpecificID(string id););
+                // Fetch the currency Product reference from Unity Purchasing
+                //Debug.Log(product.definition.id);
+                if (product.definition.id.Length > 28)
+                {
+                    if (staticClass.prices.ContainsKey(product.definition.id.Substring(27))) staticClass.prices[product.definition.id.Substring(27)] = product.metadata.localizedPriceString;
+                }
+
+                
+            }
+            
+            
+            
+            //extensions.GetExtension<googl>()
+
         }
 
 
@@ -271,8 +305,7 @@ namespace CompleteProject
                 Debug.Log(args.purchasedProduct.metadata.localizedPrice);
                 Debug.Log(args.purchasedProduct.metadata.localizedPriceString);
                
-
-                var result = validator.Validate(args.purchasedProduct.receipt);
+                 var result = validator.Validate(args.purchasedProduct.receipt);
                 Debug.Log("Receipt is valid. Contents:");
                 foreach (IPurchaseReceipt productReceipt in result)
                 {
@@ -280,7 +313,6 @@ namespace CompleteProject
                     Debug.Log(productReceipt.purchaseDate);
                     Debug.Log(productReceipt.transactionID);
                     transactionId = productReceipt.transactionID;
-
                     GooglePlayReceipt google = productReceipt as GooglePlayReceipt;
                     if (null != google)
                     {
