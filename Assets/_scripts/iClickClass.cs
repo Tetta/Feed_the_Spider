@@ -164,15 +164,8 @@ public class iClickClass : MonoBehaviour {
             ctrProgressClass.progress["boostersWhite"] += amount;
             ctrProgressClass.saveProgress();
 
-            marketClass.instance.boostersLabel[0].text = ctrProgressClass.progress["boostersWhite"].ToString();
-            //marketClass.instance.boostersLabel[1].text = ctrProgressClass.progress["boostersGreen"].ToString();
-            // marketClass.instance.boostersLabel[2].text = ctrProgressClass.progress["boostersBlue"].ToString();
-            //marketClass.instance.boostersLabel[3].text = ctrProgressClass.progress["boostersPurple"].ToString();
-            //marketClass.instance.boostersLabel.GetComponent<AudioSource> ().Play ();
-            //marketClass.instance.boostersLabel.GetComponent<Animator> ().Play("button");
-            //marketClass.instance.boostersLabel.transform.GetChild(0).GetComponent<ParticleSystem> ().Stop();
-            //marketClass.instance.boostersLabel.transform.GetChild(0).GetComponent<ParticleSystem> ().Play();
-
+            staticClass.setBoostersLabels();
+    
             //change label coins
             GameObject.Find("/market/shop/market menu/bars/coins/label coins").GetComponent<UILabel>().text = ctrProgressClass.progress["coins"].ToString();
 
@@ -473,6 +466,7 @@ public class iClickClass : MonoBehaviour {
 
 
     void initSettings() {
+        Debug.Log("initSettings");
         if (name == "music button") {
 			if (ctrProgressClass.progress ["music"] == 1) {
 				transform.GetChild (0).gameObject.SetActive (false);
@@ -496,6 +490,7 @@ public class iClickClass : MonoBehaviour {
                 transform.parent.parent.GetChild(2).gameObject.SetActive(true);
                 transform.parent.parent.GetChild(1).gameObject.SetActive(false);
                 transform.parent.parent.GetChild(3).gameObject.SetActive(false);
+
             }
             //ok on
             if (ctrProgressClass.progress["ok"] == 1 && Odnoklassniki.OK.IsLoggedIn)
@@ -608,13 +603,14 @@ public class iClickClass : MonoBehaviour {
     void openMenu() {
         Debug.Log("openMenu: " + name);
         GameObject menu = null;
-        //if (name == "button market") marketClass.instance.gameObject.SetActive(true);
-		if (name == "button market") {
+        if (name == "button market") {
 			//marketClass.instance.transform.position = new Vector3 (0, 0, -1);
 			marketClass.instance.gameObject.SetActive (true);
 			staticClass.isTimePlay = Time.timeScale;
 			Time.timeScale = 0;
             Debug.Log("Time.timeScale: " + Time.timeScale);
+
+            if (lsSaleClass.timerStartSale < DateTime.Now) marketClass.instance.transform.GetChild(0).GetComponent<UIToggle>().Set(true);
 
             /*
             } else if (name == "next level menu") {
@@ -652,35 +648,58 @@ public class iClickClass : MonoBehaviour {
         else if (name == "exit energy menu")
 			GameObject.Find ("energyLabel").SendMessage ("stopCoroutineEnergyMenu");
 		else if (name == "button settings")
-			GameObject.Find ("settings folder").transform.GetChild (0).gameObject.SetActive (true);
-		else if (transform.parent.gameObject.name == "open booster") {
+        {
+            Transform go = GameObject.Find("settings folder").transform.GetChild(0);
+            go.gameObject.SetActive(true);
+            //anim coins
+            go.GetChild(2).GetChild(4).gameObject.SetActive(false);
+            go.GetChild(2).GetChild(5).gameObject.SetActive(false);
+            if (ctrProgressClass.progress["rewardRepostOK"] == 1) go.GetChild(3).GetChild(0).GetChild(3).gameObject.SetActive(false);
+        }
+        else if (transform.parent.gameObject.name == "open booster")
+        {
             Debug.Log("open booster");
             Debug.Log(name + ": " + ctrProgressClass.progress[name]);
-            if (ctrProgressClass.progress [name] > 0) {
+            if (ctrProgressClass.progress[name] > 0)
+            {
                 //отключаем все спрайты бустера
                 for (int i = 0; i < 4; i++)
-			    {
-			        marketClass.instance.openBoosterMenu.transform.GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(false);
-			    }
+                {
+                    marketClass.instance.openBoosterMenu.transform.GetChild(1)
+                        .GetChild(1)
+                        .GetChild(0)
+                        .GetChild(0)
+                        .GetChild(i)
+                        .gameObject.SetActive(false);
+                }
                 //включаем , какой открываем
-                marketClass.instance.openBoosterMenu.transform.GetChild(1).GetChild(1).GetChild(0).GetChild(0).FindChild(name).gameObject.SetActive(true);
+                marketClass.instance.openBoosterMenu.transform.GetChild(1)
+                    .GetChild(1)
+                    .GetChild(0)
+                    .GetChild(0)
+                    .FindChild(name)
+                    .gameObject.SetActive(true);
 
                 marketClass.instance.openBoosterMenu.SetActive(true);
                 //marketClass.instance.boosterMenu.SetActive(false);
 
                 //if (Everyplay.IsRecordingSupported () && !Everyplay.IsRecording() && ctrProgressClass.progress["everyplay"] == 1)
-				//	Everyplay.StartRecording ();
+                //	Everyplay.StartRecording ();
 
-			}
+            }
 
-		//} else if (name == "coins ad") {
-		//	GameObject.Find ("root/static").transform.FindChild ("coins menu").gameObject.SetActive (true);
+            //} else if (name == "coins ad") {
+            //	GameObject.Find ("root/static").transform.FindChild ("coins menu").gameObject.SetActive (true);
 
 
-		} else if (name == "get booster") {
-			transform.parent.parent.parent.GetChild (0).gameObject.SendMessage ("OnClick");
-		} else if (name == "reset progress") {
-			transform.parent.parent.parent.GetChild (1).gameObject.SetActive(true);
+        }
+        else if (name == "get booster")
+        {
+            transform.parent.parent.parent.GetChild(0).gameObject.SendMessage("OnClick");
+        }
+        else if (name == "reset progress")
+        {
+            transform.parent.parent.parent.GetChild(1).gameObject.SetActive(true);
         }
         else if (name == "button sale")
         {
@@ -693,7 +712,7 @@ public class iClickClass : MonoBehaviour {
         else if (name == "ad coins")
         {
             //coins menu
-           initLevelMenuClass.instance.coinsMenu.SetActive(true);
+            initLevelMenuClass.instance.coinsMenu.SetActive(true);
         }
         else if (name == "group button")
         {
@@ -904,14 +923,24 @@ public class iClickClass : MonoBehaviour {
 
     void selectLanguage() {
         Localization.language = name;
-		if (name == "Russian") {
+        var logo = GameObject.Find("/UI Root (2D)/root/logo");
+        var berry = GameObject.Find("/UI Root (2D)/root/berry");
+        if (name == "Russian") {
 			ctrProgressClass.progress ["language"] = 2;
 			transform.parent.GetChild (0).GetChild (0).gameObject.SetActive (false);
-		} else {
+            logo.transform.GetChild(0).gameObject.SetActive(false);
+            logo.transform.GetChild(1).gameObject.SetActive(true);
+            berry.transform.localPosition = new Vector3(330, -140, 0);
+
+        }
+        else {
 			transform.parent.GetChild (1).GetChild (0).gameObject.SetActive (false);
 			ctrProgressClass.progress ["language"] = 1;
-		}
-		transform.GetChild (0).gameObject.SetActive (true);
+            logo.transform.GetChild(1).gameObject.SetActive(false);
+            logo.transform.GetChild(0).gameObject.SetActive(true);
+            berry.transform.localPosition = new Vector3(306, -288, 0);
+        }
+        transform.GetChild (0).gameObject.SetActive (true);
 		ctrProgressClass.saveProgress ();
 	}
 

@@ -3,7 +3,7 @@ Level,Level,Уровень
 SPIDER,SPIDER,ПАУЧОК
 lsStars,"Collect stars: ", "Соберите звезд: "
 lsTime,"Beat the time", "Успейте за время"
-lsWeb,"Use web: ", "Используйте \nпаутинку: "
+lsWeb,"Tap on the web not more than", "Тапните на паутинку не более"
 lsSluggish,"Don't use Sluggish", "Не используйте \nЛизуна"
 lsDestroyer,"Don't use Destroyer", "Не используйте \nРазрушителя"
 lsYeti,"Don't use Yeti", "Не используйте \nЙети"
@@ -28,7 +28,7 @@ lsCoinsMenu, "Watch ads", "Посмотри рекламу"
 lsCoinsMenu2, "  and get 50      !", "и получи 50      !"
 //lsCoinsMenu, "Want to see advertisements", "Хочешь посмотреть рекламу"
 //lsCoinsMenu2, " and get 70   ?", " и получить 70   ?"
-lsAdCoinsReward, "You got a reward!", "Киносеанс удался!"
+lsAdCoinsReward, "You got a reward!", "Вы получили награду!"
 lsUnlockChapterMenu, "You don't have enough keys.", "У вас недостаточно ключей."
 lsUnlockChapterMenu2, "You want to buy the next chapter?", "Хотите приобрести следующую главу?"
 lsUnlockChapterMenu3, "Collect keys", "Собрать ключи"
@@ -189,6 +189,7 @@ socialJoinGroup2, "Join the group\nFeed the Spider", "Присоединитьс
 socialJoinGroup3, "Join the group VK Games", "Присоединиться к группе VK Games"
 socialJoinGroup4, "Join the group VK Games?", "Присоединиться к группе VK Games?"
 socialLogout, "Logout", "Выйти"
+invited, "Invited", "Приглашен"
 
 
 sale0Free, "Beginner pack!", "Пакет новичка!"
@@ -222,3 +223,6 @@ officialGroup, "Official group", "Официальная группа"
 aboutGame, "About the game", "Об игре"
 shareWithFriends, "Share with friends", "Поделиться с друзьями"
 share, "Share", "Опубликовать"
+
+rewardForLogin, "Reward for the login", "Награда за логин"
+rewardForFriend, "for each invited friend", "за каждого друга"

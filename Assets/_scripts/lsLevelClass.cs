@@ -7,8 +7,6 @@ public class lsLevelClass : MonoBehaviour {
     //public GameObject spider;
     //public Transform cameraTransform;
     public GameObject islandInactive;
-    public GameObject gem1Inactive;
-    public GameObject gem2Inactive;
     public Material materialInactive;
     public Material materialDefault;
     public GameObject block;
@@ -27,7 +25,9 @@ public class lsLevelClass : MonoBehaviour {
         if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
         int levelProgress = ctrProgressClass.progress["level" + level];
         int lastLevel = ctrProgressClass.progress["lastLevel"];
-        
+        var gem1Active = transform.GetChild(0).GetChild(0);
+        var gem2Active = transform.GetChild(0).GetChild(1);
+
 
         //камни подарка
         if (stonesGift != null)
@@ -54,8 +54,8 @@ public class lsLevelClass : MonoBehaviour {
             {
                 transform.GetChild(2).GetChild(i).GetComponent<SpriteRenderer>().material = materialInactive;
             }
-            //off for tests (разрешает прыгать на закрытые острова)
-            //GetComponent<Collider>().enabled = false;
+            gem1Active.GetComponent<SpriteRenderer>().material = materialInactive;
+            gem2Active.GetComponent<SpriteRenderer>().material = materialInactive;
         }
         else
         {
@@ -68,21 +68,23 @@ public class lsLevelClass : MonoBehaviour {
             {
                 transform.GetChild(2).GetChild(i).GetComponent<SpriteRenderer>().material = materialDefault;
             }
-            
+            gem1Active.GetComponent<SpriteRenderer>().material = materialDefault;
+            gem2Active.GetComponent<SpriteRenderer>().material = materialDefault;
+
         }
 
-        if (levelProgress == 0 || levelProgress == 2) {
-			gem1Inactive.SetActive(true);
+        if (levelProgress == 1 || levelProgress == 3) {
+            gem1Active.gameObject.SetActive(false);
+        }
+		if ((levelProgress == 2 || levelProgress == 3) || level < 5 ) {
+            gem2Active.gameObject.SetActive(false);
 
-		}
-		if ((levelProgress == 0 || levelProgress == 1) && level >= 5 ) {
-			gem2Inactive.SetActive(true);
 
-		}
+        }
 
-		
+
         //туториал для 2го уровня (добавляем)
-		if (level == 5) {
+        if (level == 5) {
 			if (lastLevel == 4 && ctrProgressClass.progress ["currentLevel"] == 4) {
 				GetComponent<Animator> ().enabled = true;
 				//transform.GetChild (4).gameObject.SetActive (true);

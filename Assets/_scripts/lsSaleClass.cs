@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Facebook.Unity;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class lsSaleClass : MonoBehaviour {
 
@@ -29,7 +30,6 @@ public class lsSaleClass : MonoBehaviour {
 
     public void OnEnable()
     {
-
         ctrProgressClass.saveProgress();
         setTimerSale();
 
@@ -72,7 +72,14 @@ public class lsSaleClass : MonoBehaviour {
 
             if (GetComponent<BoxCollider>() != null) GetComponent<BoxCollider>().enabled = true;
             ctrProgressClass.saveProgress();
-            StartCoroutine(updateTimeCoroutine());
+
+            if (SceneManager.GetActiveScene().name == "menu" || SceneManager.GetActiveScene().name == "level menu") StartCoroutine(updateTimeCoroutine());
+
+            //button market
+            var marketGO = GameObject.Find("button market").transform;
+            marketGO.GetChild(1).gameObject.SetActive(false);
+            marketGO.GetChild(2).gameObject.SetActive(false);
+            marketGO.GetChild(3).gameObject.SetActive(true);
         }
         else
         {
@@ -81,6 +88,11 @@ public class lsSaleClass : MonoBehaviour {
             transform.GetChild(1).gameObject.SetActive(false);
             transform.GetChild(2).gameObject.SetActive(false);
             if (withoutSale != null) withoutSale.SetActive(true);
+            //button market
+            var marketGO = GameObject.Find("button market").transform;
+            marketGO.GetChild(1).gameObject.SetActive(true);
+            marketGO.GetChild(2).gameObject.SetActive(true);
+            marketGO.GetChild(3).gameObject.SetActive(false);
         }
 
     }
@@ -174,5 +186,10 @@ public class lsSaleClass : MonoBehaviour {
             ctrProgressClass.saveProgress();
 
         }
+    }
+
+    void OnApplicationFocus(bool flag)
+    {
+        if (flag) OnEnable();
     }
 }

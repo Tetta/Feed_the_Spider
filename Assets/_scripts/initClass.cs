@@ -16,8 +16,15 @@ public class initClass : MonoBehaviour {
 	public GameObject closeMenu;
 	public GameObject market;
 	public GameObject spider;
+    public GameObject logo;
+    public Transform berry;
 
-	private int i;
+    //socials
+    public GameObject groupVK1;
+    public GameObject groupVK2;
+    public GameObject repostRewardOK;
+
+    private int i;
 	//private int LastNotificationId = 0;
 	private int y;
 
@@ -98,6 +105,31 @@ public class initClass : MonoBehaviour {
         //GooglePlayConnection.instance.addEventListener (GooglePlayConnection.PLAYER_CONNECTED, OnPlayerConnected);
         //GooglePlayConnection.instance.addEventListener (GooglePlayConnection.PLAYER_DISCONNECTED, OnPlayerDisconnected);
         //if (GoogleAnalyticsV4.instance != null) GoogleAnalyticsV4.instance.LogScreen("menu");
+
+	    if (ctrProgressClass.progress["language"] == 1)
+	    {
+	        logo.transform.GetChild(0).gameObject.SetActive(true);
+            berry.localPosition = new Vector3(306, -288, 0);
+	    }
+	    else
+	    {
+	        logo.transform.GetChild(1).gameObject.SetActive(true);
+            berry.localPosition = new Vector3(330, -140, 0);
+        }
+
+        //social
+	    if (ctrProgressClass.progress["rewardGroupVK1"] == 1)
+	    {
+	        groupVK1.SetActive(false);
+            groupVK1.transform.parent.GetChild(2).localPosition += new Vector3(0, -120, 0);
+        }
+        if (ctrProgressClass.progress["rewardGroupVK2"] == 1)
+        {
+            groupVK2.SetActive(false);
+            groupVK2.transform.parent.GetChild(2).localPosition += new Vector3(0, -120, 0);
+        }
+        if (ctrProgressClass.progress["rewardRepostOK"] == 1) repostRewardOK.SetActive(false);
+
 
     }
 

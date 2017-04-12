@@ -178,7 +178,14 @@ public class ctrAdClass : MonoBehaviour
             AdCoinsTimerClass.timer = DateTime.Now.AddSeconds(AdCoinsTimerClass.interval);
             GameObject.Find("root/static/coins/coinsLabel").GetComponent<UILabel>().text =
                 ctrProgressClass.progress["coins"].ToString();
-            GameObject.Find("root/static/reward menu").SetActive(true);
+            initLevelMenuClass.instance.rewardMenu.SetActive(true);
+            initLevelMenuClass.instance.rewardMenu.transform.GetChild(0)
+                .GetChild(5)
+                .GetChild(0)
+                .GetChild(3)
+                .GetChild(3)
+                .GetComponent<UILabel>()
+                .text = "50";
             ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> {{"detail 1", "video"}, {"coins", "50"}});
             initLevelMenuClass.instance.coinsMenu.SetActive(false);
         }

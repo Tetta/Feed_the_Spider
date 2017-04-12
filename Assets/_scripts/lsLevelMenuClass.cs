@@ -21,6 +21,8 @@ public class lsLevelMenuClass : MonoBehaviour
     public GameObject groot;
     public GameObject gem1Active;
     public GameObject gem2Active;
+    public GameObject checked1;
+    public GameObject checked2;
     public GameObject hand;
     public GameObject rateUsMenu;
     public GameObject adTiredMenu;
@@ -43,8 +45,10 @@ public class lsLevelMenuClass : MonoBehaviour
         {
             stars2.transform.GetChild(i - 1).gameObject.SetActive(false);
         }
-        gem1Active.SetActive(false);
-        gem2Active.SetActive(false);
+        gem1Active.SetActive(true);
+        gem2Active.SetActive(true);
+        checked1.SetActive(false);
+        checked2.SetActive(false);
         //выключаем 2ю вкладку на начальных уровнях
         if (ctrProgressClass.progress["currentLevel"] <= 4)
             levelMenu.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
@@ -66,7 +70,7 @@ public class lsLevelMenuClass : MonoBehaviour
 
         int levelDemands = staticClass.levels[ctrProgressClass.progress["currentLevel"], 1];
         //если условие только одно (про звезды)
-        stars2.transform.localPosition = new Vector3(stars2.transform.localPosition.x, 21,
+        stars2.transform.localPosition = new Vector3(stars2.transform.localPosition.x, 0,
             stars2.transform.localPosition.z);
         if (levelDemands == 0)
         {
@@ -86,6 +90,20 @@ public class lsLevelMenuClass : MonoBehaviour
             web.SetActive(true);
             web.transform.GetChild(0).GetComponent<UILabel>().text = (levelDemands - 100).ToString();
             web.transform.GetChild(1).GetComponent<UILabel>().text = (levelDemands - 100).ToString();
+            if (ctrProgressClass.progress["language"] == 1)
+            {
+                if (levelDemands - 100 > 1)
+                    web.transform.GetChild(1).GetComponent<UILabel>().text = " " + (levelDemands - 100).ToString() + " times";
+                else web.transform.GetChild(1).GetComponent<UILabel>().text = " " + (levelDemands - 100).ToString() + " time";
+            }
+            else
+            {
+                if (levelDemands - 100 > 1)
+                    web.transform.GetChild(1).GetComponent<UILabel>().text = (levelDemands - 100).ToString() + " раз";
+                else web.transform.GetChild(1).GetComponent<UILabel>().text = (levelDemands - 100).ToString() + " раза";
+
+            }
+
 
         }
         else if (levelDemands == 201)
@@ -114,8 +132,19 @@ public class lsLevelMenuClass : MonoBehaviour
 
         //init gems
         int levelProgress = ctrProgressClass.progress["level" + ctrProgressClass.progress["currentLevel"]];
-        if (levelProgress == 1 || levelProgress == 3) gem1Active.SetActive(true);
-        if (levelProgress == 2 || levelProgress == 3) gem2Active.SetActive(true);
+        if (levelProgress == 1 || levelProgress == 3)
+        {
+            gem1Active.SetActive(false);
+            Debug.Log("ckecked 1");
+            checked1.SetActive(true);
+        }
+        if (levelProgress == 2 || levelProgress == 3)
+        {
+            gem2Active.SetActive(false);
+            checked2.SetActive(true);
+        }
+        //reward for login
+        if (ctrProgressClass.progress["rewardLogin"] == 1) transform.GetChild(4).gameObject.SetActive(false);
 
         titleNumberLevel.text = ctrProgressClass.progress["currentLevel"].ToString();
         setContent2();
@@ -179,15 +208,15 @@ public class lsLevelMenuClass : MonoBehaviour
         }
         //init gems (если уже получил кристалл, то показываем)
         int levelProgress = ctrProgressClass.progress[SceneManager.GetActiveScene().name];
-        if (levelProgress == 1 || levelProgress == 3 && !(gem && initLevelMenuClass.levelDemands == 0))
+        if ((levelProgress == 1 || levelProgress == 3) && !(gem && initLevelMenuClass.levelDemands == 0))
         {
-            gem1Active.SetActive(true);
-            gem1Active.GetComponent<Animator>().enabled = false;
+            gem1Active.SetActive(false);
+            checked1.SetActive(true);
         }
-        if (levelProgress == 2 || levelProgress == 3 && !(gem && initLevelMenuClass.levelDemands == 1))
+        if ((levelProgress == 2 || levelProgress == 3) && !(gem && initLevelMenuClass.levelDemands == 1))
         {
-            gem2Active.SetActive(true);
-            gem2Active.GetComponent<Animator>().enabled = false;
+            gem2Active.SetActive(false);
+            checked2.SetActive(true);
         }
 
         //определение переменных
@@ -302,21 +331,6 @@ public class lsLevelMenuClass : MonoBehaviour
 
 
         }
-        //анимация очков в grid
-        /*
-        for (int i = 0; i <= 100; i += 5) {
-			scoreLvl.text = (Mathf.Round(score1 * i / 100)).ToString();
-            scoreCh.text = (Mathf.Round(score2 * i / 100)).ToString();
-			yield return new WaitForSeconds (0.05F);
-			if (starsCount >= 1 && i == 50) {
-				//first star + audio
-				transform.GetChild (1).GetChild (0).GetChild (0).gameObject.SetActive (true);
-				transform.GetChild (3).GetChild (0).GetComponent<AudioSource>().Play();
-			}
-		}
-        */
-
-        //grid.gameObject.SetActive (false);
 
         //анимация финальных очков
         scoreAll.gameObject.SetActive(true);
@@ -349,15 +363,21 @@ public class lsLevelMenuClass : MonoBehaviour
         //если еще не получал кристалл
         if (initLevelMenuClass.levelDemands == 0 && gem)
         {
+            //анимация получения ключа, исчезание и появление галочки
             gem1Active.SetActive(true);
-            gem1Active.GetComponent<Animator>().Play("menu open");
+            gem1Active.GetComponent<Animator>().enabled = true;
             transform.GetChild(3).GetChild(3).GetComponent<AudioSource>().Play();
+            yield return new WaitForSeconds(0.8F);
+            gem1Active.transform.parent.GetChild(1).gameObject.SetActive(true);
         }
         if (initLevelMenuClass.levelDemands == 1 && gem)
         {
+            //анимация получения ключа, исчезание и появление галочки
             gem2Active.SetActive(true);
-            gem2Active.GetComponent<Animator>().Play("menu open");
+            gem2Active.GetComponent<Animator>().enabled = true;
             transform.GetChild(3).GetChild(3).GetComponent<AudioSource>().Play();
+            yield return new WaitForSeconds(0.8F);
+            gem2Active.transform.parent.GetChild(1).gameObject.SetActive(true);
         }
 
 
@@ -405,14 +425,37 @@ public class lsLevelMenuClass : MonoBehaviour
     {
         Debug.Log("clickTabCompleteMenu: " + name);
         Transform grid = levelMenu.transform.GetChild(0).GetChild(4).GetChild(0);
-        grid.parent.gameObject.SetActive(false);
 
+        //оставляем scores
+        if (initLevelMenuClass.levelDemands == 0 && name == "Tab 1" ||
+            initLevelMenuClass.levelDemands == 1 && name == "Tab 2")
+        {
+            grid.parent.gameObject.SetActive(true);
+            //levelMenu.transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
+            //levelMenu.transform.GetChild(0).GetChild(3).gameObject.SetActive(false);
+            stars1.SetActive(false);
+            stars2.SetActive(false);
+            setDefault();
+            int levelProgress = ctrProgressClass.progress["level" + ctrProgressClass.progress["currentLevel"]];
+            if (levelProgress == 1 || levelProgress == 3)
+            {
+                gem1Active.SetActive(false);
+                checked1.SetActive(true);
+            }
+            if (levelProgress == 2 || levelProgress == 3)
+            {
+                gem2Active.SetActive(false);
+                checked2.SetActive(true);
+            }
 
-        stars1.SetActive(true);
-        stars2.SetActive(true);
-
-
-        setContent2();
+        }
+        else
+        {
+            grid.parent.gameObject.SetActive(false);
+            stars1.SetActive(true);
+            stars2.SetActive(true);
+            setContent2();
+        }
     }
 
 
@@ -459,8 +502,20 @@ public class lsLevelMenuClass : MonoBehaviour
             else if (levelDemands >= 100 && levelDemands <= 199)
             {
                 web.SetActive(true);
-                web.transform.GetChild(0).GetComponent<UILabel>().text = (levelDemands - 100).ToString();
-                //web.transform.GetChild(1).GetComponent<UILabel>().text = (levelDemands - 100).ToString();
+                if (ctrProgressClass.progress["language"] == 1)
+                {
+                    if (levelDemands - 100 > 1)
+                        web.transform.GetChild(0).GetComponent<UILabel>().text = " " + (levelDemands - 100).ToString() + " times";
+                    else web.transform.GetChild(0).GetComponent<UILabel>().text = " " + (levelDemands - 100).ToString() + " time";
+                }
+                else
+                {
+                    if (levelDemands - 100 > 1)
+                        web.transform.GetChild(0).GetComponent<UILabel>().text = (levelDemands - 100).ToString() + " раз";
+                    else web.transform.GetChild(0).GetComponent<UILabel>().text = (levelDemands - 100).ToString() + " раза";
+
+                }
+                
 
             }
             else if (levelDemands == 201)

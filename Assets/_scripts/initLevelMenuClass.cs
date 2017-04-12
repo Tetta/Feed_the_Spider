@@ -12,6 +12,7 @@ public class initLevelMenuClass : MonoBehaviour {
     public GameObject saleMenu;
     public GameObject coinsMenu;
     public GameObject adDontReadyMenu;
+    public GameObject rewardMenu;
 
     public UILabel coinsLabel;
 	public UILabel gemsLabel;
@@ -67,7 +68,7 @@ public class initLevelMenuClass : MonoBehaviour {
             fb.SetActive(true);
             vk.SetActive(false);
         }
-
+        
         //unlockСhapterMenu enable
         if (staticClass.notGemsForLevel)
 	    {

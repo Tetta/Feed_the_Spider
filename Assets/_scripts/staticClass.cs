@@ -578,13 +578,6 @@ public class staticClass
 
     }
 
-    static public Dictionary<string, float> VAT = new Dictionary<string, float>
-    {
-      {"RUB", 0.18F},
-      {"USD", 0.18F}
-
-    };
-
     static public Dictionary<string, string> prices = new Dictionary<string, string>
     {
       {"booster_green_1", ""},
@@ -610,5 +603,23 @@ public class staticClass
       {"chapter", ""}
 
     };
+
+    public static void setBoostersLabels()
+    {
+        marketClass.instance.boostersLabel[0].text = ctrProgressClass.progress["boostersWhite"].ToString();
+        marketClass.instance.boostersLabel[1].text = ctrProgressClass.progress["boostersGreen"].ToString();
+        marketClass.instance.boostersLabel[2].text = ctrProgressClass.progress["boostersBlue"].ToString();
+        marketClass.instance.boostersLabel[3].text = ctrProgressClass.progress["boostersPurple"].ToString();
+        Debug.Log(marketClass.instance.boostersLabel[0].transform.parent.name);
+
+        if (ctrProgressClass.progress["boostersWhite"] <= 0) marketClass.instance.boostersLabel[0].transform.parent.GetChild(5).GetComponent<UI2DSprite>().color = new Color32(180, 180, 180, 255);
+        else marketClass.instance.boostersLabel[0].transform.parent.GetChild(5).GetComponent<UI2DSprite>().color = new Color32(255, 255, 255, 255);
+        if (ctrProgressClass.progress["boostersGreen"] <= 0) marketClass.instance.boostersLabel[1].transform.parent.GetChild(4).GetComponent<UI2DSprite>().color = new Color32(180, 180, 180, 255);
+        else marketClass.instance.boostersLabel[1].transform.parent.GetChild(4).GetComponent<UI2DSprite>().color = new Color32(255, 255, 255, 255);
+        if (ctrProgressClass.progress["boostersBlue"] <= 0) marketClass.instance.boostersLabel[2].transform.parent.GetChild(4).GetComponent<UI2DSprite>().color = new Color32(180, 180, 180, 255);
+        else marketClass.instance.boostersLabel[2].transform.parent.GetChild(4).GetComponent<UI2DSprite>().color = new Color32(255, 255, 255, 255);
+        if (ctrProgressClass.progress["boostersPurple"] <= 0) marketClass.instance.boostersLabel[3].transform.parent.GetChild(4).GetComponent<UI2DSprite>().color = new Color32(180, 180, 180, 255);
+        else marketClass.instance.boostersLabel[3].transform.parent.GetChild(4).GetComponent<UI2DSprite>().color = new Color32(255, 255, 255, 255);
+    }
 }
 

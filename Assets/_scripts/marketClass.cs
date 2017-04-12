@@ -59,10 +59,8 @@ public class marketClass : MonoBehaviour {
 		AndroidInAppPurchaseManager.Client.Connect();
         */
 
-        instance.boostersLabel[0].text = ctrProgressClass.progress["boostersWhite"].ToString();
-        instance.boostersLabel[1].text = ctrProgressClass.progress["boostersGreen"].ToString();
-        instance.boostersLabel[2].text = ctrProgressClass.progress["boostersBlue"].ToString();
-        instance.boostersLabel[3].text = ctrProgressClass.progress["boostersPurple"].ToString();
+        staticClass.setBoostersLabels();
+
 
         gameObject.SetActive (false);
     }
@@ -407,10 +405,8 @@ public class marketClass : MonoBehaviour {
         ctrProgressClass.progress["firstPurchase"] = 1;
         ctrProgressClass.progress["paymentCount"] ++;
         ctrProgressClass.saveProgress();
-        instance.boostersLabel[0].text = ctrProgressClass.progress["boostersWhite"].ToString();
-        instance.boostersLabel[1].text = ctrProgressClass.progress["boostersGreen"].ToString();
-        instance.boostersLabel[2].text = ctrProgressClass.progress["boostersBlue"].ToString();
-        instance.boostersLabel[3].text = ctrProgressClass.progress["boostersPurple"].ToString();
+        staticClass.setBoostersLabels();
+
 
 
         //off sales if sale
@@ -422,6 +418,11 @@ public class marketClass : MonoBehaviour {
             //if on map
             if (GameObject.Find("sale menu") != null) GameObject.Find("sale menu").SetActive(false);
             marketClass.instance.gameObject.SetActive(true);
+            staticClass.isTimePlay = Time.timeScale;
+            Time.timeScale = 0;
+            marketClass.instance.transform.GetChild(0).GetComponent<UIToggle>().Set(true);
+
+            Debug.Log("Time.timeScale: " + Time.timeScale);
         }
 
 

@@ -189,12 +189,13 @@ public class gBerryClass : MonoBehaviour {
         Debug.Log("gHintClass.hintState: " + gHintClass.hintState);
 
         //show tutorial bonus
+        //if (true) { 
         if (ctrProgressClass.progress["tutorialDream"] != ctrProgressClass.progress["currentLevel"] && staticClass.levelRestartedCount >= 3 && ctrProgressClass.progress["tutorialBonus"] == 0 &&
-	        ctrProgressClass.progress["hints"] == 0 && gHintClass.hintState == "" &&
+            ctrProgressClass.progress["hints"] == 0 && gHintClass.hintState == "" &&
             (ctrProgressClass.progress["webs"] > 0 || ctrProgressClass.progress["teleports"] > 0 ||
-	         ctrProgressClass.progress["collectors"] > 0) && !dreamIsset)
-	    {
-	        var arrowTemp = GameObject.Find("/default level/gui/bonuses/tween/arrow left");
+             ctrProgressClass.progress["collectors"] > 0) && !dreamIsset)
+        {
+            var arrowTemp = GameObject.Find("/default level/gui/bonuses/tween/arrow left");
             if (arrowTemp.activeSelf)
 	        {
                 arrowTemp.SendMessage("clickBonusesArrow");
@@ -233,6 +234,9 @@ public class gBerryClass : MonoBehaviour {
             //off level tutorial
             if (GameObject.Find("/default level/gui/tutorial") != null) GameObject.Find("/default level/gui/tutorial").transform.localScale = Vector3.zero;
         }
+
+        //for button market sale
+        if (marketClass.instance != null) marketClass.instance.sale.GetComponent<lsSaleClass>().OnEnable();
 
     }
 
@@ -653,6 +657,10 @@ public class gBerryClass : MonoBehaviour {
             }
         
     }
-    
 
+    void OnApplicationFocus(bool flag)
+    {
+        //for button market sale
+        if (flag && marketClass.instance != null) marketClass.instance.sale.GetComponent<lsSaleClass>().OnEnable();
+    }
 }

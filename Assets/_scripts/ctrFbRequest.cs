@@ -81,7 +81,7 @@ public static class ctrFbRequest
             return;
         }
         Debug.Log(result.RawResult);
-
+        
         // Check response for success - show user a success popup if so
         object obj;
         if (result.ResultDictionary.TryGetValue ("cancelled", out obj))
@@ -90,6 +90,7 @@ public static class ctrFbRequest
         }
         else if (result.ResultDictionary.TryGetValue ("request", out obj))
         {
+            ctrFbKiiClass.instance.OnInviteFriendFB(result.To);
             //PopupScript.SetPopup("Request Sent", 3f);
             Debug.Log("Request sent");
         }

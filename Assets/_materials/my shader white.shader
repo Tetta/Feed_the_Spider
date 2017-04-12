@@ -88,11 +88,16 @@
 				//tex.rgb = tex.rgb - (0, 0, 0, 0.5);
 				//tex.rgb = tex.rgb * (200, 0, 0, 1.5);
 				//tex.rgb = 0.299 * tex.r + 0.587 * tex.g + 0.184 * tex.b;
-				tex.rgb = tex.rgb * _Color + _Intensity;
+				//tex.rgb = tex.rgb * _Color + _Intensity;
+				//tex.rgb = tex.rgb / _Color + _Intensity;
 				//tex.r = max(tex.r - _Intensity, 0) ;
 				//tex.g = max(tex.g - _Intensity, 0);
 				//tex.b = max(tex.b - _Intensity, 0);
 				
+				tex.r = tex.r + (0.9 - tex.r*0.9) * 0.7;
+				tex.g = tex.g + (0.9 - tex.g*0.9) * 0.7;
+				tex.b = tex.b + (0.9 - tex.b*0.9) * 0.7;
+
 				//tex.r = 0.3;
 				//tex.g = 0.7;
 				//tex.b = 0.7;

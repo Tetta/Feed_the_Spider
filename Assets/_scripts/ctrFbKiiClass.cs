@@ -192,8 +192,8 @@ public class ctrFbKiiClass : MonoBehaviour {
 
         //if (ctrProgressClass.progress ["fb"] == 1 && FB.IsLoggedIn) {
 
-            //выключаем панель fb login, включаем панель с лучшими игроками, выключаем каждого игрока (всего 3)
-            socialMenu.GetChild (0).gameObject.SetActive (false);
+        //выключаем панель fb login, включаем панель с лучшими игроками, выключаем каждого игрока (всего 3)
+        socialMenu.GetChild (0).gameObject.SetActive (false);
         bestGamersMenu.gameObject.SetActive (true);
         bestGamersMenu.GetChild (0).gameObject.SetActive (false);
         bestGamersMenu.GetChild (1).gameObject.SetActive (false);
@@ -239,18 +239,12 @@ public class ctrFbKiiClass : MonoBehaviour {
 
 
 
-
-
-
-
-
-
 				} else
 					break;
 			}
-		//}	
-	
-	}
+        //}	
+        GameObject.Find("/root/static/level menu/reward for login").SetActive(false);
+    }
 
 	public void invite(string social) {
         Debug.Log("socials - invite: " + social);
@@ -272,7 +266,10 @@ public class ctrFbKiiClass : MonoBehaviour {
 	        ctrFbKiiClass.instance.setFriendsForInvite(GameObject.Find("/root/static/level menu/vk_ok/invite friends ok/"));
 
 	    }
-	}
+        //for test
+        //ctrFbKiiClass.instance.OnInviteFriendFB(new List<string> { "5", "6"});
+
+    }
 
 
 
@@ -401,32 +398,53 @@ public class ctrFbKiiClass : MonoBehaviour {
         go.SetActive(true);
         foreach (var f in friendsForInvite)
         {
-            if (go.transform.GetChild(0).GetChild(0).FindChild(f.id ) != null)
+            GameObject friend = null;
+            //if exist
+            if (go.transform.GetChild(0).GetChild(0).FindChild(f.id) != null)
             {
-                //Debug.Log("exist vk friend");
-                continue;
+                friend = go.transform.GetChild(0).GetChild(0).FindChild(f.id).gameObject;
+                if (friendsImage.ContainsKey(f.id) && friend.transform.GetChild(0).GetComponent<UITexture>().mainTexture == null)
+                    friend.transform.GetChild(0).GetComponent<UITexture>().mainTexture =
+                        friendsImage[f.id];
             }
-            var friend = Instantiate(vkFriend) as GameObject;
-            friend.transform.parent = go.transform.GetChild(0).GetChild(0);
-
-            if (friendsImage.ContainsKey(f.id.ToString()))
-                friend.transform.GetChild(0).GetComponent<UITexture>().mainTexture =
-                    friendsImage[f.id.ToString()];
-
-            friend.transform.localScale = new Vector3(1, 1, 1);
-            friend.transform.localPosition = new Vector3(0, 0, 0);
-
-            friend.transform.GetChild(0).GetComponent<UIWidget>().depth = 2;
-            friend.transform.GetChild(1).GetComponent<UILabel>().text = f.name;
-            friend.name = f.id.ToString();
-
-
-            //orange colors
-            if (ctrProgressClass.progress["ok"] == 1)
+            else
             {
-                friend.transform.GetChild(1).GetComponent<UILabel>().color = new Color32(73, 32, 0, 255);
-                friend.transform.GetChild(2).GetComponent<UI2DSprite>().color = new Color32(213, 93, 1, 255);
+                //if dont exist
+                friend = Instantiate(vkFriend) as GameObject;
+                friend.transform.parent = go.transform.GetChild(0).GetChild(0);
+
+                if (friendsImage.ContainsKey(f.id.ToString()))
+                    friend.transform.GetChild(0).GetComponent<UITexture>().mainTexture =
+                        friendsImage[f.id.ToString()];
+
+                friend.transform.localScale = new Vector3(1, 1, 1);
+                friend.transform.localPosition = new Vector3(0, 0, 0);
+
+                friend.transform.GetChild(0).GetComponent<UIWidget>().depth = 2;
+                friend.transform.GetChild(1).GetComponent<UILabel>().text = f.name;
+                friend.name = f.id.ToString();
+
+                //orange colors
+                if (ctrProgressClass.progress["ok"] == 1)
+                {
+                    friend.transform.GetChild(1).GetComponent<UILabel>().color = new Color32(73, 32, 0, 255);
+                    friend.transform.GetChild(2).GetComponent<UI2DSprite>().color = new Color32(213, 93, 1, 255);
+                    friend.transform.GetChild(5).GetComponent<UILabel>().color = new Color32(73, 32, 0, 255);
+                }
+
             }
+            //if invited
+            if (ctrProgressClass.progress.ContainsKey(f.id))
+            {
+                friend.transform.GetChild(2).GetChild(0).GetComponent<UILocalize>().key = "invited";
+                //disable coins
+                friend.transform.GetChild(5).gameObject.SetActive(false);
+                friend.transform.GetChild(6).gameObject.SetActive(false);
+                //disable collider button invite
+                friend.transform.GetChild(2).GetComponent<Collider>().enabled = false;
+            }
+
+
         }
         GameObject.Find("/root/static/level menu/button exit level menu").GetComponent<SpriteRenderer>().sortingOrder = 200;
 
@@ -450,26 +468,6 @@ public class ctrFbKiiClass : MonoBehaviour {
         }
         if (social == "ok")
         {
-            //Dictionary<string, string> args = new Dictionary<string, string>();
-
-            //args["text"] = "Join+me+in+this+awesome+game%21";
-
-            //args["text"] = "jn";
-            //args["uids"] = name;
-            //args["devices"] = "ANDROID,IOS";
-            //args["devices"] = "ANDROID";
-            //args["note"] = "qwe";
-            //args["sdkToken"] = ;
-            //args["note"] = "%7b%22uid%22%3a%22" + "558511883453" +"%22%2c%22image%22%3a%22http%3a%2f%2f1.png%22%2c%22message%22%3a%22some_text%22%2c%22payload%22%3a%22%22%7d";
-            //name = "534060256361";
-            //name = "537314172230";
-            //long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds * 1000 + 6*60*60*1000;
-            //long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds * 1000;
-            //long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-            //Debug.Log(unixTimestamp);
-            //args["note"] = "{\"uid\":\""+name+ "\",\"image\":\"http://pp.userapi.com/c637727/v637727333/36d5e/LcCzGvznxXA.jpg\",\"message\":\""+ title + " " + message + "\",\"payload\":\"\",\"timestamp\":"+ unixTimestamp + "}";
-
-            //long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds ;
             long unixTimestamp = (long)DateTime.UtcNow.TotalSeconds() * 1000;
 
             //get notes
@@ -493,6 +491,7 @@ public class ctrFbKiiClass : MonoBehaviour {
             */
 
             //send note
+            /*
             Hashtable note = new Hashtable()
                     {
                       {"uid", name},
@@ -507,38 +506,7 @@ public class ctrFbKiiClass : MonoBehaviour {
                     {
                       { "note", Odnoklassniki.HTTP.JSON.Encode(note) }
                     };
-            /*
-                        OK.API("sdk.reportStats", args, r =>
-                        {
-                            Debug.Log("........................");
-                            Debug.Log(r.Text);
-                        });
-
-            */
-
-            /*
-
-            //           args["note"] = "%7bimage:qwe,message:sdf,payload:qwe,timestamp:9999999999,uid:558511883453";
-            //OK.API(OKMethod.SDK.getNotes, Method.GET, args, response =>
-            OK.API(OKMethod.SDK.sendNote, Method.POST, args, response =>
-            //OK.API("friends.appInvite", Method.GET, args, response =>
-            {
-                Debug.Log("sendNote");
-                Debug.Log(response.Text);
-                if (response.Error == "" && int.Parse( response.Object["count"].ToString()) >= 1)
-                    OnInviteFriend(name);
-            });
-            */
-            /*
-             * OK.API(OKMethod.SDK.sendNote, args, response =>
-            //OK.API("friends.appInvite", Method.GET, args, response =>
-            {
-                Debug.Log("sendNote");
-                Debug.Log(response.Text);
-                if (response.Error == "" && int.Parse(response.Object["count"].ToString()) >= 1)
-                    OnInviteFriend(name);
-            });
-            */
+*/
             var args2 = new Dictionary<string, string>()
                     {
                       {"uids", name},
@@ -547,8 +515,7 @@ public class ctrFbKiiClass : MonoBehaviour {
                      // {"text", title + " " + message}
 
         };
-            //OK.API("sdk.appSuggest", args2, response =>
-            //OK.API("sdk.sendNote", args, response =>
+
             OK.API("sdk.appInvite",  args2, response =>
             {
                 Debug.Log("sendNote");
@@ -560,9 +527,40 @@ public class ctrFbKiiClass : MonoBehaviour {
         }
     }
 
+    public void OnInviteFriendFB(IEnumerable<string> result)
+    {
+        Debug.Log("OnInviteFriendFB");
+        int coins = 0;
+        foreach (string id in result)
+        {
+            
+
+            if (!ctrProgressClass.progress.ContainsKey(id)) coins += 10;
+            
+            ctrProgressClass.progress[id] = 1;
+
+           
+        }
+        if (coins > 0)
+        {
+            initLevelMenuClass.instance.rewardMenu.SetActive(true);
+            initLevelMenuClass.instance.rewardMenu.transform.GetChild(0)
+                .GetChild(5)
+                .GetChild(0)
+                .GetChild(3)
+                .GetChild(3)
+                .GetComponent<UILabel>()
+                .text = coins.ToString();
+            ctrProgressClass.progress["coins"] += coins;
+            initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress["coins"].ToString();
+            ctrProgressClass.saveProgress();
+        }
+    }
+
     public virtual void OnInviteFriend<T>(T result)
     {
         string id = "";
+        Transform friend = null;
         //vk 
         if (result.GetType() == typeof(VKRequest))
         {
@@ -574,18 +572,32 @@ public class ctrFbKiiClass : MonoBehaviour {
             }
             Debug.Log(r.response);
             id = r.customParam2;
-            GameObject.Find("/root/static/level menu/vk_ok/invite friends/scroll/friends grid/" + id +
-                            "/button ad coins/label get booster").GetComponent<UILabel>().text = "приглашен";
+            friend = GameObject.Find("/root/static/level menu/vk_ok/invite friends/scroll/friends grid/" + id).transform;
         }
         //ok
         else
         {
             id = result.ToString();
-            GameObject.Find("/root/static/level menu/vk_ok/invite friends ok/scroll/friends grid/" + id +
-                "/button ad coins/label get booster").GetComponent<UILabel>().text = "приглашен";
+            friend = GameObject.Find("/root/static/level menu/vk_ok/invite friends ok/scroll/friends grid/" + id).transform;
         }
-        //change label text = "приглашен"
+        //label invited
+        friend.GetChild(2).GetChild(0).GetComponent<UILabel>().text = Localization.Get("invited");
+        //disable label "+10"
+        friend.GetChild(5).gameObject.SetActive(false);
+        //start anim coins
+        friend.GetChild(6).GetChild(0).GetComponent<Animator>().enabled = true;
+        //disable collider button invite
+        friend.GetChild(2).GetComponent<Collider>().enabled = false;
 
+        ctrProgressClass.progress["coins"] += 10;
+        initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress["coins"].ToString();
+        //map icon coins anim
+        //initLevelMenuClass.instance.coinsLabel.transform.parent.GetChild(0).GetComponent<Animator>().enabled = true;
+        //initLevelMenuClass.instance.coinsLabel.transform.parent.GetChild(0).GetComponent<Animator>().Play("menu enable");
+
+
+        ctrProgressClass.progress[id] = 1;
+        ctrProgressClass.saveProgress();
 
     }
 
@@ -693,20 +705,27 @@ public class ctrFbKiiClass : MonoBehaviour {
             VKRequest r = result as VKRequest;
             if (r.error != null) Debug.Log("socials - onGroupResult vk error: " + r.error.error_msg);
             if (r.error != null) return;
-
+            GameObject groupGO = null;
             if (r.customParam)
             {
-                if (GameObject.Find("/settings folder/settings/vk/group button") != null)
-                    GameObject.Find("/settings folder/settings/vk/group button").SetActive(false);
+                groupGO = GameObject.Find("/settings folder/settings/vk/group button");
+                //anim coins
+                groupGO.transform.parent.GetChild(4).gameObject.SetActive(true);
+
+                ctrProgressClass.progress["rewardGroupVK1"] = 1;
             }
             else {
-                if (GameObject.Find("/settings folder/settings/vk/group button 2") != null)
-                GameObject.Find("/settings folder/settings/vk/group button 2").SetActive(false);
-            }
+                groupGO = GameObject.Find("/settings folder/settings/vk/group button 2");
+                //anim coins
+                groupGO.transform.parent.GetChild(5).gameObject.SetActive(true);
 
+                ctrProgressClass.progress["rewardGroupVK2"] = 1;
+            }
+            if (groupGO != null) groupGO.SetActive(false);
+            ctrProgressClass.progress["coins"] += 50;
         }
         if (GameObject.Find("/settings folder/settings/" + social + "/back menu") != null) GameObject.Find("/settings folder/settings/" + social + "/back menu").transform.localPosition += new Vector3(0, -120, 0);
-
+        ctrProgressClass.saveProgress();
     }
 
     public void share()
@@ -732,7 +751,15 @@ public class ctrFbKiiClass : MonoBehaviour {
         OK.API("sdk.post", Method.GET, args1, response =>
         {
             Debug.Log(response.Text);
-            GameObject.Find("/settings folder/settings/share menu").SetActive(false);
+            if (GameObject.Find("/settings folder/settings/share menu") != null) GameObject.Find("/settings folder/settings/share menu").SetActive(false);
+            var c = GameObject.Find("/settings folder/settings/ok/share button/coins");
+            if (c != null)
+            {
+                c.transform.GetChild(0).GetComponent<Animator>().enabled = true;
+            }
+            ctrProgressClass.progress["rewardRepostOK"] = 1;
+            ctrProgressClass.progress["coins"] += 100;
+            ctrProgressClass.saveProgress();
         });
     }
     //------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -904,7 +931,9 @@ public class ctrFbKiiClass : MonoBehaviour {
             case "ok":
                     ctrAdClass.instance.loadAdMyTarget();
                 //Console.WriteLine("Default case");
-            break;
+
+                break;
+
         }
 
 
@@ -915,6 +944,24 @@ public class ctrFbKiiClass : MonoBehaviour {
         ctrProgressClass.progress["vk"] = 0;
         ctrProgressClass.progress["ok"] = 0;
         ctrProgressClass.progress[social] = 1;
+        
+        //reward for login
+        if (ctrProgressClass.progress["rewardLogin"] == 0)
+        {
+            var rewardGO = GameObject.Find("/root/static/level menu/reward for login");
+            if (rewardGO != null)
+            {
+                rewardGO.transform.GetChild(0).GetComponent<Animator>().enabled = false;
+                rewardGO.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<Animator>().enabled = true;
+                rewardGO.transform.GetChild(1).gameObject.SetActive(false);
+
+            }
+            ctrProgressClass.progress["boostersWhite"] ++;
+            ctrProgressClass.progress["rewardLogin"] = 1;
+
+
+
+        }
 
 
         ctrProgressClass.saveProgress();
@@ -927,6 +974,7 @@ public class ctrFbKiiClass : MonoBehaviour {
     {
         if (SceneManager.GetActiveScene().name == "level menu")
         {
+            Debug.Log("socials - changeUIPanelFriends");
             if (social == "vk" || social == "ok") social = "vk_ok";
             GameObject.Find("/root/static/level menu/" + social).transform.GetChild(0).gameObject.SetActive(false);
             if (ctrProgressClass.progress["vk"] == 1)

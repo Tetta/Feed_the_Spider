@@ -15,7 +15,16 @@ public class ctrProgressClass {
 
         string strProgress = "";
 		foreach (var item in progress ) {
-			if (progressDefault.ContainsKey(item.Key)) if (progress[item.Key] != progressDefault[item.Key]) strProgress += item.Key + "=" + item.Value + ";";
+		    if (progressDefault.ContainsKey(item.Key))
+		    {
+		        if (progress[item.Key] != progressDefault[item.Key]) strProgress += item.Key + "=" + item.Value + ";";
+		    }
+		    else
+		    {
+                //отключить, если не хотим сохранять поля, отличные от Default
+                strProgress += item.Key + "=" + item.Value + ";";
+            }
+        
 		}
 
         if (progressSaved != strProgress)
@@ -30,7 +39,8 @@ public class ctrProgressClass {
 	static public void getProgress() {
 
         string strProgress = PlayerPrefs.GetString("progress");
-	    progressSaved = strProgress;
+	    Debug.Log(strProgress);
+        progressSaved = strProgress;
 
         if (strProgress == "")
         {
@@ -65,15 +75,16 @@ public class ctrProgressClass {
 			else if (!flag) strValue += strProgress.Substring(i, 1);
 
 		}
-
-
     }
 
 
     static private Dictionary<string, int> progressDefault = new Dictionary<string, int>{
 		{"googlePlay",0}, {"lastLevel",0}, {"currentLevel",1},{"coins",100},{"gems",0},{"energyTime",0},{"energy",0},{"energyInfinity",0},
         {"hints",0},{"webs",0},{"collectors",0},{"teleports",0},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
-		{"everyplay",0},{"firstPurchase",0},{"fb",0},{"vk",0},{"ok",0},
+		{"everyplay",0},{"firstPurchase",0},
+
+        { "fb",0},{"vk",0},{"ok",0},{"rewardLogin", 0 },{"rewardGroupVK1", 0 },{"rewardGroupVK2", 0 },{"rewardRepostOK", 0 },
+
         {"boostersWhite",0 }, {"boostersGreen",0 }, {"boostersBlue",0 }, {"boostersPurple",0 },
         {"berryRare", UnityEngine.Random.Range(2, 6)}, {"hatRare", UnityEngine.Random.Range(2, 6)},{"skinRare", UnityEngine.Random.Range(2, 6)},
 
@@ -139,7 +150,8 @@ public class ctrProgressClass {
 	static private Dictionary<string, int> progressCheat = new Dictionary<string, int>{
 		{"googlePlay",0}, {"lastLevel",99}, {"currentLevel",1},{"coins",10000},{"gems",200},{"energyTime", 0},{"energy",4}, {"energyInfinity", 0},
         {"hints",99},{"webs",99},{"collectors",99},{"teleports",99},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
-		{"everyplay",0},{"firstPurchase",1},{"fb",0},{"vk",0},{"ok",0},
+		{"everyplay",0},{"firstPurchase",1},
+        { "fb",0},{"vk",0},{"ok",0}, {"rewardLogin", 0 },{"rewardGroupVK1", 0 },{"rewardGroupVK2", 0 },{"rewardRepostOK", 0 },
 
         {"boostersWhite",0 }, {"boostersGreen",220 }, {"boostersBlue",330 }, {"boostersPurple",110 },
         {"berryRare", 2 }, {"hatRare",2},{"skinRare", 4},
@@ -211,9 +223,9 @@ public class ctrProgressClass {
         var vk = progress["vk"];
         var fb = progress["fb"];
         var ok = progress["ok"];
-
+	    //var rewardLogin = progress["rewardLogin"];
         //сброс прогресса
-        progress = new Dictionary<string, int> (progressDefault);
+       progress = new Dictionary<string, int> (progressDefault);
 		if (nameButton == "reset cheat") progress = new Dictionary<string, int> (progressCheat);
 
 	    progress["sessionStart"] = sStart;
@@ -224,11 +236,9 @@ public class ctrProgressClass {
         progress["fb"] = fb;
         progress["ok"] = ok;
         progress["dailyBonus"] = (int)DateTime.UtcNow.TotalSeconds();
+	    //progress["rewardLogin"] = rewardLogin;
 
-        marketClass.instance.boostersLabel[0].text = progress["boostersWhite"].ToString();
-        marketClass.instance.boostersLabel[1].text = progress["boostersGreen"].ToString();
-        marketClass.instance.boostersLabel[2].text = progress["boostersBlue"].ToString();
-        marketClass.instance.boostersLabel[3].text = progress["boostersPurple"].ToString();
+        staticClass.setBoostersLabels();
 	    staticClass.currentBerry = "berry1";
         staticClass.changeBerry();
         staticClass.currentHat = "hat1";

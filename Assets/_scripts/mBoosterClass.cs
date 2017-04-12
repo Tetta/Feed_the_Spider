@@ -287,10 +287,7 @@ public class mBoosterClass : MonoBehaviour {
         ctrProgressClass.progress[currentBoosterColor]--;
         buttonOpenBooster.transform.GetChild(1).GetComponent<UILabel>().text = ctrProgressClass.progress[currentBoosterColor].ToString();
 
-        marketClass.instance.boostersLabel[0].text = ctrProgressClass.progress["boostersWhite"].ToString();
-        marketClass.instance.boostersLabel[1].text = ctrProgressClass.progress["boostersGreen"].ToString();
-        marketClass.instance.boostersLabel[2].text = ctrProgressClass.progress["boostersBlue"].ToString();
-        marketClass.instance.boostersLabel[3].text = ctrProgressClass.progress["boostersPurple"].ToString();
+        staticClass.setBoostersLabels();
 
         //change bonuses labels on level
         var bonusesGO = GameObject.Find("/default level/gui/bonuses/");
