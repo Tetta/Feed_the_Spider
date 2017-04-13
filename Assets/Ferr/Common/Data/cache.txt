@@ -7,14 +7,14 @@ Assets/Ferr/2DTerrain/TerrainMaterials/MossyTerrainMaterial.prefab
 Assets/Ferr/2DTerrain/TerrainMaterials/PipeMaterial.prefab
 Assets/Ferr/2DTerrain/TerrainMaterials/ForegroundTerrainMaterial.prefab
 Assets/Ferr/2DTerrain/TerrainMaterials/SandTerrainMaterial.prefab
-Assets/_images/terrains/desert terrain.prefab
-Assets/_images/terrains/forest terrain.prefab
-Assets/_images/terrains/ice terrain.prefab
-Assets/_images/terrains/map forest terrain.prefab
-Assets/_images/terrains/forest terrain old.prefab
-Assets/_images/terrains/helper terrain.prefab
-Assets/_images/terrains/rock terrain.prefab
-Assets/_images/terrains/terrain path.prefab
+Assets/_images/terrains/terrain materials/desert terrain.prefab
+Assets/_images/terrains/terrain materials/forest terrain.prefab
+Assets/_images/terrains/terrain materials/ice terrain.prefab
+Assets/_images/terrains/terrain materials/map forest terrain.prefab
+Assets/_images/terrains/terrain materials/forest terrain old.prefab
+Assets/_images/terrains/terrain materials/helper terrain.prefab
+Assets/_images/terrains/terrain materials/rock terrain.prefab
+Assets/_images/terrains/terrain materials/terrain path.prefab
 
 [Ferr2DT_PathTerrain]
 Assets/_prefabs/terrain forest.prefab

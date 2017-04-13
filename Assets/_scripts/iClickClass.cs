@@ -168,6 +168,7 @@ public class iClickClass : MonoBehaviour {
     
             //change label coins
             GameObject.Find("/market/shop/market menu/bars/coins/label coins").GetComponent<UILabel>().text = ctrProgressClass.progress["coins"].ToString();
+            if (initLevelMenuClass.instance != null) initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress["coins"].ToString();
 
             //anim booster
 
