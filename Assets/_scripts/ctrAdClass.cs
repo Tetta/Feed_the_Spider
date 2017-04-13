@@ -138,6 +138,7 @@ public class ctrAdClass : MonoBehaviour
     {
         adsAttributes["loading"] = "loaded";
         // off for desktop 
+        adsAttributes["provider"] = "Unity Ads";
         switch (result)
         {
             case ShowResult.Finished:

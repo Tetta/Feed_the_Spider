@@ -99,11 +99,18 @@ public class myPackerPolicy : UnityEditor.Sprites.IPackerPolicy
                 //anisoLevel не важен
                 //entry.anisoLevel = ti.anisoLevel;
                 entry.anisoLevel = 0;
-                Debug.Log (entry.settings.generateMipMaps);
+                //Debug.Log (entry.settings.generateMipMaps);
+
+#if UNITY_IOS
+                entry.settings.generateMipMaps = false;
+#else
+                entry.settings.generateMipMaps = true;
+#endif
+
 
                 entries.Add(entry);
-				/*
-				if (entry.sprite.name == "button icon pause" || entry.sprite.name == "button icon music") {
+				
+				if (entry.sprite.name == "play" || entry.sprite.name == "button icon music") {
 					Debug.Log (entry.sprite.name);
 					Debug.Log (entry.settings.format);
 					Debug.Log (entry.settings.colorSpace);
@@ -117,7 +124,7 @@ public class myPackerPolicy : UnityEditor.Sprites.IPackerPolicy
                     Debug.Log(entry.settings.generateMipMaps);
 
                 }
-                */
+                
 				
 			}
 
