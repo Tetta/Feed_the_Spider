@@ -213,11 +213,27 @@ public class mBoosterClass : MonoBehaviour {
 
             //копируем карту
             //card.transform.parent = transform.GetChild(2);
-            if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins")
-                card = Instantiate(cardsAll.FindChild(bonusName + "_" + bonusCount).gameObject, new Vector3(0,0,0), Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5))),transform.GetChild(2));
+            if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" ||
+                bonusName == "coins")
+            {
+                card = Instantiate(cardsAll.FindChild(bonusName + "_" + bonusCount).gameObject, new Vector3(0, 0, 0),
+                    Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5))), transform.GetChild(2));
+                //analytics
+                if (bonusName != "coins")
+                {
+                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
+                        {
+                            {"detail", "booster"},
+                            {"name", bonusName},
+                            {"count", bonusCount.ToString()}
+                        });
+                }
+            }
             else
-                card = Instantiate(cardsAll.FindChild(bonusName).gameObject, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5))), transform.GetChild(2));
-
+            {
+                card = Instantiate(cardsAll.FindChild(bonusName).gameObject, new Vector3(0, 0, 0),
+                    Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5))), transform.GetChild(2));
+            }
             //card.transform.parent = transform.GetChild(2) ;
 			card.transform.localScale = new Vector2(1, 1);
 			card.name = "card" + (i + 1);

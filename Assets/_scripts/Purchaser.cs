@@ -264,14 +264,20 @@ namespace CompleteProject
                 //Debug.Log(product.metadata.);
 
                 //Debug.Log(product.WithStoreSpecificID(string id););
-                // Fetch the currency Product reference from Unity Purchasing
+               // Fetch the currency Product reference from Unity Purchasing
                 //Debug.Log(product.definition.id);
+#if UNITY_ANDROID
                 if (product.definition.id.Length > 28)
                 {
                     if (staticClass.prices.ContainsKey(product.definition.id.Substring(27))) staticClass.prices[product.definition.id.Substring(27)] = product.metadata.localizedPriceString;
                 }
+#elif UNITY_IOS
+                if (product.definition.id.Length > 23)
+                {
+                    if (staticClass.prices.ContainsKey(product.definition.id.Substring(22))) staticClass.prices[product.definition.id.Substring(22)] = product.metadata.localizedPriceString;
+                }
+#endif               
 
-                
             }
             
             

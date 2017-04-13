@@ -552,6 +552,8 @@ public class ctrFbKiiClass : MonoBehaviour {
                 .GetComponent<UILabel>()
                 .text = coins.ToString();
             ctrProgressClass.progress["coins"] += coins;
+            ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail 1", "inviteFriend" }, { "coins", coins.ToString() } });
+
             initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress["coins"].ToString();
             ctrProgressClass.saveProgress();
         }
@@ -594,7 +596,7 @@ public class ctrFbKiiClass : MonoBehaviour {
         //map icon coins anim
         //initLevelMenuClass.instance.coinsLabel.transform.parent.GetChild(0).GetComponent<Animator>().enabled = true;
         //initLevelMenuClass.instance.coinsLabel.transform.parent.GetChild(0).GetComponent<Animator>().Play("menu enable");
-
+        ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail 1", "inviteFriend" }, { "coins", "10" } });
 
         ctrProgressClass.progress[id] = 1;
         ctrProgressClass.saveProgress();
@@ -713,6 +715,8 @@ public class ctrFbKiiClass : MonoBehaviour {
                 groupGO.transform.parent.GetChild(4).gameObject.SetActive(true);
 
                 ctrProgressClass.progress["rewardGroupVK1"] = 1;
+                ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail 1", "joinGroup1" }, { "coins", "50" } });
+
             }
             else {
                 groupGO = GameObject.Find("/settings folder/settings/vk/group button 2");
@@ -720,6 +724,8 @@ public class ctrFbKiiClass : MonoBehaviour {
                 groupGO.transform.parent.GetChild(5).gameObject.SetActive(true);
 
                 ctrProgressClass.progress["rewardGroupVK2"] = 1;
+                ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail 1", "joinGroup2" }, { "coins", "50" } });
+
             }
             if (groupGO != null) groupGO.SetActive(false);
             ctrProgressClass.progress["coins"] += 50;
@@ -759,6 +765,8 @@ public class ctrFbKiiClass : MonoBehaviour {
             }
             ctrProgressClass.progress["rewardRepostOK"] = 1;
             ctrProgressClass.progress["coins"] += 100;
+            ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail 1", "repost" }, { "coins", "100" } });
+
             ctrProgressClass.saveProgress();
         });
     }
@@ -901,7 +909,10 @@ public class ctrFbKiiClass : MonoBehaviour {
                 VkApi.VkApiInstance.Login();
                 break;
             case "ok":
-                OK.Auth(success => onLogin("ok"));
+                OK.Auth(success =>
+                {
+                    if (success) onLogin("ok");
+                });
                 break;
 
         }
@@ -958,14 +969,9 @@ public class ctrFbKiiClass : MonoBehaviour {
             }
             ctrProgressClass.progress["boostersWhite"] ++;
             ctrProgressClass.progress["rewardLogin"] = 1;
-
-
-
+            staticClass.setBoostersLabels();
         }
-
-
         ctrProgressClass.saveProgress();
-
         changeUIPanelFriends(social);
     }
     

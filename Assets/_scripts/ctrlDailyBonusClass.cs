@@ -46,6 +46,44 @@ public class ctrlDailyBonusClass : MonoBehaviour {
                     ctrProgressClass.progress["teleports"] += ctrProgressClass.progress["berry4"];
                     ctrProgressClass.progress["hints"] += ctrProgressClass.progress["berry5"];
 
+                    //analytics
+                    if (ctrProgressClass.progress["berry2"] > 0)
+                    {
+                        ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
+                        {
+                            {"detail", "item"},
+                            {"name", "webs"},
+                            {"count", ctrProgressClass.progress["berry2"].ToString()}
+                        });
+                    }
+                    if (ctrProgressClass.progress["berry3"] > 0)
+                    {
+                        ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
+                        {
+                            {"detail", "item"},
+                            {"name", "collectors"},
+                            {"count", ctrProgressClass.progress["berry3"].ToString()}
+                        });
+                    }
+                    if (ctrProgressClass.progress["berry4"] > 0)
+                    {
+                        ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
+                        {
+                            {"detail", "item"},
+                            {"name", "teleports"},
+                            {"count", ctrProgressClass.progress["berry4"].ToString()}
+                        });
+                    }
+                    if (ctrProgressClass.progress["berry5"] > 0)
+                    {
+                        ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
+                        {
+                            {"detail", "item"},
+                            {"name", "hints"},
+                            {"count", ctrProgressClass.progress["berry5"].ToString()}
+                        });
+                    }
+
                     //for reward menu on map
                     staticClass.showRewardCardsMenuWebs = ctrProgressClass.progress["berry2"];
                     staticClass.showRewardCardsMenuCollectors = ctrProgressClass.progress["berry3"];
@@ -107,11 +145,30 @@ public class ctrlDailyBonusClass : MonoBehaviour {
             Debug.Log(bonusName + " " + bonusCount);
 
             //копируем карту
-            if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins")
-                card = Instantiate(marketClass.instance.cardsAll.FindChild(bonusName + "_" + bonusCount).gameObject, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5)))) as GameObject;
-            else
-                card = Instantiate(marketClass.instance.cardsAll.FindChild(bonusName).gameObject, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5)))) as GameObject;
+            if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" ||
+                bonusName == "coins")
+            {
+                card =
+                    Instantiate(marketClass.instance.cardsAll.FindChild(bonusName + "_" + bonusCount).gameObject,
+                            new Vector3(0, 0, 0), Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5))))
+                        as GameObject;
+                if (bonusName != "coins")
+                {
+                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
+                        {
+                            {"detail", "daily_gift"},
+                            {"name", bonusName},
+                            {"count", bonusCount.ToString()}
+                        });
+                }
 
+            }
+            else
+            {
+                card =
+                    Instantiate(marketClass.instance.cardsAll.FindChild(bonusName).gameObject, new Vector3(0, 0, 0),
+                        Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5)))) as GameObject;
+            }
             if (bonusName == "coins") ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail 1", "daily" }, { "coins", bonusCount.ToString() } });
 
             card.GetComponent<mCardClass>().functionPress = "openCardGift";

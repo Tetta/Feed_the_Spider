@@ -108,7 +108,20 @@ public class lsGiftClass : MonoBehaviour {
             //if (i == 0) card.transform.localPosition = new Vector3(-355, 7, -2); else if (i == 1) card.transform.localPosition = new Vector3(0, 7, -2); else if (i == 2) card.transform.localPosition = new Vector3(355, 7, -2); 
 
 			//сохранение результата
-			if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins") ctrProgressClass.progress[bonusName] += bonusCount;
+	        if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins")
+	        {
+	            ctrProgressClass.progress[bonusName] += bonusCount;
+                //analytics
+                if (bonusName != "coins")
+                {
+                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
+                        {
+                            {"detail", "chest"},
+                            {"name", bonusName},
+                            {"count", bonusCount.ToString()}
+                        });
+                }
+            }
             if (bonusName == "coins") ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail 1", "chest" }, { "coins", bonusCount.ToString() } });
 
             initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress ["coins"].ToString ();

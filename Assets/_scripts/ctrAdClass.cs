@@ -70,9 +70,11 @@ public class ctrAdClass : MonoBehaviour
         //admob
         RequestInterstitial();
 #if UNITY_ANDROID
-        Advertisement.Initialize("1275461", true);
+        Advertisement.Initialize("1275461");
+        //Advertisement.Initialize("1271126");
 #elif UNITY_IPHONE
-        Advertisement.Initialize("1275214", true);
+        Advertisement.Initialize("1275214");
+        //Advertisement.Initialize("1271127");
 
 #endif
 

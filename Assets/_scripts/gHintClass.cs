@@ -179,11 +179,12 @@ public class gHintClass : MonoBehaviour {
                 }
                 //for analytics
                 var type = (initLevelMenuClass.levelDemands == 0) ? "normal" : "challenge";
-                ctrAnalyticsClass.sendEvent("Bonuses Use", new Dictionary<string, string>
+                ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
                 {
-                    { "level number", SceneManager.GetActiveScene().name.Substring(5)},
+                    { "detail", "level " + SceneManager.GetActiveScene().name.Substring(5)},
                     { "type", type},
-                    { "name", "hints"}
+                    { "name", "hints"},
+                    { "count", "1"}
                 });
 
                 GetComponent<AudioSource> ().Play ();
