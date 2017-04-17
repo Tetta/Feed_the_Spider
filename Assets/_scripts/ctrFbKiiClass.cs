@@ -898,12 +898,12 @@ public class ctrFbKiiClass : MonoBehaviour {
             });
 
 #endif
-            if (OK.IsLoggedIn )
-                onLogin("ok");
+
+            if (OK.IsLoggedIn && ctrProgressClass.progress["ok"] == 1) onLogin("ok");
         }
     }
 
-    //connect on button click
+        //connect on button click
     public void connect(string social)
     {
         Debug.Log("socials - connect: " + social);
