@@ -150,6 +150,7 @@ public class ctrAnalyticsClass: MonoBehaviour
             lsEnergyClass.checkEnergy(true);
             if (ctrProgressClass.progress["sessionStart"] > 1)
             {
+                Debug.Log("--------------------------------------------------------------------");
                 sendEvent("Session End", new Dictionary<string, string>
                 {
                     {

@@ -565,7 +565,8 @@ public class staticClass
                 Time.timeScale = 1;
                 isTimePlay = 1;
             }
-            
+            if (ctrProgressClass.progress["music"] == 1) musicClass.instance.GetComponent<AudioSource>().mute = false;
+
             if (GameObject.Find("/root/berry")) GameObject.Find("/root/berry").GetComponent<gBerryClass>().showAdTiredMenu();
         }
         else
@@ -573,6 +574,8 @@ public class staticClass
             applicationFocus = false;
             isTimePlay = Time.timeScale;
             Time.timeScale = 0;
+            musicClass.instance.GetComponent<AudioSource>().mute = true;
+
         }
         Debug.Log("Time.timeScale: " + Time.timeScale);
 

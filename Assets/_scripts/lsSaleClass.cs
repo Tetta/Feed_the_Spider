@@ -60,12 +60,17 @@ public class lsSaleClass : MonoBehaviour {
                 .GetChild(ctrProgressClass.progress["sale"])
                 .gameObject.SetActive(true);
             if (saleMenu != null)
-                saleMenu.transform.GetChild(0)
-                    .GetChild(ctrProgressClass.progress["firstPurchase"])
-                    .GetChild(ctrProgressClass.progress["sale"])
-                    .gameObject.SetActive(true);
+            {
+                saleMenu.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.SetActive(false);
+                saleMenu.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.SetActive(false);
+                saleMenu.transform.GetChild(0).GetChild(0).GetChild(2).gameObject.SetActive(false);
+                saleMenu.transform.GetChild(0).GetChild(0).GetChild(3).gameObject.SetActive(false);
+                saleMenu.transform.GetChild(0).GetChild(1).GetChild(0).gameObject.SetActive(false);
+                saleMenu.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.SetActive(false);
+                saleMenu.transform.GetChild(0).GetChild(1).GetChild(2).gameObject.SetActive(false);
+                saleMenu.transform.GetChild(0).GetChild(ctrProgressClass.progress["firstPurchase"]).GetChild(ctrProgressClass.progress["sale"]).gameObject.SetActive(true);
+            }
             transform.GetChild(0).gameObject.SetActive(true);
-
             transform.GetChild(1).gameObject.SetActive(true);
             transform.GetChild(2).gameObject.SetActive(true);
             if (withoutSale != null) withoutSale.SetActive(false);

@@ -437,6 +437,7 @@ public class ctrFbKiiClass : MonoBehaviour {
             if (ctrProgressClass.progress.ContainsKey(f.id))
             {
                 friend.transform.GetChild(2).GetChild(0).GetComponent<UILocalize>().key = "invited";
+                friend.transform.GetChild(2).GetChild(0).GetComponent<UILabel>().text = Localization.Get("invited");
                 //disable coins
                 friend.transform.GetChild(5).gameObject.SetActive(false);
                 friend.transform.GetChild(6).gameObject.SetActive(false);
@@ -533,9 +534,13 @@ public class ctrFbKiiClass : MonoBehaviour {
         int coins = 0;
         foreach (string id in result)
         {
-            
 
-            if (!ctrProgressClass.progress.ContainsKey(id)) coins += 10;
+
+            if (!ctrProgressClass.progress.ContainsKey(id))
+            {
+                coins += 10;
+                ctrProgressClass.progress["friendsInvited"]++;
+            }
             
             ctrProgressClass.progress[id] = 1;
 
@@ -556,6 +561,9 @@ public class ctrFbKiiClass : MonoBehaviour {
 
             initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress["coins"].ToString();
             ctrProgressClass.saveProgress();
+
+            ctrAnalyticsClass.sendCustomDimension(7, ctrAnalyticsClass.getGroup(ctrProgressClass.progress["friendsInvited"], ctrAnalyticsClass.friendGroups)); //invites
+
         }
     }
 
@@ -584,6 +592,7 @@ public class ctrFbKiiClass : MonoBehaviour {
         }
         //label invited
         friend.GetChild(2).GetChild(0).GetComponent<UILabel>().text = Localization.Get("invited");
+        friend.GetChild(2).GetChild(0).GetComponent<UILocalize>().key = "invited";
         //disable label "+10"
         friend.GetChild(5).gameObject.SetActive(false);
         //start anim coins
@@ -592,6 +601,7 @@ public class ctrFbKiiClass : MonoBehaviour {
         friend.GetChild(2).GetComponent<Collider>().enabled = false;
 
         ctrProgressClass.progress["coins"] += 10;
+        ctrProgressClass.progress["friendsInvited"] ++;
         initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress["coins"].ToString();
         //map icon coins anim
         //initLevelMenuClass.instance.coinsLabel.transform.parent.GetChild(0).GetComponent<Animator>().enabled = true;
@@ -599,7 +609,9 @@ public class ctrFbKiiClass : MonoBehaviour {
         ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail 1", "inviteFriend" }, { "coins", "10" } });
 
         ctrProgressClass.progress[id] = 1;
+
         ctrProgressClass.saveProgress();
+        ctrAnalyticsClass.sendCustomDimension(7, ctrAnalyticsClass.getGroup(ctrProgressClass.progress["friendsInvited"], ctrAnalyticsClass.friendGroups)); //invites
 
     }
 
@@ -824,7 +836,7 @@ public class ctrFbKiiClass : MonoBehaviour {
         {
 
 
-
+#if UNITY_ANDROID
 
 
             //getInstallSource
@@ -835,12 +847,16 @@ public class ctrFbKiiClass : MonoBehaviour {
                 Debug.Log(source);
                 Debug.Log(OK.IsLoggedIn);
                 Debug.Log(VkApi.VkApiInstance.IsUserLoggedIn);
+                Debug.Log(Application.version);
                 instance.source = source;
 
-                if (source != "0" && !OK.IsLoggedIn && !(VkApi.VkApiInstance.IsUserLoggedIn && ctrProgressClass.progress["vk"] == 1))
+                if (source != "0" && !OK.IsLoggedIn && ctrProgressClass.progress["vk"] == 0 && ctrProgressClass.progress["fb"] == 0)
+                    //if (source != "0" && !OK.IsLoggedIn && !(VkApi.VkApiInstance.IsUserLoggedIn && ctrProgressClass.progress["vk"] == 1))
                 {
                     Debug.Log("OK.Auth, user from OK");
-                    OK.Auth(success => onLogin("ok"));
+                    OK.Auth(success => {
+                        if (success) onLogin("ok");
+                    }); 
                 }
                 else if (source != "0")
                 {
@@ -865,7 +881,7 @@ public class ctrFbKiiClass : MonoBehaviour {
                     Hashtable stats = new Hashtable()
                     {
                       {"time", unixTimestamp},
-                      {"version", "0.0.6"},
+                      {"version", Application.version},
                       {"stats", innerStats}
                     };
 
@@ -881,7 +897,7 @@ public class ctrFbKiiClass : MonoBehaviour {
                 }
             });
 
-
+#endif
             if (OK.IsLoggedIn )
                 onLogin("ok");
         }
@@ -1349,7 +1365,6 @@ public class ctrFbKiiClass : MonoBehaviour {
                 if (r.Value.Key)
                 {
                     loginKii(social);
-                    ctrAnalyticsClass.sendCustomDimension(7, ctrAnalyticsClass.getGroup(friendsIds.Length, ctrAnalyticsClass.friendGroups)); //invites
                 }
 
             }, r.Value.Value, fields);
@@ -1358,7 +1373,6 @@ public class ctrFbKiiClass : MonoBehaviour {
         Debug.Log("flagSendAnalytics: " + flagSendAnalytics);
 
         if (flagSendAnalytics) loginKii(social);
-        if (flagSendAnalytics) ctrAnalyticsClass.sendCustomDimension(7, ctrAnalyticsClass.getGroup(friendsIds.Length, ctrAnalyticsClass.friendGroups)); //invites
     }
 
     private void loginKii(string social)

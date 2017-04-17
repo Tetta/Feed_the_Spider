@@ -184,7 +184,7 @@ public class gHintClass : MonoBehaviour {
                     { "detail", "level " + SceneManager.GetActiveScene().name.Substring(5)},
                     { "type", type},
                     { "name", "hints"},
-                    { "count", "1"}
+                    { "count", "-1"}
                 });
 
                 GetComponent<AudioSource> ().Play ();

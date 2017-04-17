@@ -35,6 +35,7 @@ public class initLevelMenuClass : MonoBehaviour {
 		Time.maximumDeltaTime = 0.9F;
 		Time.timeScale = 1;
         Debug.Log("Time.timeScale: " + Time.timeScale);
+        if (ctrProgressClass.progress["music"] == 1) GameObject.Find("music").GetComponent<AudioSource>().mute = false;
 
         //temp
         staticClass.initLevels();

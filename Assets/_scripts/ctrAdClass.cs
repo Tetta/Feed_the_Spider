@@ -543,6 +543,7 @@ public class ctrAdClass : MonoBehaviour
         Debug.Log("OnAdDisplayedMyTarget");
         rewardedMyTargetLoaded = false;
         instance.adsAttributes["loading"] = "loaded";
+        musicClass.instance.GetComponent<AudioSource>().mute = true;
     }
 
     public static void OnAdVideoCompletedMyTarget(Object sender, EventArgs eventArgs)
@@ -556,6 +557,8 @@ public class ctrAdClass : MonoBehaviour
         instance.StartCoroutine(instance.coroutineSetReward());
 
         ctrAnalyticsClass.sendEvent("Advertisment", instance.adsAttributes);
+        if (ctrProgressClass.progress["music"] == 1) musicClass.instance.GetComponent<AudioSource>().mute = false;
+
         instance.loadAdMyTarget();
     }
 
@@ -587,6 +590,8 @@ public class ctrAdClass : MonoBehaviour
         imgMyTargetLoaded = false;
         instance.adsAttributes["loading"] = "loaded";
         ctrAnalyticsClass.sendEvent("Advertisment", instance.adsAttributes);
+        musicClass.instance.GetComponent<AudioSource>().mute = true;
+
         instance.loadAdMyTarget();
 
     }
@@ -614,7 +619,6 @@ public class ctrAdClass : MonoBehaviour
     {
         Debug.Log("OnAdDismissedMyTarget2");
         staticClass.setApplicationFocus(true);
-
     }
 
     public static bool isTimeToSendFailedAdAnalytics()

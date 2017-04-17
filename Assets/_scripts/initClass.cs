@@ -31,7 +31,6 @@ public class initClass : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-
         //for test iPad
         Application.targetFrameRate = 60;
 #if UNITY_STANDALONE_WIN

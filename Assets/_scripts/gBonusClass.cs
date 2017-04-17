@@ -77,7 +77,7 @@ public class gBonusClass : MonoBehaviour {
                     { "detail", "level " + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Substring(5)},
                     { "type", type},
                     { "name", name},
-                    { "count", "1"}
+                    { "count", "-1"}
                 });
 
 
