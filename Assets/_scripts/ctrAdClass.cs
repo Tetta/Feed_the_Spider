@@ -137,8 +137,6 @@ public class ctrAdClass : MonoBehaviour
     private void HandleShowResultUnityAds(ShowResult result)
     {
         adsAttributes["loading"] = "loaded";
-        // off for desktop 
-        adsAttributes["provider"] = "Unity Ads";
         switch (result)
         {
             case ShowResult.Finished:
@@ -153,6 +151,7 @@ public class ctrAdClass : MonoBehaviour
                 adsAttributes["status"] = "failed";
                 break;
         }
+        adsAttributes["provider"] = "Unity Ads";
         ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
     }
 
@@ -378,7 +377,7 @@ public class ctrAdClass : MonoBehaviour
         return false;
     }
 
-    //admob
+    //-------------------------------------------- admob ---------------------------
     public void RequestInterstitial(bool newLoaderFlag = false)
     {
 #if UNITY_ANDROID
@@ -422,6 +421,7 @@ public class ctrAdClass : MonoBehaviour
     public void HandleInterstitialOpened(object sender, EventArgs args)
     {
         staticClass.levelAdViewed = 1;
+        adsAttributes["provider"] = "Admob";
         adsAttributes["loading"] = "loaded";
         Debug.Log("HandleInterstitialOpened event received my");
         //RequestInterstitial();
@@ -430,6 +430,7 @@ public class ctrAdClass : MonoBehaviour
 
     public void HandleInterstitialClosed(object sender, EventArgs args)
     {
+        adsAttributes["provider"] = "Admob";
         adsAttributes["status"] = "skip";
         ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
 
@@ -442,6 +443,7 @@ public class ctrAdClass : MonoBehaviour
 
     public void HandleInterstitialLeftApplication(object sender, EventArgs args)
     {
+        adsAttributes["provider"] = "Admob";
         adsAttributes["status"] = "clicked";
         ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
 
@@ -542,6 +544,7 @@ public class ctrAdClass : MonoBehaviour
     {
         Debug.Log("OnAdDisplayedMyTarget");
         rewardedMyTargetLoaded = false;
+        instance.adsAttributes["provider"] = "myTarget";
         instance.adsAttributes["loading"] = "loaded";
         musicClass.instance.GetComponent<AudioSource>().mute = true;
     }
@@ -550,6 +553,7 @@ public class ctrAdClass : MonoBehaviour
     {
         Debug.Log("OnAdVideoCompletedMyTarget");
         rewardedMyTargetLoaded = false;
+        instance.adsAttributes["provider"] = "myTarget";
         instance.adsAttributes["loading"] = "loaded";
         instance.needSetRewardMyTarget = true;
         instance.adsAttributes["status"] = "viewed";
@@ -588,6 +592,7 @@ public class ctrAdClass : MonoBehaviour
         Debug.Log("OnAdDisplayedMyTarget2");
         staticClass.setApplicationFocus(false);
         imgMyTargetLoaded = false;
+        instance.adsAttributes["provider"] = "myTarget";
         instance.adsAttributes["loading"] = "loaded";
         ctrAnalyticsClass.sendEvent("Advertisment", instance.adsAttributes);
         musicClass.instance.GetComponent<AudioSource>().mute = true;
