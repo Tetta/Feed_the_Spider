@@ -72,7 +72,7 @@ public class ctrAdClass : MonoBehaviour
 #if UNITY_ANDROID
         Advertisement.Initialize("1275461");
         //Advertisement.Initialize("1271126");
-#elif UNITY_IPHONE
+#elif UNITY_IOS
         Advertisement.Initialize("1275214");
         //Advertisement.Initialize("1271127");
 
@@ -268,9 +268,9 @@ public class ctrAdClass : MonoBehaviour
 
 
 #if UNITY_ANDROID
-            Advertisement.Initialize("1275461", true);
-#elif UNITY_IPHONE
-        Advertisement.Initialize("1275214", true);
+            Advertisement.Initialize("1275461");
+#elif UNITY_IOS
+            Advertisement.Initialize("1275214");
 #endif
 
 #endif
