@@ -242,10 +242,17 @@ public class iClickClass : MonoBehaviour {
                     
                 }
 		    }
-            if (name == "restart" || name == "start level menu")
-                if (GameObject.Find("berry") != null && GameObject.Find("berry").GetComponent<gBerryClass>() != null) GameObject.Find("berry").GetComponent<gBerryClass>().endLevel(false);
+            if (name == "start level menu") if (GameObject.Find("berry") != null && GameObject.Find("berry").GetComponent<gBerryClass>() != null) GameObject.Find("berry").GetComponent<gBerryClass>().endLevel("lost");
+            if (name == "restart")
+		    {
+		        if (GameObject.Find("berry") != null && GameObject.Find("berry").GetComponent<gBerryClass>() != null)
+		        {
+                    if (!staticClass.sendPlayLevelStats)  GameObject.Find("berry").GetComponent<gBerryClass>().endLevel("restart");
+		            staticClass.sendPlayLevelStats = false;
 
-            Application.backgroundLoadingPriority = ThreadPriority.High;
+		        }
+		    }
+		    Application.backgroundLoadingPriority = ThreadPriority.High;
 			AsyncOperation async = new AsyncOperation ();
 			staticClass.scenePrev = SceneManager.GetActiveScene ().name;
             staticClass.sceneLoading = true;

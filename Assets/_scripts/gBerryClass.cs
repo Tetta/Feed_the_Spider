@@ -238,6 +238,7 @@ public class gBerryClass : MonoBehaviour {
         //for button market sale
         if (marketClass.instance != null) marketClass.instance.sale.GetComponent<lsSaleClass>().OnEnable();
 
+        staticClass.sendPlayLevelStats = false;
     }
 
 
@@ -531,9 +532,7 @@ public class gBerryClass : MonoBehaviour {
 			}
 		}
 
-        if (flagGemGetting) endLevel(true, "complete");
-        else if (flagGemGetting2) endLevel(true, "already");
-        else endLevel(true);
+
         //if (ctrProgressClass.progress["level" + lvlNumber] < starsCounter) {
         //if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) GooglePlayManager.instance.IncrementAchievement("achievement_collect_all_stars", starsCounter - ctrProgressClass.progress["level" + lvlNumber]);
         //ctrProgressClass.progress["level" + lvlNumber] = starsCounter;
@@ -546,6 +545,9 @@ public class gBerryClass : MonoBehaviour {
 
         }
 
+        if (flagGemGetting) endLevel("win", "complete");
+        else if (flagGemGetting2) endLevel("win", "already");
+        else endLevel("win");
         //ctrProgressClass.saveProgress();
 
         //Everyplay
@@ -605,23 +607,25 @@ public class gBerryClass : MonoBehaviour {
 		//}
     }
 
-    public void endLevel(bool result, string taskStatus = "fail")
+    public void endLevel(string result, string taskStatus = "fail")
     {
         Debug.Log("endLevel: " + result);
 
-        var resultStr = (result) ? "win" : "lost";
+        
+        //var resultStr = (result) ? "win" : "lost";
         var type = (initLevelMenuClass.levelDemands == 0) ? "normal" : "challenge";
 
         var attr = new Dictionary<string, string>
         {
             {"level number", SceneManager.GetActiveScene().name.Substring(5)},
             {"type", type},
-            {"result", resultStr},
+            {"result", result},
             {"task status", taskStatus},
-            { "time", Mathf.Round(Time.timeSinceLevelLoad).ToString()}
+            {"time", Mathf.Round(Time.timeSinceLevelLoad).ToString()}
         };
         if (initLevelMenuClass.levelDemands == 0) attr.Add("stars", starsCounter.ToString());
         ctrAnalyticsClass.sendEvent("Play Level", attr);
+
     }
 
 	void OnDestroy() {

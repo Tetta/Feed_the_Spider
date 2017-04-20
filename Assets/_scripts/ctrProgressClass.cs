@@ -225,8 +225,9 @@ public class ctrProgressClass {
         var ok = progress["ok"];
 	    //var rewardLogin = progress["rewardLogin"];
         //сброс прогресса
-       progress = new Dictionary<string, int> (progressDefault);
-		if (nameButton == "reset cheat") progress = new Dictionary<string, int> (progressCheat);
+        progress = new Dictionary<string, int> (progressDefault);
+        //progress = new Dictionary<string, int>(progressCheat);
+        if (nameButton == "reset cheat") progress = new Dictionary<string, int> (progressCheat);
 
 	    progress["sessionStart"] = sStart;
         progress["sessionEnd"] = sEnd;

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 
 public class gSpiderClass : MonoBehaviour {
 
@@ -53,7 +54,11 @@ public class gSpiderClass : MonoBehaviour {
 
 
 	void FixedUpdate () {
-		if (transform.position.x < -4 || transform.position.x > 4 || transform.position.y < -6 || transform.position.y > 6) GameObject.Find("restart").SendMessage("OnPress", false);
+	    if (transform.position.x < -4 || transform.position.x > 4 || transform.position.y < -6 || transform.position.y > 6)
+            if (!staticClass.currentSkinAnimator.GetCurrentAnimatorStateInfo(1).IsName("spider sad start") &&
+                !staticClass.currentSkinAnimator.GetCurrentAnimatorStateInfo(1).IsName("spider sad end"))
+
+                StartCoroutine(coroutineCry(staticClass.currentSkinAnimator, "spider"));
 
 		if (staticClass.scenePrev == "level menu")
 		if (fixedUpdateCount == 2) {
@@ -164,11 +169,19 @@ public class gSpiderClass : MonoBehaviour {
 
 	}
 
-	public static IEnumerator coroutineCry(Animator spiderAnimator){
+	public static IEnumerator coroutineCry(Animator spiderAnimator, string nameLost = "berry"){
 		spiderAnimator.Play("spider sad start", 1);
 		if (spiderAnimator.GetCurrentAnimatorStateInfo(0).IsName("spider breath")) spiderAnimator.Play("spider idle", 0);
 		yield return new WaitForSeconds(2F);
-		GameObject.Find("restart").SendMessage("OnPress", false);
+
+        //send stats
+	    if (GameObject.Find("berry") != null && GameObject.Find("berry").GetComponent<gBerryClass>() != null)
+	    {
+	        GameObject.Find("berry").GetComponent<gBerryClass>().endLevel("lost_" + nameLost);
+            staticClass.sendPlayLevelStats = true;
+        }
+
+        GameObject.Find("restart").SendMessage("OnPress", false);
 	}
 
 	

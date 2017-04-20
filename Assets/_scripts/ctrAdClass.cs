@@ -421,7 +421,7 @@ public class ctrAdClass : MonoBehaviour
     public void HandleInterstitialOpened(object sender, EventArgs args)
     {
         staticClass.levelAdViewed = 1;
-        adsAttributes["provider"] = "Admob";
+        adsAttributes["provider"] = "AdMob";
         adsAttributes["loading"] = "loaded";
         Debug.Log("HandleInterstitialOpened event received my");
         //RequestInterstitial();
@@ -430,7 +430,7 @@ public class ctrAdClass : MonoBehaviour
 
     public void HandleInterstitialClosed(object sender, EventArgs args)
     {
-        adsAttributes["provider"] = "Admob";
+        adsAttributes["provider"] = "AdMob";
         adsAttributes["status"] = "skip";
         ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
 
@@ -443,7 +443,7 @@ public class ctrAdClass : MonoBehaviour
 
     public void HandleInterstitialLeftApplication(object sender, EventArgs args)
     {
-        adsAttributes["provider"] = "Admob";
+        adsAttributes["provider"] = "AdMob";
         adsAttributes["status"] = "clicked";
         ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
 

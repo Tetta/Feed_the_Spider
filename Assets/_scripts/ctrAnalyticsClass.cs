@@ -5,7 +5,6 @@ using System.Reflection.Emit;
 using Facebook.Unity;
 using UnityEngine;
 
-
 public class ctrAnalyticsClass: MonoBehaviour
 {
     public static ctrAnalyticsClass instance = null;

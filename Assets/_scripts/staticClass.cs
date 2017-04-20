@@ -37,16 +37,20 @@ public class staticClass
         levels[4, 1] = 10;
         levels[12, 0] = 2;
         levels[12, 1] = 103;
-        levels[7, 0] = 2;
-        levels[7, 1] = 14;
+        levels[6, 0] = 3;
+        levels[6, 1] = 201;
+        levels[7, 0] = 3;
+        levels[7, 1] = 12;
+        //levels[6, 0] = 0; prerelease
+        //levels[6, 1] = 4; prerelease
+        //levels[7, 0] = 2; prerelease
+        //levels[7, 1] = 14; prerelease
         levels[11, 0] = 3;
         levels[11, 1] = 7;
         levels[5, 0] = 1;
         levels[5, 1] = 11;
         levels[57, 0] = 2;
         levels[57, 1] = 102;
-        levels[6, 0] = 0;
-        levels[6, 1] = 4;
         levels[10, 0] = 2;
         levels[10, 1] = 102;
         levels[8, 0] = 1;
@@ -624,5 +628,8 @@ public class staticClass
         if (ctrProgressClass.progress["boostersPurple"] <= 0) marketClass.instance.boostersLabel[3].transform.parent.GetChild(4).GetComponent<UI2DSprite>().color = new Color32(180, 180, 180, 255);
         else marketClass.instance.boostersLabel[3].transform.parent.GetChild(4).GetComponent<UI2DSprite>().color = new Color32(255, 255, 255, 255);
     }
+
+    //for send PlayLevelStats (lost_spider, lost_berry...)
+    public static bool sendPlayLevelStats = false;
 }
 

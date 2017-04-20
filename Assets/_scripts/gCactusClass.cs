@@ -37,7 +37,7 @@ public class gCactusClass : MonoBehaviour {
 			if (!staticClass.currentSkinAnimator.GetCurrentAnimatorStateInfo (1).IsName ("spider sad start") &&
 				!staticClass.currentSkinAnimator.GetCurrentAnimatorStateInfo (1).IsName ("spider sad end")) {
 
-				StartCoroutine (gSpiderClass.coroutineCry (staticClass.currentSkinAnimator));
+				StartCoroutine (gSpiderClass.coroutineCry (staticClass.currentSkinAnimator, collisionObject.gameObject.name));
 				staticClass.currentSkinAnimator.transform.GetChild (1).GetChild (3).GetComponent<AudioSource> ().Play ();
 
 			}
