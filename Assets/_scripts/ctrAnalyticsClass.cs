@@ -12,7 +12,7 @@ public class ctrAnalyticsClass: MonoBehaviour
 
 
     public static List<string> developerIds = new List<string>
-    { "15779554", "303171231", "4929221", "786955", "305568333", "51066050", "212234350", "100009826471037","100007730714188", "100004274864226", "790297741122714", "558610410993", "572497357200", "582889450510" };
+    { "15779554", "303171231", "4929221", "786955", "305568333", "51066050", "212234350", "100009826471037","100007730714188", "100004274864226", "790297741122714", "558610410993", "572497357200", "582889450510", "537314172230", "44697922" };
 
     public static List<float> ageGroups = new List<float> { 0, 10, 18, 24, 35, 56 };
     public static List<float> paymentGroups = new List<float> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30 };
@@ -65,6 +65,7 @@ public class ctrAnalyticsClass: MonoBehaviour
         attributes.Add("session number", s.ToString());
         attributes.Add("social id", ctrFbKiiClass.userId);
         attributes.Add("keys count", ctrProgressClass.progress["gems"].ToString());
+        if (!attributes.ContainsKey("energy count")) attributes.Add("energy count", lsEnergyClass.energy.ToString());
         foreach (var attr in attributes)
         {
             str += attr.Key + ": " + attr.Value + "\n";
@@ -115,6 +116,7 @@ public class ctrAnalyticsClass: MonoBehaviour
 
             //pause
             ctrProgressClass.progress["sessionEnd"] = (int) DateTime.Now.TotalSeconds();
+            ctrProgressClass.progress["energyOnEndSession"] = lsEnergyClass.energy;
             ctrProgressClass.saveProgress();
             sendNotifers();
 
@@ -159,7 +161,7 @@ public class ctrAnalyticsClass: MonoBehaviour
                     },
                     {"level play count", ctrProgressClass.progress["levelPlayCount"].ToString()},
                     {"win count", ctrProgressClass.progress["winCount"].ToString()},
-                    {"energy count", lsEnergyClass.energy.ToString()}
+                    {"energy count", ctrProgressClass.progress["energyOnEndSession"].ToString()}
                 });
             }
             Debug.Log("startSession");

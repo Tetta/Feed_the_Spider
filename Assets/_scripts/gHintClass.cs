@@ -1287,7 +1287,7 @@ public class gHintClass : MonoBehaviour {
 		actions = new action[2];
 
 		actions[0].id = new Vector3(-0.84375F, 0.04559524F, -0.01953125F); //yeti body
-		actions[0].frame = 168;
+		actions[0].frame = 148;
 		actions[0].mouse = new Vector3(0F, 0F, 0F);
 		actions[1].id = new Vector3(-0.84375F, 0.04559524F, -0.01953125F); //yeti body
 		actions[1].frame = 0;
@@ -1297,7 +1297,7 @@ public class gHintClass : MonoBehaviour {
 		actions = new action[2];
 
 		actions[0].id = new Vector3(-0.84375F, 0.04559524F, -0.01953125F); //yeti body
-		actions[0].frame = 137;
+		actions[0].frame = 120;
 		actions[0].mouse = new Vector3(0F, 0F, 0F);
 		actions[1].id = new Vector3(-0.84375F, 0.04559524F, -0.01953125F); //yeti body
 		actions[1].frame = 0;

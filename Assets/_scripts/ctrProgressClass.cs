@@ -97,7 +97,7 @@ public class ctrProgressClass {
 
         {"tutorialEnergy",1}, {"tutorialBuy",0}, {"tutorialHint",0}, {"tutorialBonus",0}, {"tutorialDream",0},  {"tutorialAdCoins",0},  {"tutorialSale",0}, {"tutorialMap",0},
 
-        {"sessionStart",0}, {"sessionEnd",0}, {"sessionCount",0}, {"levelPlayCount",0}, {"winCount",0}, {"firstLaunch", 0}, {"paymentCount", 0}, {"revenue", 0}, {"friendsInvited", 0},
+        {"sessionStart",0}, {"sessionEnd",0}, {"sessionCount",0}, {"levelPlayCount",0}, {"winCount",0}, {"firstLaunch", 0}, {"paymentCount", 0}, {"revenue", 0}, {"friendsInvited", 0}, {"energyOnEndSession", 0},
 
         {"level1",0},{"level2",0},{"level3",0},{"level4",0},{"level5",0},{"level6",0},{"level7",0},{"level8",0},{"level9",0},{"level10",0},
 		{"level11",0},{"level12",0},{"level13",0},{"level14",0},{"level15",0},{"level16",0},{"level17",0},{"level18",0},{"level19",0},{"level20",0},
@@ -165,7 +165,7 @@ public class ctrProgressClass {
 
         {"tutorialEnergy",1}, {"tutorialBuy",0}, {"tutorialHint",0}, {"tutorialBonus",0}, {"tutorialDream",0},  {"tutorialAdCoins",0},  {"tutorialSale",0}, {"tutorialMap",0},
 
-        { "sessionStart",0}, {"sessionEnd",0}, {"sessionCount",0}, {"levelPlayCount",0}, {"winCount",0}, {"firstLaunch", 0}, {"paymentCount", 0}, {"revenue", 0}, {"friendsInvited", 0},
+        { "sessionStart",0}, {"sessionEnd",0}, {"sessionCount",0}, {"levelPlayCount",0}, {"winCount",0}, {"firstLaunch", 0}, {"paymentCount", 0}, {"revenue", 0}, {"friendsInvited", 0}, {"energyOnEndSession", 0},
 
         {"level1",3},{"level2",3},{"level3",3},{"level4",3},{"level5",3},{"level6",3},{"level7",3},{"level8",3},{"level9",3},{"level10",3},
 		{"level11",3},{"level12",3},{"level13",3},{"level14",3},{"level15",3},{"level16",3},{"level17",3},{"level18",3},{"level19",3},{"level20",3},

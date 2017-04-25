@@ -88,7 +88,7 @@ public class staticClass
 		levels[80, 0] = 0;
 		levels[80, 1] = 7;
 		levels[28, 0] = 2;
-		levels[28, 1] = 6;
+		levels[28, 1] = 7;
 		levels[35, 0] = 2;
 		levels[35, 1] = 8;
 		levels[76, 0] = 1;
