@@ -463,7 +463,7 @@ public class ctrFbKiiClass : MonoBehaviour {
             {
                 url = "apps.sendRequest?user_id=" + name + "&text=" + message + "&type=invite&name=" + title,
                 CallBackFunction = OnInviteFriend,
-                customParam2 = "name"
+                customParam2 = name
             };
             VkApi.VkApiInstance.Call(r2);
         }
@@ -574,6 +574,64 @@ public class ctrFbKiiClass : MonoBehaviour {
         //vk 
         if (result.GetType() == typeof(VKRequest))
         {
+            VKRequest r1 = result as VKRequest;
+            if (r1.error != null)
+            {
+                try
+                {
+                    Debug.Log(r1.response);
+                    Dictionary<string, object> tt =
+                        com.playGenesis.VkUnityPlugin.MiniJSON.Json.Deserialize(r1.response) as
+                            Dictionary<string, object>;
+                    var f = (Dictionary<string, object>) tt["error"];
+                    Debug.Log(f["redirect_uri"]);
+
+
+                    var r3 = new WebViewRequest
+                    {
+                        NavigateToUrl = f["redirect_uri"].ToString(),
+                        CloseWhenNavigatedToUrl = "https://oauth.vk.com/blank.html",
+                        CallbackAction = (w) =>
+                        {
+                            if (w.Error != null)
+                            {
+                                VkApi.VkApiInstance.SendMessage("AccessDeniedMessage", "-1#Canceled by user");
+                            }
+                            else
+                            {
+                                Debug.Log(w.LastUrlWithParams);
+
+                                //VkApi.VkApiInstance.SendMessage("ReceiveNewTokenMessage",
+                                //VKToken.ParseFromAuthUrl(w.LastUrlWithParams));
+
+
+                                if (w.LastUrlWithParams == "https://oauth.vk.com/blank.html#success=1")
+                                {
+                                    id = r1.customParam2;
+                                    friend =
+                                        GameObject.Find(
+                                                "/root/static/level menu/vk_ok/invite friends/scroll/friends grid/" + id)
+                                            .transform;
+                                    inviteFriendSave(friend, id);
+                                }
+                            }
+                        }
+                    };
+                    WebView.Instance.Add(r3);
+                }
+                catch
+                {
+                    
+                }
+
+                // "https://oauth.vk.com/blank.html#success=1"
+
+                //return;
+            }
+ 
+
+            /*
+
             VKRequest r = result as VKRequest;
             if (r.error != null)
             {
@@ -583,13 +641,21 @@ public class ctrFbKiiClass : MonoBehaviour {
             Debug.Log(r.response);
             id = r.customParam2;
             friend = GameObject.Find("/root/static/level menu/vk_ok/invite friends/scroll/friends grid/" + id).transform;
+            */
         }
         //ok
         else
         {
             id = result.ToString();
             friend = GameObject.Find("/root/static/level menu/vk_ok/invite friends ok/scroll/friends grid/" + id).transform;
+            inviteFriendSave(friend, id);
         }
+
+
+    }
+
+    public void inviteFriendSave(Transform friend, string id)
+    {
         //label invited
         friend.GetChild(2).GetChild(0).GetComponent<UILabel>().text = Localization.Get("invited");
         friend.GetChild(2).GetChild(0).GetComponent<UILocalize>().key = "invited";
@@ -601,7 +667,7 @@ public class ctrFbKiiClass : MonoBehaviour {
         friend.GetChild(2).GetComponent<Collider>().enabled = false;
 
         ctrProgressClass.progress["coins"] += 10;
-        ctrProgressClass.progress["friendsInvited"] ++;
+        ctrProgressClass.progress["friendsInvited"]++;
         initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress["coins"].ToString();
         //map icon coins anim
         //initLevelMenuClass.instance.coinsLabel.transform.parent.GetChild(0).GetComponent<Animator>().enabled = true;
@@ -614,7 +680,6 @@ public class ctrFbKiiClass : MonoBehaviour {
         ctrAnalyticsClass.sendCustomDimension(7, ctrAnalyticsClass.getGroup(ctrProgressClass.progress["friendsInvited"], ctrAnalyticsClass.friendGroups)); //invites
 
     }
-
     public void clickJoinGroup(string url, string name)
     {
         bool flag = false;
