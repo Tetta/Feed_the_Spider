@@ -167,7 +167,7 @@ public class ctrAdClass : MonoBehaviour
                 GameObject.Find("root/static/energy").SendMessage("OnApplicationFocus", true);
             GameObject.Find("energy menu/panel with anim/energy").SendMessage("OnApplicationFocus", true);
             if (marketClass.instance.gameObject.activeSelf)
-                GameObject.Find("/market/shop/market menu/bars/energy").SendMessage("OnApplicationFocus", true);
+                GameObject.Find("/market/inventory/market menu/bars/energy").SendMessage("OnApplicationFocus", true);
 
         }
         else if (adStarted == "ad coins")

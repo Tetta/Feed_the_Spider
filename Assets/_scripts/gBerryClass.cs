@@ -509,7 +509,10 @@ public class gBerryClass : MonoBehaviour {
                 ctrProgressClass.progress["gems"] ++;
 				if (ctrProgressClass.progress[SceneManager.GetActiveScene().name] == 0) ctrProgressClass.progress[SceneManager.GetActiveScene().name] = 1;
 				else ctrProgressClass.progress[SceneManager.GetActiveScene().name] = 3;
-			}
+
+                staticClass.flyingKeys.Add(SceneManager.GetActiveScene().name + "_key1");
+                
+            }
 	}
         //ctrProgressClass.progress["stars"] = ctrProgressClass.progress["stars"] + starsCounter - ctrProgressClass.progress["level" + lvlNumber];
 
@@ -529,8 +532,10 @@ public class gBerryClass : MonoBehaviour {
                 ctrProgressClass.progress["gems"] ++;
 				if (ctrProgressClass.progress[SceneManager.GetActiveScene().name] == 0) ctrProgressClass.progress[SceneManager.GetActiveScene().name] = 2;
 				else ctrProgressClass.progress[SceneManager.GetActiveScene().name] = 3;
-			}
-		}
+
+                staticClass.flyingKeys.Add(SceneManager.GetActiveScene().name + "_key2");
+            }
+        }
 
 
         //if (ctrProgressClass.progress["level" + lvlNumber] < starsCounter) {

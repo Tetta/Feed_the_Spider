@@ -44,7 +44,7 @@ namespace CompleteProject
 
         public void Start()
         {
-            Debug.Log("m_StoreController: " + m_StoreController);
+            //Debug.Log("m_StoreController: " + m_StoreController);
             // If we haven't set up the Unity Purchasing reference
             if (m_StoreController == null)
             {
@@ -256,14 +256,12 @@ namespace CompleteProject
             //controller.products.all.First().metadata.localizedPrice
             foreach (var product in controller.products.all)
             {
-                Debug.Log(product.metadata.localizedPrice);
-                Debug.Log(product.metadata.isoCurrencyCode);
-                Debug.Log(product.metadata.localizedDescription);
-                Debug.Log(product.metadata.localizedPriceString);
-                Debug.Log(product.metadata.localizedTitle);
-                //Debug.Log(product.metadata.);
+                //Debug.Log(product.metadata.localizedPrice);
+                //Debug.Log(product.metadata.isoCurrencyCode);
+                //Debug.Log(product.metadata.localizedDescription);
+                //Debug.Log(product.metadata.localizedPriceString);
+                //Debug.Log(product.metadata.localizedTitle);
 
-                //Debug.Log(product.WithStoreSpecificID(string id););
                // Fetch the currency Product reference from Unity Purchasing
                 //Debug.Log(product.definition.id);
 #if UNITY_ANDROID
@@ -349,7 +347,7 @@ namespace CompleteProject
                 Debug.Log("Invalid receipt, not unlocking content");
                 validPurchase = false;
                 //for test on desktop
-                //marketClass.instance.setRewardForPurchase(args.purchasedProduct.definition.id, transactionId, args.purchasedProduct.metadata.isoCurrencyCode, args.purchasedProduct.metadata.localizedPrice);
+                marketClass.instance.setRewardForPurchase(args.purchasedProduct.definition.id, transactionId, args.purchasedProduct.metadata.isoCurrencyCode, args.purchasedProduct.metadata.localizedPrice);
 
             }
 #endif

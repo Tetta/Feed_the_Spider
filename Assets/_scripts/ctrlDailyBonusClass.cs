@@ -17,7 +17,7 @@ public class ctrlDailyBonusClass : MonoBehaviour {
 
     //будет дейли бонус или нет
     IEnumerator Start() {
-		if (name == "daily bonus") { 
+        if (name == "daily bonus") { 
 			WWW www = new WWW(url);
 			yield return www;
 			try {
@@ -29,19 +29,19 @@ public class ctrlDailyBonusClass : MonoBehaviour {
 				if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
 				DateTime dailyBonus = new DateTime(1970, 1, 1, 0, 0, 0, 0);
 				dailyBonus = dailyBonus.AddSeconds(System.Convert.ToInt64(ctrProgressClass.progress["dailyBonus"]));
-                //Debug.Log("now: " + now.ToShortDateString());
-                //Debug.Log("dailyBonus: " + dailyBonus.ToShortDateString());
-                //Debug.Log("realTime: " + realTime);
-                //Debug.Log("TotalSeconds: " + DateTime.UtcNow.TotalSeconds());
+                Debug.Log("now: " + now.ToShortDateString());
+                Debug.Log("dailyBonus: " + dailyBonus.ToShortDateString());
+                Debug.Log("realTime: " + realTime);
+                Debug.Log("TotalSeconds: " + DateTime.UtcNow.TotalSeconds());
                 if (now.ToShortDateString() != dailyBonus.ToShortDateString()) {
-					//показать окно daily bonus
-					dailyBonusMenu.SetActive(true);
+                    //показать окно daily bonus
+                    //dailyBonusMenu.SetActive(true);
+                    Debug.Log("..........................................daily bonus");
 
-					//delete cards in bonuses menu
-					dailyBonusMenuOpen();
-
-					//добавить бонусы за карты ягод
-				    ctrProgressClass.progress["webs"] += ctrProgressClass.progress["berry2"];
+                    //delete cards in bonuses menu
+                    //dailyBonusMenuOpen();
+                    //добавить бонусы за карты ягод
+                    ctrProgressClass.progress["webs"] += ctrProgressClass.progress["berry2"];
                     ctrProgressClass.progress["collectors"] += ctrProgressClass.progress["berry3"];
                     ctrProgressClass.progress["teleports"] += ctrProgressClass.progress["berry4"];
                     ctrProgressClass.progress["hints"] += ctrProgressClass.progress["berry5"];
@@ -90,13 +90,15 @@ public class ctrlDailyBonusClass : MonoBehaviour {
                     staticClass.showRewardCardsMenuTeleports = ctrProgressClass.progress["berry4"];
                     staticClass.showRewardCardsMenuHints = ctrProgressClass.progress["berry5"];
 
-				    if (ctrProgressClass.progress["berry2"] >= 1 && ctrProgressClass.progress["berry3"] >= 1 &&
+                    
+                    if (ctrProgressClass.progress["berry2"] >= 1 && ctrProgressClass.progress["berry3"] >= 1 &&
 				        ctrProgressClass.progress["berry4"] >= 1 && ctrProgressClass.progress["berry5"] >= 1)
 				    {
-				        ctrProgressClass.progress["hints"] ++;
-				        staticClass.showRewardCardsMenuHints++;
+				        ctrProgressClass.progress["hints"] += 3;
+				        staticClass.showRewardCardsMenuHints += 3;
 
-				    }
+                    }
+                    
                     ctrProgressClass.saveProgress();
 				}
 
@@ -106,10 +108,6 @@ public class ctrlDailyBonusClass : MonoBehaviour {
 		}
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	}
-
 
 	void dailyBonusMenuOpen() {
 		dailyBonusMenu.transform.GetChild(0).GetChild(0).DestroyChildren();
@@ -133,8 +131,8 @@ public class ctrlDailyBonusClass : MonoBehaviour {
         openingCards.Add(new KeyValuePair<string, int>("coins", 100));
         for (int i = 1; i < 3; i++)
         {
-            if (UnityEngine.Random.Range(0, 100) < 5) mBoosterClass.setOpeningCardUncommon("berry", ref openingCards);
-            else mBoosterClass.setOpeningCardCommon(ref portionsGreen, portionsCountGreen, ref openingCards);
+            //if (UnityEngine.Random.Range(0, 100) < 5) mBoosterClass.setOpeningCardUncommon("berry", ref openingCards);
+            //else mBoosterClass.setOpeningCardCommon(ref portionsGreen, portionsCountGreen, ref openingCards);
         }
         mBoosterClass.Shuffle(openingCards);
 

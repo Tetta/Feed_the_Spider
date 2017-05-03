@@ -78,19 +78,21 @@ public class iClickClass : MonoBehaviour {
         transform.parent.FindChild("items/booster").gameObject.SetActive(true);
     }
 
-	void checkTutorialBuy() {
-		Debug.Log("checkTutorialBuy: " + name + ", step: " + ctrProgressClass.progress["tutorialBuy"]);
+	public void checkTutorialBuy() {
+		//Debug.Log("checkTutorialBuy: " + name + ", step: " + ctrProgressClass.progress["tutorialBuy"]);
         if (GetComponent<UIToggle>() != null) Debug.Log(GetComponent<UIToggle>().value);
-        Debug.Log(ctrProgressClass.progress["boostersWhite"]);
         //если хватает монет и не проходил туториал, показываем hand
         if (name == "button market" && ctrProgressClass.progress ["coins"] >= 400 && ctrProgressClass.progress ["tutorialBuy"] == 0) {
 			transform.GetChild (0).gameObject.SetActive (true);
-		} else if (name == "booster_white_1" && ctrProgressClass.progress["coins"] >= 400 &&
-		           ctrProgressClass.progress["boostersWhite"] == 0 && ctrProgressClass.progress["tutorialBuy"] <= 1)
+		} else if (name == "booster_white_1" && ctrProgressClass.progress["coins"] >= 400 && ctrProgressClass.progress["tutorialBuy"] <= 1)
 	    {
 	        transform.GetChild(0).gameObject.SetActive(true);
 	    }
-	    else if (name == "tab inventory" && ctrProgressClass.progress["boostersWhite"] >= 1 &&
+        //else if (name == "tab boosters" && ctrProgressClass.progress["boostersWhite"] <= 1)
+         //   GetComponent<UIToggle>().value = true;
+
+        /*
+                else if (name == "tab boosters" && ctrProgressClass.progress["boostersWhite"] >= 1 &&
 	             ctrProgressClass.progress["tutorialBuy"] <= 2 && !GetComponent<UIToggle>().value)
 	    {
 	        transform.GetChild(0).gameObject.SetActive(true);
@@ -101,7 +103,7 @@ public class iClickClass : MonoBehaviour {
         {
             GetComponent<UILabel>().text = ctrProgressClass.progress["coins"].ToString();
         }
-
+        */
 
     }
 
@@ -113,14 +115,17 @@ public class iClickClass : MonoBehaviour {
             if (name == "button market")
             {
                 ctrProgressClass.progress ["tutorialBuy"] = 1;
-                marketClass.instance.transform.GetChild(0).GetComponent<UIToggle>().Set(true);
-                marketClass.instance.transform.GetChild(1).GetComponent<UIToggle>().Set(false);
+                marketClass.instance.transform.GetChild(2).GetChild(0).GetComponent<UIToggle>().Set(true);
+                marketClass.instance.transform.GetChild(2).GetChild(1).GetComponent<UIToggle>().Set(false);
+                marketClass.instance.transform.GetChild(2).GetChild(2).GetComponent<UIToggle>().Set(false);
+                marketClass.instance.transform.GetChild(2).GetChild(3).GetComponent<UIToggle>().Set(false);
             }
             if (name == "booster_white_1")
             {
                 ctrProgressClass.progress ["tutorialBuy"] = 2;
                 ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, string> { { "name", "buy booster" } });
-                marketClass.instance.transform.GetChild(1).SendMessage("checkTutorialBuy");
+                //tutorial
+                //marketClass.instance.transform.GetChild(1).SendMessage("checkTutorialBuy");
 
             }
             if (name == "tab inventory")
@@ -140,6 +145,7 @@ public class iClickClass : MonoBehaviour {
 	}
 
     void buyCardForCoins() {
+       
         int amount = 0;
         int cost = 0;
         if (name == "booster_white_1")
@@ -167,11 +173,11 @@ public class iClickClass : MonoBehaviour {
             staticClass.setBoostersLabels();
     
             //change label coins
-            GameObject.Find("/market/shop/market menu/bars/coins/label coins").GetComponent<UILabel>().text = ctrProgressClass.progress["coins"].ToString();
+            GameObject.Find("/market/inventory/market menu/bars/coins/label coins").GetComponent<UILabel>().text = ctrProgressClass.progress["coins"].ToString();
             if (initLevelMenuClass.instance != null) initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress["coins"].ToString();
 
             //anim booster
-
+            /*
             StartCoroutine(buyBoosterAnimEnd(false));
 
             if (name == "booster_white_1")
@@ -181,10 +187,14 @@ public class iClickClass : MonoBehaviour {
 
             marketClass.instance.iconBoosterAnim.GetComponent<Animator>().Play("booster buy");
             StartCoroutine(buyBoosterAnimEnd(true));
-		}
+            */
+            mBoosterClass.instance.itemName = name;
+            mBoosterClass.instance.transform.parent.parent.gameObject.SetActive(true);
+
+        }
     }
 
-
+    /*
     public IEnumerator buyBoosterAnimEnd(bool flag)
     {
         if (flag) yield return StartCoroutine(staticClass.waitForRealTime(0.5F));
@@ -196,7 +206,7 @@ public class iClickClass : MonoBehaviour {
 
         yield return null;
     }
-
+    */
     public IEnumerator CoroutineLoadLevel() {
 		if (!staticClass.sceneLoading) {
             Time.timeScale = 0;
@@ -668,6 +678,8 @@ public class iClickClass : MonoBehaviour {
         {
             Debug.Log("open booster");
             Debug.Log(name + ": " + ctrProgressClass.progress[name]);
+            //for test
+            
             if (ctrProgressClass.progress[name] > 0)
             {
                 //отключаем все спрайты бустера
@@ -826,8 +838,18 @@ public class iClickClass : MonoBehaviour {
         else if (name == "exit open booster menu")
         {
             Debug.Log(name);
-            marketClass.instance.openBoosterMenu.SetActive(false);
-            marketClass.instance.boosterMenu.SetActive(true);
+            mBoosterClass.instance.transform.parent.parent.gameObject.SetActive(false);
+
+            Debug.Log(staticClass.getBoosterForOK);
+            if (staticClass.getBoosterForOK)
+            {
+                ctrProgressClass.progress["boostersWhite"]++;
+                ctrProgressClass.progress["rewardLogin"] = 1;
+                mBoosterClass.instance.itemName = "booster_white_1";
+                mBoosterClass.instance.transform.parent.parent.gameObject.SetActive(true);
+                ctrProgressClass.saveProgress();
+                
+            }
 
         }
         else if (name == "exit gift menu")
@@ -999,7 +1021,7 @@ public class iClickClass : MonoBehaviour {
 
     void restoreEnergy()
     {
-        GameObject.Find("energy").GetComponent<lsEnergyClass>().restoreEnergy();
+        //GameObject.Find("energy").GetComponent<lsEnergyClass>().restoreEnergy();
     }
 
     void buyEnergy()

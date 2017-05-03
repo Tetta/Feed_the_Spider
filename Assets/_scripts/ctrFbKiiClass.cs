@@ -1000,7 +1000,7 @@ public class ctrFbKiiClass : MonoBehaviour {
     }
 
     //after login: request user, friends, save social
-    private void onLogin(string social)
+    public void onLogin(string social)
     {
         Debug.Log("socials - onLogin: " + social);
         switch(social)
@@ -1036,21 +1036,39 @@ public class ctrFbKiiClass : MonoBehaviour {
         ctrProgressClass.progress["vk"] = 0;
         ctrProgressClass.progress["ok"] = 0;
         ctrProgressClass.progress[social] = 1;
-        
+
         //reward for login
+        Debug.Log("--------------------------");
+        Debug.Log("--------------------------" + ctrProgressClass.progress["rewardLogin"]);
         if (ctrProgressClass.progress["rewardLogin"] == 0)
         {
+            Debug.Log("reward for login");
             var rewardGO = GameObject.Find("/root/static/level menu/reward for login");
-            if (rewardGO != null)
+            if (rewardGO != null) rewardGO.SetActive(false);
+            /*
             {
                 rewardGO.transform.GetChild(0).GetComponent<Animator>().enabled = false;
                 rewardGO.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<Animator>().enabled = true;
                 rewardGO.transform.GetChild(1).gameObject.SetActive(false);
 
             }
-            ctrProgressClass.progress["boostersWhite"] ++;
-            ctrProgressClass.progress["rewardLogin"] = 1;
-            staticClass.setBoostersLabels();
+            */
+
+            //staticClass.setBoostersLabels();
+            Debug.Log("--------------------------");
+            Debug.Log(SceneManager.GetActiveScene().name);
+            Debug.Log(mBoosterClass.instance.transform.parent.parent.gameObject.name);
+            Debug.Log(mBoosterClass.instance.transform.parent.parent.gameObject.activeSelf);
+            if (social == "ok" && (SceneManager.GetActiveScene().name == "menu" || SceneManager.GetActiveScene().name == "start") && mBoosterClass.instance.transform.parent.parent.gameObject.activeSelf) staticClass.getBoosterForOK = true;
+            else
+            {
+                Debug.Log("1--------------------------");
+                if (social == "ok") staticClass.getBoosterForOK = true;
+                ctrProgressClass.progress["boostersWhite"] ++;
+                ctrProgressClass.progress["rewardLogin"] = 1;
+                mBoosterClass.instance.itemName = "booster_white_1";
+                mBoosterClass.instance.transform.parent.parent.gameObject.SetActive(true);
+            }
         }
         ctrProgressClass.saveProgress();
         changeUIPanelFriends(social);

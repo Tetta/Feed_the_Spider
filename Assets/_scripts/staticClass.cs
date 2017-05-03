@@ -613,6 +613,7 @@ public class staticClass
 
     public static void setBoostersLabels()
     {
+        /*
         marketClass.instance.boostersLabel[0].text = ctrProgressClass.progress["boostersWhite"].ToString();
         marketClass.instance.boostersLabel[1].text = ctrProgressClass.progress["boostersGreen"].ToString();
         marketClass.instance.boostersLabel[2].text = ctrProgressClass.progress["boostersBlue"].ToString();
@@ -627,9 +628,14 @@ public class staticClass
         else marketClass.instance.boostersLabel[2].transform.parent.GetChild(4).GetComponent<UI2DSprite>().color = new Color32(255, 255, 255, 255);
         if (ctrProgressClass.progress["boostersPurple"] <= 0) marketClass.instance.boostersLabel[3].transform.parent.GetChild(4).GetComponent<UI2DSprite>().color = new Color32(180, 180, 180, 255);
         else marketClass.instance.boostersLabel[3].transform.parent.GetChild(4).GetComponent<UI2DSprite>().color = new Color32(255, 255, 255, 255);
+        */
     }
 
     //for send PlayLevelStats (lost_spider, lost_berry...)
     public static bool sendPlayLevelStats = false;
+
+    public static List<string> flyingKeys = new List<string>();
+
+    public static bool getBoosterForOK = false;
 }
 

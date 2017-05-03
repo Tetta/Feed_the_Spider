@@ -1,7 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Remoting.Messaging;
+using UnityEditor;
+using UnityEngine.SceneManagement;
 
 
 public class mCardClass : MonoBehaviour {
@@ -56,7 +61,11 @@ public class mCardClass : MonoBehaviour {
         {
             pressCard(false);
         }
-        transform.GetChild(0).GetChild(3).GetChild(3).GetChild(0).GetComponent<UILabel>().text = ctrProgressClass.progress[name].ToString();
+        if (ctrProgressClass.progress[name] > 1)
+        {
+            transform.GetChild(0).GetChild(3).GetChild(3).gameObject.SetActive(true);
+            transform.GetChild(0).GetChild(3).GetChild(3).GetChild(0).GetChild(0).GetComponent<UILabel>().text = ctrProgressClass.progress[name].ToString();
+        }
     }
 
     void pressCard(bool isPressed) {
@@ -191,39 +200,95 @@ public class mCardClass : MonoBehaviour {
 
 	}
 
-    void openCard(bool isPressed) {
-
-        if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open") &&
-            !GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open epic"))
+    public IEnumerator openCard(bool flag)
+    {
+        if (flag) yield return StartCoroutine(staticClass.waitForRealTime(0.2F));
+        else yield return null;
+        foreach (var c in mBoosterClass.instance.openingCards)
         {
+            UnityEngine.Debug.Log(c.Key);    
+        }
+
+        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card idle") || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("start state"))
+        {
+            UnityEngine.Debug.Log("openingCards: " + mBoosterClass.instance.openingCards.Count);
             if (transform.childCount > 4)
             {
                 GetComponent<Animator>().Play("card open epic");
                 transform.GetChild(6).GetComponent<AudioSource>().Play();
+                StartCoroutine(counterCard(1.1F));
 
             }
-            else GetComponent<Animator>().Play("card open");
-            GetComponent<AudioSource>().Play();
-            mBoosterClass.counterOpenCard++;
-            if (mBoosterClass.counterOpenCard >= 5)
+            else
             {
-                transform.parent.parent.parent.parent.FindChild("exit open booster menu").localPosition = new Vector3(
-                    0, 0, -1);
-                //if (ctrProgressClass.progress["boosters"] > 0) transform.parent.parent.parent.parent.FindChild("button open booster").gameObject.SetActive(true);
-                mBoosterClass.counterOpenCard = 0;
+            GetComponent<Animator>().Play("card open");
+            StartCoroutine(counterCard(0.5F));
+
             }
-        }
-        else
+            GetComponent<AudioSource>().Play();
+
+            
+            //mBoosterClass.counterOpenCard++;
+            //if (mBoosterClass.counterOpenCard >= mBoosterClass.openingCards.Count)
+            var name = mBoosterClass.instance.openingCards.LastOrDefault().Key;
+
+            //analytics
+            if (name == "hints" || name == "webs" || name == "teleports" || name == "collectors")
+            {
+                ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
+                {
+                    {"detail", "booster"},
+                    {"name", name},
+                    {"count", mBoosterClass.instance.openingCards[name].ToString()}
+                });
+            }
+            if (name == "coins")
+                ctrAnalyticsClass.sendEvent("Coins",
+                    new Dictionary<string, string>
+                    {
+                        {"detail 1", "booster"},
+                        {"coins", mBoosterClass.instance.openingCards[name].ToString()}
+                    });
+            //update max energy labels if skin
+            if (name.Length > 4 && name.Substring(0, 4) == "skin")
+            {
+                lsEnergyClass.maxEnergy += int.Parse(name.Substring(4, 1)) + 3;
+                UnityEngine.Debug.Log(lsEnergyClass.maxEnergy);
+                if (SceneManager.GetActiveScene().name == "level menu") GameObject.Find("/root/static/energy").GetComponent<lsEnergyClass>().energyMaxLabel.text = lsEnergyClass.maxEnergy.ToString();
+                if (marketClass.instance.gameObject.activeSelf) GameObject.Find("/market/inventory/market menu/bars/energy").GetComponent<lsEnergyClass>().energyMaxLabel.text = lsEnergyClass.maxEnergy.ToString();
+            }
+
+            //сохранение результата
+            UnityEngine.Debug.Log("mBoosterClass.openingCards.FirstOrDefault().Key: " + name);
+                ctrProgressClass.progress[name] += mBoosterClass.instance.openingCards[name];
+                mBoosterClass.instance.openingCards.Remove(name);
+                //mBoosterClass.instance.openingCardsList.RemoveAt(0);
+                mBoosterClass.instance.saveCards();
+                ctrProgressClass.saveProgress();
+            
+
+
+        } else 
+        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card opened"))
         {
             transform.localPosition  = new Vector3(2000, 2000, 0);
+            GetComponent<Animator>().Play("start state");
+            
+                UnityEngine.Debug.Log(mBoosterClass.instance.openingCards.Count);
+                UnityEngine.Debug.Log(mBoosterClass.instance.openingCards.LastOrDefault().Key);
+                UnityEngine.Debug.Log(mBoosterClass.instance);
+                StartCoroutine(mBoosterClass.instance.transform.GetChild(2).FindChild(mBoosterClass.instance.openingCards.LastOrDefault().Key).GetComponent<mCardClass>().openCard(false));
+            
+
         }
-          
-        
+
+
+
     }
 
 	void openCardGift(bool isPressed) {
-		
-		if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open") && !GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open epic"))
+
+        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card idle") || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("start state"))
         {
             if (transform.childCount > 4)
             {
@@ -240,9 +305,10 @@ public class mCardClass : MonoBehaviour {
 
 			//перебор 3х карт, если хоть одна закрыта, то flag = false
 			for (int i = 0; i < 3; i++) {
-				if (!transform.parent.GetChild (i).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open") &&
-                    !transform.parent.GetChild(i).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card open epic") && transform.parent.GetChild (i).name != gameObject.name)
-						flag = false;
+                //if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card idle") && transform.parent.GetChild (i).name != gameObject.name)
+
+                if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card idle"))
+                        flag = false;
 			}
 
 			if (flag) {
@@ -250,10 +316,15 @@ public class mCardClass : MonoBehaviour {
 				transform.parent.parent.parent.GetChild(2).gameObject.SetActive(true);
 
 			}
-		}
+
+
+
+
+
+        }
         else
         {
-            if (name == "card3") transform.parent.parent.parent.GetChild(1).GetComponent<iClickClass>().closeMenu();
+            if (name == "card1") transform.parent.parent.parent.GetChild(1).GetComponent<iClickClass>().closeMenu();
             transform.localPosition = new Vector3(2000, 2000, 0);
         }
 
@@ -323,6 +394,34 @@ public class mCardClass : MonoBehaviour {
         GetComponent<Animator>().PlayInFixedTime("card idle", -1, UnityEngine.Random.Range(0, 10));
 
 }
+    private IEnumerator counterCard(float t)
+    {
+        int count = int.Parse( transform.GetChild(0).GetChild(3).GetChild(3).GetChild(0).GetComponent<UILabel>().text);
+        yield return StartCoroutine(staticClass.waitForRealTime(t));
+        if (mBoosterClass.instance.openingCards.Count == 0)
+        {
+            UnityEngine.Debug.Log("check");
+            transform.parent.parent.parent.parent.FindChild("exit open booster menu").localPosition = new Vector3(0, 0, -1);
+        }
+
+        if (count > 1)
+        {
+            var counterGO = transform.GetChild(0).GetChild(3).GetChild(3).gameObject;
+            counterGO.SetActive(true);
+            for (int i = 1; i <= 10; i++)
+            {
+                counterGO.transform.localScale = new Vector3( 1F + i/20F, 1F + i/20F, 1) ;
+                counterGO.transform.GetChild(0).GetComponent<UILabel>().text =
+                    (i*count/10).ToString();
+
+                yield return StartCoroutine(staticClass.waitForRealTime(0.04F));
+
+            }
+            counterGO.transform.localScale = new Vector3(1, 1, 1);
+        }
+
+
+    }
 
 
 

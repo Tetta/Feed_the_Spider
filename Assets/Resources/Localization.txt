@@ -51,7 +51,8 @@ marketComplectDesc, "Exellent set - desc", "Отличный комплект - 
 
 notiferTitleSale, "Big sale! ", "Большая распродажа! "
 notiferTitleEnergy, "Сheerfulness restored!", "Бодрость восстановилась!"
-notiferTitleDay, "Spider has a gift for you!", "Паучок зовёт! У него есть для тебя подарок!"
+notiferTitleCoins, "Free coins!", "Бесплатные монеты!"
+notiferTitleDay, "Visit the Spider! He has already become bored!", "Проведай Паучка! Он уже успел соскучиться!"
 notiferTitleDay3, "Visit the Spider! He has already become bored!", "Проведай Паучка! Он уже успел соскучиться!"
 notiferTitleDay7, "Ahead is still so much interesting, come quickly!", "Впереди ещё столько интересного, заходи скорее!"
 notiferTitleDay14, "There are still so many berries not collected!", "Ещё такое огромное количество ягод не собрано!"
@@ -77,7 +78,7 @@ hat1, "Empty", "Пусто"
 hat2, "Cap", "Кепка"
 hat3, "Hat", "Шляпа"
 hat4, "Horns", "Рога"
-hat5, "Nimbis", "Нимб"
+hat5, "Nimbus", "Нимб"
 berry1, "Strawberry", "Земляника"
 berry2, "Gooseberry", "Крыжовник"
 berry3, "Raspberry", "Малина"
@@ -87,7 +88,7 @@ energy, "Cheerfulness", "Бодрость"
 teleport, "Whirlwind", "Ветерок"
 web, "Web", "Паутинка"
 wand, "Wand", "Палочка"
-
+key, "Key", "Ключ"
 
 pause, "Pause", "Пауза"
 
@@ -101,12 +102,12 @@ marketBonus4, "every day", "каждый день"
 
 marketGetBooster, "Get booster!", "Получить бустер!"
 marketSkinBonus, "Collect the complete collection of skins!", "Собери полную коллекцию скинов!"
-marketSkinBonus2, "Get acceleration cheerfulness recovery by 2 minutes!", "Получи ускорение восстановления бодрости на 2 минуты!"
-marketSkinBonus3, "Accelerates cheerfulness recovery by ", "Ускоряет восстановление бодрости на "
+marketSkinBonus2, "Increase the maximum cheerfulness by 20!", "Увеличь максимум бодрости на 20!"
+marketSkinBonus3, "   Increases maximum cheerfulness by ", "   Увеличивает максимум    бодрости на "
 marketHatBonus, "Collect the complete collection of hats!", "Собери полную коллекцию шапок!"
 marketHatBonus2, "Get +100%     !", "Получи +100%     !"
 marketBerryBonus, "Collect the complete collection of berries!", "Собери полную коллекцию ягод!"
-marketBerryBonus2, "Increase the maximum cheerfulness to 5!", "Увеличь максимум бодрости до 5!"
+marketBerryBonus2, "Get an additional +3        every day!!", "Получай дополнительно +3       каждый день!     "
 marketFindInBooster, "Find in booster!", "Найди в бустере!"
 marketBoostersDescription, "Booster is a set of 5 random cards of four types of rarity:\n\ncommon - coins, power-ups\nuncommon - berries\nrare - hats\nepic - skins", "Бустер это набор из 5 случайных карт  четырех типов редкости: \n\nобычные - монеты, бонусы\nнеобычные - ягоды\nредкие - шапки\nэпические - скины"
 
@@ -144,6 +145,7 @@ tutorialBonus, "Try to take advantage of bonuses!", "Попробуй воспо
 tutorialBuy, "The game can be simplified!", "Игру можно и упростить!"
 tutorialDream, "Good sleep never hurt!", "Хороший сон никогда не повредит!"
 tutorialAdCoins, "Get free coins in seconds!", "Получай бесплатные монеты всего за несколько секунд!"
+tutorialFreeCoins, "Get free coins!", "Получи бесплатные монеты!"
 tutorialSale, "For you have a special offer!", "Для вас есть особое предложение!"
 
 bonusWeb, "Choose a location for the placement of additional webs", "Выберите место для размещения дополнительной паутинки"
@@ -226,3 +228,6 @@ share, "Share", "Опубликовать"
 
 rewardForLogin, "Reward for the login", "Награда за логин"
 rewardForFriend, "for each invited friend", "за каждого друга"
+
+dontOpenCard, "Cards from unopened boosters!", "Карты из неотрытых бустеров!"
+boosterForLoginOK, "Booster for login in OK!", "Бустер за логин в Одноклассниках!"

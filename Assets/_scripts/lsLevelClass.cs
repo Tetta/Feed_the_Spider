@@ -73,19 +73,11 @@ public class lsLevelClass : MonoBehaviour {
 
         }
 
-        if (levelProgress == 1 || levelProgress == 3) {
-            gem1Active.gameObject.SetActive(false);
-        }
-		if ((levelProgress == 2 || levelProgress == 3) || level < 5 ) {
-            gem2Active.gameObject.SetActive(false);
-
-
-        }
 
 
         //туториал для 2го уровня (добавляем)
-        if (level == 5) {
-			if (lastLevel == 4 && ctrProgressClass.progress ["currentLevel"] == 4) {
+        if (level == 7) {
+			if (lastLevel == 6 && ctrProgressClass.progress ["currentLevel"] == 6) {
 				GetComponent<Animator> ().enabled = true;
 				//transform.GetChild (4).gameObject.SetActive (true);
 			}
@@ -94,7 +86,12 @@ public class lsLevelClass : MonoBehaviour {
         //Facebook Friends
         if (ctrProgressClass.progress["fb"] == 1 || ctrProgressClass.progress["vk"] == 1 || ctrProgressClass.progress["ok"] == 1)
             ctrFbKiiClass.setFriendImgMap("level" + level, transform.GetChild(0));
-	}
+
+
+
+        StartCoroutine(keyFly(gem1Active, gem2Active, levelProgress, level));
+
+    }
 
 
 	void OnClick() {
@@ -165,4 +162,44 @@ public class lsLevelClass : MonoBehaviour {
 		return new Vector2(10000, 10000); // No collision
 	}
 
+    private IEnumerator keyFly(Transform key1, Transform key2, int levelProgress, int level)
+    {
+        if (staticClass.flyingKeys.Contains("level" + level + "_key1"))
+        {
+            yield return StartCoroutine(staticClass.waitForRealTime(0.1F));
+            var startPosKey1 = key1.position;
+
+            var keysPos = initLevelMenuClass.instance.gemsLabel.transform.position ;
+            for (var i = 0; i < 20; i++)
+            {
+                key1.position = key1.position + (keysPos - startPosKey1)/20;
+                yield return StartCoroutine(staticClass.waitForRealTime(0.01F));
+            }
+            staticClass.flyingKeys.Remove("level" + level + "_key1");
+        }
+        if (staticClass.flyingKeys.Contains("level" + level + "_key2"))
+        {
+            yield return StartCoroutine(staticClass.waitForRealTime(0.1F));
+            var startPosKey1 = key1.position;
+
+            var keysPos = initLevelMenuClass.instance.gemsLabel.transform.position ;
+            for (var i = 0; i < 20; i++)
+            {
+                key1.position = key1.position + (keysPos - startPosKey1) / 20;
+                yield return StartCoroutine(staticClass.waitForRealTime(0.01F));
+            }
+            staticClass.flyingKeys.Remove("level" + level + "_key2");
+        }
+
+        if (levelProgress == 1 || levelProgress == 3)
+        {
+            key1.gameObject.SetActive(false);
+        }
+        if ((levelProgress == 2 || levelProgress == 3) || level < 5)
+        {
+            key2.gameObject.SetActive(false);
+
+
+        }
+    }
 }

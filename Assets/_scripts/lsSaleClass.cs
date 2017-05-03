@@ -88,7 +88,7 @@ public class lsSaleClass : MonoBehaviour {
         }
         else
         {
-            Debug.Log("sale disable");
+            //Debug.Log("sale disable");
             transform.GetChild(0).gameObject.SetActive(false);
             transform.GetChild(1).gameObject.SetActive(false);
             transform.GetChild(2).gameObject.SetActive(false);

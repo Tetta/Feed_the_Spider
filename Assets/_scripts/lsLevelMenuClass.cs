@@ -245,10 +245,11 @@ public class lsLevelMenuClass : MonoBehaviour
 
         //подсчет score1 и score2
         //all average score = 10500
-        if (initLevelMenuClass.levelDemands == 0) score1 = Mathf.RoundToInt(2000*starsCount + 3000 - 100*timeLevel);
+        //в 2 раза уменьшаем score
+        if (initLevelMenuClass.levelDemands == 0) score1 = Mathf.RoundToInt((2000*starsCount + 3000 - 100*timeLevel)/2);
         else score1 = ctrProgressClass.progress["score" + lvlNumber + "_1"];
         if (score1 < 0) score1 = 0;
-        if (levelProgress == 2 || levelProgress == 3) score2 = 3000;
+        if (levelProgress == 2 || levelProgress == 3) score2 = 1500;
 
         Transform scoreAll = levelMenu.transform.GetChild(0).GetChild(4).GetChild(1);
 
@@ -312,10 +313,11 @@ public class lsLevelMenuClass : MonoBehaviour
         bool tutorialAdCoins = ctrProgressClass.progress["tutorialAdCoins"] == 0 &&
                                new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(ctrProgressClass.progress["adCoinsDate"]) <
                                DateTime.Now && ctrProgressClass.progress["adCoinsDate"] != 0;
-        if ((ctrProgressClass.progress["tutorialBuy"] == 0 && ctrProgressClass.progress["coins"] >= 400) ||
-            tutorialAdCoins)
+
+        if ((ctrProgressClass.progress["tutorialBuy"] == 0 && ctrProgressClass.progress["coins"] >= 400) || tutorialAdCoins || (lvlNumber >= 6 && ctrProgressClass.progress["tutorialFreeCoins"] == 0))
         {
             Debug.Log("tutorialAdCoins: " + ctrProgressClass.progress["tutorialAdCoins"]);
+            Debug.Log("tutorialFreeCoins: " + ctrProgressClass.progress["tutorialFreeCoins"]);
             GameObject handGO = Instantiate(hand, new Vector2(0, 0), Quaternion.identity);
             handGO.transform.parent = GameObject.Find("/default level/gui/complete menu").transform;
             handGO.transform.GetChild(0).GetChild(0).gameObject.layer = LayerMask.NameToLayer("Water");

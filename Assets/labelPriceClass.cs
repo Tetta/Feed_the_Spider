@@ -15,9 +15,9 @@ public class labelPriceClass : MonoBehaviour {
 	}
     void OnEnable()
     {
-        Debug.Log("-------------------------");
-        Debug.Log(name.Substring(0, name.Length - 12));
-        Debug.Log(staticClass.prices[name.Substring(0, name.Length - 12)]);
+        //Debug.Log("-------------------------");
+        //Debug.Log(name.Substring(0, name.Length - 12));
+        //Debug.Log(staticClass.prices[name.Substring(0, name.Length - 12)]);
         if (staticClass.prices[name.Substring(0, name.Length - 12)] != "")
             GetComponent<UILabel>().text = staticClass.prices[name.Substring(0, name.Length - 12)];
         //if staticClass.prices.ContainsKey()[price.Key] = product.metadata.localizedPriceString;

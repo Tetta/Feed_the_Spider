@@ -2,11 +2,12 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class lsGiftClass : MonoBehaviour {
 
 	public GameObject giftMenu;
-    private List<KeyValuePair<string, int>> openingCards = new List<KeyValuePair<string, int>>();
+    public static List<KeyValuePair<string, int>> openingCards = new List<KeyValuePair<string, int>>();
     //public int giftLevel;
     // Use this for initialization
     void Start () {
@@ -74,7 +75,7 @@ public class lsGiftClass : MonoBehaviour {
 	        openingCards.Add(new KeyValuePair<string, int>("coins", 100));
 	        for (int i = 1; i < 3; i++)
 	        {
-	            mBoosterClass.setOpeningCardCommon(ref portionsGreen, portionsCountGreen, ref openingCards);
+	            setOpeningCardCommon(ref portionsGreen, portionsCountGreen, ref openingCards);
 
             }
 	        mBoosterClass.Shuffle(openingCards);
@@ -88,7 +89,7 @@ public class lsGiftClass : MonoBehaviour {
 
 
             //копируем карту
-            card = Instantiate(marketClass.instance.cardsAll.FindChild(bonusName + "_" + bonusCount).gameObject, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5)))) as GameObject;
+            card = Instantiate(mBoosterClass.instance.transform.parent.parent.GetChild(2).FindChild(bonusName).gameObject, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5)))) as GameObject;
 			card.GetComponent<mCardClass>().functionPress = "openCardGift";
 			card.transform.parent = giftMenu.transform.GetChild(0).GetChild(0);
 			card.transform.localScale = new Vector2(1, 1);
@@ -103,12 +104,18 @@ public class lsGiftClass : MonoBehaviour {
 			card.transform.GetChild(1).gameObject.SetActive (true);
             card.transform.GetChild(1).GetChild(0).GetComponent<UISprite>().color = new Color32(154, 138, 123, 255);
 
+            if (bonusCount > 1)
+            {
+                Debug.Log(card.transform.GetChild(0).GetChild(3).GetChild(3).gameObject.name);
+                card.transform.GetChild(0).GetChild(3).GetChild(3).gameObject.SetActive(true);
+                card.transform.GetChild(0).GetChild(3).GetChild(3).GetChild(0).GetComponent<UILabel>().text = bonusCount.ToString();
+            }
 
             //позиция карты
             //if (i == 0) card.transform.localPosition = new Vector3(-355, 7, -2); else if (i == 1) card.transform.localPosition = new Vector3(0, 7, -2); else if (i == 2) card.transform.localPosition = new Vector3(355, 7, -2); 
 
-			//сохранение результата
-	        if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins")
+            //сохранение результата
+            if (bonusName == "hints" || bonusName == "webs" || bonusName == "teleports" || bonusName == "collectors" || bonusName == "coins")
 	        {
 	            ctrProgressClass.progress[bonusName] += bonusCount;
                 //analytics
@@ -143,5 +150,31 @@ public class lsGiftClass : MonoBehaviour {
             child.gameObject.layer = LayerMask.NameToLayer(name);
             ChangeLayersRecursively(child, name);
         }
+    }
+
+
+    private void setOpeningCardCommon(ref Dictionary<string, int> portions, Dictionary<string, int> portionsCount, ref List<KeyValuePair<string, int>> openingCards)
+    {
+        int bonusRand = UnityEngine.Random.Range(0, portions.Values.Sum()); //min [inclusive] and max [exclusive] 
+        int counter = 0;
+        string nameBonus = "";
+        int countBonus = 0;
+        foreach (var portion in portions)
+        {
+            if (bonusRand >= counter && bonusRand < counter + portion.Value)
+            {
+                //название карты 
+                nameBonus = portion.Key;
+                break;
+            }
+            counter += portion.Value;
+        }
+        portions[nameBonus] = Mathf.RoundToInt(portions[nameBonus] / 1.5F);
+        bonusRand = UnityEngine.Random.Range(0, 100);
+        float part = 100 / (((2 + portionsCount[nameBonus] - 1) / 2) * portionsCount[nameBonus]);
+        countBonus = 1 + portionsCount[nameBonus] - Mathf.CeilToInt(bonusRand / part);
+        openingCards.Add(new KeyValuePair<string, int>(nameBonus, countBonus));
+
+        //Debug.Log(nameBonus + " " + countBonus);
     }
 }

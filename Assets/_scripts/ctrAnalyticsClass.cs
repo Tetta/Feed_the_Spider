@@ -30,7 +30,7 @@ public class ctrAnalyticsClass: MonoBehaviour
         LocalNotification.CancelAllNotifications();
         try
         {
-            Debug.Log("Localytics SessionTimeoutInterval: " + sessionTimeout);
+            //Debug.Log("Localytics SessionTimeoutInterval: " + sessionTimeout);
             LocalyticsUnity.Localytics.SessionTimeoutInterval = sessionTimeout;
         }
         catch (Exception)
@@ -270,6 +270,7 @@ public class ctrAnalyticsClass: MonoBehaviour
     public void sendNotifers()
     {
         //sale notifer
+        Debug.Log("sendNotifers");
         lsSaleClass.setTimerSale();
         lsSaleClass.setSale();
         LocalNotification.CancelAllNotifications();
@@ -278,33 +279,33 @@ public class ctrAnalyticsClass: MonoBehaviour
         {
             delay = lsSaleClass.timerStartSale - DateTime.Now;
             var h = DateTime.Now.Add(delay).Hour;
-            if (h < 10) delay.Add(new TimeSpan(10 - h, 0, 0));
-            Debug.Log("notifer 1 delay: " + delay);
+            if (h < 10) delay = delay.Add(new TimeSpan(10 - h, 0, 0));
+            //Debug.Log("notifer 1 delay: " + delay);
             var type = ctrProgressClass.progress["firstPurchase"] == 1 ? "Payers" : "Free";
             LocalNotification.SendNotification(1, delay, "", Localization.Get("notiferTitleSale") + Localization.Get("sale" + ctrProgressClass.progress["sale"] + type));
         }
         //daily notifer
         delay = DateTime.Parse("12:00:00") - DateTime.Now;
         if (delay < new TimeSpan(0)) delay = DateTime.Parse("12:00:00").AddDays(1) - DateTime.Now;
-        Debug.Log("daily notifer: " + delay);
+        //Debug.Log("daily notifer: " + delay);
         LocalNotification.SendNotification(2, delay, "", Localization.Get("notiferTitleDay"));
 
         //daily 3 notifer
         delay = DateTime.Parse("12:00:00").AddDays(2) - DateTime.Now;
         if (delay < new TimeSpan(0)) delay = DateTime.Parse("12:00:00").AddDays(3) - DateTime.Now;
-        Debug.Log("daily notifer 3: " + delay);
+        //Debug.Log("daily notifer 3: " + delay);
         LocalNotification.SendNotification(4, delay, "", Localization.Get("notiferTitleDay3"));
 
         //daily 7 notifer
         delay = DateTime.Parse("12:00:00").AddDays(6) - DateTime.Now;
         if (delay < new TimeSpan(0)) delay = DateTime.Parse("12:00:00").AddDays(7) - DateTime.Now;
-        Debug.Log("daily notifer 7: " + delay);
+        //Debug.Log("daily notifer 7: " + delay);
         LocalNotification.SendNotification(5, delay, "", Localization.Get("notiferTitleDay7"));
 
         //daily 14 notifer
         delay = DateTime.Parse("12:00:00").AddDays(13) - DateTime.Now;
         if (delay < new TimeSpan(0)) delay = DateTime.Parse("12:00:00").AddDays(14) - DateTime.Now;
-        Debug.Log("daily notifer 14: " + delay);
+        //Debug.Log("daily notifer 14: " + delay);
         LocalNotification.SendNotification(6, delay, "", Localization.Get("notiferTitleDay14"));
 
         //energy notifer
@@ -317,11 +318,26 @@ public class ctrAnalyticsClass: MonoBehaviour
             delay = new TimeSpan(0,0,
                 ctrProgressClass.progress["energyTime"] + lsEnergyClass.maxEnergy*lsEnergyClass.costEnergy -
                     (int) DateTime.Now.TotalSeconds());
-            Debug.Log("notifer energy delay: " + delay);
+            //Debug.Log("notifer energy delay: " + delay);
             LocalNotification.SendNotification(3, delay,"", Localization.Get("notiferTitleEnergy"));
 
         }
 
+        //free coins notifer
+        if (ctrProgressClass.progress["freeCoinsDate"] > 0)
+        {
+            //delay = lsSaleClass.timerStartSale - DateTime.Now;
+            if (ctrProgressClass.progress["freeCoinsDate"] > DateTime.Now.TotalSeconds()) delay = DateTime.Now.AddSeconds(ctrProgressClass.progress["freeCoinsDate"] - DateTime.Now.TotalSeconds()) - DateTime.Now;
+            else delay = new TimeSpan(0, 0, 0);
+
+            var h = DateTime.Now.Add(delay).Hour;
+            if (h < 10) delay = delay.Add(new TimeSpan(10 - h, 0, 0));
+
+            Debug.Log("free coins notifer: " + delay);
+
+            LocalNotification.SendNotification(7, delay, "", Localization.Get("notiferTitleCoins"));
+
+        }
 
 
     }

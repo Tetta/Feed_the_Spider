@@ -17,7 +17,7 @@ public class initLevelMenuClass : MonoBehaviour {
     public UILabel coinsLabel;
 	public UILabel gemsLabel;
 	//public UILabel energyLabel;
-    public Transform energySegments;
+    //public Transform energySegments;
 
     public GameObject fb;
     public GameObject vk;
@@ -93,7 +93,7 @@ public class initLevelMenuClass : MonoBehaviour {
             if (staticClass.showRewardCardsMenuCollectors != 0)
             {
                 var tr = rewardForCardsMenu.transform.GetChild(0).GetChild(0);
-                tr.GetChild(0).GetChild(3).GetChild(0).GetComponent<UILabel>().text =
+                tr.GetChild(0).GetChild(3).GetChild(0).GetChild(0).GetComponent<UILabel>().text =
                     staticClass.showRewardCardsMenuCollectors.ToString();
                 tr.gameObject.SetActive(true);
                 bonuses.Add(tr);
@@ -101,7 +101,7 @@ public class initLevelMenuClass : MonoBehaviour {
             if (staticClass.showRewardCardsMenuHints != 0)
             {
                 var tr = rewardForCardsMenu.transform.GetChild(0).GetChild(1);
-                tr.GetChild(0).GetChild(3).GetChild(0).GetComponent<UILabel>().text =
+                tr.GetChild(0).GetChild(3).GetChild(0).GetChild(0).GetComponent<UILabel>().text =
                     staticClass.showRewardCardsMenuHints.ToString();
                 tr.gameObject.SetActive(true);
                 bonuses.Add(tr);
@@ -109,7 +109,7 @@ public class initLevelMenuClass : MonoBehaviour {
             if (staticClass.showRewardCardsMenuTeleports != 0)
             {
                 var tr = rewardForCardsMenu.transform.GetChild(0).GetChild(2);
-                tr.GetChild(0).GetChild(3).GetChild(0).GetComponent<UILabel>().text =
+                tr.GetChild(0).GetChild(3).GetChild(0).GetChild(0).GetComponent<UILabel>().text =
                     staticClass.showRewardCardsMenuTeleports.ToString();
                 tr.gameObject.SetActive(true);
                 bonuses.Add(tr);
@@ -117,7 +117,7 @@ public class initLevelMenuClass : MonoBehaviour {
             if (staticClass.showRewardCardsMenuWebs != 0)
             {
                 var tr = rewardForCardsMenu.transform.GetChild(0).GetChild(3);
-                tr.GetChild(0).GetChild(3).GetChild(0).GetComponent<UILabel>().text =
+                tr.GetChild(0).GetChild(3).GetChild(0).GetChild(0).GetComponent<UILabel>().text =
                     staticClass.showRewardCardsMenuWebs.ToString();
                 tr.gameObject.SetActive(true);
                 bonuses.Add(tr);

@@ -17,25 +17,37 @@ public class AdCoinsTimerClass : MonoBehaviour {
     public static int counter = 0;
     public static DateTime timer = DateTime.Now.AddSeconds(60 * 5);
     public static int interval = 60 * 5;
-    public static int firstInterval = 60 * 4;
+    //public static int firstInterval = 60 * 4;
 
 
 
     // Use this for initialization
-    void Start () {
+    public void Start () {
+        if (ctrProgressClass.progress["adCoinsDate"] == 0)
+        {
+            //disable bonus
+            transform.GetChild(0).gameObject.SetActive(false);
+            transform.GetChild(2).gameObject.SetActive(false);
+            GetComponent<BoxCollider>().enabled = false;
+            return;
+        }
+
 
         DateTime startDate = new DateTime(1970, 1, 1, 0, 0, 0, 0);
         Debug.Log("adCoinsDate: " + startDate.AddSeconds(ctrProgressClass.progress["adCoinsDate"]));
 
         //first time
+        /*
         if (ctrProgressClass.progress["adCoinsDate"] == 0)
         {
             ctrProgressClass.progress["adCoinsDate"] = (int)DateTime.Now.AddSeconds(firstInterval).TotalSeconds();
             timer = DateTime.Now.AddSeconds(firstInterval);
             ctrProgressClass.saveProgress();
         }
+        
 
-        else if (startDate.AddSeconds(ctrProgressClass.progress["adCoinsDate"]) < DateTime.Now)
+        else*/
+        if (startDate.AddSeconds(ctrProgressClass.progress["adCoinsDate"]) < DateTime.Now)
         {
             //tutotial
             //off cloud

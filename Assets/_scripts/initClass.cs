@@ -18,6 +18,7 @@ public class initClass : MonoBehaviour {
 	public GameObject spider;
     public GameObject logo;
     public Transform berry;
+    public GameObject openBoosterMenu;
 
     //socials
     public GameObject groupVK1;
@@ -36,9 +37,13 @@ public class initClass : MonoBehaviour {
 #if UNITY_STANDALONE_WIN
     Screen.SetResolution(575, 1024, false);
 #endif
-        Debug.Log("start menu: " + Time.realtimeSinceStartup);
+        //Debug.Log("start menu: " + Time.realtimeSinceStartup);
+        if (mBoosterClass.instance == null) openBoosterMenu.SetActive(true);
+        else Destroy(openBoosterMenu);
+        //for test
+        //ctrFbKiiClass.instance.onLogin("ok");
 
-	    //ctrProgressClass.progress["lastLevel"] = 75;
+        //ctrProgressClass.progress["lastLevel"] = 75;
         //if (ctrProgressClass.progress.Count == 0) {
         Time.maximumDeltaTime = 0.9F;
         if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress ();
@@ -135,7 +140,7 @@ public class initClass : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 		y++;
-		if (y == 1) Debug.Log("Update menu: " + Time.realtimeSinceStartup);
+		//if (y == 1) Debug.Log("Update menu: " + Time.realtimeSinceStartup);
 
 		//Application.RegisterLogCallback(handleLog);
 
