@@ -12,7 +12,7 @@ public class ctrAnalyticsClass: MonoBehaviour
 
 
     public static List<string> developerIds = new List<string>
-    { "15779554", "303171231", "4929221", "786955", "305568333", "51066050", "212234350", "100009826471037","100007730714188", "100004274864226", "790297741122714", "558610410993", "572497357200", "582889450510", "537314172230", "44697922" };
+    { "15779554", "303171231", "4929221", "786955", "305568333", "51066050", "212234350", "100009826471037","100007730714188", "100004274864226", "790297741122714", "558610410993", "572497357200", "582889450510", "537314172230", "44697922", "534060256361" };
 
     public static List<float> ageGroups = new List<float> { 0, 10, 18, 24, 35, 56 };
     public static List<float> paymentGroups = new List<float> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30 };
@@ -25,7 +25,7 @@ public class ctrAnalyticsClass: MonoBehaviour
     void Start()
     {
         
-        //if (!Debug.isDebugBuild) Debug.logger.logEnabled = false;
+        if (!Debug.isDebugBuild) Debug.logger.logEnabled = false;
         Debug.Log("ctrAnalyticsClass start");
         LocalNotification.CancelAllNotifications();
         try

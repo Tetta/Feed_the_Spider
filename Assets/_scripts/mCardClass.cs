@@ -248,14 +248,7 @@ public class mCardClass : MonoBehaviour {
                         {"detail 1", "booster"},
                         {"coins", mBoosterClass.instance.openingCards[name].ToString()}
                     });
-            //update max energy labels if skin
-            if (name.Length > 4 && name.Substring(0, 4) == "skin")
-            {
-                lsEnergyClass.maxEnergy += int.Parse(name.Substring(4, 1)) + 3;
-                UnityEngine.Debug.Log(lsEnergyClass.maxEnergy);
-                if (SceneManager.GetActiveScene().name == "level menu") GameObject.Find("/root/static/energy").GetComponent<lsEnergyClass>().energyMaxLabel.text = lsEnergyClass.maxEnergy.ToString();
-                if (marketClass.instance.gameObject.activeSelf) GameObject.Find("/market/inventory/market menu/bars/energy").GetComponent<lsEnergyClass>().energyMaxLabel.text = lsEnergyClass.maxEnergy.ToString();
-            }
+
 
             //сохранение результата
             UnityEngine.Debug.Log("mBoosterClass.openingCards.FirstOrDefault().Key: " + name);
@@ -265,9 +258,39 @@ public class mCardClass : MonoBehaviour {
                 mBoosterClass.instance.saveCards();
                 ctrProgressClass.saveProgress();
             
+            
+            //update max energy labels if skin
+            if (name.Length > 4 && name.Substring(0, 4) == "skin")
+            {
+                var e = lsEnergyClass.energy;
+                //lsEnergyClass.maxEnergy += int.Parse(name.Substring(4, 1)) + 3;
+                //UnityEngine.Debug.Log(lsEnergyClass.maxEnergy);
+                if (SceneManager.GetActiveScene().name == "level menu")
+                {
+                    GameObject.Find("/root/static/energy").GetComponent<lsEnergyClass>().energyLabel.text = e.ToString();
+                    GameObject.Find("/root/static/energy").GetComponent<lsEnergyClass>().energyMaxLabel.text = lsEnergyClass.maxEnergy.ToString();
+                }
+                if (marketClass.instance.gameObject.activeSelf)
+                {
+                    GameObject.Find("/market/inventory/market menu/bars/energy").GetComponent<lsEnergyClass>().energyLabel.text = e.ToString();
+                    GameObject.Find("/market/inventory/market menu/bars/energy").GetComponent<lsEnergyClass>().energyMaxLabel.text = lsEnergyClass.maxEnergy.ToString();
+                }
+            }
+            if (name == "coins")
+            {
+                if (SceneManager.GetActiveScene().name == "level menu") initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress["coins"].ToString();
+                if (marketClass.instance.gameObject.activeSelf) GameObject.Find("/market/inventory/market menu/bars/coins/label coins").GetComponent<UILabel>().text = ctrProgressClass.progress["coins"].ToString();
+            }
+            if (name == "gems")
+            {
+                if (SceneManager.GetActiveScene().name == "level menu") initLevelMenuClass.instance.gemsLabel.text = ctrProgressClass.progress["gems"].ToString();
+
+            }
 
 
-        } else 
+
+        }
+        else 
         if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card opened"))
         {
             transform.localPosition  = new Vector3(2000, 2000, 0);

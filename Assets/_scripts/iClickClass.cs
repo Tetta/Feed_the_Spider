@@ -89,7 +89,7 @@ public class iClickClass : MonoBehaviour {
 	        transform.GetChild(0).gameObject.SetActive(true);
 	    }
         //else if (name == "tab boosters" && ctrProgressClass.progress["boostersWhite"] <= 1)
-         //   GetComponent<UIToggle>().value = true;
+        //   GetComponent<UIToggle>().value = true;
 
         /*
                 else if (name == "tab boosters" && ctrProgressClass.progress["boostersWhite"] >= 1 &&
@@ -99,11 +99,12 @@ public class iClickClass : MonoBehaviour {
 	    } else if  (name == "boostersWhite" && ctrProgressClass.progress ["boostersWhite"] >= 1 && ctrProgressClass.progress ["tutorialBuy"] <= 3 ) {
 			transform.GetChild (1).gameObject.SetActive (true);
 		}
+        */
         else if (name == "label coins")
         {
             GetComponent<UILabel>().text = ctrProgressClass.progress["coins"].ToString();
         }
-        */
+        
 
     }
 

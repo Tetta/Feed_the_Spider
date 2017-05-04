@@ -37,14 +37,10 @@ public class staticClass
         levels[4, 1] = 10;
         levels[12, 0] = 2;
         levels[12, 1] = 103;
-        levels[6, 0] = 3;
+        levels[6, 0] = 2;
         levels[6, 1] = 201;
         levels[7, 0] = 3;
-        levels[7, 1] = 12;
-        //levels[6, 0] = 0; prerelease
-        //levels[6, 1] = 4; prerelease
-        //levels[7, 0] = 2; prerelease
-        //levels[7, 1] = 14; prerelease
+        levels[7, 1] = 15;
         levels[11, 0] = 3;
         levels[11, 1] = 7;
         levels[5, 0] = 1;
@@ -67,8 +63,8 @@ public class staticClass
         levels[22, 1] = 0;
         levels[18, 0] = 2;
         levels[18, 1] = 10;
-        levels[17, 0] = 2;
-        levels[17, 1] = 8;
+        levels[17, 0] = 1;
+        levels[17, 1] = 7;
         levels[67, 0] = 1;
         levels[67, 1] = 14;
         levels[21, 0] = 1;
@@ -137,7 +133,7 @@ public class staticClass
 		levels[91, 1] = 9;
 		//----------------------------
         levels[13, 0] = 3;	
-        levels[13, 1] = 16;
+        levels[13, 1] = 11;
 		levels[56, 0] = 0;
 		levels[56, 1] = 15;
 		levels[53, 0] = 3;
@@ -163,7 +159,7 @@ public class staticClass
 		levels[69, 0] = 1;
 		levels[69, 1] = 9;
 		levels[15, 0] = 1;
-		levels[15, 1] = 201;
+        levels[15, 1] = 100;
 		levels[68, 0] = 2;
 		levels[68, 1] = 8;
 		levels[75, 0] = 3;
@@ -538,7 +534,7 @@ public class staticClass
 
     public static Dictionary<int, int> levelBlocks = new Dictionary<int, int>
     {
-      {26, 15}, {37, 27}, {51, 47}, {62, 64}, {76, 85}, {87, 120}
+      {14, 10}, {26, 22}, {37, 37}, {51, 71}, {62, 88}, {76, 109}, {87, 135}
     };
 
     public static bool notGemsForLevel = false;

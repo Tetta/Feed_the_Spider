@@ -33,31 +33,17 @@ public class marketClass : MonoBehaviour {
 		if (ctrProgressClass.progress.Count == 0) {
             ctrProgressClass.getProgress();
         }
-		//если бустер 3
-		if (name == "booster_3") if (ctrProgressClass.progress["firstPurchase"] == 1) transform.GetChild(3).gameObject.SetActive(false);
 
 		//если бустеры
 		if (name != "market")
 			return;
         
 		if (instance != null) {
-			//marketClass.instance.boostersLabel.text = ctrProgressClass.progress["boosters"].ToString();
 			Destroy(gameObject);
             return;
         }
         instance = this;
         DontDestroyOnLoad(gameObject);
-
-
-        //listening for purchase and consume events
-        /*
-        AndroidInAppPurchaseManager.ActionProductPurchased += OnProductPurchased;  
-		AndroidInAppPurchaseManager.ActionProductConsumed  += OnProductConsumed;
-
-		AndroidInAppPurchaseManager.ActionBillingSetupFinished += OnBillingConnected;
-
-		AndroidInAppPurchaseManager.Client.Connect();
-        */
 
         staticClass.setBoostersLabels();
 
@@ -66,9 +52,9 @@ public class marketClass : MonoBehaviour {
     }
 
     void OnPress(bool isPressed) {
-            if (!isPressed) {
-                //запрос на покупку
-                Debug.Log("click buy " + name);
+        if (!isPressed) {
+            //запрос на покупку
+            Debug.Log("click buy " + name);
 #if UNITY_IOS
             instance.GetComponent<Purchaser>().BuyProductID("com.mysterytag.spider." + name);
 #else
@@ -76,10 +62,6 @@ public class marketClass : MonoBehaviour {
 #endif
             GetComponent<Animator>().Play("button");
             GetComponent<AudioSource>().Play();
-            //if (name == "booster_3" && ctrProgressClass.progress ["firstPurchase"] == 0) 		
-            //    AndroidInAppPurchaseManager.Client.Purchase ("booster_sale");
-            //else
-            //    AndroidInAppPurchaseManager.Client.Purchase (name);
         }
 
     }
