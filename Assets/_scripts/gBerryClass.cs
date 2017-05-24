@@ -643,9 +643,10 @@ public class gBerryClass : MonoBehaviour {
     
     public void showAdTiredMenu()
     {
+        Debug.Log("showAdTiredMenu");
 
 
-            if (staticClass.needShowAdTiredMenu)
+        if (staticClass.needShowAdTiredMenu)
             {
 
                 Debug.Log("ad tired menu enable");

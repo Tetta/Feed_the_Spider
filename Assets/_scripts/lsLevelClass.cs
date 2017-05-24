@@ -180,12 +180,12 @@ public class lsLevelClass : MonoBehaviour {
         if (staticClass.flyingKeys.Contains("level" + level + "_key2"))
         {
             yield return StartCoroutine(staticClass.waitForRealTime(0.1F));
-            var startPosKey1 = key1.position;
+            var startPosKey2 = key2.position;
 
             var keysPos = initLevelMenuClass.instance.gemsLabel.transform.position ;
             for (var i = 0; i < 20; i++)
             {
-                key1.position = key1.position + (keysPos - startPosKey1) / 20;
+                key2.position = key2.position + (keysPos - startPosKey2) / 20;
                 yield return StartCoroutine(staticClass.waitForRealTime(0.01F));
             }
             staticClass.flyingKeys.Remove("level" + level + "_key2");

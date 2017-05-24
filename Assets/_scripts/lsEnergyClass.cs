@@ -245,19 +245,17 @@ public class lsEnergyClass : MonoBehaviour {
         //стоимость восстановления
         //int cost = costEnergyForCoins*(maxEnergy - energy) -(int) (((float) mod/costEnergy)*costEnergyForCoins);
 
-
-
-        if (maxEnergy > energy)
+        if (buttonAdEnergy != null)
         {
+            if (maxEnergy > energy && !energyInfinity)
+                buttonAdEnergy.transform.GetChild(2).gameObject.SetActive(false);
+            else
+                buttonAdEnergy.transform.GetChild(2).gameObject.SetActive(true);
 
-            if (buttonAdEnergy != null) buttonAdEnergy.transform.GetChild(2).gameObject.SetActive(false);
+            
         }
-        else
-        {
-            //buttonRestoreEnergy.transform.GetChild(4).gameObject.SetActive(true);
-            if (buttonAdEnergy != null) buttonAdEnergy.transform.GetChild(2).gameObject.SetActive(true);
-       
-        }
+
+            
 
         //if (ctrProgressClass.progress["tutorialEnergy"] == 1 && cost > ctrProgressClass.progress["coins"]) buttonRestoreEnergy.transform.GetChild(4).gameObject.SetActive(true);
 

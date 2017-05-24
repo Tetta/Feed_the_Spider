@@ -55,11 +55,15 @@ public class marketClass : MonoBehaviour {
         if (!isPressed) {
             //запрос на покупку
             Debug.Log("click buy " + name);
-#if UNITY_IOS
-            instance.GetComponent<Purchaser>().BuyProductID("com.mysterytag.spider." + name);
-#else
-            instance.GetComponent<Purchaser>().BuyProductID("com.evogames.feedthespider." + name);
-#endif
+            //preview
+            var price = "";
+            if (name.Substring(0, 4) == "sale")
+                price = transform.GetChild(0).GetComponent<UILabel>().text;
+            else
+                price = transform.GetChild(2).GetChild(1).GetComponent<UILabel>().text;
+
+            ctrPreviewBoosterClass.instance.enablePreview(transform.FindChild("icon booster").gameObject, name, price);
+
             GetComponent<Animator>().Play("button");
             GetComponent<AudioSource>().Play();
         }
@@ -487,6 +491,55 @@ public class marketClass : MonoBehaviour {
 }
 
 
+    public void buyBoosters(string name)
+    {
+        ctrPreviewBoosterClass.instance.gameObject.SetActive(false);
+        if (name == "booster_white_1" || name == "booster_white_10")
+        {
+            int amount = 0;
+            int cost = 0;
+            if (name == "booster_white_1")
+            {
+                amount = 1;
+                cost = 400;
+            }
+            else
+            {
+                amount = 10;
+                cost = 3200;
+            }
+            var nameItem = name;
+            ctrAnalyticsClass.sendEvent("Coins",
+                new Dictionary<string, string> {{"detail 1", nameItem}, {"coins", (-cost).ToString()}});
 
+            ctrProgressClass.progress["coins"] -= cost;
+            ctrProgressClass.progress["boostersWhite"] += amount;
+            ctrProgressClass.saveProgress();
+
+            staticClass.setBoostersLabels();
+
+            //change label coins
+            GameObject.Find("/market/inventory/market menu/bars/coins/label coins").GetComponent<UILabel>().text =
+                ctrProgressClass.progress["coins"].ToString();
+            if (initLevelMenuClass.instance != null)
+                initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress["coins"].ToString();
+
+
+            mBoosterClass.instance.itemName = name;
+            mBoosterClass.instance.transform.parent.parent.gameObject.SetActive(true);
+        }
+        else
+        {
+            
+#if UNITY_IOS
+            instance.GetComponent<Purchaser>().BuyProductID("com.mysterytag.spider." + name);
+#else
+            instance.GetComponent<Purchaser>().BuyProductID("com.evogames.feedthespider." + name);
+#endif
+
+
+        }
+
+    }
 
 }

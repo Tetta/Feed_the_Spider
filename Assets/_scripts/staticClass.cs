@@ -534,7 +534,7 @@ public class staticClass
 
     public static Dictionary<int, int> levelBlocks = new Dictionary<int, int>
     {
-      {14, 10}, {26, 22}, {37, 37}, {51, 71}, {62, 88}, {76, 109}, {87, 135}
+      {14, 10}, {26, 20}, {37, 37}, {51, 77}, {62, 107}, {76, 157}, {87, 236}
     };
 
     public static bool notGemsForLevel = false;
@@ -555,7 +555,7 @@ public class staticClass
     public static bool applicationFocus = true;
     public static void setApplicationFocus(bool flag)
     {
-        Debug.Log("setApplicationFocus: " + flag);
+        Debug.Log("staticClass setApplicationFocus: " + flag);
         if (flag)
         {
             applicationFocus = true;
@@ -565,8 +565,14 @@ public class staticClass
                 Time.timeScale = 1;
                 isTimePlay = 1;
             }
-            if (ctrProgressClass.progress["music"] == 1) musicClass.instance.GetComponent<AudioSource>().mute = false;
-
+            try
+            {
+                if (ctrProgressClass.progress["music"] == 1)
+                    musicClass.instance.GetComponent<AudioSource>().mute = false;
+            }
+            catch
+            {
+            }
             if (GameObject.Find("/root/berry")) GameObject.Find("/root/berry").GetComponent<gBerryClass>().showAdTiredMenu();
         }
         else
@@ -574,7 +580,13 @@ public class staticClass
             applicationFocus = false;
             isTimePlay = Time.timeScale;
             Time.timeScale = 0;
-            musicClass.instance.GetComponent<AudioSource>().mute = true;
+            try
+            {
+                musicClass.instance.GetComponent<AudioSource>().mute = true;
+            }
+            catch
+            {
+            }
 
         }
         Debug.Log("Time.timeScale: " + Time.timeScale);

@@ -145,6 +145,13 @@ public class iClickClass : MonoBehaviour {
 		}
 	}
 
+    void buyBoosters()
+    {
+        GetComponent<Animator>().Play("button");
+        GetComponent<AudioSource>().Play();
+        marketClass.instance.buyBoosters(name);
+    }
+
     void buyCardForCoins() {
        
         int amount = 0;
@@ -162,35 +169,8 @@ public class iClickClass : MonoBehaviour {
         GetComponent<AudioSource> ().Play ();
 		if (ctrProgressClass.progress["coins"] < cost) transform.GetChild(1).GetComponent<Animator>().Play("alpha disable");
         else {
+            ctrPreviewBoosterClass.instance.enablePreview(transform.FindChild("icon booster").gameObject, name, cost.ToString());
 
-
-            var nameItem = name;
-            ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail 1", nameItem }, { "coins", (-cost).ToString() } });
-
-            ctrProgressClass.progress["coins"] -= cost;
-            ctrProgressClass.progress["boostersWhite"] += amount;
-            ctrProgressClass.saveProgress();
-
-            staticClass.setBoostersLabels();
-    
-            //change label coins
-            GameObject.Find("/market/inventory/market menu/bars/coins/label coins").GetComponent<UILabel>().text = ctrProgressClass.progress["coins"].ToString();
-            if (initLevelMenuClass.instance != null) initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress["coins"].ToString();
-
-            //anim booster
-            /*
-            StartCoroutine(buyBoosterAnimEnd(false));
-
-            if (name == "booster_white_1")
-		        marketClass.instance.iconBoosterAnim.transform.GetChild(0).gameObject.SetActive(true);
-		    else
-                marketClass.instance.iconBoosterAnim.transform.GetChild(4).gameObject.SetActive(true);
-
-            marketClass.instance.iconBoosterAnim.GetComponent<Animator>().Play("booster buy");
-            StartCoroutine(buyBoosterAnimEnd(true));
-            */
-            mBoosterClass.instance.itemName = name;
-            mBoosterClass.instance.transform.parent.parent.gameObject.SetActive(true);
 
         }
     }
@@ -235,7 +215,8 @@ public class iClickClass : MonoBehaviour {
 		            if (ad && name != "restart")
 		            {
 		                staticClass.adLevelCounter++;
-		                if (staticClass.adLevelCounter >= 5)
+                        Debug.Log("adLevelCounter: " + staticClass.adLevelCounter);
+                        if (staticClass.adLevelCounter >= 5) //5
 		                {
                             staticClass.needShowAdTiredMenu = true;
 		                    for (int i = 0; i < 15; i++)
@@ -945,6 +926,11 @@ public class iClickClass : MonoBehaviour {
         else if (name == "share menu exit")
         {
             GameObject.Find("/settings folder/settings/share menu").SetActive(false);
+        }
+        else if (name == "exit preview booster menu")
+        {
+            Debug.Log(ctrPreviewBoosterClass.instance);
+            ctrPreviewBoosterClass.instance.gameObject.SetActive(false);
         }
     }
 

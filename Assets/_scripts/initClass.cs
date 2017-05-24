@@ -19,6 +19,7 @@ public class initClass : MonoBehaviour {
     public GameObject logo;
     public Transform berry;
     public GameObject openBoosterMenu;
+    public GameObject previewBoosterMenu;
 
     //socials
     public GameObject groupVK1;
@@ -40,6 +41,7 @@ public class initClass : MonoBehaviour {
         //Debug.Log("start menu: " + Time.realtimeSinceStartup);
         if (mBoosterClass.instance == null) openBoosterMenu.SetActive(true);
         else Destroy(openBoosterMenu);
+        if (ctrPreviewBoosterClass.instance == null) previewBoosterMenu.SetActive(true);
         //for test
         //ctrFbKiiClass.instance.onLogin("ok");
 
