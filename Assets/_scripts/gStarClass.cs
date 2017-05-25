@@ -28,9 +28,10 @@ public class gStarClass : MonoBehaviour {
 			tempGo.transform.parent = GameObject.Find("root").transform;
 			tempGo.transform.localScale = new Vector3(1, 1, 1);
 			//tempGo.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(-0.2F, -0.2F, 0); 
-			tempGo.transform.position = transform.position + new Vector3(-0.16F, -0.01F, 0); 
+			tempGo.transform.position = transform.position + new Vector3(-0.16F, -0.01F, 0);
+		    tempGo.GetComponent<Animator>().enabled = true;
 
-			StartCoroutine(coroutineCollectStar(collectors, tempGo));
+            StartCoroutine(coroutineCollectStar(collectors, tempGo));
 			
 			
 		}

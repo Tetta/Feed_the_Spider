@@ -428,7 +428,7 @@ public class staticClass
     public static string scenePrev = "menu";
     public static bool sceneLoading = false;
     public static float isTimePlay = 1;
-    public static bool bonusesView = false;
+    public static bool bonusesView = true;
 
     public static int levelRestartedCount = 0;
     public static int levelAdViewed = 0;
@@ -534,7 +534,7 @@ public class staticClass
 
     public static Dictionary<int, int> levelBlocks = new Dictionary<int, int>
     {
-      {14, 10}, {26, 20}, {37, 37}, {51, 77}, {62, 107}, {76, 157}, {87, 236}
+      /*{14, 10},*/ {26, 20}, {37, 37}, {51, 77}, {62, 107}, {76, 157}, {87, 236}
     };
 
     public static bool notGemsForLevel = false;

@@ -216,7 +216,7 @@ public class iClickClass : MonoBehaviour {
 		            {
 		                staticClass.adLevelCounter++;
                         Debug.Log("adLevelCounter: " + staticClass.adLevelCounter);
-                        if (staticClass.adLevelCounter >= 5) //5
+                        if (staticClass.adLevelCounter >= 3) //5
 		                {
                             staticClass.needShowAdTiredMenu = true;
 		                    for (int i = 0; i < 15; i++)
@@ -1020,10 +1020,10 @@ public class iClickClass : MonoBehaviour {
     {
         Debug.Log("dream click");
         Debug.Log(SceneManager.GetActiveScene().name);
-        if (staticClass.levelRestartedCount == 2 && ctrProgressClass.progress["tutorialDream"] == 0)
+        if (staticClass.levelRestartedCount == 2 && ctrProgressClass.progress["tutorialDream"] < 3)
         {
             ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"] = 3;
-            ctrProgressClass.progress["tutorialDream"] = ctrProgressClass.progress["currentLevel"];
+            ctrProgressClass.progress["tutorialDream"] ++;
             ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, string> { { "name", "use dream" } });
             ctrProgressClass.saveProgress();
         }

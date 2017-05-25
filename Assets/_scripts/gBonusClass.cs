@@ -60,7 +60,7 @@ public class gBonusClass : MonoBehaviour {
                 if (ctrProgressClass.progress["tutorialBonus"] == 0) {
                     if (GameObject.Find("/default level/gui/tutorial bonus(Clone)") != null)
                         GameObject.Find("/default level/gui/tutorial bonus(Clone)").SetActive(false);
-                    ctrProgressClass.progress["tutorialBonus"] = 1;
+                    if (name == "collectors") ctrProgressClass.progress["tutorialBonus"] = 1;
                     ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, string> { { "name", "use bonus" } });
 
                 }

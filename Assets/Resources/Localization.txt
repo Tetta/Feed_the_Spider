@@ -141,7 +141,7 @@ tutorialCactus, "Keep the berry away from cactus!", "Остерегайтесь 
 tutorialGroot1, "Tap on Flo, rotate to the terrain and release", "Нажмите на Фло, поверните в направлении острова и отпустите"
 tutorialGroot2, "Tap again to remove", "Нажмите еще раз, чтобы убрать"
 tutorialHint, "The bird can help you with challenging levels!", "Птица поможет пройти сложные уровни!"
-tutorialBonus, "Try to take advantage of bonuses!", "Попробуй воспользоваться бонусами!"
+tutorialBonus, "Use your magic wand to collect the last star!", "Используй волшебную палочку, чтобы собрать последнюю звезду!"
 tutorialBuy, "The game can be simplified!", "Игру можно и упростить!"
 tutorialDream, "Good sleep never hurt!", "Хороший сон никогда не повредит!"
 tutorialAdCoins, "Get free coins in seconds!", "Получай бесплатные монеты всего за несколько секунд!"

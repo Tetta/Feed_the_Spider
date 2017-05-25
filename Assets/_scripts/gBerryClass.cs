@@ -24,9 +24,10 @@ public class gBerryClass : MonoBehaviour {
 	private float t = 0;
 
 	private ctrScreenshotClass buttonEveryplayScript;
+    private bool dreamIsset = false;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         staticClass.sceneLoading = false;
 		staticClass.initLevels ();
 
@@ -104,9 +105,9 @@ public class gBerryClass : MonoBehaviour {
 		buttonEveryplayScript = GameObject.Find("/default level/gui/button everyplay").GetComponent<ctrScreenshotClass>();
 
 		//bonusesView
-		if (staticClass.bonusesView) {
-			GameObject.Find ("arrow right").SendMessage ("clickBonusesArrow");
-			GameObject.Find ("tween").transform.localPosition = new Vector3 (880, 0, 0);
+		if (!staticClass.bonusesView) {
+			GameObject.Find ("arrow left").SendMessage ("clickBonusesArrow");
+			GameObject.Find ("tween").transform.localPosition = new Vector3 (160, 0, 0);
 		}
 
         //если уровень запущен 1й раз
@@ -122,7 +123,6 @@ public class gBerryClass : MonoBehaviour {
 	        staticClass.levelRestartedCount++;
 	    }
 
-	    var dreamIsset = false;
 	    //dream
             var p = ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"];
         if (staticClass.scenePrev == SceneManager.GetActiveScene().name && !((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 || (p == 2 || p == 3)
@@ -160,37 +160,41 @@ public class gBerryClass : MonoBehaviour {
 
         //show tutorial hint
         if (staticClass.levelRestartedCount >= 3 && ctrProgressClass.progress["tutorialHint"] == 0 &&
-            ctrProgressClass.progress["hints"] > 0 && ctrProgressClass.progress["tutorialDream"] != ctrProgressClass.progress["currentLevel"] && !dreamIsset)
+            ctrProgressClass.progress["hints"] > 0 && !dreamIsset)
 
         {
-            var arrowTemp = GameObject.Find("/default level/gui/bonuses/tween/arrow left");
+            var arrowTemp = GameObject.Find("/default level/gui/bonuses/tween/arrow right");
             if (arrowTemp.activeSelf)
             {
                 arrowTemp.SendMessage("clickBonusesArrow");
-                arrowTemp.transform.parent.transform.localPosition = new Vector3(160, 0, 0);
+                arrowTemp.transform.parent.transform.localPosition = new Vector3(880, 0, 0);
             }
 
             GameObject tutorialHintGO = Instantiate(tutorialHint, new Vector2(0, 0), Quaternion.identity) as GameObject;
             //position hand
 	        var bonusesGO = GameObject.Find("/default level/gui/bonuses");
             bonusesGO.GetComponent<UIWidget>().Update();
-            tutorialHintGO.transform.GetChild(0).transform.localPosition = bonusesGO.transform.localPosition + new Vector3(50, 110, 0);
+            tutorialHintGO.transform.GetChild(0).transform.localPosition = bonusesGO.transform.localPosition + new Vector3(770, 110, 0);
             staticClass.isTimePlay = Time.timeScale;
             Time.timeScale = 0;
             Debug.Log("Time.timeScale: " + Time.timeScale);
 
             //off level tutorial
             if (GameObject.Find("/default level/gui/tutorial") != null) GameObject.Find("/default level/gui/tutorial").transform.localScale = Vector3.zero;
+
         }
 
 
-	    Debug.Log("tutorialBonus: " + ctrProgressClass.progress["tutorialBonus"]);
+        Debug.Log("tutorialBonus: " + ctrProgressClass.progress["tutorialBonus"]);
         Debug.Log("staticClass.levelRestartedCount: " + staticClass.levelRestartedCount);
         Debug.Log("gHintClass.hintState: " + gHintClass.hintState);
 
+
+        
+        
+        /*
         //show tutorial bonus
-        //if (true) { 
-        if (ctrProgressClass.progress["tutorialDream"] != ctrProgressClass.progress["currentLevel"] && staticClass.levelRestartedCount >= 3 && ctrProgressClass.progress["tutorialBonus"] == 0 &&
+        if ( staticClass.levelRestartedCount >= 3 && ctrProgressClass.progress["tutorialBonus"] == 0 &&
             ctrProgressClass.progress["hints"] == 0 && gHintClass.hintState == "" &&
             (ctrProgressClass.progress["webs"] > 0 || ctrProgressClass.progress["teleports"] > 0 ||
              ctrProgressClass.progress["collectors"] > 0) && !dreamIsset)
@@ -213,9 +217,10 @@ public class gBerryClass : MonoBehaviour {
             //off level tutorial
             if (GameObject.Find("/default level/gui/tutorial") != null) GameObject.Find("/default level/gui/tutorial").transform.localScale = Vector3.zero;
         }
+        */
 
         //show tutorial dream
-        if (staticClass.levelRestartedCount == 2 && ctrProgressClass.progress["tutorialDream"] == 0 && gHintClass.hintState == "")
+        if (staticClass.levelRestartedCount == 2 && ctrProgressClass.progress["tutorialDream"] < 3 && gHintClass.hintState == "" && !dreamIsset)
         {
             GameObject tutorialDreamGO = Instantiate(tutorialDream, new Vector2(0, 0), Quaternion.identity) as GameObject;
             //position hand
@@ -433,8 +438,11 @@ public class gBerryClass : MonoBehaviour {
 		}
 
 	}
-	public IEnumerator coroutineEat(Collision2D collisionObject){
-		collisionObject.rigidbody.isKinematic = false;
+	public IEnumerator coroutineEat(Collision2D collisionObject)
+	{
+	    if (starsCounter == 2)tutorialWand();
+
+        collisionObject.rigidbody.isKinematic = false;
 		transform.GetChild (int.Parse (staticClass.currentBerry.Substring (5, 1)) - 1).GetComponent<SpriteRenderer> ().sortingOrder = 119;
 		for (float i = 0; i < 5; i+=0.5F) {
 			transform.GetChild(int.Parse(staticClass.currentBerry.Substring(5, 1)) - 1).GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.8F - i * 0.2F);
@@ -672,5 +680,32 @@ public class gBerryClass : MonoBehaviour {
     {
         //for button market sale
         if (flag && marketClass.instance != null) marketClass.instance.sale.GetComponent<lsSaleClass>().OnEnable();
+    }
+
+    private void tutorialWand()
+    {
+
+        //show tutorial bonus - wand
+        if (ctrProgressClass.progress["tutorialBonus"] == 0 &&
+            gHintClass.hintState == "" && ctrProgressClass.progress["collectors"] > 0 && Convert.ToInt32(SceneManager.GetActiveScene().name.Substring(5)) >=6 && !dreamIsset)
+        {
+            var arrowTemp = GameObject.Find("/default level/gui/bonuses/tween/arrow right");
+            if (arrowTemp.activeSelf)
+            {
+                arrowTemp.SendMessage("clickBonusesArrow");
+                arrowTemp.transform.parent.transform.localPosition = new Vector3(880, 0, 0);
+            }
+            GameObject tutorialBonusGO = Instantiate(tutorialBonus, new Vector2(0, 0), Quaternion.identity) as GameObject;
+            //position hand
+            var bonusesGO = GameObject.Find("/default level/gui/bonuses");
+            bonusesGO.GetComponent<UIWidget>().Update();
+            tutorialBonusGO.transform.GetChild(0).transform.localPosition = bonusesGO.transform.localPosition + new Vector3(580, 60, 0);
+            staticClass.isTimePlay = Time.timeScale;
+            Time.timeScale = 0;
+            Debug.Log("Time.timeScale: " + Time.timeScale);
+
+            //off level tutorial
+            if (GameObject.Find("/default level/gui/tutorial") != null) GameObject.Find("/default level/gui/tutorial").transform.localScale = Vector3.zero;
+        }
     }
 }

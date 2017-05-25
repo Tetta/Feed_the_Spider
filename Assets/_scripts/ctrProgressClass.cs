@@ -79,7 +79,7 @@ public class ctrProgressClass {
 
     static private Dictionary<string, int> progressDefault = new Dictionary<string, int>{
 		{"googlePlay",0}, {"lastLevel",0}, {"currentLevel",1},{"coins",50},{"gems",0},{"energyTime",0},{"energy",0},{"energyInfinity",0},
-        {"hints",0},{"webs",0},{"collectors",0},{"teleports",0},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
+        {"hints",1},{"webs",0},{"collectors",1},{"teleports",0},{"complect",0},{"music",1},{"sound",1},{"dailyBonus",0},{"language",0},
 		{"everyplay",0},{"firstPurchase",0},
 
         { "fb",0},{"vk",0},{"ok",0},{"rewardLogin", 0 },{"rewardGroupVK1", 0 },{"rewardGroupVK2", 0 },{"rewardRepostOK", 0 },
