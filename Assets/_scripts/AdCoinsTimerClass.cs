@@ -7,12 +7,14 @@ using UnityEngine;
 public class AdCoinsTimerClass : MonoBehaviour {
 
 
+    public GameObject shrine;
     public GameObject rewardMenu;
     public UILabel minutes;
     public UILabel seconds;
     public GameObject coins;
     public GameObject hint;
     public GameObject hand;
+    public UILabel title;
 
     public static int counter = 0;
     public static DateTime timer = DateTime.Now.AddSeconds(60 * 5);
@@ -74,17 +76,13 @@ public class AdCoinsTimerClass : MonoBehaviour {
 
     public IEnumerator updateTimeCoroutine()
     {
+        shrine.SetActive(timer <= DateTime.Now);
         if (timer > DateTime.Now)
         {
             var diff = timer - DateTime.Now;
+            minutes.text = string.Format("{0:00}", diff.Minutes);
+            seconds.text = string.Format("{0:00}", diff.Seconds);
 
-            int modMin = diff.Minutes;
-            if (modMin < 10) minutes.text = "0" + modMin.ToString();
-            else minutes.text = modMin.ToString();
-
-            int modSec = diff.Seconds;
-            if (modSec < 10) seconds.text = "0" + modSec.ToString();
-            else seconds.text = modSec.ToString();
             GetComponent<iClickClass>().functionPressButton = "";
             transform.GetChild(2).gameObject.SetActive(true);
 

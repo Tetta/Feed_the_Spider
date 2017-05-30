@@ -5,13 +5,15 @@ using Facebook.Unity;
 using UnityEngine;
 
 public class freeCoinsTimerClass : MonoBehaviour {
+    private const int FreeGoldCount = 400;
 
 
+    public GameObject shrine;
     public GameObject rewardMenu;
     public UILabel hours;
     public UILabel minutes;
-    public UILabel seconds;
-    public GameObject coins;
+    public UILabel title;
+    public SpriteRenderer coins;
     
     public GameObject hand;
 
@@ -78,28 +80,33 @@ public class freeCoinsTimerClass : MonoBehaviour {
 
     public IEnumerator updateTimeCoroutine()
     {
+        shrine.SetActive(timer <= DateTime.Now);
         if (timer > DateTime.Now)
         {
+            coins.color = new Color(1,1,1,0.5f);
+            title.fontSize = 30;
+            title.text = String.Format("Next {0} in", FreeGoldCount);
             var diff = timer - DateTime.Now;
 
-            int modMin = diff.Minutes;
-            if (modMin < 10) minutes.text = "0" + modMin;
-            else minutes.text = modMin.ToString();
+            if (diff.TotalHours < 1)
+            {
+                hours.text = string.Format("{0:00}", diff.Minutes);
+                minutes.text = string.Format("{0:00}", diff.Seconds);
+            }
+            else
+            {
+                hours.text = string.Format("{0:00}", diff.Hours);
+                minutes.text = string.Format("{0:00}", diff.Minutes);
+            }
 
-            int modSec = diff.Seconds;
-            if (modSec < 10) seconds.text = "0" + modSec;
-            else seconds.text = modSec.ToString();
-
-            int modHours = diff.Hours;
-            if (modHours < 10) hours.text = "0" + modHours;
-            else hours.text = modHours.ToString();
-            //GetComponent<iClickClass>().functionPressButton = "";
             transform.GetChild(2).gameObject.SetActive(true);
             GetComponent<BoxCollider>().enabled = false;
-
         }
         else
         {
+            title.text = String.Format("{0}", FreeGoldCount);
+            title.fontSize = 60;
+            coins.color = new Color(1, 1, 1, 1f);
             transform.GetChild(2).gameObject.SetActive(false);
             //GetComponent<iClickClass>().functionPressButton = "openMenu";
             GetComponent<BoxCollider>().enabled = true;
@@ -114,7 +121,7 @@ public class freeCoinsTimerClass : MonoBehaviour {
     public void OnClick()
     {
 
-        ctrProgressClass.progress["coins"] += 200;
+        ctrProgressClass.progress["coins"] += FreeGoldCount;
         //coinsLabel
         //counter++;
         Debug.Log("freeCoinsDate: " + ctrProgressClass.progress["freeCoinsDate"]);
@@ -139,6 +146,8 @@ public class freeCoinsTimerClass : MonoBehaviour {
         }
 
         GameObject.Find("root/static/coins/coinsLabel").GetComponent<UILabel>().text = ctrProgressClass.progress["coins"].ToString();
+
+        /* убрал выдачу реварда
         initLevelMenuClass.instance.rewardMenu.SetActive(true);
         initLevelMenuClass.instance.rewardMenu.transform.GetChild(0)
             .GetChild(5)
@@ -146,8 +155,10 @@ public class freeCoinsTimerClass : MonoBehaviour {
             .GetChild(3)
             .GetChild(3)
             .GetComponent<UILabel>()
-            .text = "200";
-        ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> {{"detail 1", "free"}, {"coins", "200"}});
+            .text = FreeGoldCount.ToString();
+         */
+
+        ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> {{"detail 1", "free"}, {"coins", FreeGoldCount .ToString()} });
         //initLevelMenuClass.instance.coinsMenu.SetActive(false);
         ctrProgressClass.saveProgress();
         hand.SetActive(false);
