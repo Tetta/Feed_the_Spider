@@ -2116,7 +2116,7 @@ public class gHintClass : MonoBehaviour {
 		actions[1].frame = 62;
 		actions[1].mouse = new Vector3(0F, 0F, 0F);
 		actions[2].id = new Vector3(-0.4765625F, -0.9335938F, 0F); //sluggish
-		actions[2].frame = 130;
+		actions[2].frame = 190;
 		actions[2].mouse = new Vector3(-0.4637003F, -1.201049F, 0F);
 		actions[3].id = new Vector3(-0.5664063F, 1.117188F, 0F); //web
 		actions[3].frame = 43;
@@ -2147,7 +2147,7 @@ public class gHintClass : MonoBehaviour {
 		actions[1].frame = 62;
 		actions[1].mouse = new Vector3(0F, 0F, 0F);
 		actions[2].id = new Vector3(-0.5664063F, 1.117188F, 0F); //web
-		actions[2].frame = 85;
+		actions[2].frame = 140;
 		actions[2].mouse = new Vector3(0F, 0F, 0F);
 		actions[3].id = new Vector3(0.5488281F, 1.339844F, 0F); //web
 		actions[3].frame = 50;

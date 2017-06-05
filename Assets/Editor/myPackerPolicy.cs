@@ -110,7 +110,7 @@ public class myPackerPolicy : UnityEditor.Sprites.IPackerPolicy
 
                 entries.Add(entry);
 				
-				if (entry.sprite.name == "play" || entry.sprite.name == "button icon music") {
+				if (entry.sprite.name == "pixel" || entry.sprite.name == "button icon music") {
 					Debug.Log (entry.sprite.name);
 					Debug.Log (entry.settings.format);
 					Debug.Log (entry.settings.colorSpace);

@@ -39,7 +39,7 @@ public class freeCoinsTimerClass : MonoBehaviour {
         {
             //disable bonus
             transform.GetChild(0).gameObject.SetActive(false);
-            transform.GetChild(2).gameObject.SetActive(false);
+            //transform.GetChild(2).gameObject.SetActive(false);
             GetComponent<BoxCollider>().enabled = false;
             return;
         }
@@ -151,7 +151,7 @@ public class freeCoinsTimerClass : MonoBehaviour {
             //enable ad coins timer
             var adCoinsGO = GameObject.Find("/root/static/ad coins");
             adCoinsGO.transform.GetChild(0).gameObject.SetActive(true);
-            adCoinsGO.transform.GetChild(2).gameObject.SetActive(true);
+            //adCoinsGO.transform.GetChild(2).gameObject.SetActive(true);
             adCoinsGO.GetComponent<BoxCollider>().enabled = true;
             ctrProgressClass.progress["adCoinsDate"] = (int)DateTime.Now.AddSeconds(firstInterval).TotalSeconds();
             AdCoinsTimerClass.timer = DateTime.Now.AddSeconds(firstInterval);
@@ -187,5 +187,8 @@ public class freeCoinsTimerClass : MonoBehaviour {
         var t = GameObject.Find("/root/static/ps coins");
         t.SetActive(false);
         t.SetActive(true);
+
+        active.SetActive(false);
+        inactive.SetActive(true);
     }
 }

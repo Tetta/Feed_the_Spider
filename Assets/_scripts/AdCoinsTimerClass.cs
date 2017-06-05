@@ -31,7 +31,7 @@ public class AdCoinsTimerClass : MonoBehaviour {
         {
             //disable bonus
             transform.GetChild(0).gameObject.SetActive(false);
-            transform.GetChild(2).gameObject.SetActive(false);
+            //transform.GetChild(2).gameObject.SetActive(false);
             GetComponent<BoxCollider>().enabled = false;
             return;
         }

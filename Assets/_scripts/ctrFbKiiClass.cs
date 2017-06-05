@@ -894,6 +894,14 @@ public class ctrFbKiiClass : MonoBehaviour {
         }
         else if (sdk == "vk")
         {
+            Debug.Log("socials - onInitializeSDK VK VkApi.VkApiInstance.IsUserLoggedIn: " + VkApi.VkApiInstance.IsUserLoggedIn);
+            Debug.Log("socials - onInitializeSDK VK ctrProgressClass.progress[vk]: " + ctrProgressClass.progress["vk"]);
+            Debug.Log(VkApi.CurrentToken.access_token);
+            Debug.Log(VkApi.CurrentToken.expires_in);
+            Debug.Log(VkApi.CurrentToken.tokenRecievedTime);
+
+
+
             if (VkApi.VkApiInstance.IsUserLoggedIn && ctrProgressClass.progress["vk"] == 1)
                 onLogin("vk");
         }
@@ -1057,17 +1065,23 @@ public class ctrFbKiiClass : MonoBehaviour {
             //staticClass.setBoostersLabels();
             Debug.Log("--------------------------");
             Debug.Log(SceneManager.GetActiveScene().name);
-            Debug.Log(mBoosterClass.instance.transform.parent.parent.gameObject.name);
-            Debug.Log(mBoosterClass.instance.transform.parent.parent.gameObject.activeSelf);
-            if (social == "ok" && (SceneManager.GetActiveScene().name == "menu" || SceneManager.GetActiveScene().name == "start") && mBoosterClass.instance.transform.parent.parent.gameObject.activeSelf) staticClass.getBoosterForOK = true;
-            else
+            if (mBoosterClass.instance != null)
             {
-                Debug.Log("1--------------------------");
-                if (social == "ok") staticClass.getBoosterForOK = true;
-                ctrProgressClass.progress["boostersWhite"] ++;
-                ctrProgressClass.progress["rewardLogin"] = 1;
-                mBoosterClass.instance.itemName = "booster_white_1";
-                mBoosterClass.instance.transform.parent.parent.gameObject.SetActive(true);
+                Debug.Log(mBoosterClass.instance.transform.parent.parent.gameObject.name);
+                Debug.Log(mBoosterClass.instance.transform.parent.parent.gameObject.activeSelf);
+                if (social == "ok" &&
+                    (SceneManager.GetActiveScene().name == "menu" || SceneManager.GetActiveScene().name == "start") &&
+                    mBoosterClass.instance.transform.parent.parent.gameObject.activeSelf)
+                    staticClass.getBoosterForOK = true;
+                else
+                {
+                    Debug.Log("1--------------------------");
+                    if (social == "ok") staticClass.getBoosterForOK = true;
+                    ctrProgressClass.progress["boostersWhite"]++;
+                    ctrProgressClass.progress["rewardLogin"] = 1;
+                    mBoosterClass.instance.itemName = "booster_white_1";
+                    mBoosterClass.instance.transform.parent.parent.gameObject.SetActive(true);
+                }
             }
         }
         ctrProgressClass.saveProgress();
