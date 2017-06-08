@@ -400,9 +400,9 @@ public class ctrFbKiiClass : MonoBehaviour {
         {
             GameObject friend = null;
             //if exist
-            if (go.transform.GetChild(0).GetChild(0).FindChild(f.id) != null)
+            if (go.transform.GetChild(0).GetChild(0).Find(f.id) != null)
             {
-                friend = go.transform.GetChild(0).GetChild(0).FindChild(f.id).gameObject;
+                friend = go.transform.GetChild(0).GetChild(0).Find(f.id).gameObject;
                 if (friendsImage.ContainsKey(f.id) && friend.transform.GetChild(0).GetComponent<UITexture>().mainTexture == null)
                     friend.transform.GetChild(0).GetComponent<UITexture>().mainTexture =
                         friendsImage[f.id];

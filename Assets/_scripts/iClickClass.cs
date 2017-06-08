@@ -74,8 +74,8 @@ public class iClickClass : MonoBehaviour {
     }
 
     void buttonOpenBooster() {
-        transform.parent.FindChild("items/booster").gameObject.SetActive(false);
-        transform.parent.FindChild("items/booster").gameObject.SetActive(true);
+        transform.parent.Find("items/booster").gameObject.SetActive(false);
+        transform.parent.Find("items/booster").gameObject.SetActive(true);
     }
 
 	public void checkTutorialBuy() {
@@ -110,9 +110,9 @@ public class iClickClass : MonoBehaviour {
 
 	void clickTutorialBuy() {
         Debug.Log("clickTutorialBuy");
-        if (transform.FindChild("hand").gameObject.activeSelf) {
+        if (transform.Find("hand").gameObject.activeSelf) {
             Debug.Log(name);
-            transform.FindChild("hand").gameObject.SetActive (false);
+            transform.Find("hand").gameObject.SetActive (false);
             if (name == "button market")
             {
                 ctrProgressClass.progress ["tutorialBuy"] = 1;
@@ -169,7 +169,7 @@ public class iClickClass : MonoBehaviour {
         GetComponent<AudioSource> ().Play ();
 		if (ctrProgressClass.progress["coins"] < cost) transform.GetChild(1).GetComponent<Animator>().Play("alpha disable");
         else {
-            ctrPreviewBoosterClass.instance.enablePreview(transform.FindChild("icon booster").gameObject, name, cost.ToString());
+            ctrPreviewBoosterClass.instance.enablePreview(transform.Find("icon booster").gameObject, name, cost.ToString());
 
 
         }
@@ -679,7 +679,7 @@ public class iClickClass : MonoBehaviour {
                     .GetChild(1)
                     .GetChild(0)
                     .GetChild(0)
-                    .FindChild(name)
+                    .Find(name)
                     .gameObject.SetActive(true);
 
                 marketClass.instance.openBoosterMenu.SetActive(true);
@@ -966,8 +966,8 @@ public class iClickClass : MonoBehaviour {
         if (name == "arrow right") {
             gameObject.SetActive(false);
             GameObject.Find("bonuses/tween").transform.GetChild(1).gameObject.SetActive(true);
-			staticClass.bonusesView = true;
-
+			ctrProgressClass.progress["bonusesView"] = 1;
+        
             //off hand, if tutorial bonus
             if (ctrProgressClass.progress["tutorialBonus"] == 0) if (GameObject.Find("/default level/gui/tutorial bonus(Clone)/hand") != null )
                     GameObject.Find("/default level/gui/tutorial bonus(Clone)/hand").SetActive(false);
@@ -975,8 +975,8 @@ public class iClickClass : MonoBehaviour {
         else {
             gameObject.SetActive(false);
             GameObject.Find("bonuses/tween").transform.GetChild(0).gameObject.SetActive(true);
-			staticClass.bonusesView = false;
-		}
+            ctrProgressClass.progress["bonusesView"] = 0;
+        }
 
     }
 

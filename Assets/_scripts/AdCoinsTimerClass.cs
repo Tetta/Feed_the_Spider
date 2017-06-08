@@ -7,14 +7,16 @@ using UnityEngine;
 public class AdCoinsTimerClass : MonoBehaviour {
 
 
-    public GameObject shrine;
-    public GameObject rewardMenu;
+    //public GameObject shrine;
+    //public GameObject rewardMenu;
     public UILabel minutes;
     public UILabel seconds;
-    public GameObject coins;
-    public GameObject hint;
+    //public GameObject coins;
+    //public GameObject hint;
     public GameObject hand;
-    public UILabel title;
+    //public UILabel title;
+    public GameObject active;
+    public GameObject inactive;
 
     public static int counter = 0;
     public static DateTime timer = DateTime.Now.AddSeconds(60 * 5);
@@ -76,21 +78,32 @@ public class AdCoinsTimerClass : MonoBehaviour {
 
     public IEnumerator updateTimeCoroutine()
     {
-        shrine.SetActive(timer <= DateTime.Now);
+        //shrine.SetActive(timer <= DateTime.Now);
         if (timer > DateTime.Now)
         {
+            active.SetActive(false);
+            inactive.SetActive(true);
+
             var diff = timer - DateTime.Now;
             minutes.text = string.Format("{0:00}", diff.Minutes);
             seconds.text = string.Format("{0:00}", diff.Seconds);
 
             GetComponent<iClickClass>().functionPressButton = "";
-            transform.GetChild(2).gameObject.SetActive(true);
+            //transform.GetChild(2).gameObject.SetActive(true);
 
+            //title.fontSize = 30;
+            //title.text = String.Format(Localization.Get("coinsTimerTitle"), 50);
         }
         else
         {
-            transform.GetChild(2).gameObject.SetActive(false);
+            active.SetActive(true);
+            inactive.SetActive(false);
+
+            //transform.GetChild(2).gameObject.SetActive(false);
             GetComponent<iClickClass>().functionPressButton = "openMenu";
+
+            //title.text = String.Format("{0}", 50);
+            //title.fontSize = 60;
         }
         // остановка выполнения функции
         yield return StartCoroutine(staticClass.waitForRealTime(1));

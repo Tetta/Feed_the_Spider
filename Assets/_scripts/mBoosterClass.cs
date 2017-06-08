@@ -90,7 +90,7 @@ public class mBoosterClass : MonoBehaviour {
         transform
             .GetChild(0)
             .GetChild(0)
-            .FindChild(itemName)
+            .Find(itemName)
             .gameObject.SetActive(true);
 
 
@@ -159,7 +159,7 @@ public class mBoosterClass : MonoBehaviour {
 
 
             //копируем карту
-            card = Instantiate(cardsAll.FindChild(bonusName).gameObject, transform.GetChild(2));
+            card = Instantiate(cardsAll.Find(bonusName).gameObject, transform.GetChild(2));
 
             card.transform.localPosition = new Vector3(0, 0, 0);
             card.transform.rotation = Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5)));

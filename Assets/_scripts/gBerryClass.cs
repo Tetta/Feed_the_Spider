@@ -105,7 +105,7 @@ public class gBerryClass : MonoBehaviour {
 		buttonEveryplayScript = GameObject.Find("/default level/gui/button everyplay").GetComponent<ctrScreenshotClass>();
 
 		//bonusesView
-		if (!staticClass.bonusesView) {
+		if (ctrProgressClass.progress["bonusesView"] == 0) {
 			GameObject.Find ("arrow left").SendMessage ("clickBonusesArrow");
 			GameObject.Find ("tween").transform.localPosition = new Vector3 (160, 0, 0);
 		}
@@ -687,7 +687,7 @@ public class gBerryClass : MonoBehaviour {
 
         //show tutorial bonus - wand
         if (ctrProgressClass.progress["tutorialBonus"] == 0 &&
-            gHintClass.hintState == "" && ctrProgressClass.progress["collectors"] > 0 && Convert.ToInt32(SceneManager.GetActiveScene().name.Substring(5)) >=6 && !dreamIsset)
+            gHintClass.hintState == "" && ctrProgressClass.progress["collectors"] > 0 && Convert.ToInt32(SceneManager.GetActiveScene().name.Substring(5)) >=6 && !dreamIsset && initLevelMenuClass.levelDemands == 0)
         {
             var arrowTemp = GameObject.Find("/default level/gui/bonuses/tween/arrow right");
             if (arrowTemp.activeSelf)

@@ -25,7 +25,7 @@ public class ctrAnalyticsClass: MonoBehaviour
     void Start()
     {
         
-        if (!Debug.isDebugBuild) Debug.logger.logEnabled = false;
+        //if (!Debug.isDebugBuild) Debug.logger.logEnabled = false;
         Debug.Log("ctrAnalyticsClass start");
         LocalNotification.CancelAllNotifications();
         try
@@ -281,8 +281,9 @@ public class ctrAnalyticsClass: MonoBehaviour
             var h = DateTime.Now.Add(delay).Hour;
             if (h < 10) delay = delay.Add(new TimeSpan(10 - h, 0, 0));
             //Debug.Log("notifer 1 delay: " + delay);
-            var type = ctrProgressClass.progress["firstPurchase"] == 1 ? "Payers" : "Free";
-            LocalNotification.SendNotification(1, delay, "", Localization.Get("notiferTitleSale") + Localization.Get("sale" + ctrProgressClass.progress["sale"] + type));
+            var type = ctrProgressClass.progress["firstPurchase"] == 1 ? "payers" : "free";
+            LocalNotification.SendNotification(1, delay, "", Localization.Get("notiferTitleSale") + Localization.Get("sale_" + (ctrProgressClass.progress["sale"] + 1) + "_" + type));
+            Debug.Log(Localization.Get("notiferTitleSale") + Localization.Get("sale_" + (ctrProgressClass.progress["sale"] + 1) + "_" + type));
         }
         //daily notifer
         delay = DateTime.Parse("12:00:00") - DateTime.Now;

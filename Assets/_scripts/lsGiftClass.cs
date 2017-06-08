@@ -89,7 +89,7 @@ public class lsGiftClass : MonoBehaviour {
 
 
             //копируем карту
-            card = Instantiate(mBoosterClass.instance.transform.parent.parent.GetChild(2).FindChild(bonusName).gameObject, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5)))) as GameObject;
+            card = Instantiate(mBoosterClass.instance.transform.parent.parent.GetChild(2).Find(bonusName).gameObject, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5)))) as GameObject;
 			card.GetComponent<mCardClass>().functionPress = "openCardGift";
 			card.transform.parent = giftMenu.transform.GetChild(0).GetChild(0);
 			card.transform.localScale = new Vector2(1, 1);

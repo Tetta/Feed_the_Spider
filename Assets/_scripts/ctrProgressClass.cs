@@ -94,6 +94,8 @@ public class ctrProgressClass {
 		{"skin1",1},{"skin2",0},{"skin3",0},{"skin4",0},{"skin5",0},
         {"berryCurrent", 1}, {"hatCurrent", 1}, {"skinCurrent", 1},
 
+        { "bonusesView", 1},
+        
         {"tutorialEnergy",1}, {"tutorialBuy",0}, {"tutorialHint",0}, {"tutorialBonus",0}, {"tutorialDream",0},  {"tutorialAdCoins",0}, {"tutorialFreeCoins",0},  {"tutorialSale",0}, {"tutorialMap",0},
 
         {"sessionStart",0}, {"sessionEnd",0}, {"sessionCount",0}, {"levelPlayCount",0}, {"winCount",0}, {"firstLaunch", 0}, {"paymentCount", 0}, {"revenue", 0}, {"friendsInvited", 0}, {"energyOnEndSession", 0},
@@ -162,7 +164,9 @@ public class ctrProgressClass {
         {"skin1",1},{"skin2",0},{"skin3",0},{"skin4",0},{"skin5",1},
         {"berryCurrent", 1}, {"hatCurrent", 1}, {"skinCurrent", 1},
 
-        {"tutorialEnergy",1}, {"tutorialBuy",0}, {"tutorialHint",0}, {"tutorialBonus",0}, {"tutorialDream",0},  {"tutorialAdCoins",0},  {"tutorialFreeCoins",0}, {"tutorialSale",0}, {"tutorialMap",0},
+        { "bonusesView", 1},
+
+        { "tutorialEnergy",1}, {"tutorialBuy",0}, {"tutorialHint",0}, {"tutorialBonus",0}, {"tutorialDream",0},  {"tutorialAdCoins",0},  {"tutorialFreeCoins",0}, {"tutorialSale",0}, {"tutorialMap",0},
 
         { "sessionStart",0}, {"sessionEnd",0}, {"sessionCount",0}, {"levelPlayCount",0}, {"winCount",0}, {"firstLaunch", 0}, {"paymentCount", 0}, {"revenue", 0}, {"friendsInvited", 0}, {"energyOnEndSession", 0},
 

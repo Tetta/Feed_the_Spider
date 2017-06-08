@@ -147,7 +147,7 @@ public class ctrlDailyBonusClass : MonoBehaviour {
                 bonusName == "coins")
             {
                 card =
-                    Instantiate(marketClass.instance.cardsAll.FindChild(bonusName + "_" + bonusCount).gameObject,
+                    Instantiate(marketClass.instance.cardsAll.Find(bonusName + "_" + bonusCount).gameObject,
                             new Vector3(0, 0, 0), Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5))))
                         as GameObject;
                 if (bonusName != "coins")
@@ -164,7 +164,7 @@ public class ctrlDailyBonusClass : MonoBehaviour {
             else
             {
                 card =
-                    Instantiate(marketClass.instance.cardsAll.FindChild(bonusName).gameObject, new Vector3(0, 0, 0),
+                    Instantiate(marketClass.instance.cardsAll.Find(bonusName).gameObject, new Vector3(0, 0, 0),
                         Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5)))) as GameObject;
             }
             if (bonusName == "coins") ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail 1", "daily" }, { "coins", bonusCount.ToString() } });

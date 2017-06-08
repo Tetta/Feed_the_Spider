@@ -180,6 +180,7 @@ public class ctrAdClass : MonoBehaviour
             AdCoinsTimerClass.timer = DateTime.Now.AddSeconds(AdCoinsTimerClass.interval);
             GameObject.Find("root/static/coins/coinsLabel").GetComponent<UILabel>().text =
                 ctrProgressClass.progress["coins"].ToString();
+            /*
             initLevelMenuClass.instance.rewardMenu.SetActive(true);
             initLevelMenuClass.instance.rewardMenu.transform.GetChild(0)
                 .GetChild(5)
@@ -188,8 +189,14 @@ public class ctrAdClass : MonoBehaviour
                 .GetChild(3)
                 .GetComponent<UILabel>()
                 .text = "50";
+                */
             ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> {{"detail 1", "video"}, {"coins", "50"}});
             initLevelMenuClass.instance.coinsMenu.SetActive(false);
+
+            //ps coins
+            var t = GameObject.Find("/root/static/ps coins");
+            t.SetActive(false);
+            t.SetActive(true);
         }
         else if (adStarted == "dreamShowAd")
         {

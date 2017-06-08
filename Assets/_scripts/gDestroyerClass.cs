@@ -17,8 +17,11 @@ public class gDestroyerClass : MonoBehaviour {
 	//private GameObject[]  terrainsGO;
 	private Transform twigs = null;
 
-	// Use this for initialization
-	void Start () {
+    private bool isNewDestroyer = false;
+    private int fixedAngle = 25;
+
+    // Use this for initialization
+    void Start () {
 		
 		enterPoint = transform.position;
 
@@ -75,7 +78,15 @@ public class gDestroyerClass : MonoBehaviour {
 			GetComponent<Rigidbody2D>().isKinematic = false;
 
 			Vector3 mousePosition = gHintClass.checkHint(gameObject, true);
-            
+
+            if (isNewDestroyer)
+            {
+                Vector3 relative = transform.InverseTransformPoint(mousePosition);
+                float angle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg; angle = Mathf.RoundToInt(angle / fixedAngle) * fixedAngle;
+                if (transform.localScale.x > 0) mousePosition = Quaternion.AngleAxis(45 - angle, new Vector3(0, 0, 1)) * new Vector3(1, 1, 1);
+                else mousePosition = Quaternion.AngleAxis(45 + angle, new Vector3(0, 0, 1)) * new Vector3(1, 1, 1);
+            }
+
             Vector3 diff = mousePosition - transform.position;
 			float pointBDiffC = Mathf.Sqrt(diff.x * diff.x + diff.y * diff.y);
 			float maxDiffC = 500;
@@ -109,8 +120,14 @@ public class gDestroyerClass : MonoBehaviour {
 			Vector3 mousePosition = gHintClass.checkHint (gameObject, true);
 			Vector3 relative = transform.InverseTransformPoint (mousePosition);
             float angle = Mathf.Atan2 (relative.x, relative.y) * Mathf.Rad2Deg;
-            //transform.rotation = Quaternion.Euler(0, 0, 90);
-			//transform.Rotate (0, 0, 270 - angle);
+
+		    if (isNewDestroyer)
+		    {
+		        angle = Mathf.RoundToInt(angle/ fixedAngle) * fixedAngle;
+                if (transform.localScale.x > 0) mousePosition = Quaternion.AngleAxis(45 - angle, new Vector3(0, 0, 1)) * new Vector3(1, 1, 1);
+                else mousePosition = Quaternion.AngleAxis(45 + angle, new Vector3(0, 0, 1)) * new Vector3(1, 1, 1);
+            }
+
             transform.GetChild(0).rotation = Quaternion.Euler(0, 0, -90 - angle);
             if (transform.localScale.x < 0) transform.GetChild(0).rotation = Quaternion.Euler(0, 0, 90 + angle);
 
@@ -265,10 +282,10 @@ public class gDestroyerClass : MonoBehaviour {
 		exitPoint = Vector3.MoveTowards(mousePosition, transform.position, -10);
 		//ищем пересечения со всеми террейнами
 		LayerMask mask = LayerMask.GetMask ("terrains");
-		RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, mousePosition - transform.position, 10, mask); 
+		RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, mousePosition - transform.position, 10, mask);
 
-		//для каждого попадания:
-		foreach (RaycastHit2D hit in hits) {
+        //для каждого попадания:
+        foreach (RaycastHit2D hit in hits) {
 
 			List<Vector2>  pathVerts =  new List<Vector2>();
 			pathVerts.AddRange(hit.collider.GetComponent<Ferr2D_Path>().pathVerts);

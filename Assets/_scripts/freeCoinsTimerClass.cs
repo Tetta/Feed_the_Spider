@@ -8,13 +8,18 @@ public class freeCoinsTimerClass : MonoBehaviour {
     private const int FreeGoldCount = 400;
 
 
-    public GameObject shrine;
-    public GameObject rewardMenu;
+    //public GameObject shrine;
+    //public GameObject rewardMenu;
+    public GameObject active;
+    public GameObject inactive;
+
     public UILabel hours;
     public UILabel minutes;
-    public UILabel title;
-    public SpriteRenderer coins;
-    
+    //public UILabel title;
+    //public SpriteRenderer coins;
+    public UILabel colon1;
+    public UILabel colon2;
+
     public GameObject hand;
 
     public static int counter = 0;
@@ -47,6 +52,7 @@ public class freeCoinsTimerClass : MonoBehaviour {
             //off cloud
             Debug.Log("tutorialFreeCoins: " + ctrProgressClass.progress["tutorialFreeCoins"]);
             if (ctrProgressClass.progress["tutorialFreeCoins"] == 1) hand.transform.GetChild(1).gameObject.SetActive(false);
+            ctrProgressClass.progress["tutorialFreeCoins"] = 0;
             if (ctrProgressClass.progress["tutorialFreeCoins"] < 2)
             {
                 hand.SetActive(true);
@@ -80,34 +86,42 @@ public class freeCoinsTimerClass : MonoBehaviour {
 
     public IEnumerator updateTimeCoroutine()
     {
-        shrine.SetActive(timer <= DateTime.Now);
+
+        //shrine.SetActive(timer <= DateTime.Now);
         if (timer > DateTime.Now)
         {
-            coins.color = new Color(1,1,1,0.5f);
-            title.fontSize = 30;
-            title.text = String.Format("Next {0} in", FreeGoldCount);
+            active.SetActive(false);
+            inactive.SetActive(true);
+            //coins.color = new Color(1,1,1,0.5f);
+            //title.fontSize = 30;
+            //title.text = String.Format(Localization.Get("coinsTimerTitle"), FreeGoldCount);
             var diff = timer - DateTime.Now;
-
             if (diff.TotalHours < 1)
             {
                 hours.text = string.Format("{0:00}", diff.Minutes);
                 minutes.text = string.Format("{0:00}", diff.Seconds);
+                colon1.text = Localization.Get("m");
+                colon2.text = Localization.Get("s");
             }
             else
             {
                 hours.text = string.Format("{0:00}", diff.Hours);
                 minutes.text = string.Format("{0:00}", diff.Minutes);
+                colon1.text = Localization.Get("h");
+                colon2.text = Localization.Get("m");
             }
 
-            transform.GetChild(2).gameObject.SetActive(true);
+            //transform.GetChild(2).gameObject.SetActive(true);
             GetComponent<BoxCollider>().enabled = false;
         }
         else
         {
-            title.text = String.Format("{0}", FreeGoldCount);
-            title.fontSize = 60;
-            coins.color = new Color(1, 1, 1, 1f);
-            transform.GetChild(2).gameObject.SetActive(false);
+            active.SetActive(true);
+            inactive.SetActive(false);
+            //title.text = String.Format("{0}", FreeGoldCount);
+            //title.fontSize = 60;
+            //coins.color = new Color(1, 1, 1, 1f);
+            //transform.GetChild(2).gameObject.SetActive(false);
             //GetComponent<iClickClass>().functionPressButton = "openMenu";
             GetComponent<BoxCollider>().enabled = true;
         }
@@ -116,10 +130,14 @@ public class freeCoinsTimerClass : MonoBehaviour {
 
         // запускаем корутину снова
         StartCoroutine("updateTimeCoroutine");
+
+
     }
 
     public void OnClick()
     {
+
+        
 
         ctrProgressClass.progress["coins"] += FreeGoldCount;
         //coinsLabel
@@ -164,5 +182,10 @@ public class freeCoinsTimerClass : MonoBehaviour {
         hand.SetActive(false);
 
         GameObject.Find("/root/static/button market").GetComponent<iClickClass>().checkTutorialBuy();
+
+        //ps coins
+        var t = GameObject.Find("/root/static/ps coins");
+        t.SetActive(false);
+        t.SetActive(true);
     }
 }

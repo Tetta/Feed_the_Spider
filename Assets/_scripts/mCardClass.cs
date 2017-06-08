@@ -299,7 +299,7 @@ public class mCardClass : MonoBehaviour {
                 UnityEngine.Debug.Log(mBoosterClass.instance.openingCards.Count);
                 UnityEngine.Debug.Log(mBoosterClass.instance.openingCards.LastOrDefault().Key);
                 UnityEngine.Debug.Log(mBoosterClass.instance);
-                StartCoroutine(mBoosterClass.instance.transform.GetChild(2).FindChild(mBoosterClass.instance.openingCards.LastOrDefault().Key).GetComponent<mCardClass>().openCard(false));
+                StartCoroutine(mBoosterClass.instance.transform.GetChild(2).Find(mBoosterClass.instance.openingCards.LastOrDefault().Key).GetComponent<mCardClass>().openCard(false));
             
 
         }
@@ -423,7 +423,7 @@ public class mCardClass : MonoBehaviour {
         if (mBoosterClass.instance.openingCards.Count == 0)
         {
             UnityEngine.Debug.Log("check");
-            transform.parent.parent.parent.parent.FindChild("exit open booster menu").localPosition = new Vector3(0, 0, -1);
+            transform.parent.parent.parent.parent.Find("exit open booster menu").localPosition = new Vector3(0, 0, -1);
         }
 
         if (count > 1)

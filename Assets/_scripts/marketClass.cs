@@ -62,7 +62,7 @@ public class marketClass : MonoBehaviour {
             else
                 price = transform.GetChild(2).GetChild(1).GetComponent<UILabel>().text;
 
-            ctrPreviewBoosterClass.instance.enablePreview(transform.FindChild("icon booster").gameObject, name, price);
+            ctrPreviewBoosterClass.instance.enablePreview(transform.Find("icon booster").gameObject, name, price);
 
             GetComponent<Animator>().Play("button");
             GetComponent<AudioSource>().Play();

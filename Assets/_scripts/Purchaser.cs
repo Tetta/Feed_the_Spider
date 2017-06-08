@@ -301,7 +301,7 @@ namespace CompleteProject
 #if UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
             // Prepare the validator with the secrets we prepared in the Editor
             // obfuscation window.
-            var validator = new CrossPlatformValidator(GooglePlayTangle.Data(), AppleTangle.Data(), Application.bundleIdentifier);
+            var validator = new CrossPlatformValidator(GooglePlayTangle.Data(), AppleTangle.Data(), Application.identifier);
 
             try
             {
