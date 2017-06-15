@@ -14,8 +14,9 @@ public class lsSaleClass : MonoBehaviour {
     public GameObject withoutSale;
     public UILabel hours;
     public UILabel minutes;
-    public UILabel seconds;
-
+    //public UILabel seconds;
+    public UILabel colon1;
+    public UILabel colon2;
     public static int counter = 0;
     public static DateTime timerStartSale = DateTime.Now;
     public static DateTime timerEndSale = DateTime.Now;
@@ -113,9 +114,27 @@ public class lsSaleClass : MonoBehaviour {
         {
             var diff = timerEndSale - DateTime.Now;
 
+            if (diff.TotalHours < 1)
+            {
+                hours.text = string.Format("{0:00}", diff.Minutes);
+                minutes.text = string.Format("{0:00}", diff.Seconds);
+                colon1.text = Localization.Get("m");
+                colon2.text = Localization.Get("s");
+            }
+            else
+            {
+                hours.text = string.Format("{0:00}", diff.Hours);
+                minutes.text = string.Format("{0:00}", diff.Minutes);
+                colon1.text = Localization.Get("h");
+                colon2.text = Localization.Get("m");
+            }
+
+
+            /*
             int modH = diff.Hours;
             if (modH < 10) hours.text = "0" + modH.ToString();
             else hours.text = modH.ToString();
+
 
             int modMin = diff.Minutes;
             if (modMin < 10) minutes.text = "0" + modMin.ToString();
@@ -124,7 +143,7 @@ public class lsSaleClass : MonoBehaviour {
             int modSec = diff.Seconds;
             if (modSec < 10) seconds.text = "0" + modSec.ToString();
             else seconds.text = modSec.ToString();
-
+            */
             // остановка выполнения функции
             yield return StartCoroutine(staticClass.waitForRealTime(1));
 
