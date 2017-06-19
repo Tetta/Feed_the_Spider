@@ -550,8 +550,8 @@ public class gBerryClass : MonoBehaviour {
         //if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) GooglePlayManager.instance.IncrementAchievement("achievement_collect_all_stars", starsCounter - ctrProgressClass.progress["level" + lvlNumber]);
         //ctrProgressClass.progress["level" + lvlNumber] = starsCounter;
         //}
-
-	    if (lvlNumber >= ctrProgressClass.progress["lastLevel"])
+        if (lvlNumber > ctrProgressClass.progress["lastLevel"]) staticClass.levelColor = lvlNumber;
+        if (lvlNumber >= ctrProgressClass.progress["lastLevel"])
 	    {
 	        ctrProgressClass.progress["lastLevel"] = lvlNumber;
             ctrAnalyticsClass.sendCustomDimension(4, lvlNumber.ToString()); 

@@ -23,9 +23,13 @@ public class lsLevelMenuClass : MonoBehaviour
     public GameObject gem2Active;
     public GameObject checked1;
     public GameObject checked2;
+    public GameObject gem1Inactive;
+    public GameObject gem2Inactive;
     public GameObject hand;
     public GameObject rateUsMenu;
     public GameObject adTiredMenu;
+    public Transform coins;
+    public Transform gems;
 
     public List<GameObject> completePoints;
 
@@ -45,10 +49,12 @@ public class lsLevelMenuClass : MonoBehaviour
         {
             stars2.transform.GetChild(i - 1).gameObject.SetActive(false);
         }
-        gem1Active.SetActive(true);
-        gem2Active.SetActive(true);
+        gem1Active.SetActive(false);
+        gem2Active.SetActive(false);
         checked1.SetActive(false);
         checked2.SetActive(false);
+        gem1Inactive.SetActive(true);
+        gem2Inactive.SetActive(true);
         //выключаем 2ю вкладку на начальных уровнях
         if (ctrProgressClass.progress["currentLevel"] <= 4)
             levelMenu.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
@@ -134,14 +140,14 @@ public class lsLevelMenuClass : MonoBehaviour
         int levelProgress = ctrProgressClass.progress["level" + ctrProgressClass.progress["currentLevel"]];
         if (levelProgress == 1 || levelProgress == 3)
         {
-            gem1Active.SetActive(false);
+            gem1Active.SetActive(true);
             Debug.Log("ckecked 1");
-            checked1.SetActive(true);
+            gem1Inactive.SetActive(false);
         }
         if (levelProgress == 2 || levelProgress == 3)
         {
-            gem2Active.SetActive(false);
-            checked2.SetActive(true);
+            gem2Active.SetActive(true);
+            gem2Inactive.SetActive(false);
         }
         //reward for login
         if (ctrProgressClass.progress["rewardLogin"] == 1) transform.GetChild(4).gameObject.SetActive(false);
@@ -170,7 +176,11 @@ public class lsLevelMenuClass : MonoBehaviour
             levelMenu.transform.GetChild(0).transform.GetChild(0).GetComponent<UIToggle>().value = false;
             levelMenu.transform.GetChild(0).GetChild(1).GetComponent<UIToggle>().value = true;
         }
-        //D/ebug.Log ("completeMenuEnable");
+        
+        //coins and gems labels
+        coins.GetChild(0).GetComponent<UILabel>().text = ctrProgressClass.progress["coins"].ToString();
+        gems.GetChild(0).GetComponent<UILabel>().text = ctrProgressClass.progress["gems"].ToString();
+
 
         //for tests
         GameObject.Find("for test timer").GetComponent<UILabel>().text =
@@ -212,15 +222,18 @@ public class lsLevelMenuClass : MonoBehaviour
         {
             gem1Active.SetActive(false);
             checked1.SetActive(true);
+            gem1Inactive.SetActive(false);
+
         }
         if ((levelProgress == 2 || levelProgress == 3) && !(gem && initLevelMenuClass.levelDemands == 1))
         {
             gem2Active.SetActive(false);
             checked2.SetActive(true);
+            gem2Inactive.SetActive(false);
         }
 
         //определение переменных
-        Transform scoreTransform = levelMenu.transform.GetChild(0).GetChild(4);
+        //Transform scoreTransform = levelMenu.transform.GetChild(0).GetChild(4);
         //Transform grid = levelMenu.transform.GetChild (0).GetChild (4).GetChild (0);
         //UILabel scoreLvl = grid.GetChild (1).GetChild (0).GetComponent<UILabel>();
         //UILabel scoreCh = grid.GetChild (3).GetChild (0).GetComponent<UILabel>();
@@ -255,15 +268,13 @@ public class lsLevelMenuClass : MonoBehaviour
 
         //подсчет scoreFinal
         //если текущие очки больше чем были минимум на 100, то добавляем coins (минимум 1 coins)
-        if (score1 + score2 -
-            (ctrProgressClass.progress["score" + lvlNumber + "_1"] +
-             ctrProgressClass.progress["score" + lvlNumber + "_2"]) >
-            100)
+        //if (score1 + score2 - (ctrProgressClass.progress["score" + lvlNumber + "_1"] + ctrProgressClass.progress["score" + lvlNumber + "_2"]) > 100)
+        bool needFlyingCoins = false;
+        if (true)
         {
+            needFlyingCoins = true;
             scoreFinal = score1 + score2;
-            //включаем coins = all score / 100
-            Debug.Log(scoreAll.GetChild(2).name + " sfsdf");
-            scoreAll.GetChild(2).gameObject.SetActive(true);
+
             //добавление процента от карт
             int percent = 100;
             for (int e = 2; e <= 5; e++)
@@ -281,9 +292,8 @@ public class lsLevelMenuClass : MonoBehaviour
             ctrProgressClass.progress["coins"] += coinsAdd;
 
             if (coinsAdd > 0)
-                ctrAnalyticsClass.sendEvent("Coins",
-                    new Dictionary<string, string> {{ "detail 1", "level"}, {"coins", coinsAdd.ToString()}});
-            ctrStatsClass.logEvent("coins", "free", "level" + lvlNumber, coinsAdd);
+                ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> {{ "detail 1", "level"}, {"coins", coinsAdd.ToString()}});
+            //ctrStatsClass.logEvent("coins", "free", "level" + lvlNumber, coinsAdd);
 
             //сохранение очков в Kii
             ctrFbKiiClass.updateUserScore("level" + lvlNumber.ToString(), scoreFinal,
@@ -310,6 +320,7 @@ public class lsLevelMenuClass : MonoBehaviour
         //hand
         //if tutorial booster == 0 and coins > 400 
         //or tutorialAdCoins
+        /*
         bool tutorialAdCoins = ctrProgressClass.progress["tutorialAdCoins"] == 0 &&
                                new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(ctrProgressClass.progress["adCoinsDate"]) <
                                DateTime.Now && ctrProgressClass.progress["adCoinsDate"] != 0;
@@ -333,7 +344,7 @@ public class lsLevelMenuClass : MonoBehaviour
 
 
         }
-
+        */
         //анимация финальных очков
         scoreAll.gameObject.SetActive(true);
         UILabel scoreAllLbl = scoreAll.GetChild(0).GetComponent<UILabel>();
@@ -370,8 +381,14 @@ public class lsLevelMenuClass : MonoBehaviour
             gem1Active.GetComponent<Animator>().enabled = true;
             transform.GetChild(3).GetChild(3).GetComponent<AudioSource>().Play();
             yield return new WaitForSeconds(0.8F);
-            gem1Active.transform.parent.GetChild(1).gameObject.SetActive(true);
+            checked1.SetActive(true);
+            gem1Inactive.SetActive(false);
+
         }
+
+        //включаем coins = all score / 100
+        if (needFlyingCoins) StartCoroutine(flyCoins(scoreAll.GetChild(2).gameObject));
+
         if (initLevelMenuClass.levelDemands == 1 && gem)
         {
             //анимация получения ключа, исчезание и появление галочки
@@ -379,7 +396,10 @@ public class lsLevelMenuClass : MonoBehaviour
             gem2Active.GetComponent<Animator>().enabled = true;
             transform.GetChild(3).GetChild(3).GetComponent<AudioSource>().Play();
             yield return new WaitForSeconds(0.8F);
-            gem2Active.transform.parent.GetChild(1).gameObject.SetActive(true);
+            //gem2Active.transform.parent.GetChild(1).gameObject.SetActive(true);
+            checked2.SetActive(true);
+            gem2Inactive.SetActive(false);
+
         }
 
 
@@ -443,11 +463,13 @@ public class lsLevelMenuClass : MonoBehaviour
             {
                 gem1Active.SetActive(false);
                 checked1.SetActive(true);
+                gem1Inactive.SetActive(false);
             }
             if (levelProgress == 2 || levelProgress == 3)
             {
                 gem2Active.SetActive(false);
                 checked2.SetActive(true);
+                gem2Inactive.SetActive(false);
             }
 
         }
@@ -571,5 +593,30 @@ public class lsLevelMenuClass : MonoBehaviour
         yield return new WaitForSeconds(0.05F);
 
 
+    }
+
+    //включаем coins
+    IEnumerator flyCoins(GameObject coinsGrid)
+    {
+        coins.GetChild(0).GetComponent<UILabel>().text = (ctrProgressClass.progress["coins"] - 50).ToString();
+        Debug.Log("flyCoins");
+        coinsGrid.SetActive(true);
+        coinsGrid.transform.GetChild(2).GetChild(0).GetComponent<Animator>().enabled = true;
+        coinsGrid.transform.GetChild(2).GetChild(0).GetComponent<Animator>().Play("key coins");
+        yield return StartCoroutine(staticClass.waitForRealTime(0.5F));
+
+        //coins.GetChild(0).GetComponent<UILabel>().text = ctrProgressClass.progress["coins"].ToString();
+        int coinsDiff = ctrProgressClass.progress["coins"] - int.Parse(coins.GetChild(0).GetComponent<UILabel>().text);
+        int startCoins = int.Parse(coins.GetChild(0).GetComponent<UILabel>().text);
+        for (float i = 0; i <= 1; i+=0.1F)
+        {
+            yield return StartCoroutine(staticClass.waitForRealTime(0.05F));
+            coins.GetChild(0).GetComponent<UILabel>().text = Mathf.Round(startCoins + coinsDiff*i).ToString();
+            coins.GetChild(0).transform.localScale = new Vector3(1 + i / 3, 1 + i / 3, 1);
+            coins.GetChild(1).transform.localScale = new Vector3(1 + i / 3, 1 + i / 3, 1);
+
+        }
+        coins.GetChild(0).transform.localScale = new Vector3(1, 1, 1);
+        coins.GetChild(1).transform.localScale = new Vector3(1, 1, 1);
     }
 }

@@ -25,9 +25,10 @@ public class lsLevelClass : MonoBehaviour {
         if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
         int levelProgress = ctrProgressClass.progress["level" + level];
         int lastLevel = ctrProgressClass.progress["lastLevel"];
-        var gem1Active = transform.GetChild(0).GetChild(0);
-        var gem2Active = transform.GetChild(0).GetChild(1);
-
+        //var gem1Active = transform.GetChild(0).GetChild(0).gameObject;
+        //var gem2Active = transform.GetChild(0).GetChild(1).gameObject;
+        //var gem1Inactive = transform.GetChild(0).GetChild(2).gameObject;
+        //var gem2Inactive = transform.GetChild(0).GetChild(3).gameObject;
 
         //камни подарка
         if (stonesGift != null)
@@ -54,34 +55,57 @@ public class lsLevelClass : MonoBehaviour {
             {
                 transform.GetChild(2).GetChild(i).GetComponent<SpriteRenderer>().material = materialInactive;
             }
-            gem1Active.GetComponent<SpriteRenderer>().material = materialInactive;
-            gem2Active.GetComponent<SpriteRenderer>().material = materialInactive;
+            //gem1Active.GetComponent<SpriteRenderer>().material = materialInactive;
+            //gem2Active.GetComponent<SpriteRenderer>().material = materialInactive;
+
         }
         else
         {
             islandInactive.SetActive(false);
-            
-            //обычный остров
-            transform.GetChild(1).GetComponent<SpriteRenderer>().material = materialDefault;
+
+
+
             //обычные камни
             for (int i = 0; i < transform.GetChild(2).childCount; i++)
             {
                 transform.GetChild(2).GetChild(i).GetComponent<SpriteRenderer>().material = materialDefault;
             }
-            gem1Active.GetComponent<SpriteRenderer>().material = materialDefault;
-            gem2Active.GetComponent<SpriteRenderer>().material = materialDefault;
+            //gem1Active.GetComponent<SpriteRenderer>().material = materialDefault;
+            //gem2Active.GetComponent<SpriteRenderer>().material = materialDefault;
 
+            //active and inactive keys
+            if (levelProgress == 0)
+            {
+                transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
+                transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
+            }
+            else if (levelProgress == 1)
+            {
+                transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+                transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
+            }
+            else if(levelProgress == 2)
+            {
+                transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
+                transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+            }
+            else if(levelProgress == 3)
+            {
+                transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+                transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+            }
+
+            //обычный остров
+            if (staticClass.levelColor + 1 == level || (prevLevel == staticClass.levelColor))
+            {
+                StartCoroutine(islandColor());
+                transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
+                transform.GetChild(0).GetChild(3).gameObject.SetActive(false);
+            }
+            else transform.GetChild(1).GetComponent<SpriteRenderer>().material = materialDefault;
         }
 
 
-
-        //туториал для 2го уровня (добавляем)
-        if (level == 7) {
-			if (lastLevel == 6 && ctrProgressClass.progress ["currentLevel"] == 6) {
-				GetComponent<Animator> ().enabled = true;
-				//transform.GetChild (4).gameObject.SetActive (true);
-			}
-		}
 
         //Facebook Friends
         if (ctrProgressClass.progress["fb"] == 1 || ctrProgressClass.progress["vk"] == 1 || ctrProgressClass.progress["ok"] == 1)
@@ -89,12 +113,14 @@ public class lsLevelClass : MonoBehaviour {
 
 
 
-        StartCoroutine(keyFly(gem1Active, gem2Active, levelProgress, level));
+        //StartCoroutine(keyFly(gem1Active.transform, gem2Active.transform, levelProgress, level));
+
+        
 
     }
 
 
-	void OnClick() {
+    void OnClick() {
         if (islandInactive.activeSelf)
 	    {
             Debug.Log("click on inactive island");
@@ -200,6 +226,51 @@ public class lsLevelClass : MonoBehaviour {
             key2.gameObject.SetActive(false);
 
 
+        }
+    }
+
+    private IEnumerator islandColor()
+    {
+        //белый остров
+        var spriteOld = transform.GetChild(1).GetComponent<SpriteRenderer>();
+        spriteOld.name = "island inactive";
+        spriteOld.material = materialInactive;
+        
+        var spriteNew = Instantiate(transform.GetChild(1), transform);
+        spriteNew.name = "island active";
+
+        spriteNew.GetComponent<SpriteRenderer>().material = materialDefault;
+        spriteNew.GetComponent<SpriteRenderer>().sortingOrder = transform.GetChild(1).GetComponent<SpriteRenderer>().sortingOrder - 1;
+        spriteOld.material = materialInactive;
+        for (int i = 0; i < 20; i++)
+        {
+            yield return StartCoroutine(staticClass.waitForRealTime(0.02F));
+            spriteOld.color = new Color(1, 1, 1,  ((20 - (float)i + 1)/20));
+
+        }
+        for (float i = 1; i < 1.2F; i = i + 0.05F)
+        {
+            yield return StartCoroutine(staticClass.waitForRealTime(0.01F));
+            spriteNew.transform.localScale = new Vector3(i * spriteOld.transform.localScale.x, i, 1);
+
+        }
+        for (float i = 1.2F; i >= 1; i = i - 0.05F)
+        {
+            yield return StartCoroutine(staticClass.waitForRealTime(0.01F));
+            spriteNew.transform.localScale = new Vector3(i * spriteOld.transform.localScale.x, i, 1);
+
+        }
+        staticClass.levelColor = -2;
+        
+        //туториал для 2го уровня (добавляем)
+        if (level == 2)
+        {
+            if (ctrProgressClass.progress["lastLevel"] == 1 && ctrProgressClass.progress["currentLevel"] == 1)
+            {
+                GetComponent<Animator>().Rebind();
+                GetComponent<Animator>().enabled = true;
+                transform.GetChild (4).gameObject.SetActive (true);
+            }
         }
     }
 }

@@ -645,5 +645,8 @@ public class staticClass
     public static List<string> flyingKeys = new List<string>();
 
     public static bool getBoosterForOK = false;
+
+    //for play anim "gray - color island" on map 
+    public static int levelColor = -2;
 }
 
