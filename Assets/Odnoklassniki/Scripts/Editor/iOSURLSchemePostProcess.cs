@@ -23,7 +23,8 @@ namespace Odnoklassniki.Util
 		[PostProcessBuild]
 		public static void Process(BuildTarget target, string path)
 		{
-			Debug.Log("iOS URL scheme post process");
+            /*
+            Debug.Log("iOS URL scheme post process");
 #if UNITY_5
 			if (target != BuildTarget.iOS)
 #else
@@ -35,6 +36,7 @@ namespace Odnoklassniki.Util
 			}
 
 			UpdatePlist(path);
+            */
 		}
 
 		private static void UpdatePlist(string path)

@@ -13,8 +13,9 @@
 // limitations under the License.
 
 using System;
+using System.Reflection;
+
 using GoogleMobileAds.Common;
-using UnityEngine;
 
 namespace GoogleMobileAds.Api
 {
@@ -25,19 +26,20 @@ namespace GoogleMobileAds.Api
         // Creates an InterstitialAd.
         public InterstitialAd(string adUnitId)
         {
-            Debug.Log("Admob new InterstitialAd");
-
-            client = GoogleMobileAdsClientFactory.BuildInterstitialClient();
+            Type googleMobileAdsClientFactory = Type.GetType(
+                "GoogleMobileAds.GoogleMobileAdsClientFactory,Assembly-CSharp");
+            MethodInfo method = googleMobileAdsClientFactory.GetMethod(
+                "BuildInterstitialClient",
+                BindingFlags.Static | BindingFlags.Public);
+            this.client = (IInterstitialClient)method.Invoke(null, null);
             client.CreateInterstitialAd(adUnitId);
 
             this.client.OnAdLoaded += (sender, args) =>
                 {
                     if(this.OnAdLoaded != null)
                     {
-                        Debug.Log("Admob OnAdLoaded");
                         this.OnAdLoaded(this, args);
-                    } else Debug.Log("Admob not OnAdLoaded");
-
+                    }
                 };
 
             this.client.OnAdFailedToLoad += (sender, args) =>
@@ -87,7 +89,6 @@ namespace GoogleMobileAds.Api
         // Loads an InterstitialAd.
         public void LoadAd(AdRequest request)
         {
-            Debug.Log("Admob LoadAd");
             client.LoadAd(request);
         }
 
@@ -100,7 +101,6 @@ namespace GoogleMobileAds.Api
         // Displays the InterstitialAd.
         public void Show()
         {
-            
             client.ShowInterstitial();
         }
 
@@ -108,18 +108,6 @@ namespace GoogleMobileAds.Api
         public void Destroy()
         {
             client.DestroyInterstitial();
-        }
-
-        // Set IDefaultInAppPurchaseProcessor for InterstitialAd.
-        public void SetInAppPurchaseProcessor(IDefaultInAppPurchaseProcessor processor)
-        {
-            client.SetDefaultInAppPurchaseProcessor(processor);
-        }
-
-        // Set ICustomInAppPurchaseProcessor for InterstitialAd.
-        public void SetInAppPurchaseProcessor(ICustomInAppPurchaseProcessor processor)
-        {
-            client.SetCustomInAppPurchaseProcessor(processor);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace GoogleMobileAds.Android
         public ICustomInAppPurchaseProcessor inAppPurchaseProcessor;
 
         internal CustomInAppPurchaseListener(ICustomInAppPurchaseProcessor inAppPurchaseProcessor)
-            : base(Utils.InAppPurchaseListenerClassName)
+            : base(Utils.PlayStorePurchaseListenerClassName)
         {
             this.inAppPurchaseProcessor = inAppPurchaseProcessor;
         }

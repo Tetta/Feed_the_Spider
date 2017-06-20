@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-
 using GoogleMobileAds.Api;
 using GoogleMobileAds.Common;
-using UnityEngine;
 
 namespace GoogleMobileAds
 {
-    internal class GoogleMobileAdsClientFactory
+    public class GoogleMobileAdsClientFactory
     {
-        internal static IBannerClient BuildBannerClient()
+        public static IBannerClient BuildBannerClient()
         {
             #if UNITY_EDITOR
                 // Testing UNITY_EDITOR first because the editor also responds to the currently
@@ -37,9 +34,8 @@ namespace GoogleMobileAds
             #endif
         }
 
-        internal static IInterstitialClient BuildInterstitialClient()
+        public static IInterstitialClient BuildInterstitialClient()
         {
-            
             #if UNITY_EDITOR
                 // Testing UNITY_EDITOR first because the editor also responds to the currently
                 // selected platform.
@@ -53,7 +49,7 @@ namespace GoogleMobileAds
             #endif
         }
 
-        internal static IRewardBasedVideoAdClient BuildRewardBasedVideoAdClient()
+        public static IRewardBasedVideoAdClient BuildRewardBasedVideoAdClient()
         {
             #if UNITY_EDITOR
                 // Testing UNITY_EDITOR first because the editor also responds to the currently
@@ -68,7 +64,7 @@ namespace GoogleMobileAds
             #endif
         }
 
-        internal static IAdLoaderClient BuildAdLoaderClient(AdLoader adLoader)
+        public static IAdLoaderClient BuildAdLoaderClient(AdLoader adLoader)
         {
             #if UNITY_EDITOR
                 // Testing UNITY_EDITOR first because the editor also responds to the currently
@@ -83,7 +79,7 @@ namespace GoogleMobileAds
             #endif
         }
 
-        internal static INativeExpressAdClient BuildNativeExpressAdClient()
+        public static INativeExpressAdClient BuildNativeExpressAdClient()
         {
             #if UNITY_EDITOR
                 // Testing UNITY_EDITOR first because the editor also responds to the currently

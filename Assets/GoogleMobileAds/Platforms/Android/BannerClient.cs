@@ -15,7 +15,6 @@
 #if UNITY_ANDROID
 
 using System;
-using System.Collections.Generic;
 
 using GoogleMobileAds.Api;
 using GoogleMobileAds.Common;
@@ -23,7 +22,7 @@ using UnityEngine;
 
 namespace GoogleMobileAds.Android
 {
-    internal class BannerClient : AndroidJavaProxy, IBannerClient
+    public class BannerClient : AndroidJavaProxy, IBannerClient
     {
         private AndroidJavaObject bannerView;
 
@@ -52,6 +51,14 @@ namespace GoogleMobileAds.Android
             this.bannerView.Call(
                     "create",
                     new object[3] { adUnitId, Utils.GetAdSizeJavaObject(adSize), (int)position });
+        }
+
+        // Creates a banner view with a custom position.
+        public void CreateBannerView(string adUnitId, AdSize adSize, int x, int y)
+        {
+            this.bannerView.Call(
+                "create",
+                new object[4] { adUnitId, Utils.GetAdSizeJavaObject(adSize), x, y });
         }
 
         // Loads an ad.

@@ -7,6 +7,7 @@ using UnityEngine.Advertisements;
 using System.Collections.Generic;
 using Facebook.Unity;
 using GoogleMobileAds.Api;
+using Mycom.Target;
 using UnityEngine.SceneManagement;
 using Mycom.Target.Unity.Ads;
 using Odnoklassniki;
@@ -68,7 +69,10 @@ public class ctrAdClass : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         //admob
+        Debug.Log("AdMob init");
         RequestInterstitial();
+        Debug.Log("Unity Ads init");
+
 #if UNITY_ANDROID
         Advertisement.Initialize("1275461");
         //Advertisement.Initialize("1271126");
@@ -77,11 +81,12 @@ public class ctrAdClass : MonoBehaviour
         //Advertisement.Initialize("1271127");
 
 #endif
+        Debug.Log("myTarget init");
 
         //myTarget
         //Tracer.IsEnabled = true;
-        if (ctrProgressClass.progress["ok"] == 1 && OK.IsLoggedIn)
-            loadAdMyTarget();
+        //if (ctrProgressClass.progress["ok"] == 1 && OK.IsLoggedIn)
+        //    loadAdMyTarget();
 
     }
 

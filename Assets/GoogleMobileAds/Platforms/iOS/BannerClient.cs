@@ -23,7 +23,7 @@ using GoogleMobileAds.Common;
 
 namespace GoogleMobileAds.iOS
 {
-    internal class BannerClient : IBannerClient, IDisposable
+    public class BannerClient : IBannerClient, IDisposable
     {
         private IntPtr bannerViewPtr;
 
@@ -94,6 +94,39 @@ namespace GoogleMobileAds.iOS
                     AdViewWillPresentScreenCallback,
                     AdViewDidDismissScreenCallback,
                     AdViewWillLeaveApplicationCallback);
+        }
+
+        public void CreateBannerView(string adUnitId, AdSize adSize, int x, int y)
+        {
+
+            this.bannerClientPtr = (IntPtr)GCHandle.Alloc(this);
+
+            if (adSize.IsSmartBanner)
+            {
+                this.BannerViewPtr = Externs.GADUCreateSmartBannerViewWithCustomPosition(
+                    this.bannerClientPtr,
+                    adUnitId,
+                    x,
+                    y);
+            }
+            else
+            {
+                this.BannerViewPtr = Externs.GADUCreateBannerViewWithCustomPosition(
+                    this.bannerClientPtr,
+                    adUnitId,
+                    adSize.Width,
+                    adSize.Height,
+                    x,
+                    y);
+            }
+
+            Externs.GADUSetBannerCallbacks(
+                this.BannerViewPtr,
+                AdViewDidReceiveAdCallback,
+                AdViewDidFailToReceiveAdWithErrorCallback,
+                AdViewWillPresentScreenCallback,
+                AdViewDidDismissScreenCallback,
+                AdViewWillLeaveApplicationCallback);
         }
 
         // Loads an ad.
