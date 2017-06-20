@@ -71,6 +71,7 @@ public class ctrAdClass : MonoBehaviour
         //admob
         Debug.Log("AdMob init");
         RequestInterstitial();
+        //StartCoroutine(coroutineRequestInterstitial());
         Debug.Log("Unity Ads init");
 
 #if UNITY_ANDROID
@@ -85,8 +86,8 @@ public class ctrAdClass : MonoBehaviour
 
         //myTarget
         //Tracer.IsEnabled = true;
-        //if (ctrProgressClass.progress["ok"] == 1 && OK.IsLoggedIn)
-        //    loadAdMyTarget();
+        if (ctrProgressClass.progress["ok"] == 1 && OK.IsLoggedIn)
+            loadAdMyTarget();
 
     }
 
@@ -389,6 +390,12 @@ public class ctrAdClass : MonoBehaviour
         return false;
     }
 
+    public IEnumerator coroutineRequestInterstitial(bool newLoaderFlag = false)
+    {
+        yield return new WaitForSeconds(5);
+        RequestInterstitial();
+    }
+
     //-------------------------------------------- admob ---------------------------
     public void RequestInterstitial(bool newLoaderFlag = false)
     {
@@ -399,8 +406,8 @@ public class ctrAdClass : MonoBehaviour
 #else
         string adUnitId = "unexpected_platform";
 #endif
-        if (newLoaderFlag) new AdLoader.Builder(adUnitId);
         Debug.Log("Admob RequestInterstitial");
+        if (newLoaderFlag) new AdLoader.Builder(adUnitId);
         interstitialAdMob = null;
         // Create an interstitial.
         //InterstitialAd interstitialAdMob = new InterstitialAd(adUnitId);
@@ -410,8 +417,10 @@ public class ctrAdClass : MonoBehaviour
         interstitialAdMob.OnAdClosed += HandleInterstitialClosed;
         interstitialAdMob.OnAdLeavingApplication += HandleInterstitialLeftApplication;
         // Load an interstitial ad.
+        Debug.Log("Admob RequestInterstitial LoadAd");
         interstitialAdMob.LoadAd(createAdRequest());
         //interstitialAdMob = interstitial;
+        Debug.Log("Admob RequestInterstitial exit");
 
     }
 

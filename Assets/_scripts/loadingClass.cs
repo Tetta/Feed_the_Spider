@@ -9,11 +9,13 @@ public class loadingClass : MonoBehaviour {
 	IEnumerator Start() {
 	//void Start() {
 		Debug.Log("start: " + Time.realtimeSinceStartup);
-		Application.backgroundLoadingPriority = ThreadPriority.High;
-		AsyncOperation async = SceneManager.LoadSceneAsync("menu");
+		Application.backgroundLoadingPriority = ThreadPriority.Normal;
+        Debug.Log("loadingClass 1");
+        AsyncOperation async = SceneManager.LoadSceneAsync("menu");
+        Debug.Log("loadingClass 2");
 
-		//Text label = GetComponent<Text>();
-		while( !async.isDone ){
+        //Text label = GetComponent<Text>();
+        while ( !async.isDone ){
 			//Debug.Log(string.Format( "Loading {0}%", async.progress*100 ));
 			//Debug.Log(Time.realtimeSinceStartup);
 			//label.text = string.Format( "Loading {0}%", async.progress*100 ) ;
