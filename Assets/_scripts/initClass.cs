@@ -35,6 +35,7 @@ public class initClass : MonoBehaviour {
 	{
         //for test iPad
         Application.targetFrameRate = 60;
+
 #if UNITY_STANDALONE_WIN
     Screen.SetResolution(575, 1024, false);
 #endif
