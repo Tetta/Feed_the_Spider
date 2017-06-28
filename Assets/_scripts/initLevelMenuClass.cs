@@ -185,11 +185,12 @@ public class initLevelMenuClass : MonoBehaviour {
 
 	}
 
-	//--------------------------------------
-	// EVENTS
-	//--------------------------------------
 
-	/*
+    //--------------------------------------
+    // EVENTS
+    //--------------------------------------
+
+    /*
 	private void OnGiftResult(CEvent e) {
 		GooglePlayGiftRequestResult result = e.data as GooglePlayGiftRequestResult;
 		SA_StatusBar.text = "Gift Send Result:  " + result.code.ToString();

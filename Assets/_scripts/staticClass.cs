@@ -194,7 +194,7 @@ public class staticClass
 		levels[27, 0] = 0;
 		levels[27, 1] = 9;
 		levels[31, 0] = 1;
-		levels[31, 1] = 5;
+		levels[31, 1] = 6;
 		levels[82, 0] = 3;
 		levels[82, 1] = 10;
 		levels[85, 0] = 3;
@@ -648,5 +648,9 @@ public class staticClass
 
     //for play anim "gray - color island" on map 
     public static int levelColor = -2;
+
+    //for play anim "block disable" on map 
+    public static int keysBefore = 3000;
+
 }
 

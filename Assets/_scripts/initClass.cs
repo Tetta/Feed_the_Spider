@@ -52,7 +52,7 @@ public class initClass : MonoBehaviour {
         if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress ();
 		staticClass.initLevels ();
 
-	    
+	    //ctrProgressClass.progress["gems"] = 19;
 		//опции
 		GameObject.Find ("settings folder").transform.GetChild (0).gameObject.SetActive (true);
             

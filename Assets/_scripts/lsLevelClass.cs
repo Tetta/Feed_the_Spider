@@ -36,13 +36,10 @@ public class lsLevelClass : MonoBehaviour {
                 for (int i = 0; i < stonesGift.childCount; i++) {
                     stonesGift.GetChild(i).GetComponent<SpriteRenderer>().material = materialInactive;
                 }
+
         //убираем или нет блокировку
-        if (block != null)
-        {
-            if (int.Parse(block.name.Substring(6)) <= ctrProgressClass.progress["gems"] || lastLevel >= level)
-                block.SetActive(false);
-            else flagBlock = true;
-        }
+        blockDisable();
+
 
         if (!((prevLevel == 0 && lastLevel + 1 >= level) || (prevLevel != 0 && lastLevel >= prevLevel)) || flagBlock)
         {
@@ -61,15 +58,9 @@ public class lsLevelClass : MonoBehaviour {
         }
         else
         {
-            islandInactive.SetActive(false);
+            islandActive();
 
 
-
-            //обычные камни
-            for (int i = 0; i < transform.GetChild(2).childCount; i++)
-            {
-                transform.GetChild(2).GetChild(i).GetComponent<SpriteRenderer>().material = materialDefault;
-            }
             //gem1Active.GetComponent<SpriteRenderer>().material = materialDefault;
             //gem2Active.GetComponent<SpriteRenderer>().material = materialDefault;
 
@@ -95,14 +86,7 @@ public class lsLevelClass : MonoBehaviour {
                 transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
             }
 
-            //обычный остров
-            if (staticClass.levelColor + 1 == level || (prevLevel == staticClass.levelColor))
-            {
-                StartCoroutine(islandColor());
-                transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
-                transform.GetChild(0).GetChild(3).gameObject.SetActive(false);
-            }
-            else transform.GetChild(1).GetComponent<SpriteRenderer>().material = materialDefault;
+
         }
 
 
@@ -272,5 +256,62 @@ public class lsLevelClass : MonoBehaviour {
                 transform.GetChild (4).gameObject.SetActive (true);
             }
         }
+    }
+
+    public void blockDisable()
+    {
+        //foreach (var levelBlock in staticClass.levelBlocks)
+        //{
+        //if need anim
+        //if (levelBlock.Value > staticClass.keysBefore && levelBlock.Value <= ctrProgressClass.progress["gems"])
+        //{
+
+
+        //убираем или нет блокировку
+        if (block != null)
+        {
+            int blockKeys = int.Parse(block.name.Substring(6));
+            //Debug.Log("blockDisable ---------------------------------");
+           // Debug.Log(blockKeys);
+            //Debug.Log(staticClass.keysBefore);
+//
+
+            if (blockKeys <= staticClass.keysBefore  && blockKeys <= ctrProgressClass.progress["gems"] && level - 1 <= ctrProgressClass.progress["lastLevel"])
+                block.SetActive(false);
+            else if (blockKeys > staticClass.keysBefore  && blockKeys <= ctrProgressClass.progress["gems"] && level - 1 <= ctrProgressClass.progress["lastLevel"])
+            {
+                //anim
+                block.transform.GetChild(0).GetChild(0).GetComponent<Animator>().enabled = true;
+                Debug.Log("block anim");
+                //block.SetActive(false);
+                flagBlock = false;
+                islandActive();
+                staticClass.keysBefore = ctrProgressClass.progress["gems"];
+
+            }
+            else flagBlock = true;
+         }
+            //}
+        //}
+    }
+
+
+    private void islandActive()
+    {
+        islandInactive.SetActive(false);
+        //обычные камни
+        for (int i = 0; i < transform.GetChild(2).childCount; i++)
+        {
+            transform.GetChild(2).GetChild(i).GetComponent<SpriteRenderer>().material = materialDefault;
+        }
+        //обычный остров
+        if (staticClass.levelColor + 1 == level || (prevLevel == staticClass.levelColor))
+        {
+            StartCoroutine(islandColor());
+            transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
+            transform.GetChild(0).GetChild(3).gameObject.SetActive(false);
+        }
+        else transform.GetChild(1).GetComponent<SpriteRenderer>().material = materialDefault;
+
     }
 }

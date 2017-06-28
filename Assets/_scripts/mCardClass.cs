@@ -250,15 +250,23 @@ public class mCardClass : MonoBehaviour {
                     });
 
 
+            //for play anim "block disable" on map 
+            if (name == "gems") staticClass.keysBefore = ctrProgressClass.progress[name];
+
             //сохранение результата
-            UnityEngine.Debug.Log("mBoosterClass.openingCards.FirstOrDefault().Key: " + name);
-                ctrProgressClass.progress[name] += mBoosterClass.instance.openingCards[name];
-                mBoosterClass.instance.openingCards.Remove(name);
+            //UnityEngine.Debug.Log("mBoosterClass.openingCards.FirstOrDefault().Key: " + name);
+            ctrProgressClass.progress[name] += mBoosterClass.instance.openingCards[name];
+
+
+
+            mBoosterClass.instance.openingCards.Remove(name);
                 //mBoosterClass.instance.openingCardsList.RemoveAt(0);
                 mBoosterClass.instance.saveCards();
                 ctrProgressClass.saveProgress();
-            
-            
+
+            if (name == "gems" && SceneManager.GetActiveScene().name == "level menu" && staticClass.levelBlocks.ContainsKey(ctrProgressClass.progress["lastLevel"] + 1))
+                GameObject.Find("level " + (ctrProgressClass.progress["lastLevel"] + 1)).GetComponent<lsLevelClass>().blockDisable();
+
             //update max energy labels if skin
             if (name.Length > 4 && name.Substring(0, 4) == "skin")
             {

@@ -509,10 +509,10 @@ public class gHintClass : MonoBehaviour {
 		actions = new action[2];
 
 		actions[0].id = new Vector3(0.03515625F, 1.210938F, 0F); //web
-		actions[0].frame = 30;
+		actions[0].frame = 15;
 		actions[0].mouse = new Vector3(0F, 0F, 0F);
 		actions[1].id = new Vector3(-0.7597656F, 1.224609F, 0F); //web
-		actions[1].frame = 74;
+		actions[1].frame = 90;
 		actions[1].mouse = new Vector3(0F, 0F, 0F);
 	}
 	void level5_1 () {
@@ -1600,12 +1600,12 @@ public class gHintClass : MonoBehaviour {
 		actions = new action[2];
 
 		actions[0].id = new Vector3(0.1933594F, -0.9121094F, 0F); //sluggish
-		actions[0].frame = 181;
+		actions[0].frame = 98;
 		actions[0].mouse = new Vector3(0.2763465F, -1.283372F, 0F);
 		actions[1].id = new Vector3(0.1933594F, -0.9121094F, 0F); //sluggish
 		actions[1].frame = 152;
-		actions[1].mouse = new Vector3(0.2435598F, -1.250586F, 0F);
-	}
+		actions[1].mouse = new Vector3(0.2763465F, -1.283372F, 0F);
+    }
 
 	void level32_0 () {
 		actions = new action[5];
@@ -2147,7 +2147,7 @@ public class gHintClass : MonoBehaviour {
 		actions[1].frame = 62;
 		actions[1].mouse = new Vector3(0F, 0F, 0F);
 		actions[2].id = new Vector3(-0.5664063F, 1.117188F, 0F); //web
-		actions[2].frame = 140;
+		actions[2].frame = 85;
 		actions[2].mouse = new Vector3(0F, 0F, 0F);
 		actions[3].id = new Vector3(0.5488281F, 1.339844F, 0F); //web
 		actions[3].frame = 50;
@@ -3059,7 +3059,7 @@ public class gHintClass : MonoBehaviour {
 		actions[2].frame = 36;
 		actions[2].mouse = new Vector3(0F, 0F, 0F);
 		actions[3].id = new Vector3(-0.515625F, 1.191406F, 0F); //web
-		actions[3].frame = 136;
+		actions[3].frame = 133;
 		actions[3].mouse = new Vector3(0F, 0F, 0F);
 	}
 	void level24_1 () {
@@ -3075,7 +3075,7 @@ public class gHintClass : MonoBehaviour {
 		actions[2].frame = 36;
 		actions[2].mouse = new Vector3(0F, 0F, 0F);
 		actions[3].id = new Vector3(-0.515625F, 1.191406F, 0F); //web
-		actions[3].frame = 136;
+		actions[3].frame = 133;
 		actions[3].mouse = new Vector3(0F, 0F, 0F);
 	}
 

@@ -514,8 +514,9 @@ public class gBerryClass : MonoBehaviour {
 		if (initLevelMenuClass.levelDemands == 0) {
 			if (starsCounter == 3 && ctrProgressClass.progress[SceneManager.GetActiveScene().name] != 1 && ctrProgressClass.progress[SceneManager.GetActiveScene().name] != 3) {
                 flagGemGetting = true;
+			    staticClass.keysBefore = ctrProgressClass.progress["gems"];
                 ctrProgressClass.progress["gems"] ++;
-				if (ctrProgressClass.progress[SceneManager.GetActiveScene().name] == 0) ctrProgressClass.progress[SceneManager.GetActiveScene().name] = 1;
+                if (ctrProgressClass.progress[SceneManager.GetActiveScene().name] == 0) ctrProgressClass.progress[SceneManager.GetActiveScene().name] = 1;
 				else ctrProgressClass.progress[SceneManager.GetActiveScene().name] = 3;
 
                 staticClass.flyingKeys.Add(SceneManager.GetActiveScene().name + "_key1");
@@ -537,8 +538,9 @@ public class gBerryClass : MonoBehaviour {
 			else if (levels == 204 && staticClass.useGroot == false) flagGemGetting2 = true;
 			if (flagGemGetting2 && ctrProgressClass.progress[SceneManager.GetActiveScene().name] < 2) {
                 flagGemGetting = true;
+                staticClass.keysBefore = ctrProgressClass.progress["gems"];
                 ctrProgressClass.progress["gems"] ++;
-				if (ctrProgressClass.progress[SceneManager.GetActiveScene().name] == 0) ctrProgressClass.progress[SceneManager.GetActiveScene().name] = 2;
+                if (ctrProgressClass.progress[SceneManager.GetActiveScene().name] == 0) ctrProgressClass.progress[SceneManager.GetActiveScene().name] = 2;
 				else ctrProgressClass.progress[SceneManager.GetActiveScene().name] = 3;
 
                 staticClass.flyingKeys.Add(SceneManager.GetActiveScene().name + "_key2");

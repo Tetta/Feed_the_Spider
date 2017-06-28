@@ -25,7 +25,7 @@ public class ctrAnalyticsClass: MonoBehaviour
     void Start()
     {
         
-        //Debug.logger.logEnabled = false;
+        Debug.logger.logEnabled = false;
         Debug.Log("ctrAnalyticsClass start");
         LocalNotification.CancelAllNotifications();
         try
