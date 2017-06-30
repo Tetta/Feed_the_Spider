@@ -184,10 +184,10 @@ public class ctrAnalyticsClass: MonoBehaviour
             Debug.Log("analytics session count: " + ctrProgressClass.progress["sessionCount"]);
             Debug.Log("analytics groups count: " + ctrAnalyticsClass.sessionGroups.Count);
             Debug.Log("analytics session group: " + getGroup(ctrProgressClass.progress["sessionCount"], ctrAnalyticsClass.sessionGroups));
-            
+
+            Debug.Log("firstLaunch: " + ctrProgressClass.progress["firstLaunch"]);
             if (ctrProgressClass.progress["firstLaunch"] == 0)
             {
-                ctrProgressClass.progress["dailyBonus"] = (int)DateTime.UtcNow.TotalSeconds();
                 sendEvent("First Launch", new Dictionary<string, string>());
                 ctrProgressClass.progress["firstLaunch"] = 1;
             }

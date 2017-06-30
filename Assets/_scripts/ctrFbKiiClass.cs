@@ -896,9 +896,9 @@ public class ctrFbKiiClass : MonoBehaviour {
         {
             Debug.Log("socials - onInitializeSDK VK VkApi.VkApiInstance.IsUserLoggedIn: " + VkApi.VkApiInstance.IsUserLoggedIn);
             Debug.Log("socials - onInitializeSDK VK ctrProgressClass.progress[vk]: " + ctrProgressClass.progress["vk"]);
-            Debug.Log(VkApi.CurrentToken.access_token);
-            Debug.Log(VkApi.CurrentToken.expires_in);
-            Debug.Log(VkApi.CurrentToken.tokenRecievedTime);
+            //Debug.Log(VkApi.CurrentToken.access_token);
+            //Debug.Log(VkApi.CurrentToken.expires_in);
+            //Debug.Log(VkApi.CurrentToken.tokenRecievedTime);
 
 
 

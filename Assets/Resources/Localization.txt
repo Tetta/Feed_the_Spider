@@ -109,7 +109,7 @@ marketHatBonus2, "Get +100%     !", "Получи +100%     !"
 marketBerryBonus, "Collect the complete collection of berries!", "Собери полную коллекцию ягод!"
 marketBerryBonus2, "Get an additional +3        every day!!", "Получай дополнительно +3       каждый день!     "
 marketFindInBooster, "Find in booster!", "Найди в бустере!"
-marketBoostersDescription, "Booster is a set of 5 random cards of four types of rarity:\n\ncommon - coins, power-ups\nuncommon - berries\nrare - hats\nepic - skins", "Бустер это набор из 5 случайных карт  четырех типов редкости: \n\nобычные - монеты, бонусы\nнеобычные - ягоды\nредкие - шапки\nэпические - скины"
+marketBoostersDescription, "Booster is a set of 5 random cards of four types of rarity:\n\ncommon - coins, power-ups\nuncommon - berries\nrare - hats\nepic - skins", "Бустер - это набор из 5 случайных карт  четырех типов редкости: \n\nобычные - монеты, бонусы\nнеобычные - ягоды\nредкие - шапки\nэпические - скины"
 
 marketBestValue, "Best\nvalue!", "Лучшая\nцена!"
 marketSpecialOffer, "Special offer", "Специальное предложение"

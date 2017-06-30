@@ -362,7 +362,7 @@ public class mBoosterClass : MonoBehaviour {
                     openingCards["coins"] += 50;
                     openingCards["gems"] += 1;
                     var max = 5;
-                    Debug.Log("tutorialBuy:" + ctrProgressClass.progress["tutorialBuy"]);
+                    Debug.Log("tutorialBuy: " + ctrProgressClass.progress["tutorialBuy"]);
                     if (ctrProgressClass.progress["tutorialBuy"] < 5)
                     {
                         setOpeningCardUncommon("berry", ref openingCards);
@@ -375,7 +375,7 @@ public class mBoosterClass : MonoBehaviour {
                     for (int i = 2; i < max; i++)
                     {
                         var r = UnityEngine.Random.Range(0, 100);
-                        Debug.Log("rand:" + r);
+                        Debug.Log("rand: " + r);
                         if (r < 2) setOpeningCardUncommon("berry", ref openingCards);
                         else setOpeningCardCommon(ref portionsWhite, portionsCountWhite, ref openingCards);
                     }
@@ -420,7 +420,7 @@ public class mBoosterClass : MonoBehaviour {
             
         }
         //minus boosters, save cards
-
+        Debug.Log("////////openingCards: " + openingCards.Count);
         saveCards();
         ctrProgressClass.saveProgress();
 

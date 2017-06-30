@@ -651,6 +651,7 @@ public class staticClass
 
     //for play anim "block disable" on map 
     public static int keysBefore = 3000;
-
+    //for play anim "block disable" on map when buy chapter
+    public static bool buyChapter = false;
 }
 

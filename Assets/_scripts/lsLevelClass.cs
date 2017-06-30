@@ -58,7 +58,6 @@ public class lsLevelClass : MonoBehaviour {
         }
         else
         {
-            islandActive();
 
 
             //gem1Active.GetComponent<SpriteRenderer>().material = materialDefault;
@@ -86,6 +85,7 @@ public class lsLevelClass : MonoBehaviour {
                 transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
             }
 
+            islandActive();
 
         }
 
@@ -271,14 +271,14 @@ public class lsLevelClass : MonoBehaviour {
         if (block != null)
         {
             int blockKeys = int.Parse(block.name.Substring(6));
-            //Debug.Log("blockDisable ---------------------------------");
-           // Debug.Log(blockKeys);
-            //Debug.Log(staticClass.keysBefore);
+            Debug.Log("blockDisable ---------------------------------");
+            Debug.Log(blockKeys);
+            Debug.Log(staticClass.keysBefore);
 //
 
-            if (blockKeys <= staticClass.keysBefore  && blockKeys <= ctrProgressClass.progress["gems"] && level - 1 <= ctrProgressClass.progress["lastLevel"])
+            if (blockKeys <= staticClass.keysBefore  && blockKeys <= ctrProgressClass.progress["gems"] && level - 1 <= ctrProgressClass.progress["lastLevel"] || ctrProgressClass.progress["buyChapter"] == level)
                 block.SetActive(false);
-            else if (blockKeys > staticClass.keysBefore  && blockKeys <= ctrProgressClass.progress["gems"] && level - 1 <= ctrProgressClass.progress["lastLevel"])
+            else if (blockKeys > staticClass.keysBefore  && blockKeys <= ctrProgressClass.progress["gems"] && level - 1 <= ctrProgressClass.progress["lastLevel"] || staticClass.buyChapter)
             {
                 //anim
                 block.transform.GetChild(0).GetChild(0).GetComponent<Animator>().enabled = true;
@@ -287,6 +287,7 @@ public class lsLevelClass : MonoBehaviour {
                 flagBlock = false;
                 islandActive();
                 staticClass.keysBefore = ctrProgressClass.progress["gems"];
+                staticClass.buyChapter = false;
 
             }
             else flagBlock = true;

@@ -112,7 +112,7 @@ public class ctrAdClass : MonoBehaviour
             adsAttributes["provider"] = "myTarget";
 
 
-
+        
         if (isAdReady())
         {
             if (ctrProgressClass.progress["ok"] == 1 && OK.IsLoggedIn)
@@ -133,6 +133,7 @@ public class ctrAdClass : MonoBehaviour
             if (isTimeToSendFailedAdAnalytics()) ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
             //adDontReadyMenu
             if (initLevelMenuClass.instance != null) initLevelMenuClass.instance.adDontReadyMenu.SetActive(true);
+            if (SceneManager.GetActiveScene().name.Substring(0, 5) == "level") GameObject.Find("/default level/gui/ad dont ready menu").transform.GetChild(0).gameObject.SetActive(true);
         }
 
 #endif

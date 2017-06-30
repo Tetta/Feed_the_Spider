@@ -555,7 +555,9 @@ public class gBerryClass : MonoBehaviour {
         if (lvlNumber > ctrProgressClass.progress["lastLevel"]) staticClass.levelColor = lvlNumber;
         if (lvlNumber >= ctrProgressClass.progress["lastLevel"])
 	    {
-	        ctrProgressClass.progress["lastLevel"] = lvlNumber;
+            if (staticClass.levelBlocks.ContainsKey(lvlNumber + 1)) staticClass.keysBefore = staticClass.levelBlocks[lvlNumber + 1] - 1;
+
+            ctrProgressClass.progress["lastLevel"] = lvlNumber;
             ctrAnalyticsClass.sendCustomDimension(4, lvlNumber.ToString()); 
 
         }

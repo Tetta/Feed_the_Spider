@@ -362,10 +362,15 @@ public class marketClass : MonoBehaviour {
                     {
                         Debug.Log(block.Key);
                         Debug.Log(block.Value);
-                        ctrProgressClass.progress["lastLevel"] = block.Key;
-                        if (GameObject.Find("/root/root/blocks/block " + block.Value) != null) GameObject.Find("/root/root/blocks/block " + block.Value).SetActive(false);
-                        if (GameObject.Find("level " + block.Key) != null) GameObject.Find("level " + block.Key).GetComponent<lsLevelClass>().block = null;
-                        if (GameObject.Find("level " + block.Key) != null) GameObject.Find("level " + block.Key).GetComponent<lsLevelClass>().Start();
+                        
+                        staticClass.buyChapter = true;
+
+                        GameObject.Find("level " + block.Key).GetComponent<lsLevelClass>().blockDisable();
+                        //ctrProgressClass.progress["lastLevel"] = block.Key;
+                        ctrProgressClass.progress["buyChapter"] = block.Key;
+                        //if (GameObject.Find("/root/root/blocks/block " + block.Value) != null) GameObject.Find("/root/root/blocks/block " + block.Value).SetActive(false);
+                        //if (GameObject.Find("level " + block.Key) != null) GameObject.Find("level " + block.Key).GetComponent<lsLevelClass>().block = null;
+                        //if (GameObject.Find("level " + block.Key) != null) GameObject.Find("level " + block.Key).GetComponent<lsLevelClass>().Start();
                         break;
                     }
                 }

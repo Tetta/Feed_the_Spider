@@ -16,95 +16,101 @@ public class ctrlDailyBonusClass : MonoBehaviour {
     private List<KeyValuePair<string, int>> openingCards = new List<KeyValuePair<string, int>>();
 
     //будет дейли бонус или нет
-    IEnumerator Start() {
+    void Start() {
+
         if (name == "daily bonus") { 
-			WWW www = new WWW(url);
-			yield return www;
-			try {
-				//D/ebug.Log( www.text.Substring(8, 10));
+			//WWW www = new WWW(url);
+            //yield return www;
+			//try {
+            //D/ebug.Log( www.text.Substring(8, 10));
+            if (ctrProgressClass.progress["dailyBonus"] == 0) ctrProgressClass.progress["dailyBonus"] = (int)DateTime.UtcNow.TotalSeconds();
+            /*
+            DateTime now = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            now = now.AddSeconds(System.Convert.ToInt64(www.text.Substring(8, 10)));
+            realTime = int.Parse(www.text.Substring(8, 10));
+            if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
+            DateTime dailyBonus = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            dailyBonus = dailyBonus.AddSeconds(System.Convert.ToInt64(ctrProgressClass.progress["dailyBonus"]));
+            */
+            DateTime now = DateTime.UtcNow;
+            DateTime dailyBonus =  new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(ctrProgressClass.progress["dailyBonus"]);
 
-				DateTime now = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-				now = now.AddSeconds(System.Convert.ToInt64(www.text.Substring(8, 10)));
-				realTime = int.Parse(www.text.Substring(8, 10));
-				if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
-				DateTime dailyBonus = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-				dailyBonus = dailyBonus.AddSeconds(System.Convert.ToInt64(ctrProgressClass.progress["dailyBonus"]));
-                Debug.Log("now: " + now.ToShortDateString());
-                Debug.Log("dailyBonus: " + dailyBonus.ToShortDateString());
-                Debug.Log("realTime: " + realTime);
-                Debug.Log("TotalSeconds: " + DateTime.UtcNow.TotalSeconds());
-                if (now.ToShortDateString() != dailyBonus.ToShortDateString()) {
-                    //показать окно daily bonus
-                    //dailyBonusMenu.SetActive(true);
-                    Debug.Log("..........................................daily bonus");
+            Debug.Log("now: " + now.ToShortDateString());
+            Debug.Log("dailyBonus: " + dailyBonus.ToShortDateString());
+            //Debug.Log("realTime: " + realTime);
+            //Debug.Log("TotalSeconds: " + DateTime.UtcNow.TotalSeconds());
+            if (now.ToShortDateString() != dailyBonus.ToShortDateString()) {
+                //показать окно daily bonus
+                //dailyBonusMenu.SetActive(true);
+                Debug.Log("..........................................daily bonus");
 
-                    //delete cards in bonuses menu
-                    //dailyBonusMenuOpen();
-                    //добавить бонусы за карты ягод
-                    ctrProgressClass.progress["webs"] += ctrProgressClass.progress["berry2"];
-                    ctrProgressClass.progress["collectors"] += ctrProgressClass.progress["berry3"];
-                    ctrProgressClass.progress["teleports"] += ctrProgressClass.progress["berry4"];
-                    ctrProgressClass.progress["hints"] += ctrProgressClass.progress["berry5"];
+                //delete cards in bonuses menu
+                //dailyBonusMenuOpen();
+                //добавить бонусы за карты ягод
+                ctrProgressClass.progress["webs"] += ctrProgressClass.progress["berry2"];
+                ctrProgressClass.progress["collectors"] += ctrProgressClass.progress["berry3"];
+                ctrProgressClass.progress["teleports"] += ctrProgressClass.progress["berry4"];
+                ctrProgressClass.progress["hints"] += ctrProgressClass.progress["berry5"];
 
-                    //analytics
-                    if (ctrProgressClass.progress["berry2"] > 0)
+                //analytics
+                if (ctrProgressClass.progress["berry2"] > 0)
+                {
+                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
                     {
-                        ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
-                        {
-                            {"detail", "item"},
-                            {"name", "webs"},
-                            {"count", ctrProgressClass.progress["berry2"].ToString()}
-                        });
-                    }
-                    if (ctrProgressClass.progress["berry3"] > 0)
+                        {"detail", "item"},
+                        {"name", "webs"},
+                        {"count", ctrProgressClass.progress["berry2"].ToString()}
+                    });
+                }
+                if (ctrProgressClass.progress["berry3"] > 0)
+                {
+                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
                     {
-                        ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
-                        {
-                            {"detail", "item"},
-                            {"name", "collectors"},
-                            {"count", ctrProgressClass.progress["berry3"].ToString()}
-                        });
-                    }
-                    if (ctrProgressClass.progress["berry4"] > 0)
+                        {"detail", "item"},
+                        {"name", "collectors"},
+                        {"count", ctrProgressClass.progress["berry3"].ToString()}
+                    });
+                }
+                if (ctrProgressClass.progress["berry4"] > 0)
+                {
+                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
                     {
-                        ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
-                        {
-                            {"detail", "item"},
-                            {"name", "teleports"},
-                            {"count", ctrProgressClass.progress["berry4"].ToString()}
-                        });
-                    }
-                    if (ctrProgressClass.progress["berry5"] > 0)
+                        {"detail", "item"},
+                        {"name", "teleports"},
+                        {"count", ctrProgressClass.progress["berry4"].ToString()}
+                    });
+                }
+                if (ctrProgressClass.progress["berry5"] > 0)
+                {
+                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
                     {
-                        ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
-                        {
-                            {"detail", "item"},
-                            {"name", "hints"},
-                            {"count", ctrProgressClass.progress["berry5"].ToString()}
-                        });
-                    }
+                        {"detail", "item"},
+                        {"name", "hints"},
+                        {"count", ctrProgressClass.progress["berry5"].ToString()}
+                    });
+                }
 
-                    //for reward menu on map
-                    staticClass.showRewardCardsMenuWebs = ctrProgressClass.progress["berry2"];
-                    staticClass.showRewardCardsMenuCollectors = ctrProgressClass.progress["berry3"];
-                    staticClass.showRewardCardsMenuTeleports = ctrProgressClass.progress["berry4"];
-                    staticClass.showRewardCardsMenuHints = ctrProgressClass.progress["berry5"];
+                //for reward menu on map
+                staticClass.showRewardCardsMenuWebs = ctrProgressClass.progress["berry2"];
+                staticClass.showRewardCardsMenuCollectors = ctrProgressClass.progress["berry3"];
+                staticClass.showRewardCardsMenuTeleports = ctrProgressClass.progress["berry4"];
+                staticClass.showRewardCardsMenuHints = ctrProgressClass.progress["berry5"];
 
                     
-                    if (ctrProgressClass.progress["berry2"] >= 1 && ctrProgressClass.progress["berry3"] >= 1 &&
-				        ctrProgressClass.progress["berry4"] >= 1 && ctrProgressClass.progress["berry5"] >= 1)
-				    {
-				        ctrProgressClass.progress["hints"] += 3;
-				        staticClass.showRewardCardsMenuHints += 3;
+                if (ctrProgressClass.progress["berry2"] >= 1 && ctrProgressClass.progress["berry3"] >= 1 &&
+				    ctrProgressClass.progress["berry4"] >= 1 && ctrProgressClass.progress["berry5"] >= 1)
+				{
+				    ctrProgressClass.progress["hints"] += 3;
+				    staticClass.showRewardCardsMenuHints += 3;
 
-                    }
-                    
-                    ctrProgressClass.saveProgress();
-				}
-
-			} catch (System.Exception ex) {
-				Debug.Log( ex.Message);
+                }
+                ctrProgressClass.progress["dailyBonus"] = (int)now.TotalSeconds();
+                ctrProgressClass.saveProgress();
 			}
+
+			//} catch (Exception ex) {
+            //    Debug.Log("Exception daily login: " + ex.Message);
+			//}
 		}
 	}
 	

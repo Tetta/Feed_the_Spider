@@ -204,12 +204,14 @@ public class lsEnergyClass : MonoBehaviour {
 	}
 
 	public void OnApplicationFocus(bool flag) {
-		if (flag) { 
+        Debug.Log("lsEnergyClass OnApplicationFocus: " + flag);
+        if (flag) { 
 			if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
 			//StopCoroutine("Coroutine");
 			StopAllCoroutines();
 			StartCoroutine("Coroutine");
-			if (energyMenu.activeSelf) StartCoroutine("CoroutineEnergyMenu");
+            energyInfinityCheck();
+            if (energyMenu.activeSelf) StartCoroutine(CoroutineEnergyMenu());
             updateMaxEnergy(energyMaxLabel);
         }
     }
@@ -218,7 +220,7 @@ public class lsEnergyClass : MonoBehaviour {
 		//if (ctrProgressClass.progress["energy"] < maxEnergy){
 			energyMenuState = "";
 			energyMenu.SetActive(true);
-			StartCoroutine("CoroutineEnergyMenu");
+			StartCoroutine(CoroutineEnergyMenu());
         //}
 
 	    //if (ctrProgressClass.progress["tutorialEnergy"] == 0) hand.SetActive(false);
@@ -248,11 +250,17 @@ public class lsEnergyClass : MonoBehaviour {
         if (buttonAdEnergy != null)
         {
             if (maxEnergy > energy && !energyInfinity)
+            {
                 buttonAdEnergy.transform.GetChild(2).gameObject.SetActive(false);
+                buttonAdEnergy.GetComponent<Collider>().enabled = true;
+            }
             else
+            {
                 buttonAdEnergy.transform.GetChild(2).gameObject.SetActive(true);
+                buttonAdEnergy.GetComponent<Collider>().enabled = false;
+            }
 
-            
+
         }
 
             
@@ -264,12 +272,12 @@ public class lsEnergyClass : MonoBehaviour {
         yield return StartCoroutine(staticClass.waitForRealTime(1));
 
 		// запускаем корутину снова
-		StartCoroutine("CoroutineEnergyMenu");
+		StartCoroutine(CoroutineEnergyMenu());
 	}
 
 	void stopCoroutineEnergyMenu () {
 		//energyMenu.SetActive(false);
-		StopCoroutine("CoroutineEnergyMenu");
+		StopCoroutine(CoroutineEnergyMenu());
 	}
 
 
@@ -316,7 +324,7 @@ public class lsEnergyClass : MonoBehaviour {
         //ctrProgressClass.progress["energyInfinity"] = (int)DateTime.Now.AddSeconds(15).TotalSeconds();
         energyInfinityCheck();
         //buttonRestoreEnergy.transform.GetChild(2).GetComponent<UILabel>().text = "0";
-        StartCoroutine("CoroutineEnergyMenu");
+        StartCoroutine(CoroutineEnergyMenu());
 
     }
 

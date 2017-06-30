@@ -87,7 +87,7 @@ public class ctrProgressClass {
         {"boostersWhite",0 }, {"boostersGreen",0 }, {"boostersBlue",0 }, {"boostersPurple",0 },
         {"berryRare", UnityEngine.Random.Range(2, 6)}, {"hatRare", UnityEngine.Random.Range(2, 6)},{"skinRare", UnityEngine.Random.Range(2, 6)},
 
-        {"sale", 0},{"saleDate", 0}, {"adCoinsDate", 0}, {"freeCoinsDate", 0},
+        {"sale", 0},{"saleDate", 0}, {"adCoinsDate", 0}, {"freeCoinsDate", 0}, {"buyChapter", 0},
 
         {"berry1",1},{"berry2",0},{"berry3",0},{"berry4",0},{"berry5",0},
 		{"hat1",1},{"hat2",0},{"hat3",0},{"hat4",0},{"hat5",0},
@@ -157,7 +157,7 @@ public class ctrProgressClass {
         {"boostersWhite",0 }, {"boostersGreen",0 }, {"boostersBlue",0 }, {"boostersPurple",0 },
         {"berryRare", 2 }, {"hatRare",2},{"skinRare", 4},
 
-        {"sale", 0},{"saleDate", 0}, {"adCoinsDate", 0}, {"freeCoinsDate", 0}, 
+        {"sale", 0},{"saleDate", 0}, {"adCoinsDate", 0}, {"freeCoinsDate", 0}, {"buyChapter", 0},
 
         {"berry1",1},{"berry2",2},{"berry3",1},{"berry4",5},{"berry5",1},
         {"hat1",1},{"hat2",1},{"hat3",1},{"hat4",4},{"hat5",0},

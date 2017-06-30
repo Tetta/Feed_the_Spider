@@ -132,11 +132,12 @@ public class lsGiftClass : MonoBehaviour {
             if (bonusName == "coins") ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail 1", "chest" }, { "coins", bonusCount.ToString() } });
 
             initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress ["coins"].ToString ();
+            if (i == 2) StartCoroutine(card.GetComponent<mCardClass>().openCardGift(true));
 
-		}
-		//off for tests
-		//помечаем что сундук открыт
-		transform.GetChild(0).gameObject.SetActive(false);
+        }
+        //off for tests
+        //помечаем что сундук открыт
+        transform.GetChild(0).gameObject.SetActive(false);
 		transform.GetChild(1).gameObject.SetActive(true);
 		ctrProgressClass.progress [name] = 1; 
 		ctrProgressClass.saveProgress();

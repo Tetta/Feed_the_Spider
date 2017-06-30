@@ -215,13 +215,13 @@ public class mCardClass : MonoBehaviour {
             {
                 GetComponent<Animator>().Play("card open epic");
                 transform.GetChild(6).GetComponent<AudioSource>().Play();
-                StartCoroutine(counterCard(1.1F));
+                StartCoroutine(counterCard(1.1F, "exit open booster menu"));
 
             }
             else
             {
             GetComponent<Animator>().Play("card open");
-            StartCoroutine(counterCard(0.5F));
+            StartCoroutine(counterCard(0.5F, "exit open booster menu"));
 
             }
             GetComponent<AudioSource>().Play();
@@ -316,7 +316,7 @@ public class mCardClass : MonoBehaviour {
 
     }
 
-	void openCardGift(bool isPressed) {
+	void openCardGift2(bool isPressed) {
 
         if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card idle") || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("start state"))
         {
@@ -424,15 +424,14 @@ public class mCardClass : MonoBehaviour {
         GetComponent<Animator>().PlayInFixedTime("card idle", -1, UnityEngine.Random.Range(0, 10));
 
 }
-    private IEnumerator counterCard(float t)
+    private IEnumerator counterCard(float t, string exitMenuName)
     {
         int count = int.Parse( transform.GetChild(0).GetChild(3).GetChild(3).GetChild(0).GetComponent<UILabel>().text);
         yield return StartCoroutine(staticClass.waitForRealTime(t));
-        if (mBoosterClass.instance.openingCards.Count == 0)
-        {
-            UnityEngine.Debug.Log("check");
-            transform.parent.parent.parent.parent.Find("exit open booster menu").localPosition = new Vector3(0, 0, -1);
-        }
+
+            if (exitMenuName != "exit gift menu" && mBoosterClass.instance.openingCards.Count == 0)
+                transform.parent.parent.parent.parent.Find(exitMenuName).localPosition = new Vector3(0, 0, -1);
+        
 
         if (count > 1)
         {
@@ -453,6 +452,36 @@ public class mCardClass : MonoBehaviour {
 
     }
 
+
+    public IEnumerator openCardGift(bool flag)
+    {
+        if (flag) yield return StartCoroutine(staticClass.waitForRealTime(0.2F));
+        else yield return null;
+
+        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card idle") || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("start state"))
+        {
+            GetComponent<Animator>().Play("card open");
+            StartCoroutine(counterCard(0.5F, "exit gift menu"));
+            GetComponent<AudioSource>().Play();
+
+
+
+
+        }
+        else
+        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("card opened"))
+        {
+            transform.localPosition = new Vector3(2000, 2000, 0);
+            GetComponent<Animator>().Play("start state");
+
+            if (transform.GetSiblingIndex() - 1 >= 0) StartCoroutine(transform.parent.GetChild( transform.GetSiblingIndex() - 1).GetComponent<mCardClass>().openCardGift(false));
+            else transform.parent.parent.parent.GetChild(1).GetComponent<iClickClass>().closeMenu();
+
+        }
+
+
+
+    }
 
 
 }
