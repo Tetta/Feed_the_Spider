@@ -39,7 +39,7 @@ public class staticClass
         levels[12, 1] = 103;
         levels[6, 0] = 2;
         levels[6, 1] = 201;
-        levels[7, 0] = 3;
+        levels[7, 0] = 1;
         levels[7, 1] = 102;
         levels[11, 0] = 3;
         levels[11, 1] = 7;
@@ -49,8 +49,8 @@ public class staticClass
         levels[57, 1] = 102;
         levels[10, 0] = 2;
         levels[10, 1] = 201;
-        levels[8, 0] = 2;
-        levels[8, 1] = 10;
+        levels[8, 0] = 1;
+        levels[8, 1] = 201;
         levels[52, 0] = 0;
         levels[52, 1] = 8;
         levels[14, 0] = 1;
@@ -58,13 +58,13 @@ public class staticClass
         levels[20, 0] = 1;
         levels[20, 1] = 9;
         levels[16, 0] = 2;
-        levels[16, 1] = 3;
+        levels[16, 1] = 4;
         levels[22, 0] = 2;
-        levels[22, 1] = 0;
+        levels[22, 1] = 201;
         levels[18, 0] = 2;
-        levels[18, 1] = 10;
+        levels[18, 1] = 101;
         levels[17, 0] = 1;
-        levels[17, 1] = 7;
+        levels[17, 1] = 0;
         levels[67, 0] = 1;
         levels[67, 1] = 14;
         levels[21, 0] = 2;
@@ -132,8 +132,8 @@ public class staticClass
 		levels[91, 0] = 1;
 		levels[91, 1] = 9;
 		//----------------------------
-        levels[13, 0] = 3;	
-        levels[13, 1] = 11;
+        levels[13, 0] = 2;	
+        levels[13, 1] = 100;
 		levels[56, 0] = 0;
 		levels[56, 1] = 15;
 		levels[53, 0] = 3;
@@ -147,7 +147,7 @@ public class staticClass
 		levels[61, 0] = 3;
 		levels[61, 1] = 204;
 		levels[9, 0] = 2;
-		levels[9, 1] = 9;
+		levels[9, 1] = 102;
 		levels[54, 0] = 3;
 		levels[54, 1] = 21;
 		levels[59, 0] = 2;
@@ -159,7 +159,7 @@ public class staticClass
 		levels[69, 0] = 1;
 		levels[69, 1] = 9;
 		levels[15, 0] = 0;
-        levels[15, 1] = 201;
+        levels[15, 1] = 102;
 		levels[68, 0] = 2;
 		levels[68, 1] = 8;
 		levels[75, 0] = 3;
