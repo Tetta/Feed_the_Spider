@@ -35,12 +35,12 @@ public class staticClass
         levels[3, 1] = 10;
         levels[4, 0] = 1;
         levels[4, 1] = 10;
-        levels[12, 0] = 2;
+        levels[12, 0] = 0;
         levels[12, 1] = 103;
         levels[6, 0] = 2;
         levels[6, 1] = 201;
-        levels[7, 0] = 1;
-        levels[7, 1] = 102;
+        levels[7, 0] = 2;
+        levels[7, 1] = 7;
         levels[11, 0] = 3;
         levels[11, 1] = 7;
         levels[5, 0] = 1;
@@ -49,7 +49,7 @@ public class staticClass
         levels[57, 1] = 102;
         levels[10, 0] = 2;
         levels[10, 1] = 201;
-        levels[8, 0] = 1;
+        levels[8, 0] = 2;
         levels[8, 1] = 201;
         levels[52, 0] = 0;
         levels[52, 1] = 8;
