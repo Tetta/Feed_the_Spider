@@ -243,7 +243,7 @@ booster_purple_10, "10 purple boosters", "10 фиолетовых бустеро
 containAtLeast, "Contain at least:", "Содержит как минимум:"
 
 adCoinsTimerTitle, "Next 50 coins in:", "50 монет через:"
-freeCoinsTimerTitle, "Next 400 coins in:", "400 монет через:"
+freeCoinsTimerTitle, "Next", "Следующие"
 h, "h", "ч"
 m, "m", "м"
 s, "s", "с"
