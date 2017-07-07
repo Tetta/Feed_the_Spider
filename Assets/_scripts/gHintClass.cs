@@ -719,7 +719,7 @@ public class gHintClass : MonoBehaviour {
 		actions[2].frame = 71;
 		actions[2].mouse = new Vector3(0F, 0F, 0F);
 		actions[3].id = new Vector3(0.2558594F, 1.232422F, 0F); //web
-		actions[3].frame = 351;
+		actions[3].frame = 81;
 		actions[3].mouse = new Vector3(0F, 0F, 0F);
 		actions[4].id = new Vector3(-0.7675781F, 1.142578F, 0F); //web
 		actions[4].frame = 89;
