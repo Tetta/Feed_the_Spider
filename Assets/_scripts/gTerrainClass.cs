@@ -17,8 +17,12 @@ public class gTerrainClass : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D (Collision2D collisionObject) {
-		GameObject psNew = GameObject.Instantiate (ps, collisionObject.contacts[0].point, Quaternion.identity) as GameObject;
-		audioDrop.Play ();
-		Destroy (psNew, 1);
+	    if (collisionObject.gameObject.name != "sluggish helper")
+	    {
+	        GameObject psNew =
+	            GameObject.Instantiate(ps, collisionObject.contacts[0].point, Quaternion.identity) as GameObject;
+	        audioDrop.Play();
+	        Destroy(psNew, 1);
+	    }
 	}
 }

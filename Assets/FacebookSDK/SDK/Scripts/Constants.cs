@@ -178,9 +178,9 @@ namespace Facebook.Unity
                     return FacebookUnityPlatform.Android;
                 case RuntimePlatform.IPhonePlayer:
                     return FacebookUnityPlatform.IOS;
-                case RuntimePlatform.WindowsWebPlayer:
-                case RuntimePlatform.OSXWebPlayer:
-                    return FacebookUnityPlatform.WebPlayer;
+                //case RuntimePlatform.WindowsWebPlayer:
+                //case RuntimePlatform.OSXWebPlayer:
+               //     return FacebookUnityPlatform.WebPlayer;
 #if UNITY_5
                 case RuntimePlatform.WebGLPlayer:
                     return FacebookUnityPlatform.WebGL;

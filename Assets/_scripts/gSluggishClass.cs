@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class gSluggishClass : MonoBehaviour {
 
@@ -11,14 +12,25 @@ public class gSluggishClass : MonoBehaviour {
 	private GameObject berry;
 	private float timer;
     private float angle;
-	//private int counterTriggerExit = 0;
+	private bool helperFlag = false;
 
+    private Transform helper;
+    private Transform sluggishPos;
 
 
     // Use this for initialization
     void Start() {
         berry = GameObject.Find("berry");
-       
+
+        //Unity 2017
+        /*
+        if ((SceneManager.GetActiveScene().name == "level4" || SceneManager.GetActiveScene().name == "level6") && gHintClass.hintState == "")
+        {
+            helperFlag = true;
+            helper = transform.GetChild(1);
+            sluggishPos = transform.parent;
+        }
+        */
     }
     // Update is called once per frame
     void Update () {
@@ -38,7 +50,7 @@ public class gSluggishClass : MonoBehaviour {
 			if ((transform.position - berry.transform.position ).sqrMagnitude < 0.09F) collisionEnter2D();
 
 		}
-
+        
 	}
     void FixedUpdate () {
         if (sluggishState == "active") {
@@ -49,17 +61,77 @@ public class gSluggishClass : MonoBehaviour {
 
     }
 
-	void dragSluggish() {
-		Vector3 mousePosition = gHintClass.checkHint(transform.parent.gameObject, true);
-		Vector3 relative = transform.parent.InverseTransformPoint(mousePosition);
-		angle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
+    void OnDrag()
+    {
+        if (sluggishState == "active")
+        {
+            dragHelper();
 
-		if (gHintClass.hintState == "") transform.GetComponent<Rigidbody2D>().MoveRotation(180 - angle);
-		else transform.RotateAround(transform.parent.position, Vector3.forward, -180 - angle);
-		
-		//transform.rotation = Quaternion.Euler(0, 0, -180 - angle);
+        }
+    }
 
-	}
+    void dragHelper()
+    {        
+        if (helperFlag)
+        {
+
+            Vector3 diff = transform.parent.position - transform.position;
+            float pointBDiffC = Mathf.Sqrt(diff.x * diff.x + diff.y * diff.y);
+            float maxDiffC = 180;
+
+            float diffX = maxDiffC / pointBDiffC * diff.x;
+            float diffY = maxDiffC / pointBDiffC * diff.y;
+            //Unity 2017
+            //Physics2D.autoSimulation = false;
+            helper.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            //helper.GetComponent<Rigidbody2D>().simulated = true;
+            helper.GetComponent<Rigidbody2D>().AddForce(new Vector2(diffX, diffY));
+
+
+
+            GetComponent<Rigidbody2D>().isKinematic = true;
+            /*
+            Vector3 mousePosition = gHintClass.checkHint(transform.parent.gameObject, true);
+            Vector3 relative = transform.parent.InverseTransformPoint(mousePosition);
+            angle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
+            */
+
+            Vector3 mousePosition = gHintClass.checkHint(transform.parent.gameObject, true);
+            Vector3 relative = transform.parent.InverseTransformPoint(mousePosition);
+            float angle1 = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
+
+            //if (angle1 < 0) angle1 += 180;
+            transform.localPosition = new Vector3(0, -156, 0);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            //transform.RotateAround(sluggishPos.position, Vector3.forward, -180 - angle1);
+            transform.RotateAround(sluggishPos.position, Vector3.forward, -180 - angle1);
+            helper.GetComponent<LineRenderer>().positionCount = 50;
+            for (int i = 0; i < 50; i++)
+            {
+                //Debug.Log(helper.position);
+                helper.GetComponent<LineRenderer>().SetPosition(i, helper.position + Vector3.forward);
+                //Unity 2017
+                //Physics2D.Simulate(0.02F);
+            }
+            //Physics2D.autoSimulation = false;
+            //helper.GetComponent<Rigidbody2D>().simulated = false;
+            helper.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+            helper.localPosition = new Vector3(0, 0, 0);
+        }
+    }
+
+    void dragSluggish()
+    {
+        Vector3 mousePosition = gHintClass.checkHint(transform.parent.gameObject, true);
+        Vector3 relative = transform.parent.InverseTransformPoint(mousePosition);
+        angle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
+
+        if (!helperFlag)
+        {
+            if (gHintClass.hintState == "") transform.GetComponent<Rigidbody2D>().MoveRotation(180 - angle);
+            else transform.RotateAround(transform.parent.position, Vector3.forward, -180 - angle);
+        }
+    }
 
     void collisionEnter2D() {
 		berry.GetComponent<Rigidbody2D>().isKinematic = true;
@@ -77,7 +149,20 @@ public class gSluggishClass : MonoBehaviour {
 		transform.parent.GetComponent<Animation>().Blend("sluggish eye");
 		sluggishState = "collision";
 		audioEat.Play ();
-	}
+
+        //copy berry
+        if (helperFlag)
+        {
+            /*
+            GameObject berryCopy = Instantiate(berry, transform);
+            //berryCopy.transform.DestroyChildren();
+            berryCopy.GetComponent<gBerryClass>().enabled = false;
+            berryCopy.GetComponent<gBerryClass>().enabled = false;
+            */
+
+        }
+
+    }
 
 	//void OnCollisionEnter2D(Collision2D collisionObject) {
 
@@ -141,7 +226,7 @@ public class gSluggishClass : MonoBehaviour {
 
 			berry.GetComponent<Rigidbody2D> ().isKinematic = false;
             //berry.GetComponent<Rigidbody2D>().simulated = true;
-
+            
             //было: вектор между mousePos и parentPos
             //Vector3 diff = transform.parent.position - mousePosition;
 
@@ -171,6 +256,14 @@ public class gSluggishClass : MonoBehaviour {
 			timer = Time.time;
 			sluggishState = "fly";
 			audioShot.Play ();
+
+		    if (helperFlag)
+		    {
+                helper.GetComponent<LineRenderer>().positionCount = 0;
+                //Unity 2017
+                //Physics2D.autoSimulation = true;
+                GetComponent<Rigidbody2D>().isKinematic = false;
+            }
 		}
 	}
 

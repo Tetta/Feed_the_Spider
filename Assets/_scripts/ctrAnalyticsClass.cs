@@ -24,8 +24,11 @@ public class ctrAnalyticsClass: MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        
+
+        //Unity 2017
+        //Debug.unityLogger.logEnabled = false;
         Debug.logger.logEnabled = false;
+
         Debug.Log("ctrAnalyticsClass start");
         LocalNotification.CancelAllNotifications();
         try

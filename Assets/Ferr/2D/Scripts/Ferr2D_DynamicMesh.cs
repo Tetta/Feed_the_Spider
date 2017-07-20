@@ -86,7 +86,7 @@ public class Ferr2D_DynamicMesh
 			#if UNITY_5
 			aMesh.uv2 = mUV2s.ToArray();
 			#else
-            aMesh.uv1 = mUV2s.ToArray();
+            aMesh.uv2 = mUV2s.ToArray();
 			#endif
         }
         if (mNorms.Count == 0) aMesh.RecalculateNormals();
