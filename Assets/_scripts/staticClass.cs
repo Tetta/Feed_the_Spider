@@ -39,8 +39,8 @@ public class staticClass
         levels[12, 1] = 103;
         levels[6, 0] = 2;
         levels[6, 1] = 201;
-        levels[7, 0] = 2;
-        levels[7, 1] = 7;
+        levels[7, 0] = 3;
+        levels[7, 1] = 102;
         levels[11, 0] = 3;
         levels[11, 1] = 7;
         levels[5, 0] = 1;
