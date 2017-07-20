@@ -28,9 +28,9 @@ public class ShareScreenShot : MonoBehaviour {
 
 		_filePath=Path.Combine( Application.persistentDataPath,imagename);
 #if !UNITY_EDITOR && (UNITY_ANDROID  || UNITY_IOS)
-		Application.CaptureScreenshot (imagename);
+		//ScreenCapture.CaptureScreenshot (imagename);
 #else
-		Application.CaptureScreenshot (_filePath);
+		//ScreenCapture.CaptureScreenshot (_filePath);
 #endif
 
 		StartCoroutine (LoadScreenShot());

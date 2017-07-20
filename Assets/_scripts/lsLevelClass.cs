@@ -99,7 +99,8 @@ public class lsLevelClass : MonoBehaviour {
 
         //StartCoroutine(keyFly(gem1Active.transform, gem2Active.transform, levelProgress, level));
 
-        
+
+        //if (level == 26)StartCoroutine(blockDisableCoroutine());
 
     }
 
@@ -280,6 +281,7 @@ public class lsLevelClass : MonoBehaviour {
                 block.SetActive(false);
             else if (blockKeys > staticClass.keysBefore  && blockKeys <= ctrProgressClass.progress["gems"] && level - 1 <= ctrProgressClass.progress["lastLevel"] || staticClass.buyChapter)
             {
+                StartCoroutine(blockDisableCoroutine());
                 //anim
                 block.transform.GetChild(0).GetChild(0).GetComponent<Animator>().enabled = true;
                 Debug.Log("block anim");
@@ -296,6 +298,29 @@ public class lsLevelClass : MonoBehaviour {
         //}
     }
 
+    IEnumerator blockDisableCoroutine()
+    {
+        //yield return StartCoroutine(staticClass.waitForRealTime(0.1F));
+        yield return new WaitForSeconds(0.1F);
+        var tempPos = transform.position.x;
+        for (int i = 0; i < 20; i ++)
+        {
+            yield return new WaitForSeconds(0.01F);
+            //yield return StartCoroutine(staticClass.waitForRealTime(0.01F));
+            transform.parent.parent.parent.GetComponent<UIScrollView>().MoveAbsolute(new Vector3(-i * transform.position.x/20, 0, 0));
+
+        }
+        //yield return StartCoroutine(staticClass.waitForRealTime(1));
+        yield return new WaitForSeconds(1);
+
+
+        for (int i = 0; i < 20; i++)
+        {
+            yield return new WaitForSeconds(0.01F);
+            //yield return StartCoroutine(staticClass.waitForRealTime(0.01F));
+            transform.parent.parent.parent.GetComponent<UIScrollView>().MoveAbsolute(new Vector3(tempPos / 20, 0, 0));
+        }
+    }
 
     private void islandActive()
     {

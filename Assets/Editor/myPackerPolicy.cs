@@ -3,11 +3,13 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using UnityEditor.Sprites;
 
 
-public class myPackerPolicy : UnityEditor.Sprites.IPackerPolicy
+//public class myPackerPolicy : UnityEditor.Sprites.IPackerPolicy
+public class myPackerPolicy : IPackerPolicy
 {
-	protected class Entry
+    protected class Entry
 	{
 		public Sprite            sprite;
 		public UnityEditor.Sprites.AtlasSettings settings;
@@ -24,9 +26,18 @@ public class myPackerPolicy : UnityEditor.Sprites.IPackerPolicy
 	protected virtual bool AllowTightWhenTagged { get { return false; } }
 	//protected virtual bool AllowTightWhenTagged { get { return true; } }
 	protected virtual bool AllowRotationFlipping { get { return true; } }
-	//protected virtual bool AllowRotationFlipping { get { return false; } }
 
-	public static bool IsCompressedFormat(TextureFormat fmt)
+    public bool AllowSequentialPacking
+    {
+        get
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    //protected virtual bool AllowRotationFlipping { get { return false; } }
+
+    public static bool IsCompressedFormat(TextureFormat fmt)
 	{
 		if (fmt >= TextureFormat.DXT1 && fmt <= TextureFormat.DXT5)
 			return true;
