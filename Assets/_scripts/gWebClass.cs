@@ -224,8 +224,10 @@ public class gWebClass : MonoBehaviour {
 				//tutorial
 				if (SceneManager.GetActiveScene ().name == "level1" && gHandClass.handState == "text1") 
 					GameObject.Find("default level/gui/tutorial").GetComponent<gHandClass>().delHand (2, 0.5F);
-
-				staticClass.useWeb++;
+                //tutorial
+                if (SceneManager.GetActiveScene().name == "level7" && gHandClass.handState == "text1")
+                    GameObject.Find("default level/gui/tutorial").GetComponent<gHandClass>().delHand(2, 0F);
+                staticClass.useWeb++;
 
 				StartCoroutine (Coroutine ());
 

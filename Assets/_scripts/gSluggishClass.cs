@@ -199,8 +199,11 @@ public class gSluggishClass : MonoBehaviour {
 			//tutorial
 			if (ctrProgressClass.progress["currentLevel"] == 4 && gHandClass.handState == "text1") 
 				GameObject.Find("default level/gui/tutorial").GetComponent<gHandClass>().delHand (-1, 0);
-			
-			GetComponent<Rigidbody2D> ().drag = 20;
+            //tutorial
+            if (SceneManager.GetActiveScene().name == "level7" && gHandClass.handState == "text2")
+                GameObject.Find("default level/gui/tutorial").GetComponent<gHandClass>().delHand(-1, 0F);
+
+            GetComponent<Rigidbody2D> ().drag = 20;
 			transform.localScale = new Vector3 (0.96F, 1.04F, 1);
 
 			sluggishState = "active";

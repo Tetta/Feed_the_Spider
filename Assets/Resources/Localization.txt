@@ -147,6 +147,8 @@ tutorialDream, "Good sleep never hurt!", "Хороший сон никогда �
 tutorialAdCoins, "Get free coins in seconds!", "Получай бесплатные монеты всего за несколько секунд!"
 tutorialFreeCoins, "Get free coins!", "Получи бесплатные монеты!"
 tutorialSale, "For you have a special offer!", "Для вас есть особое предложение!"
+tutorialSluggishWeb1, "You can connect berry with the web even when the berry inside the Sluggish\n\nTap on the web", "Можно соединить ягоду с паутиной, даже если она внутри Лизуна\n\nТапните на паутинку"
+tutorialSluggishWeb2, "Now pull the Sluggish", "Теперь стреляйте Лизуном"
 
 bonusWeb, "Choose a location for the placement of additional webs", "Выберите место для размещения дополнительной паутинки"
 bonusTeleport, "Choose a location to teleport spider", "Выберите место для телепортации паучка"

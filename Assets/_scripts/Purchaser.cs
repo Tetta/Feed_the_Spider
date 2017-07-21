@@ -347,7 +347,7 @@ namespace CompleteProject
                 Debug.Log("Invalid receipt, not unlocking content");
                 validPurchase = false;
                 //for test on desktop
-                marketClass.instance.setRewardForPurchase(args.purchasedProduct.definition.id, transactionId, args.purchasedProduct.metadata.isoCurrencyCode, args.purchasedProduct.metadata.localizedPrice);
+                //marketClass.instance.setRewardForPurchase(args.purchasedProduct.definition.id, transactionId, args.purchasedProduct.metadata.isoCurrencyCode, args.purchasedProduct.metadata.localizedPrice);
 
             }
 #endif

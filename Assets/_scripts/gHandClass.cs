@@ -25,8 +25,13 @@ public class gHandClass : MonoBehaviour {
 				StartCoroutine (addHand (1, 0));
 			else if (level == "level4")
 				StartCoroutine (addHand (1, 2.3F));
-		}
-	}
+            else if (level == "level7")
+                StartCoroutine(addHand(1, 0F));
+
+
+
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -49,9 +54,11 @@ public class gHandClass : MonoBehaviour {
 
 		description.SetActive (true);
 		hand.SetActive (true);
-		if (level == "level1" || level == "level16" || level == "level28"  || (level == "level37" && handState == "text2") || level == "level39") hand.GetComponent<Animator>().Play("hand click");
+		if (level == "level1" || level == "level16" || level == "level28"  || (level == "level37" && handState == "text2") || level == "level39" || (level == "level7" && handState == "text1")) hand.GetComponent<Animator>().Play("hand click");
 		else  hand.GetComponent<Animator>().Play("hand drag");
-		description.GetComponent<Animator>().Play("menu open");
+        if (level == "level7" && handState == "text2") hand.transform.parent.transform.localPosition = new Vector3(-24, -243, 0);
+
+        description.GetComponent<Animator>().Play("menu open");
 
 		if (textNumber == 2) {
 			text1.SetActive (false);
