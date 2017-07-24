@@ -8,8 +8,10 @@ namespace UnityEngine.Purchasing.Security {
         private static int[] order = new int[] { 4,26,44,56,29,6,26,36,43,37,59,53,12,54,56,40,23,41,44,46,51,52,42,31,40,37,59,36,49,54,38,50,48,45,34,36,58,46,46,52,42,46,57,56,45,59,54,51,51,55,59,53,54,57,59,56,59,57,59,59,60 };
         private static int key = 42;
 
-        public static byte[] Data() {
-            return Obfuscator.DeObfuscate(data, order, key);
+        public static byte[] Data()
+        {
+            return null;
+            //return Obfuscator.DeObfuscate(data, order, key);
         }
     }
 }

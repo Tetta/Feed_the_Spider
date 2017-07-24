@@ -9,7 +9,8 @@ namespace UnityEngine.Purchasing.Security {
         private static int key = 78;
 
         public static byte[] Data() {
-            return Obfuscator.DeObfuscate(data, order, key);
+            return null;
+            //return Obfuscator.DeObfuscate(data, order, key);
         }
     }
 }
