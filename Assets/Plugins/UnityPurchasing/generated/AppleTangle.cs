@@ -10,8 +10,8 @@ namespace UnityEngine.Purchasing.Security {
 
         public static byte[] Data()
         {
-            return null;
-            //return Obfuscator.DeObfuscate(data, order, key);
+            //return null;
+            return Obfuscator.DeObfuscate(data, order, key);
         }
     }
 }

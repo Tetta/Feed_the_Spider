@@ -7,9 +7,11 @@ public class loadingClass : MonoBehaviour {
 	
 
 	IEnumerator Start() {
-	//void Start() {
-		Debug.Log("start: " + Time.realtimeSinceStartup);
-		Application.backgroundLoadingPriority = ThreadPriority.Normal;
+        //void Start() {
+        
+
+        Debug.Log("start: " + Time.realtimeSinceStartup);
+		Application.backgroundLoadingPriority = ThreadPriority.High;
         Debug.Log("loadingClass 1");
         AsyncOperation async = SceneManager.LoadSceneAsync("menu");
         Debug.Log("loadingClass 2");
@@ -22,11 +24,14 @@ public class loadingClass : MonoBehaviour {
 			yield return null;
 		}
 		//label.text = "Loading complete";
-
+        
 		yield return async;
-	}
+        
+        //yield return null;
 
-	void Update () {
+    }
+
+    void Update () {
 		if (Time.frameCount == 1) Debug.Log("update 1: " + Time.realtimeSinceStartup);
 	
 	}
