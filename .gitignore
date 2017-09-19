@@ -13,7 +13,7 @@ Assets/Plugins/Android/src/com*
 Assets/Plugins/Android/src/net*
 
 
-/[Ll]ibrary/
+*/[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
