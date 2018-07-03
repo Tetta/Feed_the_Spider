@@ -27,7 +27,7 @@ public class ctrAnalyticsClass: MonoBehaviour
 
         //Unity 2017
         //Debug.unityLogger.logEnabled = false;
-        Debug.logger.logEnabled = false;
+        Debug.unityLogger.logEnabled = true;
 
         Debug.Log("ctrAnalyticsClass start");
         LocalNotification.CancelAllNotifications();

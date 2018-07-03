@@ -8,7 +8,8 @@ public class loadingClass : MonoBehaviour {
 
 	IEnumerator Start() {
         //void Start() {
-        
+        //if (SystemInfo.deviceModel == "iPhone8,4") Screen.SetResolution(640, 1136, true, 30);
+
 
         Debug.Log("start: " + Time.realtimeSinceStartup);
 		Application.backgroundLoadingPriority = ThreadPriority.High;

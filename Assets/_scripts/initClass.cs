@@ -39,7 +39,16 @@ public class initClass : MonoBehaviour {
 #if UNITY_STANDALONE_WIN
     Screen.SetResolution(575, 1024, false);
 #endif
-        //Debug.Log("start menu: " + Time.realtimeSinceStartup);
+        Debug.Log("start menu: " + Screen.currentResolution);
+
+        Resolution[] resolutions = Screen.resolutions;
+        foreach (Resolution res in resolutions)
+        {
+            Debug.Log(res.width + "x" + res.height);
+        }
+        Debug.Log("Device model: " + SystemInfo.deviceModel);
+        Debug.Log("Device name: " + SystemInfo.deviceName);
+       
         if (mBoosterClass.instance == null) openBoosterMenu.SetActive(true);
         else Destroy(openBoosterMenu);
         if (ctrPreviewBoosterClass.instance == null) previewBoosterMenu.SetActive(true);

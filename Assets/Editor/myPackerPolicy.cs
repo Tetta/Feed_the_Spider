@@ -47,7 +47,7 @@ public class myPackerPolicy : IPackerPolicy
 			return true;
 		if (fmt == TextureFormat.ETC_RGB4)
 			return true;
-		if (fmt >= TextureFormat.ATC_RGB4 && fmt <= TextureFormat.ATC_RGBA8)
+		if (fmt >= TextureFormat.ETC_RGB4 && fmt <= TextureFormat.ETC2_RGBA8)
 			return true;
 		if (fmt >= TextureFormat.EAC_R && fmt <= TextureFormat.EAC_RG_SIGNED)
 			return true;

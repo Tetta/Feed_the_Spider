@@ -7,9 +7,12 @@ using UnityEngine.Advertisements;
 using System.Collections.Generic;
 using Facebook.Unity;
 using GoogleMobileAds.Api;
-using Mycom.Target;
 using UnityEngine.SceneManagement;
+
+#if !UNITY_IOS
+using Mycom.Target;
 using Mycom.Target.Unity.Ads;
+#endif
 using Odnoklassniki;
 using Object = System.Object;
 
@@ -37,9 +40,11 @@ public class ctrAdClass : MonoBehaviour
 
     //for myTarget
     private readonly System.Object _syncRoot = new System.Object();
+	#if !UNITY_IOS
     private Mycom.Target.Unity.Ads.InterstitialAd rewardedMyTarget;
     private Mycom.Target.Unity.Ads.InterstitialAd imgMyTarget;
-    //private uint rewardedMyTargetId = 38837; //test
+	#endif
+	//private uint rewardedMyTargetId = 38837; //test
     //private uint imgMyTargetId = 6481; //test
 
 #if UNITY_ANDROID
@@ -117,8 +122,11 @@ public class ctrAdClass : MonoBehaviour
         {
             if (ctrProgressClass.progress["ok"] == 1 && OK.IsLoggedIn)
             {
-                rewardedMyTarget.Show();
-            }
+#if !UNITY_IOS
+
+				rewardedMyTarget.Show();
+#endif
+		}
             else
             {
                 var options = new ShowOptions {resultCallback = HandleShowResultUnityAds};
@@ -352,8 +360,11 @@ public class ctrAdClass : MonoBehaviour
                         staticClass.isTimePlay = Time.timeScale;
                         Time.timeScale = 0;
                         Debug.Log("Time.timeScale: " + Time.timeScale);
-                        imgMyTarget.Show();
-                    }
+		#if !UNITY_IOS
+
+						imgMyTarget.Show();
+		#endif
+		}
                     else
                     {
 
@@ -481,7 +492,9 @@ public class ctrAdClass : MonoBehaviour
     //-------------------------------------------- myTarget ------------------------------------------
     public void loadAdMyTarget()
     {
-        Debug.Log("loadAdMyTarget()");
+		#if !UNITY_IOS
+
+		Debug.Log("loadAdMyTarget()");
         try
         {
             lock (_syncRoot)
@@ -543,7 +556,7 @@ public class ctrAdClass : MonoBehaviour
         catch (Exception e)
         {
         }
-
+		#endif
 
     }
 

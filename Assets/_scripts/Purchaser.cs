@@ -65,7 +65,7 @@ namespace CompleteProject
 
             // Create a builder, first passing in a suite of Unity provided stores.
             var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
-            // Add a product to sell / restore by way of its identifier, associating the general identifier
+			// Add a product to sell / restore by way of its identifier, associating the general identifier
             // with its store-specific identifiers.
 #if UNITY_IOS
             builder.AddProduct("com.mysterytag.spider.booster_green_1", ProductType.Consumable);
@@ -223,7 +223,8 @@ namespace CompleteProject
                 var apple = m_StoreExtensionProvider.GetExtension<IAppleExtensions>();
                 // Begin the asynchronous process of restoring purchases. Expect a confirmation response in 
                 // the Action<bool> below, and ProcessPurchase if there are previously purchased products to restore.
-                apple.RestoreTransactions((result) => {
+                
+				apple.RestoreTransactions((result) => {
                     // The first phase of restoration. If no more responses are received on ProcessPurchase then 
                     // no purchases are available to be restored.
                     Debug.Log("RestorePurchases continuing: " + result + ". If no further messages, no purchases available to restore.");
@@ -298,7 +299,9 @@ namespace CompleteProject
             bool validPurchase = true; // Presume valid for platforms with no R.V.
             string transactionId = "";
             // Unity IAP's validation logic is only included on these platforms.
-#if UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
+			//#if UNITY_ANDROID || UNITY_STANDALONE_OSX
+
+			#if UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
             // Prepare the validator with the secrets we prepared in the Editor
             // obfuscation window.
             var validator = new CrossPlatformValidator(GooglePlayTangle.Data(), AppleTangle.Data(), Application.identifier);
