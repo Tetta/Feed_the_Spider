@@ -15,6 +15,13 @@ Assets/_images/terrains/terrain materials/helper terrain.prefab
 Assets/_images/terrains/terrain materials/rock terrain.prefab
 Assets/_images/terrains/terrain materials/terrain path.prefab
 Assets/Ferr/2DTerrain/TerrainMaterials/SandTerrainMaterial.prefab
+Assets/_2/_images/terrains/terrain materials/desert terrain.prefab
+Assets/_2/_images/terrains/terrain materials/rock terrain.prefab
+Assets/_2/_images/terrains/terrain materials/ice terrain.prefab
+Assets/_2/_images/terrains/terrain materials/forest terrain.prefab
+Assets/_2/_images/terrains/terrain materials/map forest terrain.prefab
+Assets/_2/_images/terrains/terrain materials/terrain path.prefab
+Assets/_2/_images/terrains/terrain materials/helper terrain.prefab
 
 [Ferr2DT_PathTerrain]
 Assets/_prefabs/destroyer helper terrain 1.prefab
@@ -23,3 +30,9 @@ Assets/_prefabs/terrain ice.prefab
 Assets/_prefabs/destroyer helper terrain.prefab
 Assets/_prefabs/terrain desert.prefab
 Assets/_prefabs/terrain rock.prefab
+Assets/_2/_prefabs/terrain rock.prefab
+Assets/_2/_prefabs/destroyer helper terrain 1.prefab
+Assets/_2/_prefabs/destroyer helper terrain.prefab
+Assets/_2/_prefabs/terrain forest.prefab
+Assets/_2/_prefabs/terrain desert.prefab
+Assets/_2/_prefabs/terrain ice.prefab

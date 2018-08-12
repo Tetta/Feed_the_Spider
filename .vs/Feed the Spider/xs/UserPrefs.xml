@@ -1,0 +1,21 @@
+﻿<Properties StartupConfiguration="{BDFADFAF-9C3C-9108-0D39-8EF6099649DE}|">
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Ferr/2DTerrain/Scripts/Ferr2DT_PathTerrain.cs">
+    <Files>
+      <File FileName="Assets/_scripts/lsAdClass.cs" Line="1" Column="1" />
+      <File FileName="Assets/_scripts/ctrAnalyticsClass.cs" Line="29" Column="11" />
+      <File FileName="Assets/_scripts/ctrFbKiiClass.cs" Line="1" Column="1" />
+      <File FileName="Assets/_scripts/initClass.cs" Line="50" Column="9" />
+      <File FileName="Assets/_scripts/loadingClass.cs" Line="11" Column="11" />
+      <File FileName="Assets/_scripts/ctrAdClass.cs" Line="86" Column="29" />
+      <File FileName="Assets/Mycom.Target.Unity/Editor/MyTargetIosPostProcessor.cs" Line="77" Column="82" />
+      <File FileName="Assets/Ferr/2DTerrain/Scripts/Ferr2DT_PathTerrain.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>
